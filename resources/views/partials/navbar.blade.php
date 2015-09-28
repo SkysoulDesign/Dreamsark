@@ -7,7 +7,7 @@
 
     <div class="right menu">
         <a class="item disabled" href="#"> Login </a>
-        <a class="item disabled" href="#"> Register </a>
+        <a class="item" href="{{ route('register') }}"> Register </a>
     </div>
 
 </div>

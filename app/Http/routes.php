@@ -14,14 +14,16 @@
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Artisan Commands
+ */
 Route::get('migrate', function () {
     return Artisan::call('migrate:refresh', ['--seed']);
 });
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 
-Route::get('/register', ['as' => 'register', 'uses' => 'Auth\HomeController@index']);
-
+Route::get('/register', ['as' => 'register', 'uses' => 'Session\SessionController@index']);
 
 Route::get('intro', ['as' => 'intro', 'uses' => function(){
     return view('intro');

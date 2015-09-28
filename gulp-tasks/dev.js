@@ -4,8 +4,8 @@ module.exports = function (gulp, plugins, options) {
      * Set Defaults
      */
     var defaults = {
-        source:     'resources/assets/three/App.js',
-        destination:'public/js'
+        source:     'resources/assets/dev/app.js',
+        destination:'public/js/'
     };
 
     /**
@@ -15,9 +15,7 @@ module.exports = function (gulp, plugins, options) {
 
     return function () {
         gulp.src(options.source)
-            .pipe(plugins.browserify({
-                transform: ['bulkify']
-            }))
+            .pipe(plugins.browserify())
             .pipe(plugins.rename(function (path) {
                     if (options.name) path.basename = options.name;
                 }

@@ -4,6 +4,7 @@
     "bulkify": "*",
     "gulp-concat": "*",
     "gulp-rename": "*",
+    "jquery": "^2.1.4",
     "three": "*"
   },
   "devDependencies": {
