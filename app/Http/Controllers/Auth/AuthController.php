@@ -2,64 +2,68 @@
 
 namespace DreamsArk\Http\Controllers\Auth;
 
-use DreamsArk\User;
-use Validator;
 use DreamsArk\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use ThrottlesLogins;
 
     /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
+     * @param Application $app
+     * @param AuthManager $auth
      */
-    public function __construct()
+    function __construct(Application $app, AuthManager $auth)
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'logout']);
+        $this->app = $app;
+        $this->auth = $auth;
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Show Login Page
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return \Illuminate\View\View
      */
-    protected function validator(array $data)
+    public function login()
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+        return view("auth.login");
+    }
+
+    /**
+     * Post the Login form
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
+
+        if ($this->auth->attempt(['email' => $request->get('email'), 'password' => $request->get('password')], $request->has('remember'))) {
+            return redirect()->intended(route('home'));
+        }
+
+        return redirect()->route('login')->withInput();
+
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
+     * Log the User out of the system
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected function create(array $data)
+    public function logout()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $this->auth->logout();
+        return redirect()->route('login');
     }
+
 }

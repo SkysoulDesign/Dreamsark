@@ -20,6 +20,9 @@ Route::get('migrate', function () {
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 
+Route::get('/register', ['as' => 'register', 'uses' => 'Auth\HomeController@index']);
+
+
 Route::get('intro', ['as' => 'intro', 'uses' => function(){
     return view('intro');
 }]);
