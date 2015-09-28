@@ -1,0 +1,11 @@
+@servers(['web' => 'skysoul1@skysoul.com.au'])
+
+@task('update')
+    cd public_html/dreamsark
+    git pull origin master
+@endtask
+
+@task('refresh')
+    cd public_html/dreamsark
+    php56s artisan migrate:refresh --seed
+@endtask
