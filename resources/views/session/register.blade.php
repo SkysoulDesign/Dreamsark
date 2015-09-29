@@ -8,8 +8,11 @@
             <a class="item active" data-tab="user">User</a>
             <a class="item" data-tab="investor">Investor</a>
         </div>
+
         <div class="ui bottom attached tab segment active" data-tab="user">
-            User Register Form
+
+            @include('forms.user-registration')
+
         </div>
         <div class="ui bottom attached tab segment" data-tab="investor">
             Investor Register Form

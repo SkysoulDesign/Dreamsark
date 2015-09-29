@@ -9219,6 +9219,8 @@ global.$ = global.jQuery;
  * Prototype
  */
 $(document).ready(function () {
+
+
     $('.ui.dropdown').dropdown();
     $('.ui.form .ui.checkbox').checkbox();
     $('.ui.rating').rating();
@@ -9227,6 +9229,12 @@ $(document).ready(function () {
     $('.dimmable.image').dimmer({
         on:'hover'
     });
+
 });
+
+
+
+
+
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"jquery":1}]},{},[2])

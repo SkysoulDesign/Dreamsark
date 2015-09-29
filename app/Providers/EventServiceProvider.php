@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Events\Session\UserWasCreated;
+use DreamsArk\Events\Session\UserWasUpdated;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -13,21 +15,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'DreamsArk\Events\SomeEvent' => [
-            'DreamsArk\Listeners\EventListener',
-        ],
+        UserWasCreated::class => [],
+        UserWasUpdated::class => [],
     ];
 
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher $events
      * @return void
      */
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
-
-        //
     }
+
 }

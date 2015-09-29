@@ -5,6 +5,8 @@ global.$ = global.jQuery;
  * Prototype
  */
 $(document).ready(function () {
+
+
     $('.ui.dropdown').dropdown();
     $('.ui.form .ui.checkbox').checkbox();
     $('.ui.rating').rating();
@@ -13,4 +15,9 @@ $(document).ready(function () {
     $('.dimmable.image').dimmer({
         on:'hover'
     });
+
 });
+
+
+
+

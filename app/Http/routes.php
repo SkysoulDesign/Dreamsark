@@ -11,6 +11,7 @@
 |
 */
 
+use DreamsArk\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -23,8 +24,22 @@ Route::get('migrate', function () {
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 
-Route::get('/register', ['as' => 'register', 'uses' => 'Session\SessionController@index']);
 
-Route::get('intro', ['as' => 'intro', 'uses' => function(){
+/**
+ * Auth Controller
+ */
+Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@login']);
+Route::post('login/store', ['as' => 'login.store', 'uses' => 'Auth\AuthController@store']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout']);
+
+/**
+ * Session Controller
+ */
+Route::get('/profile', ['as' => 'profile', 'uses' => 'Session\SessionController@index']);
+Route::get('/register', ['as' => 'register.create', 'uses' => 'Session\SessionController@create']);
+Route::post('/register/update', ['as' => 'register.update', 'uses' => 'Session\SessionController@update']);
+Route::post('/register', ['as' => 'register.store', 'uses' => 'Session\SessionController@store']);
+
+Route::get('intro', ['as' => 'intro', 'uses' => function () {
     return view('intro');
 }]);

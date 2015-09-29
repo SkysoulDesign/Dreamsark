@@ -138,12 +138,18 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Downloaded Packages
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         DreamsArk\Providers\AppServiceProvider::class,
         DreamsArk\Providers\AuthServiceProvider::class,
         DreamsArk\Providers\EventServiceProvider::class,
         DreamsArk\Providers\RouteServiceProvider::class,
+        DreamsArk\Providers\RepositoriesServiceProvider::class,
 
     ],
 
@@ -193,6 +199,11 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+
+        /*
+         * Downloaded Packages
+         */
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 
     ],
 
