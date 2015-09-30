@@ -338,11 +338,11 @@
         world = new THREE.Object3D();
         scene.add(world);
 
-        var map = THREE.ImageUtils.loadTexture('lib/simplexSphereMap.jpg');
-        var geo = new THREE.SphereGeometry(5000, 50, 50);
-        var mat = new THREE.MeshBasicMaterial({map: map, side: THREE.BackSide});
-        skybox = new THREE.Mesh(geo, mat);
-        scene.add( skybox );
+//        var map = THREE.ImageUtils.loadTexture('lib/simplexSphereMap.jpg');
+//        var geo = new THREE.SphereGeometry(5000, 50, 50);
+//        var mat = new THREE.MeshBasicMaterial({map: map, side: THREE.BackSide});
+//        skybox = new THREE.Mesh(geo, mat);
+//        scene.add( skybox );
 
         // Setting up Leap Variables
         controller = new Leap.Controller();
