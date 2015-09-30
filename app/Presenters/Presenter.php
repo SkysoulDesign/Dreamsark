@@ -19,7 +19,6 @@ abstract class Presenter
     public function __construct(Model $model)
     {
         $this->model = $model;
-        $this->repository = interface_exists($this->repository) ? app()->make($this->repository) : null;
     }
 
     public function __get($name)

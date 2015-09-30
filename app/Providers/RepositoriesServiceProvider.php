@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Repositories\Setting\SettingRepository;
+use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepository;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +33,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+
+        /**
+         * Setting Repository
+         */
+        $this->app->bind(
+            SettingRepositoryInterface::class,
+            SettingRepository::class
         );
 
     }

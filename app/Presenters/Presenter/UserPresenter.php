@@ -24,7 +24,7 @@ class UserPresenter extends Presenter
      */
     public function avatar()
     {
-        return $this->model->avatar ?: asset('img/avatar/' . $this->model->gender . '.png');
+        return asset('img/avatar/' . $this->model->gender . '.png');
     }
 
 }

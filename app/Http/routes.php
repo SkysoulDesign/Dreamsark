@@ -18,8 +18,28 @@ use Illuminate\Support\Facades\Route;
 /**
  * Artisan Commands
  */
-Route::get('migrate', function () {
-    return Artisan::call('migrate:refresh', ['--seed']);
+Route::get('artisan/{mode?}', function ($mode = 'refresh') {
+
+    switch ($mode) {
+        case "refresh" :
+            Artisan::call('migrate:refresh', ['--seed' => true]);
+            break;
+        case "migrate":
+            Artisan::call('migrate');
+            break;
+        case "seed":
+            Artisan::call('db:seed');
+            break;
+        case "reset":
+            Artisan::call('migrate:reset');
+            break;
+        case "rollback":
+            Artisan::call('migrate:rollback');
+            break;
+    }
+
+    return redirect()->route('home');
+
 });
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);

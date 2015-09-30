@@ -12,11 +12,11 @@
 
     <div class="three wide column">
 
-        <div class="ui vertical menu">
+        <div id="menu" class="ui vertical menu">
             <div class="item">
                 <div class="header">Profile</div>
                 <div class="menu">
-                    <a class="item">Personal Information</a>
+                    <a class="item" data-tab="home">Personal Information</a>
                 </div>
             </div>
             <div class="item">
@@ -29,7 +29,7 @@
             <div class="item">
                 <div class="header">Settings</div>
                 <div class="menu">
-                    <a class="item">Language</a>
+                    <a class="item" data-tab="language">Language</a>
                 </div>
             </div>
         </div>
@@ -38,9 +38,18 @@
 
     <div class="thirteen wide column">
 
-        <div class="ui segment">
-            <div class="ui small header">Personal Information</div>
-            @include('forms.personal-information')
+        <div class="ui tab active" data-tab="home">
+            <div class="ui segment">
+                <div class="ui small header">Personal Information</div>
+                @include('forms.personal-information')
+            </div>
+        </div>
+
+        <div class="ui tab" data-tab="language">
+            <div class="ui segment">
+                <div class="ui small header">Language</div>
+                @include('forms.settings-language')
+            </div>
         </div>
 
     </div>

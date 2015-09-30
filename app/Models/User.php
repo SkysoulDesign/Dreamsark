@@ -55,4 +55,33 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->attributes['password'] = bcrypt($password);
     }
 
+    /**
+     * Settings Relationship
+     */
+    public function settings()
+    {
+        return $this->hasOne(Setting::class);
+    }
+
+    public function __get($name)
+    {
+
+        /**
+         * First check if the model has the property on it`s own
+         */
+        if ($this->getAttribute($name)) {
+            return $this->getAttribute($name);
+        }
+
+        /**
+         * Check if it has on setting instead
+         */
+        if ($this->settings->getAttribute($name)) {
+            return $this->settings->getAttribute($name);
+        }
+
+        return null;
+
+    }
+
 }

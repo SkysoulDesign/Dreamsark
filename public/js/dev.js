@@ -9225,7 +9225,7 @@ $(document).ready(function () {
     $('.ui.form .ui.checkbox').checkbox();
     $('.ui.rating').rating();
     $('.ui.embed').embed();
-    $('.tabular.menu .item').tab();
+    $('.tabular.menu .item, #menu .item').tab();
     $('.dimmable.image').dimmer({
         on:'hover'
     });
