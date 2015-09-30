@@ -1,4 +1,205 @@
-<!DOCTYPE html><html lang=en><head><title>DreamsArk Demo</title><meta charset=utf-8><meta name=viewport content="width=device-width,user-scalable=no,minimum-scale=1,maximum-scale=1"><style>body{margin:0;font-family:GeoSans;background:#000;font-size:20px;overflow:hidden;color:#fff}code{background-color:rgba(255,255,255,.2);display:inline-block;padding:0 20px;width:90%;overflow:auto;font-size:14px}code.inline{width:auto;padding:0 0;display:inline}#header{width:100%;background:#000;padding:10px;border-bottom:1px solid #fff}#header>div,#header>div>a{font-size:25px;color:#fff;display:inline;padding:10px}#slideControls{position:absolute;left:420px;top:0}#socialLinks{position:absolute;right:10px;bottom:10px}#socialLinks>a{display:inline-block;width:25px;height:25px;margin-top:-7px;float:right;padding:5px;margin:5px;background:#333}#socialLinks>a>img{width:100%;height:100%;opacity:.7;margin:0}#socialLinks>a:hover{opacity:1}#header>div>a{background:#333}.inactiveSlide{display:none}.activeSlide{padding:50px;width:40%;top:10%;height:80%;overflow:auto;color:#fff;background-color:rgba(0,0,0,.8)}#scene{position:absolute;top:0;left:0;z-index:-99}#GUI{position:absolute;right:0;width:500px;height:500px;display:block;background:#111}#info{height:100%;overflow:auto}a{color:#fff;text-decoration:none;opacity:.7}a:hover{text-decoration:underline;opacity:1}::-webkit-scrollbar{width:12px}::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);border-radius:10px}::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.5)}@font-face{font-family:GeoSans;src:url "lib/GeosansLight.ttf")}.inactiveGui{display:none}</style><body><script src=lib/three.js></script><script src=lib/Detector.js></script><script src=lib/stats.min.js></script><script src=lib/dat.gui.min.js></script><script src=lib/dotgraph.js></script><script src=lib/dotparser.js></script><script id=vertexShaderFDG type=x-shader/x-vertex>uniform sampler2D texture1;
+<!DOCTYPE html>
+
+<!--
+
+  Hey There.
+
+  I see that you are examining the source.
+
+  Before you go  on, let me remind you of a few things:
+
+  First off,
+  This code is a hodgepodge pulled together to create a pretty demo.
+  It is not example code.
+
+  If you do have questions about it, please contact
+
+  @Nashira on github , or @Cabbibo on twitter / github
+
+  k thnx ;)
+
+-->
+<html lang="en">
+
+<head>
+    <title>DreamsArk DreamsArk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+            font-family: "GeoSans";
+            background: #000;
+            font-size: 20px;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        code {
+
+            background-color: rgba(255, 255, 255, .2);
+            display: inline-block;
+            padding: 0px 20px;
+            width: 90%;
+            overflow: auto;
+            font-size: 14px;
+
+        }
+
+        code.inline {
+            width: auto;
+            padding: 0px 0px;
+            display: inline;
+        }
+
+        #header {
+            width: 100%;
+            background: #000;
+            padding: 10px;
+            border-bottom: 1px solid white;
+        }
+
+        #header > div, #header > div > a {
+            font-size: 25px;
+            color: #fff;
+            display: inline;
+            padding: 10px;
+        }
+
+        #slideControls {
+            position: absolute;
+            left: 420px;
+            top: 0px;
+        }
+
+        #socialLinks {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+
+        }
+
+        #socialLinks > a {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            margin-top: -7px;
+            float: right;
+            padding: 5px;
+            margin: 5px;
+
+            background: #333;
+        }
+
+        #socialLinks > a > img {
+
+            width: 100%;
+            height: 100%;
+            opacity: .7;
+            margin: 0px;
+
+        }
+
+        #socialLinks > a:hover {
+            opacity: 1;
+        }
+
+        #header > div > a {
+            background: #333;
+        }
+
+        .inactiveSlide {
+
+            display: none;
+        }
+
+        .activeSlide {
+
+            padding: 50px;
+            width: 40%;
+            top: 10%;
+            height: 80%;
+            overflow: auto;
+            color: #fff;
+            background-color: rgba(0, 0, 0, .8);
+
+        }
+
+        #scene {
+
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: -99;
+        }
+
+        #GUI {
+
+            position: absolute;
+            right: 0px;
+            width: 500px;
+            height: 500px;
+            display: block;
+            background: #111;
+
+        }
+
+        #info {
+            height: 100%;
+            overflow: auto;
+
+        }
+
+        .cameraControlGUI {
+
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            opacity: .7;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        }
+
+        @font-face {
+            font-family: "GeoSans";
+            src: url "lib/GeosansLight.ttf");
+        }
+
+        .inactiveGui {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<script src="lib/three.js"></script>
+<script src="lib/Detector.js"></script>
+<script src="lib/stats.min.js"></script>
+<script src="lib/dat.gui.min.js"></script>
+<script src="lib/dotgraph.js"></script>
+<script src="lib/dotparser.js"></script>
+
+<script id="vertexShaderFDG" type="x-shader/x-vertex">
+    uniform sampler2D texture1;
     uniform float firstVertex;
     uniform float density;
     attribute vec4 color;
@@ -16,10 +217,20 @@
         gl_Position = vec4(color.z * 2. - 1., color.w * 2. - 1., 0., 1.);
       }
       // vForce = clamp(vForce, vec3(-2.5), vec3(2.5));
-    }</script><script id=fragmentShaderFDG type=x-shader/x-fragment>varying vec3 vForce;
+    }
+
+</script>
+
+<script id="fragmentShaderFDG" type="x-shader/x-fragment">
+    varying vec3 vForce;
     void main() {
       gl_FragColor = vec4(vForce, 1.);
-    }</script><script id=fragmentShaderFDGPos type=x-shader/x-fragment>varying vec2 vUv;
+    }
+
+</script>
+
+<script id="fragmentShaderFDGPos" type="x-shader/x-fragment">
+    varying vec2 vUv;
     uniform sampler2D tPosition;
     uniform sampler2D tForces;
     uniform float strength;
@@ -49,7 +260,346 @@
       } else {
         gl_FragColor = vec4(0.);
       }
-    }</script><script src=lib/leap.min.js></script><script src=src/ForceDirectedGraph.js></script><script src=src/LeapUtils.js></script><script src=src/TextCreator.js></script><script src=src/camera.js></script><script src=src/TrackballControls.js></script><script src=src/LeapSpringControls.js></script><script src=src/LeapEyeLookControls.js></script><script>function init(){container=document.createElement("div"),document.body.appendChild(container),camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,1,2e4),camera.position.z=1e3,scene=new THREE.Scene,world=new THREE.Object3D,scene.add(world);var e=THREE.ImageUtils.loadTexture("lib/simplexSphereMap.jpg"),r=new THREE.SphereGeometry(5e3,50,50),n=new THREE.MeshBasicMaterial({map:e,side:THREE.BackSide});skybox=new THREE.Mesh(r,n),controller=new Leap.Controller,controller.connect(),gFingerPos=new THREE.Vector3;new THREE.IcosahedronGeometry(5,1),new THREE.MeshNormalMaterial;controls=new THREE.LeapEyeLookControls(camera,controller,scene),controls.lookSpeed=.005,controls.eyeSpeed=.005,fallbackControls=new THREE.TrackballControls(camera);var o=new THREE.Mesh(new THREE.IcosahedronGeometry(10,0),new THREE.MeshNormalMaterial({transparent:!0,opacity:1.5}));console.log(controls),controls.addLookMarker(o),renderer=new THREE.WebGLRenderer,renderer.setClearColor(new THREE.Color("#0F1319")),renderer.setSize(window.innerWidth,window.innerHeight),window.addEventListener("resize",onResize,!1),window.addEventListener("keypress",onKeypress,!1),container.appendChild(renderer.domElement);var t=document.getElementById("vertexShaderFDG").textContent,a=document.getElementById("fragmentShaderFDG").textContent,i=document.getElementById("fragmentShaderFDGPos").textContent,d=new TextCreator;graph=new ForceDirectedGraph(renderer,world,t,a,i,d),loadInheritance()}function loadInheritance(){world.position.set(0,0,0),world.scale.set(1,1,1),graph.reset(),graph.edgeForce=.01,graph.vertexForce=150,camera.position.z=1e3,controls.lookSpeed=.005,controls.eyeSpeed=.005;var e=document.getElementById("inherit").textContent;graph.parseDot(e)}function loadGrid(){world.position.set(0,0,0),world.scale.set(1,1,1),graph.reset(),graph.edgeForce=.05,graph.vertexForce=400,camera.position.z=2e3,controls.lookSpeed=.01,controls.eyeSpeed=.01,graph.init(1e3,grid3(10,10,10))}function loadTree(){world.position.set(0,0,0),world.scale.set(1,1,1),graph.reset(),graph.edgeForce=.05,graph.vertexForce=400,camera.position.z=3e3,controls.lookSpeed=.02,controls.eyeSpeed=.02,graph.init(2047,balancedTree(10,2))}function loadNV(){world.position.set(0,0,0),world.scale.set(.2,.2,.2),graph.reset(),graph.edgeForce=.001,graph.vertexForce=800,camera.position.z=2e3,controls.lookSpeed=.02,controls.eyeSpeed=.02;var e=document.getElementById("nvgraph").textContent;graph.parseGrp(e),graph.particles.material.uniforms.size.value=5}function grid3(e,r,n){if(1>e||1>r||1>n)throw new Error("Invalid number of nodes in grid3 graph");var o,t,a,i=[];for(a=0;n>a;++a)for(o=0;e>o;++o)for(t=0;r>t;++t){var d=a*e*r,s=o+t*e+d;o>0&&i.push(s,o-1+t*e+d),t>0&&i.push(s,o+(t-1)*e+d),a>0&&i.push(s,o+t*e+(a-1)*e*r)}return i}function sphere(e){for(var r=[],n=1;e>=n;n++)r.push(0,n);return r}function balancedTree(e,r){if(0>e)throw new Error("Invalid number of nodes in balanced tree");var n,o=[],t=((Math.pow(r,e+1)-1)/(r-1)+1)/r-1;for(n=0;t>n;++n)for(var a=n,i=1;r>=i;i++)o.push(a,a*r+i);return o}function onResize(){windowHalfX=window.innerWidth/2,windowHalfY=window.innerHeight/2,camera.aspect=window.innerWidth/window.innerHeight,camera.updateProjectionMatrix(),renderer.setSize(window.innerWidth,window.innerHeight)}function onKeypress(e){console.log(e.charCode),(120==e.charCode||88==e.charCode)&&toggleInfo()}function toggleInfo(){var e=document.getElementById("info");"none"!=e.style.display?e.style.display="none":e.style.display="block"}function animate(){requestAnimationFrame(animate),render()}function render(){controls.update(),controller.frame().valid||fallbackControls.update(),rainbowHand&&rainbowHand.update(),graph.inited&&!isPaused&&(graph.computeForces(),graph.updatePositions()),renderer.render(scene,camera)}function setupQuad(e,r){material=new THREE.MeshBasicMaterial({map:null,color:8947848}),plane=new THREE.Mesh(new THREE.PlaneGeometry(2,2),material),scene.add(plane)}Detector.webgl||Detector.addGetWebGLMessage();var container,stats,camera,scene,renderer,particles,geometry,simulatorMaterial,parameters,i,h,color,fallbackControls,gFingerPos,gFingerMarker,mouseX=0,mouseY=0,windowHalfX=window.innerWidth/2,windowHalfY=window.innerHeight/2,rainbowHand;window.addEventListener("load",function(){function e(e){e.stopPropagation(),e.preventDefault()}init(),animate(),window.addEventListener("dragover",e,!1),window.addEventListener("dragenter",e,!1),window.addEventListener("drop",function(e){e.stopPropagation(),e.preventDefault();for(var r=e.dataTransfer,n=r.files,o=0;o<n.length;o++){var t=n[o],a=new FileReader;a.onload=function(e){world.position.set(0,0,0),graph.reset(),graph.parseDot(e.target.result)},a.readAsText(t)}},!1)},!1);var isPaused=!1;</script><script id=nvgraph type=dot>graph: {
+    }
+
+
+</script>
+
+<script src="lib/leap.min.js"></script>
+<script src="src/ForceDirectedGraph.js"></script>
+<script src="src/LeapUtils.js"></script>
+<script src="src/TextCreator.js"></script>
+<script src="src/camera.js"></script>
+<script src="src/TrackballControls.js"></script>
+<script src="src/LeapSpringControls.js"></script>
+<script src="src/LeapEyeLookControls.js"></script>
+
+<script>
+    if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+    var container, stats;
+    var camera, scene, renderer, particles, geometry, simulatorMaterial, parameters, i, h, color;
+
+    var fallbackControls;
+
+    // Leap Variables to be used as uniforms for exploration
+    var gFingerPos;    // vec3 for uniforms
+    var gFingerMarker; // marker for LEAP_FINGER_POS
+
+    var mouseX = 0,
+            mouseY = 0;
+
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+
+    var rainbowHand;  // RIGGEDHANDRIGGEDHANDRIGGEDHANDRIGGEDHAND
+
+    window.addEventListener('load', function () {
+        init();
+        animate();
+        function cancel(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        window.addEventListener('dragover', cancel, false);
+        window.addEventListener('dragenter', cancel, false);
+        window.addEventListener('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var dt = e.dataTransfer;
+            var files = dt.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // console.log(e.target.result)
+                    world.position.set(0, 0, 0);
+                    graph.reset();
+                    graph.parseDot(e.target.result);
+                    // graph.parseGrp(e.target.result);
+                }
+                reader.readAsText(file);
+            }
+
+        }, false);
+    }, false);
+
+    function init() {
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000);
+        camera.position.z = 1000;
+
+        scene = new THREE.Scene();
+        world = new THREE.Object3D();
+        scene.add(world);
+
+        var map = THREE.ImageUtils.loadTexture('lib/simplexSphereMap.jpg');
+        var geo = new THREE.SphereGeometry(5000, 50, 50);
+        var mat = new THREE.MeshBasicMaterial({map: map, side: THREE.BackSide});
+        skybox = new THREE.Mesh(geo, mat);
+        scene.add( skybox );
+
+        // Setting up Leap Variables
+        controller = new Leap.Controller();
+        controller.connect();
+
+        gFingerPos = new THREE.Vector3();
+        var g = new THREE.IcosahedronGeometry(5, 1);
+        var m = new THREE.MeshNormalMaterial();
+        // gFingerMarker = new THREE.Mesh( g , m );
+        // scene.add( gFingerMarker );
+        // gFingerMarker.position = gFingerPos;
+
+        controls = new THREE.LeapEyeLookControls(camera, controller, scene);
+        controls.lookSpeed = 0.005;
+        controls.eyeSpeed = 0.005;
+
+
+        fallbackControls = new THREE.TrackballControls(camera);
+        fallbackControls.maxDistance = 6500;
+
+        var mesh = new THREE.Mesh(
+                new THREE.IcosahedronGeometry(10, 0),
+                new THREE.MeshNormalMaterial({
+                    transparent: true,
+                    opacity: 1.5
+                })
+        );
+
+        console.log(controls);
+        controls.addLookMarker(mesh);
+        // controls.decayTranslate = .99;
+        /*controls.add('pinchRotate', new Control(
+         Activations.pinch('left', .2),
+         Interpreters.palmOrbit(),
+         Mappings.toVec('orbit')));
+
+         controls.add('pinchTrans', new Control(
+         Activations.pinch('right', 4),
+         Interpreters.palmPosition(),
+         Mappings.toVec('translate')));*/
+
+        renderer = new THREE.WebGLRenderer();
+        // _gl = renderer.context;
+
+        renderer.setClearColor(new THREE.Color('#0F1319'));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        window.addEventListener('resize', onResize, false);
+        window.addEventListener('keypress', onKeypress, false);
+        container.appendChild(renderer.domElement);
+
+        var vst = document.getElementById('vertexShaderFDG').textContent;
+        var fst = document.getElementById('fragmentShaderFDG').textContent;
+        var pfs = document.getElementById('fragmentShaderFDGPos').textContent;
+
+
+        var edges = [0, 1, 0, 2, 1, 3, 2, 3, 0, 4, 1, 4, 2, 4, 3, 4, 0, 5, 1, 5, 2, 5, 3, 5];
+
+        var textCreator = new TextCreator();
+        graph = new ForceDirectedGraph(renderer, world, vst, fst, pfs, textCreator);
+        loadInheritance();
+        // graph.init(1000, grid3(10, 10, 10))
+        // graph.init(20*20*20, grid3(20, 20, 20));
+        //] graph.init(2*2*2, grid3(2,2,2));
+        // graph.init(31, balancedTree(4, 2))
+        // graph.init(2047, balancedTree(10, 2))
+        // graph.init(8191, balancedTree(12, 2))
+        // graph.init(16383, balancedTree(13, 2))
+        // graph.init(4, balancedTree(1, 3))
+        // graph.init(13, balancedTree(2, 3))
+        // graph.init(1093, balancedTree(6, 3))
+        // graph.init(9841, balancedTree(8, 3))
+        // graph.init(1025, sphere(1024))
+        // graph.init(101, sphere(100))
+    }
+
+    function loadInheritance() {
+        world.position.set(0, 0, 0);
+        world.scale.set(1, 1, 1);
+        graph.reset();
+        graph.edgeForce = 0.01;
+        graph.vertexForce = 150;
+        camera.position.z = 1000;
+
+
+        controls.lookSpeed = .005;
+        controls.eyeSpeed = .005;
+        var text = document.getElementById('inherit').textContent;
+        graph.parseDot(text);
+    }
+
+    function loadGrid() {
+        world.position.set(0, 0, 0);
+        world.scale.set(1, 1, 1);
+        graph.reset();
+        graph.edgeForce = 0.05;
+        graph.vertexForce = 400;
+        camera.position.z = 2000;
+
+        controls.lookSpeed = .01;
+        controls.eyeSpeed = .01;
+
+        graph.init(1000, grid3(10, 10, 10));
+    }
+
+    function loadTree() {
+        world.position.set(0, 0, 0);
+        world.scale.set(1, 1, 1);
+        graph.reset()
+        graph.edgeForce = 0.05;
+        graph.vertexForce = 400;
+        camera.position.z = 3000;
+
+        controls.lookSpeed = .02;
+        controls.eyeSpeed = .02;
+        graph.init(2047, balancedTree(10, 2));
+    }
+
+    function loadNV() {
+        world.position.set(0, 0, 0);
+        world.scale.set(.2, .2, .2);
+        graph.reset()
+
+        graph.edgeForce = 0.001;
+        graph.vertexForce = 800;
+        camera.position.z = 2000;
+
+
+        controls.lookSpeed = .02;
+        controls.eyeSpeed = .02;
+
+        var text = document.getElementById('nvgraph').textContent;
+        graph.parseGrp(text);
+        graph.particles.material.uniforms.size.value = 5;
+    }
+
+    function grid3(n, m, z) {
+        if (n < 1 || m < 1 || z < 1) {
+            throw new Error("Invalid number of nodes in grid3 graph");
+        }
+        var g = [],
+                i, j, k;
+
+        for (k = 0; k < z; ++k) {
+            for (i = 0; i < n; ++i) {
+                for (j = 0; j < m; ++j) {
+                    var level = k * n * m;
+                    var node = i + j * n + level;
+                    if (i > 0) {
+                        g.push(node, i - 1 + j * n + level);
+                    }
+                    if (j > 0) {
+                        g.push(node, i + (j - 1) * n + level);
+                    }
+                    if (k > 0) {
+                        g.push(node, i + j * n + (k - 1) * n * m);
+                    }
+                }
+            }
+        }
+        return g;
+    }
+
+    function sphere(n) {
+        var g = [];
+        for (var i = 1; i <= n; i++) {
+            g.push(0, i);
+        }
+        return g;
+    }
+
+    function balancedTree(n, b) {
+        if (n < 0) {
+            throw new Error("Invalid number of nodes in balanced tree");
+        }
+        var g = [],
+                count = ((Math.pow(b, n + 1) - 1) / (b - 1) + 1) / b - 1,
+                level;
+
+        for (level = 0; level < count; ++level) {
+            var root = level;
+
+            for (var i = 1; i <= b; i++) {
+                g.push(root, root * b + i);
+            }
+        }
+        // console.log(count, g)
+        return g;
+    }
+
+    function onResize() {
+
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onKeypress(e) {
+
+        console.log(e.charCode);
+        if (e.charCode == 120 || e.charCode == 88) {
+            toggleInfo();
+        }
+    }
+
+    function toggleInfo() {
+
+        var info = document.getElementById('info');
+
+        if (info.style.display != 'none') {
+            info.style.display = 'none';
+        } else {
+            info.style.display = 'block';
+        }
+
+
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+    }
+
+    var isPaused = false;
+    function render() {
+        controls.update();
+
+        if (!controller.frame().valid) {
+            fallbackControls.update();
+        }
+
+        rainbowHand && rainbowHand.update();
+
+        if (graph.inited && !isPaused) {
+            graph.computeForces();
+            graph.updatePositions();
+            // graph.runPicker();
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    function setupQuad(width, height) {
+        material = new THREE.MeshBasicMaterial({
+            map: null,
+            color: 0x888888
+        });
+        plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+        scene.add(plane);
+    }
+</script>
+
+</body>
+<script id="nvgraph" type="dot">
+graph: {
 title: "Call flow of nvoglv64.dll"
 // IDA palette
 colorentry 32: 0 0 0
@@ -49052,7 +49602,13 @@ edge: { sourcename: "11889" targetname: "8011" }
 edge: { sourcename: "11889" targetname: "10044" }
 edge: { sourcename: "11889" targetname: "10097" }
 edge: { sourcename: "11890" targetname: "8907" }
-}</script><script id=inherit type=dot>digraph "Graphical Class Hierarchy"
+}
+
+
+</script>
+
+<script id="inherit" type="dot">
+digraph "Graphical Class Hierarchy"
 {
   DreamsArk1 ;
   DreamsArk1 -> DreamsArk2 ;
@@ -50181,4 +50737,8 @@ edge: { sourcename: "11890" targetname: "8907" }
   DreamsArk521 ;
   DreamsArk522 ;
   DreamsArk522 -> DreamsArk320 ;
-}</script>
+}
+
+
+</script>
+</html>

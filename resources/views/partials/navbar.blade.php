@@ -18,18 +18,6 @@
 
             <div class="ui dropdown item">
 
-                Language <i class="dropdown icon"></i>
-
-                <div class="menu">
-                    <a class="item active">English</a>
-                    <a class="item disabled">Chinese</a>
-                </div>
-
-            </div>
-
-
-            <div class="ui dropdown item">
-
                 <div>
                     <img class="ui avatar image" src="{{ auth()->user()->present()->avatar }}">
                     {{ auth()->user()->present()->name }}
