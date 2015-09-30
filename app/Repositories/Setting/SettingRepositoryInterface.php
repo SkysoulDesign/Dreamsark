@@ -23,4 +23,13 @@ interface SettingRepositoryInterface
      */
     public function createDefault($user_id);
 
+    /**
+     * Update Settings
+     *
+     * @param Int $setting_id
+     * @param array $fields
+     * @return bool
+     */
+    public function update($setting_id, array $fields);
+
 }

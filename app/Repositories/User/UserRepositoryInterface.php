@@ -18,9 +18,9 @@ interface UserRepositoryInterface
     /**
      * Update a new User on the Database
      *
-     * @param User|Model $model
+     * @param int $user_id
      * @param array $fields
      * @return User
      */
-    public function update(Model $model, array $fields);
+    public function update($user_id, array $fields);
 }

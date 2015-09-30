@@ -40,7 +40,14 @@ class UpdateUserCommand extends Command implements SelfHandling
      */
     public function handle(UserRepositoryInterface $repository, Dispatcher $event)
     {
-        $repository->update($this->user, $this->fields);
+        $status = $repository->update($this->user->getAttribute('id'), $this->fields);
+
+        if (!$status) {
+            dd('user wasnt updated somehow');
+        }
+
         $event->fire(new UserWasUpdated($this->user));
+
+
     }
 }

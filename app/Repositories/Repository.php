@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Repositories;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
@@ -23,30 +24,26 @@ abstract class Repository
     }
 
     /**
-     * Delete this model
+     * Update Settings
      *
-     * @param $model | string $id
-     * @return bool
-     */
-    public function delete($model)
-    {
-        if ($model instanceof Model) {
-            return $model->delete();
-        }
-
-        return $this->model->find($model)->delete();
-    }
-
-    /**
-     * Update this model
-     *
-     * @param Model $model
+     * @param Int $model_id
      * @param array $fields
      * @return bool
      */
-    public function update(Model $model, array $fields)
+    public function update($model_id, array $fields)
     {
-        return $model->update($fields);
+        return $this->model($model_id)->update($fields);
+    }
+
+    /**
+     * Set this model instance by a given id
+     *
+     * @param $model_id
+     * @return Model
+     */
+    public function model($model_id)
+    {
+        return $this->model->findOrFail($model_id);
     }
 
 }

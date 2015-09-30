@@ -71,7 +71,7 @@ class SessionController extends Controller
      */
     public function update(UserEdition $request)
     {
-        $command = new UpdateUserCommand($request->user(), $request->except(['_token']));
+        $command = new UpdateUserCommand($request->user(), $request->all());
         $this->dispatch($command);
         return redirect()->back();
     }

@@ -4,6 +4,7 @@ namespace DreamsArk\Repositories\User;
 
 use DreamsArk\Models\User;
 use DreamsArk\Repositories\Repository;
+use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends Repository implements UserRepositoryInterface
 {
@@ -31,4 +32,5 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         return $this->model->create($fields);
     }
+
 }

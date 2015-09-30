@@ -55,10 +55,16 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout'])
 /**
  * Session Controller
  */
-Route::get('/profile', ['as' => 'profile', 'uses' => 'Session\SessionController@index']);
-Route::get('/register', ['as' => 'register.create', 'uses' => 'Session\SessionController@create']);
-Route::post('/register/update', ['as' => 'register.update', 'uses' => 'Session\SessionController@update']);
-Route::post('/register', ['as' => 'register.store', 'uses' => 'Session\SessionController@store']);
+Route::get('profile', ['as' => 'profile', 'uses' => 'Session\SessionController@index']);
+Route::get('register', ['as' => 'register.create', 'uses' => 'Session\SessionController@create']);
+Route::post('register/update', ['as' => 'register.update', 'uses' => 'Session\SessionController@update']);
+Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionController@store']);
+
+
+/**
+ * Settings Controller
+ */
+Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => 'Setting\SettingController@update']);
 
 Route::get('intro', ['as' => 'intro', 'uses' => function () {
     return view('intro');
