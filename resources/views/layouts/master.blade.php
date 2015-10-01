@@ -11,6 +11,8 @@
 
 <div class="ui container" style="margin-top: 20px">
 
+    @include('forms.report')
+
     <div class="ui grid">
 
         <div class="row">

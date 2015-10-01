@@ -1,4 +1,4 @@
-<form class="ui form error" action="{{ route('register.update') }}" method="post">
+<form class="ui form error" action="{{ route('settings.update', auth()->user()->settings->id ) }}" method="post">
 
     {!! csrf_field() !!}
 

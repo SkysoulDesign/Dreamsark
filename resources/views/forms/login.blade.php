@@ -2,15 +2,9 @@
 
     {!! csrf_field() !!}
 
-    <div class="field">
-        <label>Email</label>
-        @include('partials.field', ['name' => 'email', 'type' => 'email'])
-    </div>
+    @include('partials.field', ['name' => 'email', 'type' => 'email'])
 
-    <div class="field">
-        <label>Password</label>
-        @include('partials.field', ['name' => 'password', 'type' => 'password'])
-    </div>
+    @include('partials.field', ['name' => 'password', 'type' => 'password'])
 
     @include('partials.errors')
 

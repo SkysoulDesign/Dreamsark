@@ -2,33 +2,24 @@
 
     {!! csrf_field() !!}
 
-    <div class="field">
 
-        <label>Name</label>
+    @include('partials.field-multiple', array(
+    'label' => 'Full Name',
+    'fields' => [
+            ['name' => 'first_name'],
+            ['name' => 'last_name']
+        ],
+    'class' => 'two'
+    ))
 
-        <div class="two fields">
-            @include('partials.field', ['name' => 'first_name'])
-            @include('partials.field', ['name' => 'last_name'])
-        </div>
-
-    </div>
 
     @include('partials.select', ['name' => 'gender', 'collection' => ['male' => 'Male', 'female' => 'Female']])
 
-    <div class="field">
-        <label>Email</label>
-        @include('partials.field', ['name' => 'email', 'type' => 'email'])
-    </div>
+    @include('partials.field', ['name' => 'email', 'type' => 'email'])
 
-    <div class="field">
-        <label>Password</label>
-        @include('partials.field', ['name' => 'password', 'type' => 'password'])
-    </div>
+    @include('partials.field', ['name' => 'password', 'type' => 'password'])
 
-    <div class="field">
-        <label>Confirm Password</label>
-        @include('partials.field', ['name' => 'password_confirmation', 'type' => 'password'])
-    </div>
+    @include('partials.field', ['name' => 'password_confirmation', 'type' => 'password'])
 
     @include('partials.errors')
 

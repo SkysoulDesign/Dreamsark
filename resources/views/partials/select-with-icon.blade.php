@@ -2,7 +2,8 @@
     <label>{{ $label or ucwords(str_replace('_', ' ', $name)) }}</label>
 
     <div class="ui fluid search selection dropdown">
-        <input type="hidden" name="{{ $name }}" value="{{ (auth()->check() ? auth()->user()->{$name} : old($name)) }}">
+        <input @if(isset($id)) id="{{ $id }}" @endif type="hidden" name="{{ $name }}"
+               value="{{ (auth()->check() ? auth()->user()->{$name} : old($name)) }}">
         <i class="dropdown icon"></i>
 
         <div class="default text">{{ $placeholder or ucwords(str_replace('_', ' ', $name)) }}</div>

@@ -4,6 +4,7 @@
 
     <a class="active item" href="{{ route('home') }}">Home</a>
     <a class="item" href="{{ route('intro') }}">Intro</a>
+    <div id="showReport" class="item link">Report</div>
 
     @if(!auth()->check())
         <div class="right menu">

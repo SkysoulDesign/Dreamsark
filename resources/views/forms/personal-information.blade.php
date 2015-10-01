@@ -2,16 +2,14 @@
 
     {!! csrf_field() !!}
 
-    <div class="field">
-
-        <label>Name</label>
-
-        <div class="two fields">
-            @include('partials.field', ['name' => 'first_name'])
-            @include('partials.field', ['name' => 'last_name'])
-        </div>
-
-    </div>
+    @include('partials.field-multiple', array(
+    'label' => 'Full Name',
+    'fields' => [
+            ['name' => 'first_name'],
+            ['name' => 'last_name']
+        ],
+    'class' => 'two'
+    ))
 
     @include('partials.select', ['name' => 'gender', 'collection' => ['male' => 'Male', 'female' => 'Female']])
 
