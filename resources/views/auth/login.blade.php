@@ -10,7 +10,7 @@
 
     <div class="seven wide column" >
         <div class="ui segment">
-            <h3 class="ui header">login With Social Medias</h3>
+            <h3 class="ui header">@lang('layout.login-with-social-medias')</h3>
         </div>
 
     </div>

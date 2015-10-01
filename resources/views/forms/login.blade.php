@@ -2,12 +2,12 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field', ['name' => 'email', 'type' => 'email'])
+    @include('partials.field', ['name' => 'email', 'label'=> trans('forms.email'), 'placeholder'=> trans('forms.email'), 'type' => 'email'])
 
-    @include('partials.field', ['name' => 'password', 'type' => 'password'])
+    @include('partials.field', ['name' => 'password', 'label'=> trans('forms.password'), 'placeholder'=> trans('forms.email'),'type' => 'password'])
 
     @include('partials.errors')
 
-    <button class="ui button" type="submit">Login</button>
+    <button class="ui button" type="submit">@lang('forms.login')</button>
 
 </form>

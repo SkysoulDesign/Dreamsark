@@ -5,8 +5,8 @@
     <div class="nine wide column">
 
         <div class="ui top attached tabular menu">
-            <a class="item active" data-tab="user">User</a>
-            <a class="item" data-tab="investor">Investor</a>
+            <a class="item active" data-tab="user">@lang('layout.user')</a>
+            <a class="item" data-tab="investor">@lang('layout.investor')</a>
         </div>
 
         <div class="ui bottom attached tab segment active" data-tab="user">
@@ -23,7 +23,7 @@
     <div class="seven wide column" style="margin-top: 41px">
 
         <div class="ui segment">
-            <h3 class="ui header">login With Social Medias</h3>
+            <h3 class="ui header">@lang('layout.login-with-social-medias')</h3>
         </div>
 
     </div>

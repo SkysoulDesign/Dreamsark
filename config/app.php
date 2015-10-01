@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('DEFAULT_LANG', 'cn'),
 
     /*
     |--------------------------------------------------------------------------
@@ -141,6 +141,7 @@ return [
          * Downloaded Packages
          */
         Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
