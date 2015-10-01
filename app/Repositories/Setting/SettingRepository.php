@@ -22,19 +22,6 @@ class SettingRepository extends Repository implements SettingRepositoryInterface
     }
 
     /**
-     * Create a new User on the Database
-     *
-     * @param Int $user_id
-     * @param array $fields
-     * @return User
-     */
-    public function create($user_id, array $fields)
-    {
-        $fields = collect($fields)->merge(compact('user_id'));
-        $this->model->create($fields->toArray());
-    }
-
-    /**
      * Create a new setting with default values
      *
      * @param Int $user_id
@@ -42,7 +29,8 @@ class SettingRepository extends Repository implements SettingRepositoryInterface
      */
     public function createDefault($user_id)
     {
-        return $this->create($user_id, config('defaults.settings'));
+        $fields = collect(config('defaults.settings'))->merge(compact('user_id'));
+        return $this->create($fields->toArray());
     }
 
 }

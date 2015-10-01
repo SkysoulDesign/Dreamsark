@@ -23,4 +23,5 @@ interface UserRepositoryInterface
      * @return User
      */
     public function update($user_id, array $fields);
+
 }

@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $fields = [
+        $admin = [
             'first_name' => 'Rafael',
             'last_name' => 'Milewski',
             'gender' => 'male',
@@ -24,7 +24,8 @@ class UserTableSeeder extends Seeder
             'email' => 'rafael.milewski@gmail.com'
         ];
 
-        $this->dispatch(new CreateUserCommand($fields));
+        $this->dispatch(new CreateUserCommand($admin));
+
     }
 
 }

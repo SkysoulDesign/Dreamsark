@@ -24,6 +24,17 @@ abstract class Repository
     }
 
     /**
+     * Create a new entry on the Database
+     *
+     * @param array $fields
+     * @return User
+     */
+    public function create(array $fields)
+    {
+        return $this->model->create($fields);
+    }
+
+    /**
      * Update Settings
      *
      * @param Int $model_id

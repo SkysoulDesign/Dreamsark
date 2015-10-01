@@ -66,6 +66,11 @@ Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionCon
  */
 Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => 'Setting\SettingController@update']);
 
+/**
+ * Report Controller
+ */
+Route::post('report/store', ['as' => 'report.store', 'uses' => 'Report\ReportController@store']);
+
 Route::get('intro', ['as' => 'intro', 'uses' => function () {
     return view('intro');
 }]);

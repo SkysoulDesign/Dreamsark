@@ -22,15 +22,4 @@ class UserRepository extends Repository implements UserRepositoryInterface
         $this->model = $user;
     }
 
-    /**
-     * Create a new User on the Database
-     *
-     * @param array $fields
-     * @return User
-     */
-    public function create(array $fields)
-    {
-        return $this->model->create($fields);
-    }
-
 }

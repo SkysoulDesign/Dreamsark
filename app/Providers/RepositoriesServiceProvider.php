@@ -6,6 +6,8 @@ use DreamsArk\Repositories\Setting\SettingRepository;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepository;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
+use DreamsArk\Repositories\Report\ReportRepository;
+use DreamsArk\Repositories\Report\ReportRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesServiceProvider extends ServiceProvider
@@ -41,6 +43,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             SettingRepositoryInterface::class,
             SettingRepository::class
+        );
+
+        /**
+         * Report Repository
+         */
+        $this->app->bind(
+            ReportRepositoryInterface::class,
+            ReportRepository::class
         );
 
     }
