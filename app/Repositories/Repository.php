@@ -4,6 +4,7 @@ namespace DreamsArk\Repositories;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 abstract class Repository
 {
@@ -16,11 +17,32 @@ abstract class Repository
     /**
      * Get all Model from the DB
      *
+     * @param array $columns
      * @return mixed
      */
-    public function all()
+    public function all(array $columns = ['*'])
     {
-        return $this->model->all();
+        return $this->model->all($columns);
+    }
+
+    /**
+     * Return all object within the where conditions
+     * Best Usage with compact('value1', 'value2')
+     *
+     * @param $args
+     * @return Collection|mixed
+     */
+    public function where($args)
+    {
+        /**
+         * Remove if value is set to all so everything would be selected
+         */
+        $args = collect($args)->filter(function ($value) {
+            return $value != 'all' ?: false;
+        });
+
+        return $this->model->where($args->toArray())->get();
+
     }
 
     /**

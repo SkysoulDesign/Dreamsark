@@ -76,6 +76,18 @@ return [
             'strict'    => false,
         ],
 
+        'mysql-translation' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_TRANSLATION_HOST', 'localhost'),
+            'database'  => env('DB_TRANSLATION_DATABASE', 'forge'),
+            'username'  => env('DB_TRANSLATION_USERNAME', 'forge'),
+            'password'  => env('DB_TRANSLATION_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),

@@ -5,7 +5,8 @@
     "gulp-concat": "*",
     "gulp-rename": "*",
     "jquery": "^2.1.4",
-    "three": "*"
+    "three": "*",
+    "throttle-debounce": "~0.1.1"
   },
   "devDependencies": {
     "gulp": "*",

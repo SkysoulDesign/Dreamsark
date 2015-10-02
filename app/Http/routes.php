@@ -53,6 +53,17 @@ Route::post('login/store', ['as' => 'login.store', 'uses' => 'Auth\AuthControlle
 Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout']);
 
 /**
+ * Translation Controller
+ */
+Route::get('translation/import', ['as' => 'translation.import', 'uses' => 'Translation\TranslationController@import']);
+Route::get('translation/export', ['as' => 'translation.export', 'uses' => 'Translation\TranslationController@export']);
+Route::get('translation/language/store', ['as' => 'translation.newLanguage', 'uses' => 'Translation\TranslationController@newLanguage']);
+Route::get('translation/group/store', ['as' => 'translation.newGroup', 'uses' => 'Translation\TranslationController@newGroup']);
+Route::post('translation/update/{translation}', ['as' => 'translation.update', 'uses' => 'Translation\TranslationController@update']);
+Route::get('translation/{language?}/{group?}', ['as' => 'translation', 'uses' => 'Translation\TranslationController@index']);
+
+
+/**
  * Session Controller
  */
 Route::get('profile', ['as' => 'profile', 'uses' => 'Session\SessionController@index']);
