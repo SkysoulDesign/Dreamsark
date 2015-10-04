@@ -1,0 +1,19 @@
+{
+    "name": "vagrant/semantic-form",
+    "authors": [
+        {
+            "name": "Rafael",
+            "email": "rafael@skysoul.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Skysoul\\SemanticForm\\": "src/"
+        }
+
+    },
+    "require": {
+        "illuminate/support": "5.1.*"
+    }
+}
