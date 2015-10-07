@@ -143,6 +143,12 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        /**
+         * Developed
+         */
+
+        \SkysoulDesign\Form\FormServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -205,6 +211,12 @@ return [
          * Downloaded Packages
          */
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+
+        /**
+         * Developed
+         */
+
+        'Form'  => \SkysoulDesign\Form\Facade::class,
 
     ],
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Skysoul\SemanticForm;
+namespace SkysoulDesign\Form;
 
 class Facade extends \Illuminate\Support\Facades\Facade
 {
@@ -11,6 +11,6 @@ class Facade extends \Illuminate\Support\Facades\Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'semantic-form';
+        return 'form';
     }
 }

@@ -21,4 +21,6 @@ return array(
     'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
+    'AdamWathan\\Form' => array($vendorDir . '/adamwathan/form/src'),
+    'AdamWathan\\BootForms' => array($vendorDir . '/adamwathan/bootforms/src'),
 );

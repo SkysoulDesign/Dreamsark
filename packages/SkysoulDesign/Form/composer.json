@@ -1,5 +1,5 @@
 {
-    "name": "vagrant/semantic-form",
+    "name": "skysouldesign/form",
     "authors": [
         {
             "name": "Rafael",
@@ -9,7 +9,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Skysoul\\SemanticForm\\": "src/"
+            "Skysoul\\Form\\": "src/"
         }
 
     },
