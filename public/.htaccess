@@ -13,4 +13,10 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
 </IfModule>
+
+AuthType Basic
+AuthName "dreamsark"
+AuthUserFile "/home2/skysoul1/.htpasswds/public_html/dreamsark/public/passwd"
+require valid-user

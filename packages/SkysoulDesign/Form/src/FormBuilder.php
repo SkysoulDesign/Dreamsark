@@ -3,10 +3,8 @@
 namespace SkysoulDesign\Form;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Session\Store as Session;
-use Illuminate\Support\ViewErrorBag;
 
 abstract class FormBuilder
 {
@@ -22,20 +20,40 @@ abstract class FormBuilder
     public $bind;
 
     /**
+     * Translation  Group
+     * @var string
+     */
+    public $translation_group;
+
+    /**
      * FormBuilder constructor.
      * @param Collection $collection
-     * @param IlluminateErrorStore $error
+     * @param Session $session
      */
     public function __construct(Collection $collection, Session $session)
     {
         $this->errors = $session;
         $this->collection = $collection;
-        $this->form = $this->collection->make();
+        $this->translation_group = 'forms';
     }
 
+    /**
+     * Form Open Method
+     *
+     * @param null $method
+     * @param null $action
+     * @return mixed
+     */
     public function open($method = null, $action = null)
     {
+
+        /**
+         * Set a new Form
+         */
+        $this->form = $this->collection->make();
+
         return $this->generateFormTag($method, $action);
+
     }
 
     /**
@@ -62,6 +80,7 @@ abstract class FormBuilder
             ->element('form')
             ->method($method)
             ->action($action)
+            ->appendClass($this->getErrorClass())
             ->class($this->getFormClass());
     }
 
@@ -137,7 +156,19 @@ abstract class FormBuilder
     /**
      * Add Method to form
      *
-     * @param $action
+     * @param string $route
+     * @param array|string $params
+     * @return $this
+     */
+    public function route($route, $params = [])
+    {
+        return $this->action(route($route, $params));
+    }
+
+    /**
+     * Add Method to form
+     *
+     * @param string $action
      * @return $this
      */
     public function action($action = null)
@@ -189,7 +220,36 @@ abstract class FormBuilder
             ->element('button')
             ->class($this->getButtonClass())
             ->type($type)
-            ->content($this->prettify($content));
+            ->noWrapper()
+            ->content($this->trans($content));
+    }
+
+    /**
+     * Error Box
+     *
+     * @param null $title
+     * @return
+     */
+    public function errorBox($title = null)
+    {
+        return $this->generateErrors($title);
+    }
+
+    /**
+     * Display Error Box
+     *
+     * @param null $title
+     * @return
+     */
+    public function generateErrors($title = null)
+    {
+        return $this->push()
+            ->element('errorMessage')
+            ->noWrapper()
+            ->title($this->trans($title))
+            ->errors($this->getErrors())
+            ->class($this->getErrorMessageClass());
+
     }
 
     /**
@@ -261,12 +321,26 @@ abstract class FormBuilder
     {
         $form = $this->generateTag($this->form->pull(0));
 
+        /**
+         * Remove Empty Items
+         */
+        $this->form = $this->form->reject(function ($obj) {
+            return ($obj instanceof Collection) ? $obj->isEmpty() : false;
+        });
+
         return $this->form->map(function ($item) {
+
+            /**
+             * Remove ErrorBox if there is no error
+             */
+            if ($item instanceof Collection && $item->get('element') == 'errorMessage' && $item->get('errors') === null) {
+                return false;
+            }
 
             /**
              * Generate tag if $item is not empty
              */
-            if ($item instanceof Collection && !$item->isEmpty()) {
+            if ($item instanceof Collection) {
 
                 /**
                  * Detect Errors
@@ -276,11 +350,6 @@ abstract class FormBuilder
                 return $this->wrap($item, $error);
 
             }
-
-            /**
-             * Return '' if item is empty
-             */
-            if ($item instanceof Collection && $item->isEmpty()) return '';
 
             /**
              * Return item if it`s just an string
@@ -294,19 +363,23 @@ abstract class FormBuilder
     /**
      * Wrap Element
      *
-     * @param $content
-     * @param null $class
-     * @param bool $append
+     * @param Collection $item
+     * @param null $error
      * @return $this
      */
     protected function wrap(Collection $item, $error = null)
     {
-
-
         /**
          * Override WrapperClass if set
          */
         $wrapperClass = $this->generateWrapperClass($item);
+
+        /**
+         * Don't Wrap if noWrapper was set
+         */
+        if ($item->has('noWrapper')) {
+            return $this->generateTag($this->binder($item->forget('noWrapper')));
+        }
 
         /**
          * Content
@@ -333,7 +406,6 @@ abstract class FormBuilder
          */
         if ($error) $error = ' ' . $this->getErrorClass();
 
-
         /**
          * Appended Class
          */
@@ -351,17 +423,36 @@ abstract class FormBuilder
         return $this->makeWrapper($class, $content);
     }
 
+    /**
+     * Append Errors to Tag
+     *
+     * @param Collection $item
+     * @return null
+     */
     public function appendErrors(Collection $item)
     {
 
-        /** @var ViewErrorBag $errors */
         if ($this->errors->has('errors') && $message = $this->errors->get('errors')->first($item->get('name'))) {
             $item->put('error', $message);
             return $message;
         }
 
-        return;
+        return null;
 
+    }
+
+    /**
+     * Get Errors stored in the session
+     *
+     * @return null
+     */
+    protected function getErrors()
+    {
+        if ($this->errors->has('errors')) {
+            return $this->errors->get('errors')->all();
+        }
+
+        return null;
     }
 
     /**
@@ -453,10 +544,10 @@ abstract class FormBuilder
     {
         return $this->push($value ? compact('value') : [])
             ->element('input')
-            ->name($name)
+            ->name(strtolower($name))
             ->type($type)
             ->label($label)
-            ->placeholder($this->prettify($name));
+            ->placeholder($this->trans($name));
 
     }
 
@@ -496,13 +587,14 @@ abstract class FormBuilder
      */
     public function generateSelect($type, $name, array $collection, $label = null)
     {
+
         return $this->push($collection ? compact('collection') : [])
             ->element('select')
             ->class($this->getSelectClass())
-            ->name($name)
+            ->name(strtolower($name))
             ->type($type)
             ->label($label)
-            ->placeholder($this->prettify($name));
+            ->placeholder($this->trans($name));
 
     }
 
@@ -515,6 +607,28 @@ abstract class FormBuilder
     protected function prettify($string)
     {
         return title_case(str_replace('_', ' ', $string));
+    }
+
+    /**
+     * Translate text
+     *
+     * @param $string
+     * @return string
+     */
+    protected function trans($string)
+    {
+        return trans(($this->translation_group . '.' . str_replace(['_', ' '], ['-', '-'], strtolower($string))));
+    }
+
+    /**
+     * Set Translation group
+     *
+     * @param $group
+     * @return string
+     */
+    protected function translate($group)
+    {
+        return $this->translation_group = $group;
     }
 
     /**
@@ -535,9 +649,8 @@ abstract class FormBuilder
      * @param Collection $attributes
      * @return string
      */
-    protected function generateTag(Collection $attributes)
+    protected function generateTag(Collection $attributes = null)
     {
-
         /**
          * Process Append Class
          */
@@ -549,7 +662,7 @@ abstract class FormBuilder
          * Process Label
          */
         if ($label = $attributes->pull('label', null)) {
-            $label = $this->makeLabel($label);
+            $label = $this->makeLabel($this->trans($label));
         };
 
         /**
@@ -573,6 +686,9 @@ abstract class FormBuilder
             case 'button':
                 $params->push([$attributes, $attributes->pull('content')]);
                 break;
+            case 'errorMessage':
+                $params->push([$attributes, $attributes->pull('errors'), $attributes->pull('title')]);
+                break;
             default:
                 $params->push([$attributes, $label, $error]);
                 break;
@@ -591,7 +707,7 @@ abstract class FormBuilder
      * @param Collection|array $attributes
      * @return string
      */
-    public function map($attributes)
+    public function map($attributes = null)
     {
         return $this->collection->make($attributes)->map(function ($value, $key) {
 
@@ -605,21 +721,37 @@ abstract class FormBuilder
     }
 
     /**
+     * Generate Ul li HTML attributes
+     *
+     * @param Collection|array $attributes
+     * @param null $ulClass
+     * @param null $liClass
+     * @return string
+     */
+    public function mapUl($attributes, $ulClass = null, $liClass = null)
+    {
+        $lis = $this->collection->make($attributes)->map(function ($value) use ($liClass) {
+            return '<li ' . $this->map(['class' => $liClass]) . '>' . $value . '</li>';
+        })->implode('');
+
+        return '<ul ' . $this->map(['class' => $ulClass]) . '>' . $lis . '</ul>';
+
+    }
+
+    /**
      * Generate HTML attributes
      *
      * @param Collection|array $attributes
-     * @param bool $prettify
      * @return string
      */
-    public function options($attributes, $prettify = false)
+    public function options($attributes)
     {
-        return $this->collection->make($attributes)->map(function ($value, $key) use ($prettify) {
+        return $this->collection->make($attributes)->map(function ($value, $key) {
 
-            return '<option value="' . $key . '">' . $prettify ? $this->prettify($value) : $value . '</option>';
+            return '<option value="' . $key . '">' . $this->trans($value) . '</option>';
 
         })->implode('');
     }
-
 
     /**
      * Create a new entry on the Form Array
@@ -650,7 +782,6 @@ abstract class FormBuilder
         if ($name == 'class') {
             return $this->_class(array_shift($value));
         }
-
 
         return $this->append($name, array_shift($value));
 

@@ -1,13 +1,10 @@
-<form class="ui form error" action="{{ route('login.store') }}" method="post">
+{!!
+    Form::open()->route('login.store')
+        ->translate()
+        ->email('email')
+        ->password('password')
+        ->errorBox('Hello world')
+        ->submit('login')
+        ->close()
+!!}
 
-    {!! csrf_field() !!}
-
-    @include('partials.field', ['name' => 'email', 'label'=> trans('forms.email'), 'placeholder'=> trans('forms.email'), 'type' => 'email'])
-
-    @include('partials.field', ['name' => 'password', 'label'=> trans('forms.password'), 'placeholder'=> trans('forms.email'),'type' => 'password'])
-
-    @include('partials.errors')
-
-    <button class="ui button" type="submit">@lang('forms.login')</button>
-
-</form>

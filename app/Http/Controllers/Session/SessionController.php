@@ -28,6 +28,7 @@ class SessionController extends Controller
         $this->auth = $auth;
     }
 
+
     /**
      * Display Profile Page.
      *

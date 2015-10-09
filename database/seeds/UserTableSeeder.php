@@ -26,6 +26,17 @@ class UserTableSeeder extends Seeder
 
         $this->dispatch(new CreateUserCommand($admin));
 
+
+        $dreamsark = [
+            'first_name' => 'Dreams',
+            'last_name' => 'Ark',
+            'gender' => 'male',
+            'password' => "dreamsark2015",
+            'email' => 'dreamsark@dreamsark.com'
+        ];
+
+        $this->dispatch(new CreateUserCommand($dreamsark));
+
     }
 
 }

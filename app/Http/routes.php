@@ -42,8 +42,10 @@ Route::get('artisan/{mode?}', function ($mode = 'refresh') {
 
 });
 
-Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
+Route::get('/', ['as' => 'home', 'middleware' => 'auth.basic', 'uses' => 'Home\HomeController@index']);
 
+
+//app()->setLocale('cn');
 
 /**
  * Auth Controller

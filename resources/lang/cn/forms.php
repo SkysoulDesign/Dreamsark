@@ -16,6 +16,7 @@ return [
     'male'=> '男人',
     'female'=> '女人',
     'language'=> 'language',
+    'god'=> 'porra',
 
     /**
      * Buttons

@@ -3,6 +3,7 @@
 namespace DreamsArk\Commands\Translation;
 
 use DreamsArk\Commands\Command;
+use DreamsArk\Models\Translation;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
@@ -52,12 +53,18 @@ class ImportTranslationCommand extends Command implements SelfHandling
                 return $value;
             });
 
+            /**
+             * Insert into the Database hackie
+             */
+            $translations->map(function ($value, $key) use ($language, $group) {
+                return Translation::firstOrCreate(compact('value', 'key', 'group', 'language'));
+            });
 
             /**
              * Insert into the Database
              */
-            $command = new CreateNewTranslation($language, $group, $translations->toArray());
-            $this->dispatch($command);
+//            $command = new CreateNewTranslation($language, $group, $translations->toArray());
+//            $this->dispatch($command);
 
         }
 

@@ -40,6 +40,23 @@ class Semantic extends FormBuilder implements FormBuilderInterface
     protected $errorClass = 'error';
 
     /**
+     * Error Message Box Class
+     * @var string
+     */
+    protected $errorMessageClass = 'ui error message';
+
+    /**
+     * Error Class
+     * <div class="..."> ... </div>
+     *
+     * @return string
+     */
+    public function getErrorMessageClass()
+    {
+        return $this->errorMessageClass;
+    }
+
+    /**
      * Error Class
      * <div class="..."> ... </div>
      *
@@ -102,7 +119,12 @@ class Semantic extends FormBuilder implements FormBuilderInterface
      */
     public function makeLabel($name)
     {
-        return '<label>' . $this->prettify($name) . '</label>';
+        return '<label>' . $name . '</label>';
+    }
+
+    public function makeErrorMessage($attributes = null, $errors = null, $title = null)
+    {
+        return '<div ' . $this->map($attributes) . '><div class="header">' . $title . '</div>' . $this->mapUl($errors, "list") . '</div>';
     }
 
     /**
@@ -118,7 +140,6 @@ class Semantic extends FormBuilder implements FormBuilderInterface
     {
         return $label . '<select ' . $this->map($attributes) . '><option value="">' . $placeholder . '</option>' . $this->options($collection, true) . '</select>';
     }
-
 
     /**
      * Make Form Tag
