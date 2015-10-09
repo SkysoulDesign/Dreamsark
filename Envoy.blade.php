@@ -2,7 +2,14 @@
 
 @task('update')
     cd public_html/dreamsark
+    git checkout .
     git pull origin master
+@endtask
+
+
+@task('config-git')
+    git config --global user.email "rafael@skysoul.com.au"
+    git config --global user.name "Rafael"
 @endtask
 
 @task('refresh')
