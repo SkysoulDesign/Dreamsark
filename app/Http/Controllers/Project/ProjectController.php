@@ -13,6 +13,12 @@ use DreamsArk\Http\Controllers\Controller;
 class ProjectController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => 'show']);
+    }
+
+
     /**
      * Show Projects Page
      *

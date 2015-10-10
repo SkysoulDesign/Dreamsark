@@ -18,6 +18,6 @@
 
 @task('reset')
     cd public_html
-    rm -r -f dreamsark
+    rm -r -f dreamsark.dev
     git clone https://github.com/SkysoulDesign/Dreamsark.git dreamsark.dev
 @endtask
