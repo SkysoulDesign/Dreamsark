@@ -1,7 +1,7 @@
 @servers(['web' => 'skysoul1@skysoul.com.au'])
 
 @task('update')
-    cd public_html/dreamsark
+    cd public_html/dreamsark.dev
     git checkout .
     git pull origin master
 @endtask
@@ -12,12 +12,12 @@
 @endtask
 
 @task('refresh')
-    cd public_html/dreamsark
+    cd public_html/dreamsark.dev
     php56s artisan migrate:refresh --seed
 @endtask
 
 @task('reset')
     cd public_html
     rm -r -f dreamsark
-    git clone https://github.com/SkysoulDesign/Dreamsark.git dreamsark
+    git clone https://github.com/SkysoulDesign/Dreamsark.git dreamsark.dev
 @endtask
