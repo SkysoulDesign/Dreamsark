@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\PleadgeProjectCommand;
+use DreamsArk\Commands\Project\PledgeProjectCommand;
 use DreamsArk\Models\Project;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
@@ -31,7 +31,7 @@ class ProjectPledgeController extends Controller
      */
     public function store(Project $project, Request $request)
     {
-        $command = new PleadgeProjectCommand($project->id, $request->user()->id, $request->get('amount'));
+        $command = new PledgeProjectCommand($project, $request->user(), $request->get('amount'));
         $this->dispatch($command);
         return redirect()->back();
     }

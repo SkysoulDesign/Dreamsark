@@ -19,6 +19,6 @@ class HomeController extends Controller
      */
     public function index(Application $app)
     {
-        return view('index')->with('user', User::find(1))->with('form', app('form'));
+        return view('index');
     }
 }

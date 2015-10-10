@@ -4,35 +4,28 @@ namespace DreamsArk\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Bag extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'projects';
+    protected $table = 'bags';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['title', 'description', 'budget', 'end_date'];
+    protected $fillable = [];
 
     /**
      * User Relationship
      */
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * User Relationship
-     */
-    public function backers()
-    {
-        return $this->belongsToMany(User::class, 'project_backers');
-    }
 }

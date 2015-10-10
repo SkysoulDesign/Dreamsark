@@ -5,7 +5,7 @@
     <div class="column">
 
         <div class="ui segment">
-            Test
+
         </div>
 
     </div>

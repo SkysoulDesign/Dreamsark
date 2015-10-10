@@ -15,3 +15,9 @@
     cd public_html/dreamsark
     php56s artisan migrate:refresh --seed
 @endtask
+
+@task('reset')
+    cd public_html
+    rm -r -f dreamsark
+    git clone https://github.com/SkysoulDesign/Dreamsark.git dreamsark
+@endtask

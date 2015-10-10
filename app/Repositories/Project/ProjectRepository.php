@@ -56,7 +56,7 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
      */
     public function pledge($project_id, $user_id, $amount)
     {
-        $this->model($project_id)->backers()->attach($project_id, compact('amount'));
+        $this->model($project_id)->backers()->attach($user_id, compact('amount'));
     }
 
 }

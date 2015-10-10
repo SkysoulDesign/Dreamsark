@@ -63,6 +63,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasOne(Setting::class);
     }
 
+    /**
+     * Bags= Relationship
+     */
+    public function bag()
+    {
+        return $this->hasOne(Bag::class);
+    }
+
     public function __get($name)
     {
 

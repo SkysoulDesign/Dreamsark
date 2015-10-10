@@ -32,7 +32,7 @@ class ProjectController extends Controller
     public
     function create()
     {
-        return view('project.create');
+        return view('project.create')->with('user', auth()->user());
     }
 
     /**
@@ -44,7 +44,7 @@ class ProjectController extends Controller
     public
     function store(ProjectCreation $request)
     {
-        $command = new CreateProjectCommand($request->all(), $request->user()->id);
+        $command = new CreateProjectCommand($request, $request->user());
         $this->dispatch($command);
         return redirect()->back();
     }

@@ -1,7 +1,8 @@
 <?php
 
-namespace DreamsArk\Http\Controllers\Coin;
+namespace DreamsArk\Http\Controllers\Bag;
 
+use DreamsArk\Commands\Bag\PurchaseCoinCommand;
 use DreamsArk\Http\Requests\Coin\CoinCreation;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
@@ -28,7 +29,9 @@ class CoinController extends Controller
      */
     public function store(CoinCreation $request)
     {
-//        $request-
+        $command = new PurchaseCoinCommand($request->user(), $request->get('amount'));
+        $this->dispatch($command);
+        return redirect()->back();
     }
 
 }

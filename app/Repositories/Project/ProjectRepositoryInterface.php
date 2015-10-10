@@ -29,9 +29,9 @@ interface ProjectRepositoryInterface
      *
      * @param int $project_id
      * @param int $user_id
-     * @param int $ammount
+     * @param int $amount
      * @return mixed
      */
-    public function pledge($project_id, $user_id, $ammount);
+    public function pledge($project_id, $user_id, $amount);
 
 }

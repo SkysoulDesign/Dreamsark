@@ -2,26 +2,30 @@
 
 namespace DreamsArk\Commands\Project;
 
+use DreamsArk\Commands\Bag\DeductCoinCommand;
 use DreamsArk\Commands\Command;
-use DreamsArk\Events\Project\ProjectWasCreated;
+use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Models\Project;
 use DreamsArk\Models\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
 
-
-class CreateProjectCommand extends Command implements SelfHandling
+class PledgeProjectCommand extends Command implements SelfHandling
 {
 
     use DispatchesJobs;
 
     /**
-     * @var array
+     * @var
      */
-    private $fields;
+    private $amount;
+
+    /**
+     * @var
+     */
+    private $project;
 
     /**
      * @var User
@@ -31,12 +35,14 @@ class CreateProjectCommand extends Command implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @param Request $fields
+     * @param Project $project
      * @param User $user
+     * @param int $amount
      */
-    public function __construct(Request $fields, User $user)
+    public function __construct(Project $project, User $user, $amount)
     {
-        $this->fields = $fields;
+        $this->amount = $amount;
+        $this->project = $project;
         $this->user = $user;
     }
 
@@ -45,28 +51,25 @@ class CreateProjectCommand extends Command implements SelfHandling
      *
      * @param ProjectRepositoryInterface $repository
      * @param Dispatcher $event
-     * @return Project
      */
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
         /**
-         * Create Project
+         * Pledge Project
          */
-        $project = $repository->attach($this->fields->all(), $this->user->id);
+        $repository->pledge($this->project->id, $this->user->id, $this->amount);
+
+        /**
+         * Deduct User bag Coins
+         */
+        $command = new DeductCoinCommand($this->user->bag->id, $this->amount);
+        $this->dispatch($command);
 
         /**
          * Announce ProjectWasCreated
          */
-        $event->fire(new ProjectWasCreated($project));
-
-        /**
-         * Self Pledge The Project
-         */
-        $command = new PledgeProjectCommand($project, $this->user, $this->fields->get('amount'));
-        $this->dispatch($command);
-
-        return $project;
+        $event->fire(new ProjectWasPledged($this->project->id, $this->user->id));
 
     }
 }

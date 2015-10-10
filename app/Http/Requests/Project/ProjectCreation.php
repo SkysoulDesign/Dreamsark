@@ -24,7 +24,10 @@ class ProjectCreation extends Request
     public function rules()
     {
         return [
-            //
+            'title' => 'required',
+            'amount' => 'required|integer|between:1,' . $this->user()->bag->coins,
+            'budget' => 'required|integer',
+            'end_date' => 'required|date'
         ];
     }
 }

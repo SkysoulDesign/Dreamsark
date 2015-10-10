@@ -4,6 +4,7 @@ namespace DreamsArk\Commands\Session;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Session\UserWasCreated;
+use DreamsArk\Repositories\Bag\BagRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -30,10 +31,11 @@ class CreateUserCommand extends Command implements SelfHandling
      *
      * @param UserRepositoryInterface $repository
      * @param SettingRepositoryInterface $settings
+     * @param BagRepositoryInterface $bag
      * @param Dispatcher $event
      * @return \DreamsArk\Models\User
      */
-    public function handle(UserRepositoryInterface $repository, SettingRepositoryInterface $settings, Dispatcher $event)
+    public function handle(UserRepositoryInterface $repository, SettingRepositoryInterface $settings, BagRepositoryInterface $bag, Dispatcher $event)
     {
         /**
          * Create User
@@ -44,6 +46,11 @@ class CreateUserCommand extends Command implements SelfHandling
          * Assign Default Settings
          */
         $settings->createDefault($user->id);
+
+        /**
+         * Give the user an empty bag
+         */
+        $bag->attach([], $user->id);
 
         /**
          * Announce UserWasCreated
