@@ -1,10 +1,10 @@
 <?php
 
-namespace DreamsArk\Http\Requests\Coin;
+namespace DreamsArk\Http\Requests\Project;
 
 use DreamsArk\Http\Requests\Request;
 
-class CoinCreation extends Request
+class ProjectPledging extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CoinCreation extends Request
     public function rules()
     {
         return [
-            //
+            'amount' => 'required|integer|between:1,' . $this->user()->bag->coins,
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace DreamsArk\Http\Controllers\Bag;
 
 use DreamsArk\Commands\Bag\PurchaseCoinCommand;
-use DreamsArk\Http\Requests\Coin\CoinCreation;
+use DreamsArk\Http\Requests\Bag\CoinCreation;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;

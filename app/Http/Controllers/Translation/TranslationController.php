@@ -113,4 +113,16 @@ class TranslationController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Create New Language Key
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function newKey(Request $request)
+    {
+        dd($request->all());
+        return redirect()->back();
+    }
+
 }

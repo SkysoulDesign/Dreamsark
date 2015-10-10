@@ -1,9 +1,9 @@
-<div class="ui modal">
+<div id="report-modal" class="ui modal">
     <div class="header">
         @lang('forms.client-feed-back-form')
     </div>
     <div class="content">
-        <form id="reportForm" class="ui form" method="post" action="{{ route('report.store') }}">
+        <form class="ui form" method="post" action="{{ route('report.store') }}">
 
             <h4 class="ui dividing header">@lang('forms.give-us-your-feed-back')</h4>
 

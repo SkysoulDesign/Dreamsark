@@ -3,8 +3,8 @@
 namespace DreamsArk\Http\Controllers\Project;
 
 use DreamsArk\Commands\Project\PledgeProjectCommand;
+use DreamsArk\Http\Requests\Project\ProjectPledging;
 use DreamsArk\Models\Project;
-use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
 
@@ -26,10 +26,10 @@ class ProjectPledgeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Project $project
-     * @param  \Illuminate\Http\Request $request
+     * @param ProjectPledging $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Project $project, Request $request)
+    public function store(Project $project, ProjectPledging $request)
     {
         $command = new PledgeProjectCommand($project, $request->user(), $request->get('amount'));
         $this->dispatch($command);

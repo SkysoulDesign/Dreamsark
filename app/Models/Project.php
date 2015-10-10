@@ -33,6 +33,6 @@ class Project extends Model
      */
     public function backers()
     {
-        return $this->belongsToMany(User::class, 'project_backers');
+        return $this->belongsToMany(User::class, 'project_backers')->withPivot('amount');
     }
 }

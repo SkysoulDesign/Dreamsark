@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>DreamsArk</title>
 
-    <link rel="stylesheet" media="all" href="{{ asset('styles/semantic.min.css') }}">
+    <link rel="stylesheet" media="all" href="{{ asset('css/semantic.min.css') }}">
 
 </head>
 <body>
@@ -29,8 +29,8 @@
 
 </div>
 
-<script src="{{ asset('javascripts/dev.js') }}"></script>
-<script src="{{ asset('javascripts/semantic.min.js') }}"></script>
+<script src="{{ asset('js/dev.js') }}"></script>
+<script src="{{ asset('js/semantic.min.js') }}"></script>
 
 </body>
 </html>

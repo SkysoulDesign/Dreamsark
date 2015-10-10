@@ -86,7 +86,7 @@ $(document).ready(function () {
         })
         .modal('attach events', '#translation-new-language', 'show')
 
-    $('#reportModal')
+    $('#report-modal')
         .modal({
             blurring: true,
             closable: false,
