@@ -7,7 +7,7 @@ use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class CreateUserCommand extends Command implements SelfHandling
 {

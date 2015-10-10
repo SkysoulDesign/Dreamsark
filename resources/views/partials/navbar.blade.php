@@ -6,6 +6,9 @@
     <a class="item" href="{{ route('intro') }}">@lang('navbar.intro')</a>
 
     <div id="showReport" class="item link">@lang('navbar.report')</div>
+    <a class="item" href="{{ route('project.create') }}">Create</a>
+    <a class="item" href="{{ route('projects') }}">Discover</a>
+
     {{--<a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
 
     @if(!auth()->check())
@@ -30,6 +33,7 @@
 
                 <div class="menu">
                     <a class="item" href="{{ route('profile') }}">@lang('navbar.profile')</a>
+                    <a class="item" href="{{ route('user.projects') }}">My Projects</a>
 
                     <div class="divider"></div>
                     <a class="item" href="{{ route('logout') }}">@lang('navbar.logout')</a>

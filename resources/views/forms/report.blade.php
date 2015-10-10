@@ -1,4 +1,4 @@
-<div class="ui modal" id="reportModal">
+<div class="ui modal">
     <div class="header">
         @lang('forms.client-feed-back-form')
     </div>

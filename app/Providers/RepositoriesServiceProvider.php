@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Repositories\Project\ProjectRepository;
+use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepository;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\Translation\TranslationRepository;
@@ -61,6 +63,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             TranslationRepositoryInterface::class,
             TranslationRepository::class
+        );
+
+        /**
+         * Project Repository
+         */
+        $this->app->bind(
+            ProjectRepositoryInterface::class,
+            ProjectRepository::class
         );
 
     }

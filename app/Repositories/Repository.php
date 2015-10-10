@@ -3,6 +3,7 @@
 namespace DreamsArk\Repositories;
 
 
+use DreamsArk\Repositories\Project\ProjectRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -49,11 +50,12 @@ abstract class Repository
      * Create a new entry on the Database
      *
      * @param array $fields
-     * @return User
+     * @return Model
      */
     public function create(array $fields)
     {
-        return $this->model->create($fields);
+        $this->model->fill($fields)->save();
+        return $this->model;
     }
 
     /**

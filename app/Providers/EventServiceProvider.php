@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -17,6 +18,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         UserWasCreated::class => [],
         UserWasUpdated::class => [],
+        ProjectWasCreated::class => [],
     ];
 
     /**

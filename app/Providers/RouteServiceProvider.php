@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Models\Project;
 use DreamsArk\Models\Setting;
 use DreamsArk\Models\User;
 use Illuminate\Routing\Router;
@@ -33,6 +34,7 @@ class RouteServiceProvider extends ServiceProvider
          */
         $router->model('user', User::class);
         $router->model('setting', Setting::class);
+        $router->model('project', Project::class);
 
     }
 

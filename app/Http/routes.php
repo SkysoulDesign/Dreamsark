@@ -80,6 +80,32 @@ Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionCon
 Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => 'Setting\SettingController@update']);
 
 /**
+ * Project Controller
+ */
+Route::get('projects', ['as' => 'projects', 'uses' => 'Project\ProjectController@index']);
+Route::get('project/create', ['as' => 'project.create', 'uses' => 'Project\ProjectController@create']);
+Route::get('project/show/{project}', ['as' => 'project.show', 'uses' => 'Project\ProjectController@show']);
+Route::post('project/store', ['as' => 'project.store', 'uses' => 'Project\ProjectController@store']);
+
+/**
+ * Project Pledge Controller
+ */
+Route::get('project/pledge/{project}', ['as' => 'project.pledge.create', 'uses' => 'Project\ProjectPledgeController@create']);
+Route::post('project/pledge/{project}', ['as' => 'project.pledge.store', 'uses' => 'Project\ProjectPledgeController@store']);
+
+/**
+ * Coin Controller
+ */
+Route::get('purchase/coins', ['as' => 'coin.create', 'uses' => 'Coin\CoinController@create']);
+Route::post('purchase/coins', ['as' => 'coin.store', 'uses' => 'Coin\CoinController@store']);
+
+/**
+ * User Projects Controller
+ */
+Route::get('user/projects', ['as' => 'user.projects', 'uses' => 'Project\UserProjectController@index']);
+
+
+/**
  * Report Controller
  */
 Route::post('report/store', ['as' => 'report.store', 'uses' => 'Report\ReportController@store']);
