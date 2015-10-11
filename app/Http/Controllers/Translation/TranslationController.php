@@ -2,13 +2,11 @@
 
 namespace DreamsArk\Http\Controllers\Translation;
 
-use DreamsArk\Commands\Translation\CreateNewTranslationGroup;
 use DreamsArk\Commands\Translation\ExportTranslationCommand;
 use DreamsArk\Commands\Translation\ImportTranslationCommand;
 use DreamsArk\Commands\Translation\UpdateTranslationCommand;
-use DreamsArk\Models\Translation;
+use DreamsArk\Models\Translation\Translation;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
@@ -37,8 +35,8 @@ class TranslationController extends Controller
 
         $translations = $this->repository->where(compact('language', 'group'));
 
-        $groups = $this->repository->allGroup();
-        $languages = $this->repository->allLanguage();
+        $groups = $this->repository->groups();
+        $languages = $this->repository->languages();
 
         return view('translation.index', compact('translations', 'groups', 'languages'));
 

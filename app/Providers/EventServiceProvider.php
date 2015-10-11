@@ -5,6 +5,7 @@ namespace DreamsArk\Providers;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
+use DreamsArk\Events\Translation\TranslationsWasCreated;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -19,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
         UserWasCreated::class => [],
         UserWasUpdated::class => [],
         ProjectWasCreated::class => [],
+        TranslationsWasCreated::class => [],
     ];
 
     /**

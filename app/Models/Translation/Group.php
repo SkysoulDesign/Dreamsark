@@ -1,17 +1,17 @@
 <?php
 
-namespace DreamsArk\Models;
+namespace DreamsArk\Models\Translation;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Translation extends Model
+class Group extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'translations';
+    protected $table = 'groups';
 
     /**
      * The connection name for the model.
@@ -21,9 +21,9 @@ class Translation extends Model
     protected $connection = 'mysql-translation';
 
     /**
-     * The attributes that are guarded.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $fillable = ['name'];
 }

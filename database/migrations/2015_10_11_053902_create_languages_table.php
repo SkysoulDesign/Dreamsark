@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTranslationsTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,9 @@ class CreateTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql-translation')->create('translations', function (Blueprint $table) {
+        Schema::connection('mysql-translation')->create('languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('language');
-            $table->string('group');
-            $table->string('key');
-            $table->string('value');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql-translation')->drop('translations');
+        Schema::connection('mysql-translation')->drop('languages');
     }
 }

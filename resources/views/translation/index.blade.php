@@ -13,6 +13,7 @@
             <div class="ui form">
                 <div class="three fields">
 
+
                     @include('partials.select', ['name' => 'language', 'collection' => $languages, 'id'=>'translation-language', 'class' => 'no-default'])
 
                     @include('partials.select', ['name' => 'group', 'collection' => $groups, 'id'=>'translation-group', 'class' => 'no-default'])
@@ -45,6 +46,15 @@
 
                 </div>
 
+            </div>
+
+        </div>
+
+        <div class="ui raised segment">
+
+            <div class="ui fluid icon input loading">
+                <input type="text" placeholder="Search...">
+                <i class="search icon"></i>
             </div>
 
         </div>

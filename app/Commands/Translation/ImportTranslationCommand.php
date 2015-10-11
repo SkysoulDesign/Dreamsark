@@ -3,12 +3,16 @@
 namespace DreamsArk\Commands\Translation;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Models\Translation;
+use DreamsArk\Events\Translation\TranslationsWasCreated;
+use DreamsArk\Models\Translation\Group;
+use DreamsArk\Models\Translation\Language;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Collection;
 use Illuminate\Translation\Translator;
 
 class ImportTranslationCommand extends Command implements SelfHandling
@@ -18,12 +22,10 @@ class ImportTranslationCommand extends Command implements SelfHandling
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -32,41 +34,98 @@ class ImportTranslationCommand extends Command implements SelfHandling
      * @param Filesystem $fileSystem
      * @param Application $app
      * @param Translator $translator
+     * @param TranslationRepositoryInterface $repository
+     * @param Dispatcher $event
      */
-    public function handle(Filesystem $fileSystem, Application $app, Translator $translator)
+    public function handle(Filesystem $fileSystem, Application $app, Translator $translator, TranslationRepositoryInterface $repository, Dispatcher $event)
     {
+
         $files = $fileSystem->allFiles($app->langPath());
         $loader = $translator->getLoader();
 
+        /** @var Collection $groups */
+        $groups = $this->dispatch(new ImportGroupsCommand());
+
+        /** @var Collection $languages */
+        $languages = $this->dispatch(new ImportLanguagesCommand());
+
         foreach ($files as $file) {
 
-            $language = $file->getRelativePath();
-            $group = collect(pathinfo($file))->get('filename');
+            /** @var Language $language */
+            $language = $languages->where('name', $file->getRelativePath())->first();
 
-            $translations = collect($loader->load($language, $group));
+            /** @var Group $group */
+            $group = $groups->where('name', pathinfo($file)['filename'])->first();
+
+            /** @var Collection $translations */
+            $translations = collect($loader->load($language->name, $group->name));
 
             /**
-             * Remove Arrays At this moment
+             * Convert all arrays to to json
              */
             $translations->transform(function ($value) {
-                if (is_array($value)) return 'Array not Supported';
-                return $value;
+                return is_array($value) ? json_encode($value) : $value;
             });
 
             /**
-             * Insert into the Database hackie
+             * Merge Translations on the database with local translations
              */
-            $translations->map(function ($value, $key) use ($language, $group) {
-                return Translation::firstOrCreate(compact('value', 'key', 'group', 'language'));
+            $model = $repository->fetch($language->id, $group->id);
+            $database = $model->lists('value', 'key');
+
+            /**
+             * If translations is an array, process the JSON data and update it
+             */
+            $translations->each(function ($data, $key) use ($database, $model) {
+
+                /**
+                 * If it's not a json then there is nothing to update
+                 */
+                if ($model->isEmpty() or !$this->isJSON($data)) return;
+
+                /**
+                 * Retrieve Json
+                 */
+                $decoded = $database->map(function ($value) {
+                    return json_decode($value, true);
+                });
+
+                $value = collect(json_decode($data, true))->merge($decoded->get($key))->toJson();
+
+                /**
+                 * Update Translation
+                 */
+                $updateCommand = new UpdateTranslationCommand($model->where('key', $key)->first()->id, compact('value'));
+                $this->dispatch($updateCommand);
+
             });
 
             /**
-             * Insert into the Database
+             * First get only new values that are not already on the DB
+             * Then for each save new Translation on DB
+             * Save Translations on database
              */
-//            $command = new CreateNewTranslation($language, $group, $translations->toArray());
-//            $this->dispatch($command);
+            $newItems = $translations->merge($database)->diff($database)->map(function ($value, $key) use ($language, $group) {
+                return $this->dispatch(new CreateTranslation($language, $group, compact('key', 'value')));
+            });
+
+            /**
+             * Announce Translations was created
+             */
+            if (!$newItems->isEmpty()) $event->fire(new TranslationsWasCreated($newItems));
 
         }
 
+    }
+
+    /**
+     * Helper to check if string is a json
+     *
+     * @param string $string
+     * @return bool
+     */
+    public function isJSON($string)
+    {
+        return is_string($string) && is_object(json_decode($string)) && (json_last_error() == JSON_ERROR_NONE) ? true : false;
     }
 }
