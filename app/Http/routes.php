@@ -61,7 +61,7 @@ Route::get('translation/import', ['as' => 'translation.import', 'uses' => 'Trans
 Route::get('translation/export', ['as' => 'translation.export', 'uses' => 'Translation\TranslationController@export']);
 Route::post('translation/language/store', ['as' => 'translation.newLanguage', 'uses' => 'Translation\TranslationController@newLanguage']);
 Route::post('translation/group/store', ['as' => 'translation.newGroup', 'uses' => 'Translation\TranslationController@newGroup']);
-Route::post('translation/key/store', ['as' => 'translation.newKey', 'uses' => 'Translation\TranslationController@newKey']);
+Route::post('translation/translation/store', ['as' => 'translation.newTranslation', 'uses' => 'Translation\TranslationController@newTranslation']);
 Route::post('translation/update/{translation}', ['as' => 'translation.update', 'uses' => 'Translation\TranslationController@update']);
 Route::get('translation/{language?}/{group?}', ['as' => 'translation', 'uses' => 'Translation\TranslationController@index']);
 
@@ -87,6 +87,11 @@ Route::get('projects', ['as' => 'projects', 'uses' => 'Project\ProjectController
 Route::get('project/create', ['as' => 'project.create', 'uses' => 'Project\ProjectController@create']);
 Route::get('project/show/{project}', ['as' => 'project.show', 'uses' => 'Project\ProjectController@show']);
 Route::post('project/store', ['as' => 'project.store', 'uses' => 'Project\ProjectController@store']);
+
+/**
+ * Project Take Controller
+ */
+Route::post('project/store/{script}', ['as' => 'project.take.store', 'uses' => 'Project\TakeController@store']);
 
 /**
  * Project Pledge Controller

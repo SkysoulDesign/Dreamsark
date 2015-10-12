@@ -2,10 +2,12 @@
 
 namespace DreamsArk\Http\Controllers\Translation;
 
+use DreamsArk\Commands\Translation\CreateGroupCommand;
+use DreamsArk\Commands\Translation\CreateLanguageCommand;
+use DreamsArk\Commands\Translation\CreateTranslation;
 use DreamsArk\Commands\Translation\ExportTranslationCommand;
 use DreamsArk\Commands\Translation\ImportTranslationCommand;
 use DreamsArk\Commands\Translation\UpdateTranslationCommand;
-use DreamsArk\Models\Translation\Translation;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
@@ -30,10 +32,10 @@ class TranslationController extends Controller
      * @param string $group
      * @return \Illuminate\Http\Response
      */
-    public function index($language = 'all', $group = 'all')
+    public function index($language = '1', $group = '1')
     {
 
-        $translations = $this->repository->where(compact('language', 'group'));
+        $translations = $this->repository->fetch($language, $group)->load('groups', 'language');
 
         $groups = $this->repository->groups();
         $languages = $this->repository->languages();
@@ -65,12 +67,8 @@ class TranslationController extends Controller
      */
     public function import()
     {
-
-        $command = new ImportTranslationCommand();
-        $this->dispatch($command);
-
+        $this->dispatch(new ImportTranslationCommand());
         return redirect()->back();
-
     }
 
     /**
@@ -80,10 +78,7 @@ class TranslationController extends Controller
      */
     public function export()
     {
-
-        $command = new ExportTranslationCommand();
-        $this->dispatch($command);
-
+        $this->dispatch(new ExportTranslationCommand());
         return redirect()->back();
     }
 
@@ -96,18 +91,20 @@ class TranslationController extends Controller
      */
     public function newLanguage(Request $request)
     {
-        dd($request->all());
+        $this->dispatch(new CreateLanguageCommand($request->get('name')));
         return redirect()->back();
     }
 
     /**
      * Create a new Group
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      * @internal param Translation $translation
      */
-    public function newGroup()
+    public function newGroup(Request $request)
     {
+        $this->dispatch(new CreateGroupCommand($request->get('name')));
         return redirect()->back();
     }
 
@@ -117,9 +114,10 @@ class TranslationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function newKey(Request $request)
+    public function newTranslation(Request $request)
     {
-        dd($request->all());
+        $command = new CreateTranslation($request->get('language'), $request->get('group'), $request->only('key', 'value'));
+        $this->dispatch($command);
         return redirect()->back();
     }
 

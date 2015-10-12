@@ -4,16 +4,27 @@
 
     <div class="column">
 
-        <div class="ui segment">
+        @foreach($projects as $project)
+            <div class="ui fluid card">
+                <div class="content">
+                    <i class="right floated edit icon"></i>
 
-            @foreach($projects as $project)
-                <div class="ui segment">
-                    <a href="{{ route('project.show', $project->id) }}" class="title">{{ $project->title }}</a>
-                    <div class="content">{{ $project->description }}</div>
+                    <a class="header" href="{{ route('project.show', $project->id) }}">{{ $project->title }}</a>
+
+                    <div class="description">
+                        <p>{{ $project->description }}</p>
+                    </div>
                 </div>
-            @endforeach
-
-        </div>
+                <div class="extra content">
+                    <div class="ui indicating progress" data-percent="{{ $project->present()->progress }}">
+                        <div class="bar"
+                             style="transition-duration: 300ms; width: {{ $project->present()->progress }}%;">
+                            <div class="progress">{{ $project->present()->progress }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
     </div>
 

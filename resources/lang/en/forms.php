@@ -1,24 +1,41 @@
 <?php
 
-return [
-
-    /**
-     * General
-     */
-    'okay' => 'Ok',
-    'cancel' => 'Cancel',
-
-    /**
-     * Report Section
-     */
-
-    'client-feed-back-form' => 'Client Feedback Form',
-    'give-us-your-feed-back' => 'Give us your feedback',
-    'page-url' => 'Page URL',
-    'feedback' => 'Feedback ',
-    'report-feedback' => 'Report Feedback',
-    'report-bug' => 'Report Bug',
-    'suggestion' => 'Suggestion',
-    'type' => 'Type',
-
-];
+return array (
+  'okay' => 'Ok',
+  'cancel' => 'Cancel',
+  'client-feed-back-form' => 'Client Feedback Form',
+  'give-us-your-feed-back' => 'Give us your feedback',
+  'page-url' => 'Page URL',
+  'feedback' => 'Feedback ',
+  'report-feedback' => 'Report Feedback',
+  'report-bug' => 'Report Bug',
+  'suggestion' => 'Suggestion',
+  'type' => 'Type',
+  'email' => 'Email',
+  'password' => 'Password',
+  'password-confirmation' => 'Password Confirmation',
+  'user' => 'User',
+  'full-name' => 'Full Name',
+  'first-name' => 'First Name',
+  'last-name' => 'Last Name',
+  'gender' => 'Gender',
+  'male' => 'Male',
+  'female' => 'Female',
+  'language' => 'language',
+  'login' => 'Login',
+  'submit' => 'Submit',
+  'create' => 'Create',
+  'pledge-amount' => 'Pledge (Minimum 1 yuan)',
+  'pledge-budget' => 'Project Total Budget',
+  'end-date' => 'Due Date',
+  'project-title' => 'Project Title',
+  'description' => 'Describe your Idea',
+  'process' => 'Process',
+  'pledge' => 'Pledge',
+  'amount' => 'Amount',
+  'title' => 'Title',
+  'length' => 'Length',
+  'location' => 'Location',
+  'shot' => 'Shot',
+  'errors' => 'Ooopss',
+);

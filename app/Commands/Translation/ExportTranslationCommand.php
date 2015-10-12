@@ -13,12 +13,10 @@ class ExportTranslationCommand extends Command implements SelfHandling
 {
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -31,29 +29,58 @@ class ExportTranslationCommand extends Command implements SelfHandling
     public function handle(TranslationRepositoryInterface $repository, Filesystem $fileSystem, Application $app)
     {
         /** @var Collection $translations */
-        $translations = $repository->all();
+        $translations = $repository->all()->load('groups', 'language');
 
-//        $translations->groupBy('language')->map(function ($key) {
-//            return $key->groupBy('group');
-//        });
+        /**
+         * Execute operation for each language within the database
+         */
+        $translations->groupBy('language.name')->map(function ($translations, $language) use ($app, $fileSystem) {
 
-        foreach ($translations->groupBy('language') as $language => $translation) {
+            /**
+             * Divide into groups
+             */
+            $groups = $translations->map(function ($translation) {
+                return $translation->groups->pluck('name');
+            })->collapse();
 
-            foreach ($translation->groupBy('group') as $group => $final) {
-                $content = $final->lists('value', 'key')->toArray();
+            /**
+             * For each group create a separated file
+             */
+            $groups->each(function ($group) use ($translations, $language, $app, $fileSystem) {
 
+                /**
+                 * Filter Trough to get only translations that belongs to this group
+                 */
+                $content = $translations->filter(function ($translation) use ($group) {
+                    return !$translation->groups->where('name', $group)->isEmpty();
+                })->lists('value', 'key')->toArray();
+
+                /**
+                 * Generate popper output
+                 */
                 $output = "<?php\n\nreturn " . var_export($content, true) . ";\n";
-                $path = $app->langPath() . '/' . $language . '/' . $group . '.php';
+                $directory = $app->langPath() . '/' . $language;
+                $file = $directory . '/' . $group . '.php';
 
-                if (!$fileSystem->exists($path)) {
+                /**
+                 * if Directory doesnt exist then create it
+                 */
+                if (!$fileSystem->exists($directory)) {
                     $fileSystem->makeDirectory($app->langPath() . '/' . $language);
                 }
 
-                $fileSystem->put($path, $output);
+                /**
+                 * if File already exist delete it.
+                 */
+                if ($fileSystem->exists($file)) $fileSystem->delete($file);
 
-            }
+                /**
+                 * Write file
+                 */
+                $fileSystem->put($file, $output);
 
-        }
+            });
+        });
 
     }
 }

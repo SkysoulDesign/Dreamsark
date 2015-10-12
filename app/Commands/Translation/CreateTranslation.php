@@ -13,7 +13,7 @@ class CreateTranslation extends Command implements SelfHandling
     /**
      * @var string
      */
-    private $group;
+    private $group_id;
 
     /**
      * @var array
@@ -23,20 +23,20 @@ class CreateTranslation extends Command implements SelfHandling
     /**
      * @var string
      */
-    private $language;
+    private $language_id;
 
     /**
      * Create a new command instance.
      *
-     * @param Language $language
-     * @param Group $group
+     * @param int $language_id
+     * @param int $group_id
      * @param array $translation
      */
-    public function __construct(Language $language, Group $group, array $translation)
+    public function __construct($language_id, $group_id, array $translation)
     {
         $this->translation = $translation;
-        $this->group = $group;
-        $this->language = $language;
+        $this->group_id = $group_id;
+        $this->language_id = $language_id;
     }
 
     /**
@@ -47,7 +47,7 @@ class CreateTranslation extends Command implements SelfHandling
      */
     public function handle(TranslationRepositoryInterface $repository)
     {
-        return $repository->createTranslation($this->language->id, $this->group->id, $this->translation);
+        return $repository->createTranslation($this->language_id, $this->group_id, $this->translation);
     }
 
 }

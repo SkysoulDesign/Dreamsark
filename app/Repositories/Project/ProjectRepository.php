@@ -2,7 +2,9 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Script;
+use DreamsArk\Models\Project\Take;
 use DreamsArk\Repositories\Repository;
 use Illuminate\Support\Collection;
 
@@ -15,11 +17,24 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
     public $model;
 
     /**
-     * @param Project $project
+     * @var Script
      */
-    function __construct(Project $project)
+    private $script;
+    /**
+     * @var Take
+     */
+    private $take;
+
+    /**
+     * @param Project $project
+     * @param Script $script
+     * @param Take $take
+     */
+    function __construct(Project $project, Script $script, Take $take)
     {
         $this->model = $project;
+        $this->script = $script;
+        $this->take = $take;
     }
 
     /**
@@ -58,5 +73,34 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
     {
         $this->model($project_id)->backers()->attach($user_id, compact('amount'));
     }
+
+    /**
+     * Create a Script
+     *
+     * @param int $project_id
+     * @return Script
+     */
+    public function createScript($project_id)
+    {
+        $script = $this->script->setAttribute('project_id', $project_id);
+        $script->save();
+        return $script;
+    }
+
+    /**
+     * Create a Take
+     *
+     * @param int $script_id
+     * @param array $fields
+     * @return Take
+     */
+    public function createTake($script_id, array $fields)
+    {
+        $take = $this->take->setAttribute('script_id', $script_id);
+        $take->fill($fields);
+        $take->save();
+        return $take;
+    }
+
 
 }

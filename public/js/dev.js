@@ -19703,15 +19703,16 @@ $(document).ready(function () {
 
     $('.ui.dropdown:not(.no-default)').dropdown();
     $('.ui.form .ui.checkbox').checkbox();
+    $('.ui.accordion').accordion();
     $('.ui.rating').rating();
     $('.ui.embed').embed();
     $('.tabular.menu .item, #menu .item').tab();
     $('.dimmable.image').dimmer({
-        on: 'hover'
+        on:'hover'
     });
 
     $('#translation-language').dropdown({
-        onChange: function ($value, text, $choice) {
+        onChange:function ($value, text, $choice) {
 
             var pathArray = window.location.pathname.split('/');
 
@@ -19727,19 +19728,16 @@ $(document).ready(function () {
     });
 
     $('#translation-group').dropdown({
-        onChange: function ($value, text, $choice) {
+        onChange:function ($value, text, $choice) {
 
             var pathArray = window.location.pathname.split('/');
 
             var language = pathArray[2];
 
             if (!language) {
-                language = 'all'
+                language = '1'
             }
-
             window.location.href = 'http://dreamsark.dev/translation/' + language + '/' + $value;
-
-
         }
     });
 
@@ -19755,10 +19753,10 @@ $(document).ready(function () {
         $values['_token'] = $(this).attr('data-token');
 
         $.ajax({
-                url: $(this).attr('data-action'),
-                method: 'POST',
-                data: $values,
-                beforeSend: function () {
+                url:       $(this).attr('data-action'),
+                method:    'POST',
+                data:      $values,
+                beforeSend:function () {
                     $parrent.addClass('loading');
                 }
             })
@@ -19770,27 +19768,57 @@ $(document).ready(function () {
 
     }));
 
+    $('#project-take-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#project-take-form').submit();
+            }
+        })
+        .modal('attach events', '#project-add-take', 'show')
+
+    $('#translation-translation-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#translation-new-translation-form').submit();
+            }
+        })
+        .modal('attach events', '#translation-new-translation', 'show')
+
     $('#translation-language-modal')
         .modal({
             blurring: true,
             closable: false,
-            onApprove: function () {
+            onApprove:function () {
                 $('#translation-new-language-form').submit();
             }
         })
         .modal('attach events', '#translation-new-language', 'show')
 
+    $('#translation-group-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#translation-new-group-form').submit();
+            }
+        })
+        .modal('attach events', '#translation-new-group', 'show')
+
     $('#report-modal')
         .modal({
             blurring: true,
             closable: false,
-            onShow: function () {
+            onShow:   function () {
                 $('#urlAddress').val(window.location.href)
             },
-            onDeny: function () {
+            onDeny:   function () {
 
             },
-            onApprove: function () {
+            onApprove:function () {
                 $('#reportForm').submit();
             }
         })

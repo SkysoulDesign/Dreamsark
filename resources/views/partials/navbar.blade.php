@@ -6,8 +6,8 @@
     <a class="item" href="{{ route('intro') }}">@lang('navbar.intro')</a>
 
     <div id="showReport" class="item link">@lang('navbar.report')</div>
-    <a class="item" href="{{ route('project.create') }}">Create</a>
-    <a class="item" href="{{ route('projects') }}">Discover</a>
+    <a class="item" href="{{ route('project.create') }}">@lang('navbar.create')</a>
+    <a class="item" href="{{ route('projects') }}">@lang('navbar.discover')</a>
 
     {{--<a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
 
@@ -21,7 +21,7 @@
     @if(auth()->check())
 
         <div class="right menu">
-
+            <div class="item">@lang('navbar.coins', ['amount' => auth()->user()->bag->coins])</div>
             <div class="ui dropdown item">
 
                 <div>
@@ -33,7 +33,8 @@
 
                 <div class="menu">
                     <a class="item" href="{{ route('profile') }}">@lang('navbar.profile')</a>
-                    <a class="item" href="{{ route('user.projects') }}">My Projects</a>
+                    <a class="item" href="{{ route('coin.create') }}">@lang('navbar.purchase-coins')</a>
+                    <a class="item" href="{{ route('user.projects') }}">@lang('navbar.my-projects')</a>
 
                     <div class="divider"></div>
                     <a class="item" href="{{ route('logout') }}">@lang('navbar.logout')</a>

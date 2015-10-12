@@ -2,21 +2,19 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field', ['name' => 'amount', 'label'=> 'Purchase Amount'])
+    @include('partials.field', ['name' => 'amount', 'label'=> trans('payment.amount')])
 
     @include('partials.select-with-icon',
     [
         'name' => 'payment_method',
-        'placeholder' => 'Select the Payment Method',
+        'placeholder' => trans('payment.select-payment-method'),
         'collection' => [
-            'alipay' => ['Alipay', 'stripe icon'],
-            'wechat' => ['Wechat', 'wechat icon'],
-            'qq' => ['QQ', 'qq icon']
+            'alipay' => [trans('payment.alipay'), 'stripe icon'],
+            'wechat' => [trans('payment.wechat'), 'wechat icon'],
+            'qq' => [trans('payment.qq'), 'qq icon']
         ]
     ])
 
-    @include('partials.errors')
-
-    <button class="ui button" type="submit">Process</button>
+    <button class="ui button" type="submit">@lang('forms.process')</button>
 
 </form>

@@ -6,8 +6,6 @@
 
     @include('partials.field', ['name' => 'password', 'label'=> trans('forms.password'), 'placeholder'=> trans('forms.email'),'type' => 'password'])
 
-    @include('partials.errors')
-
     <button class="ui button" type="submit">@lang('forms.login')</button>
 
 </form>

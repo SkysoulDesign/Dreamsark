@@ -12,8 +12,6 @@
         ]
     ])
 
-    @include('partials.errors')
-
     <button class="ui button" type="submit">Save</button>
 
 </form>

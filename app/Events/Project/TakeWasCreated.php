@@ -3,26 +3,26 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Take;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ProjectWasCreated extends Event
+class TakeWasCreated extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Project
+     * @var Take
      */
-    private $project;
+    public $take;
 
     /**
      * Create a new event instance.
-     *
-     * @param Project $project
+     * @param Take $take
      */
-    public function __construct(Project $project)
+    public function __construct(Take $take)
     {
-        $this->project = $project;
+        $this->take = $take;
     }
 
     /**

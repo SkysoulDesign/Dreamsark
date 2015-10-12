@@ -4,7 +4,7 @@ namespace DreamsArk\Http\Controllers\Project;
 
 use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
@@ -17,7 +17,6 @@ class ProjectController extends Controller
     {
         $this->middleware('auth', ['except' => 'show']);
     }
-
 
     /**
      * Show Projects Page
@@ -35,8 +34,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public
-    function create()
+    public function create()
     {
         return view('project.create')->with('user', auth()->user());
     }
@@ -47,8 +45,7 @@ class ProjectController extends Controller
      * @param ProjectCreation|Request $request
      * @return \Illuminate\Http\Response
      */
-    public
-    function store(ProjectCreation $request)
+    public function store(ProjectCreation $request)
     {
         $command = new CreateProjectCommand($request, $request->user());
         $this->dispatch($command);
@@ -61,8 +58,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @return \Illuminate\View\View
      */
-    public
-    function show(Project $project)
+    public function show(Project $project)
     {
         return view('project.show', compact('project'))->with('backers', $project->backers);
     }

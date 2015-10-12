@@ -21,8 +21,6 @@
 
     @include('partials.field', ['name' => 'password_confirmation', 'label' => trans('forms.password-confirmation'), 'placeholder'=> trans('forms.password-confirmation'), 'type' => 'password'])
 
-    @include('partials.errors')
-
     <button class="ui button" type="submit">@lang('forms.submit')</button>
 
 </form>

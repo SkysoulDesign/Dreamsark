@@ -4,7 +4,7 @@ namespace DreamsArk\Http\Controllers\Project;
 
 use DreamsArk\Commands\Project\PledgeProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectPledging;
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
 

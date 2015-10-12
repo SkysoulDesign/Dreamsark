@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Project;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\ProjectWasCreated;
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -49,7 +49,6 @@ class CreateProjectCommand extends Command implements SelfHandling
      */
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
-
         /**
          * Create Project
          */
@@ -65,6 +64,11 @@ class CreateProjectCommand extends Command implements SelfHandling
          */
         $command = new PledgeProjectCommand($project, $this->user, $this->fields->get('amount'));
         $this->dispatch($command);
+
+        /**
+         * Create the project Script
+         */
+        $this->dispatch(new CreateScriptCommand($project->id));
 
         return $project;
 

@@ -41,6 +41,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     /**
      * Presenter for this class
+     *
      * @var Presenter
      */
     protected $presenter = UserPresenter::class;

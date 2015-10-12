@@ -4,9 +4,6 @@ namespace DreamsArk\Http\Controllers\Home;
 
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests;
-use DreamsArk\Models\User;
-use Form;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller
@@ -14,10 +11,9 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Application $app
      * @return Response
      */
-    public function index(Application $app)
+    public function index()
     {
         return view('index');
     }

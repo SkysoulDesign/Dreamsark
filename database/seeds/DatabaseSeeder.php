@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(UserTableSeeder::class);
-        $this->call(LanguageTableSeeder::class);
-        $this->call(GroupTableSeeder::class);
-        $this->call(TranslationTableSeeder::class);
+//        $this->call(LanguageTableSeeder::class);
+//        $this->call(GroupTableSeeder::class);
+//        $this->call(TranslationTableSeeder::class);
 
         Model::reguard();
     }

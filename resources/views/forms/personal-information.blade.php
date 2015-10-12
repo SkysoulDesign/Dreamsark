@@ -3,18 +3,16 @@
     {!! csrf_field() !!}
 
     @include('partials.field-multiple', array(
-    'label' => 'Full Name',
+    'label' => trans('forms.full-name'),
     'fields' => [
-            ['name' => 'first_name'],
-            ['name' => 'last_name']
+            ['name' => 'first_name', 'placeholder' => trans('forms.first-name')],
+            ['name' => 'last_name', 'placeholder' => trans('forms.last-name')]
         ],
     'class' => 'two'
     ))
 
-    @include('partials.select', ['name' => 'gender', 'collection' => ['male' => 'Male', 'female' => 'Female']])
+    @include('partials.select', ['name' => 'gender', 'collection' => ['male' => trans('forms.male'), 'female' => trans('forms.female')]])
 
-    @include('partials.errors')
-
-    <button class="ui button" type="submit">Save</button>
+    <button class="ui button" type="submit">@lang('forms.save')</button>
 
 </form>

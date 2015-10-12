@@ -14,22 +14,22 @@
 
         <div id="menu" class="ui vertical menu">
             <div class="item">
-                <div class="header">Profile</div>
+                <div class="header">@lang('profile.profile')</div>
                 <div class="menu">
-                    <a class="item" data-tab="home">Personal Information</a>
+                    <a class="item" data-tab="home">@lang('profile.personal-information')</a>
                 </div>
             </div>
             <div class="item">
-                <div class="header">Account</div>
+                <div class="header">@lang('profile.account')</div>
                 <div class="menu">
-                    <a class="item">Change Password</a>
-                    <a class="item">Bind Social Media</a>
+                    <a class="item">@lang('profile.change-password')</a>
+                    <a class="item">@lang('profile.bind-social-media')</a>
                 </div>
             </div>
             <div class="item">
-                <div class="header">Settings</div>
+                <div class="header">@lang('profile.settings')</div>
                 <div class="menu">
-                    <a class="item" data-tab="language">Language</a>
+                    <a class="item" data-tab="language">@lang('profile.language')</a>
                 </div>
             </div>
         </div>
@@ -40,14 +40,14 @@
 
         <div class="ui tab active" data-tab="home">
             <div class="ui segment">
-                <div class="ui small header">Personal Information</div>
+                <div class="ui small header">@lang('profile.personal-information')</div>
                 @include('forms.personal-information')
             </div>
         </div>
 
         <div class="ui tab" data-tab="language">
             <div class="ui segment">
-                <div class="ui small header">Language</div>
+                <div class="ui small header">@lang('profile.language')</div>
                 @include('forms.settings-language')
             </div>
         </div>

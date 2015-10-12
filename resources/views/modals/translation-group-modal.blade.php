@@ -1,13 +1,14 @@
-<div id="translation-language-modal" class="ui modal">
+<div id="translation-group-modal" class="ui modal">
     <div class="header">
-        @lang('translation.create-a-new-language')
+        @lang('translation.create-a-new-group')
     </div>
     <div class="content">
-        <form id="translation-new-language-form" class="ui form" method="post" action="{{ route('translation.newLanguage') }}">
+        <form id="translation-new-group-form" class="ui form" method="post"
+              action="{{ route('translation.newGroup') }}">
 
             {{ csrf_field() }}
 
-            @include('partials.field', ['name' => 'language', 'placeholder' => trans('translation.language'), 'label' => trans('translation.language')])
+            @include('partials.field', ['name' => 'name', 'placeholder' => trans('translation.group'), 'label' => trans('translation.group')])
 
         </form>
     </div>

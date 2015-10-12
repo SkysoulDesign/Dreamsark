@@ -5,7 +5,7 @@ namespace DreamsArk\Commands\Project;
 use DreamsArk\Commands\Bag\DeductCoinCommand;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\ProjectWasPledged;
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -54,7 +54,6 @@ class PledgeProjectCommand extends Command implements SelfHandling
      */
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
-
         /**
          * Pledge Project
          */
@@ -67,9 +66,9 @@ class PledgeProjectCommand extends Command implements SelfHandling
         $this->dispatch($command);
 
         /**
-         * Announce ProjectWasCreated
+         * Announce ProjectWasPledged
          */
-        $event->fire(new ProjectWasPledged($this->project->id, $this->user->id));
+        $event->fire(new ProjectWasPledged($this->project, $this->user, $this->amount));
 
     }
 }

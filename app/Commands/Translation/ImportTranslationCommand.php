@@ -106,7 +106,7 @@ class ImportTranslationCommand extends Command implements SelfHandling
              * Save Translations on database
              */
             $newItems = $translations->merge($database)->diff($database)->map(function ($value, $key) use ($language, $group) {
-                return $this->dispatch(new CreateTranslation($language, $group, compact('key', 'value')));
+                return $this->dispatch(new CreateTranslation($language->id, $group->id, compact('key', 'value')));
             });
 
             /**

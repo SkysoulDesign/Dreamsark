@@ -2,7 +2,9 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project;
+use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Script;
+use DreamsArk\Models\Project\Take;
 use Illuminate\Support\Collection;
 
 interface ProjectRepositoryInterface
@@ -33,5 +35,22 @@ interface ProjectRepositoryInterface
      * @return mixed
      */
     public function pledge($project_id, $user_id, $amount);
+
+    /**
+     * Create a Script
+     *
+     * @param int $project_id
+     * @return Script
+     */
+    public function createScript($project_id);
+
+    /**
+     * Create a Take
+     *
+     * @param int $script_id
+     * @param array $fields
+     * @return Take
+     */
+    public function createTake($script_id, array $fields);
 
 }

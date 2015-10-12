@@ -11,7 +11,7 @@
 
 <div class="ui container" style="margin-top: 20px">
 
-    @include('forms.report')
+    @include('modals.report-modal')
 
     <div class="ui grid">
 
@@ -20,6 +20,14 @@
                 @include('partials.navbar')
             </div>
         </div>
+
+        @if($errors->any())
+            <div class="ui row error">
+                <div class="sixteen wide column">
+                    @include('partials.errors')
+                </div>
+            </div>
+        @endif
 
         <div class="row">
             @yield('content')

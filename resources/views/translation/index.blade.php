@@ -2,9 +2,9 @@
 
 @section('content')
 
-
-    @include('forms.translation-language')
-
+    @include('modals.translation-language-modal')
+    @include('modals.translation-group-modal')
+    @include('modals.translation-translation-modal')
 
     <div class="column">
 
@@ -13,10 +13,9 @@
             <div class="ui form">
                 <div class="three fields">
 
+                    @include('partials.select', ['name' => 'language', 'placeholder' => trans('translation.language'), 'label'=> trans('translation.language'), 'collection' => $languages->lists('name', 'id'), 'id'=>'translation-language', 'class' => 'no-default'])
 
-                    @include('partials.select', ['name' => 'language', 'collection' => $languages, 'id'=>'translation-language', 'class' => 'no-default'])
-
-                    @include('partials.select', ['name' => 'group', 'collection' => $groups, 'id'=>'translation-group', 'class' => 'no-default'])
+                    @include('partials.select', ['name' => 'group', 'placeholder' => trans('translation.group'), 'label'=> trans('translation.group'), 'collection' => $groups->lists('name', 'id'), 'id'=>'translation-group', 'class' => 'no-default'])
 
                     <div class="nine wide field">
                         <div class="ui right floated basic buttons">
@@ -26,17 +25,21 @@
                                 <i class="wrench icon"></i>
 
                                 <div class="menu">
-                                    <div class="header">File System</div>
+                                    <div class="header">@lang('translation.file-system')</div>
                                     <a class="item" href="{{ route('translation.import') }}"><i
-                                                class="level down icon"></i>Import</a>
+                                                class="level down icon"></i>@lang('translation.import')</a>
                                     <a class="item" href="{{ route('translation.export') }}"><i
-                                                class="level up icon"></i>Export</a>
+                                                class="level up icon"></i>@lang('translation.export')</a>
 
                                     <div class="ui divider"></div>
-                                    <div class="item" id="translation-new-language"><i class="translate icon"></i>Create
-                                        Language
+                                    <div class="item" id="translation-new-language">
+                                        <i class="translate icon"></i>@lang('translation.create-language')
                                     </div>
-                                    <div class="item" id="translation-new-group"><i class="tags icon"></i>Create Group
+                                    <div class="item" id="translation-new-group">
+                                        <i class="tags icon"></i>@lang('translation.create-group')
+                                    </div>
+                                    <div class="item" id="translation-new-translation">
+                                        <i class="tags icon"></i>@lang('translation.create-translation')
                                     </div>
                                 </div>
                             </div>
@@ -62,18 +65,18 @@
         <table class="ui celled table">
             <thead>
             <tr>
-                <th>Language</th>
-                <th>Group</th>
-                <th>Key</th>
-                <th>Translation</th>
+                <th>@lang('translation.language')</th>
+                <th>@lang('translation.group')</th>
+                <th>@lang('translation.key')</th>
+                <th>@lang('translation.translation')</th>
             </tr>
             </thead>
             <tbody>
 
             @foreach($translations as $translation)
                 <tr>
-                    <td>{{ $translation->language }}</td>
-                    <td>{{ $translation->group }}</td>
+                    <td>{{ $translation->language->name }}</td>
+                    <td>{{ $translation->groups->implode('name', ', ') }}</td>
                     <td>
 
                         <div class="ui transparent icon input translation-value">
@@ -87,7 +90,7 @@
 
                     </td>
                     <td @if(!$translation->value) class="error" @endif>
-                        <div class="ui transparent icon input translation-value">
+                        <div class="ui transparent icon input translation-value" style="width: 100%">
                             <input data-action="{{ route('translation.update', $translation->id) }}"
                                    data-token="{{ csrf_token() }}"
                                    data-name="value"

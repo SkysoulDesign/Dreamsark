@@ -2,10 +2,8 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field', ['name' => 'amount', 'label'=> 'Helping Amount'])
+    @include('partials.field', ['name' => 'amount', 'label'=> trans('forms.amount')])
 
-    @include('partials.errors')
-
-    <button class="ui button" type="submit">Pledge</button>
+    <button class="ui button" type="submit">@lang('forms.pledge')</button>
 
 </form>

@@ -3,26 +3,27 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Script;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ProjectWasCreated extends Event
+class ScriptWasCreated extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Project
+     * @var Script
      */
-    private $project;
+    public $script;
 
     /**
      * Create a new event instance.
      *
-     * @param Project $project
+     * @param Script $script
      */
-    public function __construct(Project $project)
+    public function __construct(Script $script)
     {
-        $this->project = $project;
+        $this->script = $script;
     }
 
     /**

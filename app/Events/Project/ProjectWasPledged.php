@@ -3,21 +3,41 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
+use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ProjectWasPledged extends Event
 {
     use SerializesModels;
 
     /**
+     * @var Project
+     */
+    public $project;
+
+    /**
+     * @var User
+     */
+    public $user;
+
+    /**
+     * @var
+     */
+    public $amount;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Project $project
+     * @param User $user
+     * @param int $amount
      */
-    public function __construct()
+    public function __construct(Project $project, User $user, $amount)
     {
-        //
+        $this->project = $project;
+        $this->user = $user;
+        $this->amount = $amount;
     }
 
     /**
