@@ -19722,7 +19722,7 @@ $(document).ready(function () {
                 group = '';
             }
 
-            window.location.href = 'http://dreamsark.dev/translation/' + $value + '/' + group;
+            window.location.href = 'http://' + window.location.host + '/translation/' + $value + '/' + group;
 
         }
     });
@@ -19737,7 +19737,7 @@ $(document).ready(function () {
             if (!language) {
                 language = '1'
             }
-            window.location.href = 'http://dreamsark.dev/translation/' + language + '/' + $value;
+            window.location.href = 'http://' + window.location.host + '/translation/' + language + '/' + $value;
         }
     });
 
