@@ -16,4 +16,5 @@ return array (
   'length' => 'Length',
   'location' => 'Location',
   'shot' => 'Shot',
+  'not-enough-coin' => 'You don\'t have enough coins to proceed, please purchase some by clicking here:',
 );

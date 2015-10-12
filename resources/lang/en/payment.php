@@ -6,4 +6,5 @@ return array (
   'alipay' => 'Alipay',
   'wechat' => 'Wechat',
   'qq' => 'QQ',
+  'purchase-coins' => 'Purchase Coins',
 );
