@@ -3,12 +3,11 @@
 namespace DreamsArk\Commands\Translation;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Models\Translation\Group;
 use DreamsArk\Models\Translation\Language;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
-class CreateTranslation extends Command implements SelfHandling
+class CreateTranslationCommand extends Command implements SelfHandling
 {
     /**
      * @var string

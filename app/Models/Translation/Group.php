@@ -26,4 +26,15 @@ class Group extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * Translation Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations()
+    {
+        return $this->belongsToMany(Translation::class);
+    }
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-use DreamsArk\Commands\Translation\CreateTranslation;
+use DreamsArk\Commands\Translation\CreateTranslationCommand;
 use DreamsArk\Models\Translation\Group;
 use DreamsArk\Models\Translation\Language;
 use Illuminate\Database\Seeder;
@@ -23,6 +23,6 @@ class TranslationTableSeeder extends Seeder
             'value' => 'Email'
         ];
 
-        $this->dispatch(new CreateTranslation(Language::first(), Group::first(), $translation));
+        $this->dispatch(new CreateTranslationCommand(Language::first(), Group::first(), $translation));
     }
 }

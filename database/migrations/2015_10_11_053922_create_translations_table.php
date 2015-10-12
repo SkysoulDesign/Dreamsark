@@ -17,7 +17,7 @@ class CreateTranslationsTable extends Migration
             $table->integer('language_id')->unsigned()->index();
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->string('key');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

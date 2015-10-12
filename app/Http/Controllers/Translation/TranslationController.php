@@ -4,7 +4,7 @@ namespace DreamsArk\Http\Controllers\Translation;
 
 use DreamsArk\Commands\Translation\CreateGroupCommand;
 use DreamsArk\Commands\Translation\CreateLanguageCommand;
-use DreamsArk\Commands\Translation\CreateTranslation;
+use DreamsArk\Commands\Translation\CreateTranslationCommand;
 use DreamsArk\Commands\Translation\ExportTranslationCommand;
 use DreamsArk\Commands\Translation\ImportTranslationCommand;
 use DreamsArk\Commands\Translation\SyncTranslationCommand;
@@ -128,7 +128,7 @@ class TranslationController extends Controller
      */
     public function newTranslation(Request $request)
     {
-        $command = new CreateTranslation($request->get('language'), $request->get('group'), $request->only('key', 'value'));
+        $command = new CreateTranslationCommand($request->get('language'), $request->get('group'), $request->only('key', 'value'));
         $this->dispatch($command);
         return redirect()->back();
     }
