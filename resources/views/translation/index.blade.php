@@ -30,6 +30,8 @@
                                                 class="level down icon"></i>@lang('translation.import')</a>
                                     <a class="item" href="{{ route('translation.export') }}"><i
                                                 class="level up icon"></i>@lang('translation.export')</a>
+                                    <a class="item" href="{{ route('translation.sync') }}"><i
+                                                class="refresh icon"></i>@lang('translation.sync')</a>
 
                                     <div class="ui divider"></div>
                                     <div class="item" id="translation-new-language">

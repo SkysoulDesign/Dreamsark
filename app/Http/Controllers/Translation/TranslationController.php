@@ -7,6 +7,7 @@ use DreamsArk\Commands\Translation\CreateLanguageCommand;
 use DreamsArk\Commands\Translation\CreateTranslation;
 use DreamsArk\Commands\Translation\ExportTranslationCommand;
 use DreamsArk\Commands\Translation\ImportTranslationCommand;
+use DreamsArk\Commands\Translation\SyncTranslationCommand;
 use DreamsArk\Commands\Translation\UpdateTranslationCommand;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Http\Request;
@@ -79,6 +80,17 @@ class TranslationController extends Controller
     public function export()
     {
         $this->dispatch(new ExportTranslationCommand());
+        return redirect()->back();
+    }
+
+    /**
+     * Sync All Languages.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sync()
+    {
+        $this->dispatch(new SyncTranslationCommand());
         return redirect()->back();
     }
 
