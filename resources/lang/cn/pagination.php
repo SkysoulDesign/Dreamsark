@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'previous' => '&laquo; Previous',
-  'next' => 'Next &raquo;',
+  'previous' => '« 上一个',
+  'next' => '下一个 »',
 );

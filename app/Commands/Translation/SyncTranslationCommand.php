@@ -3,6 +3,7 @@
 namespace DreamsArk\Commands\Translation;
 
 use DreamsArk\Commands\Command;
+use DreamsArk\Models\Translation\Language;
 use DreamsArk\Repositories\Translation\TranslationRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -27,10 +28,11 @@ class SyncTranslationCommand extends Command implements SelfHandling
      */
     public function handle(TranslationRepositoryInterface $repository)
     {
+
         /**
-         * Grab All Translations for futher use
+         * Retrieve all languages for further usage
          */
-        $translations = $repository->all()->load('language', 'groups');
+        $allLanguages = $repository->languages();
 
         /**
          * Get All Groups
@@ -40,7 +42,7 @@ class SyncTranslationCommand extends Command implements SelfHandling
         /**
          * For Each Group Execute Operation
          */
-        $groups->map(function ($group) {
+        $groups->map(function ($group) use ($allLanguages) {
 
             /**
              * Get All Languages Contained within this Group
@@ -48,10 +50,20 @@ class SyncTranslationCommand extends Command implements SelfHandling
             $languages = $group->translations->groupBy('language.id');
 
             /**
+             * Check if all languages are contained within $languages, otherwise append it
+             * with an empty collection so it will generate all keys, values for this language
+             * as it means the language does not have any translation at the moment
+             */
+            $missingLanguages = collect($allLanguages->keyBy('id')->keys())->diff($languages->keys());
+            $missingLanguages->each(function ($language) use ($languages) {
+                $languages->put($language, collect());
+            });
+
+            /**
              * Merge All Values in order to get uniques
              */
-            $merged = $languages->map(function ($language) {
-                return $language->pluck('value', 'key');
+            $merged = $languages->map(function ($translations) {
+                return $translations->lists('key');
             })->collapse();
 
             /**
@@ -59,12 +71,12 @@ class SyncTranslationCommand extends Command implements SelfHandling
              */
             $languages->each(function ($translations, $language) use ($merged, $group) {
 
-                $newValues = collect($merged)->diff($translations->pluck('value', 'key'));
+                $newValues = collect($merged)->diff($translations->lists('key'));
 
                 /**
                  * For each new Value, Create a new Translation
                  */
-                $newValues->each(function ($value, $key) use ($language, $group) {
+                $newValues->each(function ($key) use ($language, $group) {
                     $this->dispatch(new CreateTranslationCommand($language, $group->id, compact('key')));
                 });
 
