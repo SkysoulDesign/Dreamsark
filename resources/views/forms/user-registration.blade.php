@@ -12,8 +12,9 @@
     'class' => 'two'
     ))
 
-
     @include('partials.select', ['name' => 'gender', 'label' => trans('forms.gender'), 'placeholder'=> trans('forms.gender'), 'collection' => ['male' => trans('forms.male'), 'female' => trans('forms.female')]])
+
+    @include('partials.field', ['name' => 'birthday', 'label' => trans('forms.birthday'), 'placeholder'=> trans('forms.birthday'), 'type' => 'date'])
 
     @include('partials.field', ['name' => 'email', 'label' => trans('forms.email'), 'placeholder'=> trans('forms.email'), 'type' => 'email'])
 

@@ -38,4 +38,11 @@ return array (
   'location' => '地点',
   'shot' => '镜头',
   'errors' => '哦哦！出错了！',
+  'birthday' => NULL,
+  'save' => NULL,
+  'add' => NULL,
+  'name' => NULL,
+  'role' => NULL,
+  'apply' => NULL,
+  'action' => NULL,
 );

@@ -1,0 +1,46 @@
+<?php
+
+namespace DreamsArk\Events\Project;
+
+use DreamsArk\Events\Event;
+use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\User;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+class UserHasEnrolledToCast extends Event
+{
+    use SerializesModels;
+
+    /**
+     * @var Cast
+     */
+    public $cast;
+
+    /**
+     * @var User
+     */
+    public $user;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param User $user
+     * @param Cast $cast
+     */
+    public function __construct(User $user, Cast $cast)
+    {
+        $this->cast = $cast;
+        $this->user = $user;
+    }
+
+    /**
+     * Get the channels the event should be broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
+    {
+        return [];
+    }
+}

@@ -11,6 +11,9 @@
     'class' => 'two'
     ))
 
+    @include('partials.field', ['name' => 'birthday', 'label' => trans('forms.birthday'), 'placeholder'=> trans('forms.birthday'), 'type' => 'date'])
+
+
     @include('partials.select', ['name' => 'gender', 'collection' => ['male' => trans('forms.male'), 'female' => trans('forms.female')]])
 
     <button class="ui button" type="submit">@lang('forms.save')</button>

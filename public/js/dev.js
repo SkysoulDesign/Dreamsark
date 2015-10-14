@@ -19776,7 +19776,27 @@ $(document).ready(function () {
                 $('#project-take-form').submit();
             }
         })
-        .modal('attach events', '#project-add-take', 'show')
+        .modal('attach events', '#project-add-take', 'show');
+
+    $('#project-cast-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#project-cast-form').submit();
+            }
+        })
+        .modal('attach events', '#project-add-cast', 'show');
+
+    $('#project-crew-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#project-crew-form').submit();
+            }
+        })
+        .modal('attach events', '#project-add-crew', 'show');
 
     $('#translation-translation-modal')
         .modal({

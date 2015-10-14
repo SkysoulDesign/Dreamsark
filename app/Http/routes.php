@@ -92,19 +92,36 @@ Route::post('project/store', ['as' => 'project.store', 'uses' => 'Project\Projec
 /**
  * Project Take Controller
  */
-Route::post('project/store/{script}', ['as' => 'project.take.store', 'uses' => 'Project\TakeController@store']);
+Route::post('project/take/store/{script}', ['as' => 'project.take.store', 'uses' => 'Project\TakeController@store']);
+
+/**
+ * Project Cast Controller
+ */
+Route::post('project/cast/store/{project}', ['as' => 'project.cast.store', 'uses' => 'Project\CastController@store']);
+
+/**
+ * Project Crew Controller
+ */
+Route::post('project/crew/store/{project}', ['as' => 'project.crew.store', 'uses' => 'Project\CrewController@store']);
 
 /**
  * Project Pledge Controller
  */
-Route::get('project/pledge/{project}', ['as' => 'project.pledge.create', 'uses' => 'Project\ProjectPledgeController@create']);
-Route::post('project/pledge/{project}', ['as' => 'project.pledge.store', 'uses' => 'Project\ProjectPledgeController@store']);
+Route::get('project/pledge/create/{project}', ['as' => 'project.pledge.create', 'uses' => 'Project\ProjectPledgeController@create']);
+Route::post('project/pledge/store/{project}', ['as' => 'project.pledge.store', 'uses' => 'Project\ProjectPledgeController@store']);
+
+/**
+ * Project Enroll Controller
+ */
+Route::get('project/enroll/create/{project}', ['as' => 'project.enroll.create', 'uses' => 'Project\ProjectEnrollController@create']);
+Route::post('project/enroll/cast/store/{cast}', ['as' => 'project.enroll.cast.store', 'uses' => 'Project\ProjectEnrollController@castStore']);
+Route::post('project/enroll/crew/store/{crew}', ['as' => 'project.enroll.crew.store', 'uses' => 'Project\ProjectEnrollController@crewStore']);
 
 /**
  * Coin Controller
  */
-Route::get('purchase/coins', ['as' => 'coin.create', 'uses' => 'Bag\CoinController@create']);
-Route::post('purchase/coins', ['as' => 'coin.store', 'uses' => 'Bag\CoinController@store']);
+Route::get('purchase/coins/create', ['as' => 'coin.create', 'uses' => 'Bag\CoinController@create']);
+Route::post('purchase/coins/store', ['as' => 'coin.store', 'uses' => 'Bag\CoinController@store']);
 
 /**
  * User Projects Controller

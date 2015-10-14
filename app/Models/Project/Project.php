@@ -57,4 +57,28 @@ class Project extends Model
         return $this->hasOne(Script::class);
     }
 
+    /**
+     * Cast Relationship
+     */
+    public function cast()
+    {
+        return $this->hasMany(Cast::class);
+    }
+
+    /**
+     * Crew Relationship
+     */
+    public function crew()
+    {
+        return $this->hasMany(Crew::class);
+    }
+
+    /**
+     * Crew Relationship
+     */
+    public function characters()
+    {
+        return $this->belongsToMany(User::class, 'project_character');
+    }
+
 }

@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Repositories\Project;
 
+use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Take;
@@ -17,24 +19,32 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
     public $model;
 
     /**
-     * @var Script
-     */
-    private $script;
-    /**
      * @var Take
      */
     private $take;
 
     /**
-     * @param Project $project
-     * @param Script $script
-     * @param Take $take
+     * @var Cast
      */
-    function __construct(Project $project, Script $script, Take $take)
+    private $cast;
+
+    /**
+     * @var Crew
+     */
+    private $crew;
+
+    /**
+     * @param Project $project
+     * @param Take $take
+     * @param Cast $cast
+     * @param Crew $crew
+     */
+    function __construct(Project $project, Take $take, Cast $cast, Crew $crew)
     {
         $this->model = $project;
-        $this->script = $script;
         $this->take = $take;
+        $this->cast = $cast;
+        $this->crew = $crew;
     }
 
     /**
@@ -82,9 +92,7 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
      */
     public function createScript($project_id)
     {
-        $script = $this->script->setAttribute('project_id', $project_id);
-        $script->save();
-        return $script;
+        return $this->model($project_id)->script()->create([]);
     }
 
     /**
@@ -102,5 +110,50 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
         return $take;
     }
 
+    /**
+     * Add Cast to Project
+     *
+     * @param int $project_id
+     * @param array $fields
+     * @return Cast
+     */
+    public function addCast($project_id, array $fields)
+    {
+        return $this->model($project_id)->cast()->create($fields);
+    }
+
+    /**
+     * Associate User with Cast
+     *
+     * @param int $cast_id
+     * @param int $user_id
+     */
+    public function attachCast($cast_id, $user_id)
+    {
+        return $this->cast->find($cast_id)->candidates()->attach($user_id);
+    }
+
+    /**
+     * Add Crew to Project
+     *
+     * @param int $project_id
+     * @param array $fields
+     * @return Crew
+     */
+    public function addCrew($project_id, array $fields)
+    {
+        return $this->model($project_id)->crew()->create($fields);
+    }
+
+    /**
+     * Associate User with Crew
+     *
+     * @param int $crew_id
+     * @param int $user_id
+     */
+    public function attachCrew($crew_id, $user_id)
+    {
+        return $this->crew->find($crew_id)->candidates()->attach($user_id);
+    }
 
 }

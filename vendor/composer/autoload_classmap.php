@@ -7,11 +7,16 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateBagsTable' => $baseDir . '/database/migrations/2015_10_10_054431_create_bags_table.php',
+    'CreateCastCandidateTable' => $baseDir . '/database/migrations/2015_10_14_041434_create_cast_candidate_table.php',
+    'CreateCastTable' => $baseDir . '/database/migrations/2015_10_14_024710_create_cast_table.php',
+    'CreateCrewCandidateTable' => $baseDir . '/database/migrations/2015_10_14_041435_create_crew_candidate_table.php',
+    'CreateCrewTable' => $baseDir . '/database/migrations/2015_10_14_024720_create_crew_table.php',
     'CreateGroupTranslationTable' => $baseDir . '/database/migrations/2015_10_11_053923_create_group_translation_table.php',
     'CreateGroupsTable' => $baseDir . '/database/migrations/2015_10_11_053750_create_groups_table.php',
     'CreateLanguagesTable' => $baseDir . '/database/migrations/2015_10_11_053902_create_languages_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateProjectBackerTable' => $baseDir . '/database/migrations/2015_10_10_044513_create_project_backer_table.php',
+    'CreateProjectCrewTable' => $baseDir . '/database/migrations/2015_10_14_020155_create_project_crew_table.php',
     'CreateProjectsTable' => $baseDir . '/database/migrations/2015_10_10_014118_create_projects_table.php',
     'CreateReportsTable' => $baseDir . '/database/migrations/2015_10_01_060652_create_reports_table.php',
     'CreateScriptsTable' => $baseDir . '/database/migrations/2015_10_12_080020_create_scripts_table.php',

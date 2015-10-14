@@ -38,4 +38,11 @@ return array (
   'location' => 'Location',
   'shot' => 'Shot',
   'errors' => 'Ooopss',
+  'birthday' => 'Birthday',
+  'save' => 'Save',
+  'add' => 'Add',
+  'name' => 'Name',
+  'role' => 'Role',
+  'apply' => 'Apply',
+  'action' => 'Action',
 );

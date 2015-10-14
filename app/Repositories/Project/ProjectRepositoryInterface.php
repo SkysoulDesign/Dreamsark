@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Repositories\Project;
 
+use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Take;
@@ -52,5 +54,39 @@ interface ProjectRepositoryInterface
      * @return Take
      */
     public function createTake($script_id, array $fields);
+
+    /**
+     * Add Cast to Project
+     *
+     * @param int $project_id
+     * @param array $fields
+     * @return Cast
+     */
+    public function addCast($project_id, array $fields);
+
+    /**
+     * Associate User with Cast
+     *
+     * @param int $cast_id
+     * @param int $user_id
+     */
+    public function attachCast($cast_id, $user_id);
+
+    /**
+     * Add Crew to Project
+     *
+     * @param int $project_id
+     * @param array $fields
+     * @return Crew
+     */
+    public function addCrew($project_id, array $fields);
+
+    /**
+     * Associate User with Crew
+     *
+     * @param int $crew_id
+     * @param int $user_id
+     */
+    public function attachCrew($crew_id, $user_id);
 
 }

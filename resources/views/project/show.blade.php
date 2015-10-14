@@ -8,6 +8,8 @@
             <a class="item active" data-tab="project">@lang('project.project')</a>
             <a class="item" data-tab="script">@lang('project.script')</a>
             <a class="item" data-tab="backers">@lang('project.backers')</a>
+            <a class="item" data-tab="cast">@lang('project.cast')</a>
+            <a class="item" data-tab="crew">@lang('project.crew')</a>
         </div>
 
         <div class="ui bottom attached tab segment active" data-tab="project">
@@ -24,6 +26,8 @@
                 <div class="ui segment">
                     <a class="ui button"
                        href="{{ route('project.pledge.create', $project->id) }}">@lang('project.pledge-idea')</a>
+                    <a class="ui primary button"
+                       href="{{ route('project.enroll.create', $project->id) }}">@lang('project.enroll')</a>
                 </div>
 
 
@@ -102,35 +106,31 @@
                         </div>
                         <div class="content">
                             <div class="transition hidden">
-                                <div class="ui segments">
-                                    <div class="ui segment">
 
-                                        <table class="ui celled padded table">
-                                            <thead>
-                                            <tr>
-                                                <th>@lang('project.length')</th>
-                                                <th>@lang('project.location')</th>
-                                                <th>@lang('project.shot')</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td> {{ $take->length }}</td>
-                                                <td> {{ $take->location }}</td>
-                                                <td> {{ $take->shot }}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                <table class="ui celled padded table">
+                                    <thead>
+                                    <tr>
+                                        <th>@lang('project.length')</th>
+                                        <th>@lang('project.location')</th>
+                                        <th>@lang('project.shot')</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td> {{ $take->length }}</td>
+                                        <td> {{ $take->location }}</td>
+                                        <td> {{ $take->shot }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
+                                <div class="ui  success message">
+                                    <div class="header">
+                                        @lang('project.description')
                                     </div>
-                                    <div class="ui bottom attached success message">
-                                        <div class="header">
-                                            @lang('project.description')
-                                        </div>
-                                        <p>{{ $take->description }}</p>
-                                    </div>
-
+                                    <p>{{ $take->description }}</p>
                                 </div>
+
                             </div>
                         </div>
                     @endforeach
@@ -167,6 +167,156 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="ui bottom attached tab segment" data-tab="cast">
+
+            <div class="ui segment">
+                <button id="project-add-cast" class="ui button">
+                    @lang('project.add-cast')
+                </button>
+            </div>
+
+            @include('modals.project-cast-modal')
+
+            @if($project->cast->isEmpty())
+
+                <div class="ui warning message">
+                    <i class="close icon"></i>
+
+                    <div class="header">
+                        @lang('project.no-cast')
+                    </div>
+                </div>
+
+            @else
+
+                <div class="ui styled fluid accordion">
+                    @foreach($project->cast as $key => $cast)
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            {{ $cast->role }}
+                        </div>
+                        <div class="content">
+                            <div class="transition hidden">
+
+                                @if($cast->candidates->isEmpty())
+                                    <div class="ui error message">
+                                        <div class="header">
+                                            @lang('project.no-candidate')
+                                        </div>
+
+                                    </div>
+                                @else
+
+                                    <table class="ui celled padded table">
+                                        <thead>
+                                        <tr>
+                                            <th>@lang('cast.candidates')</th>
+                                            <th>@lang('cast.candidates-age')</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($cast->candidates as $candidate)
+                                            <tr>
+                                                <td> {{ $candidate->present()->name }}</td>
+                                                <td> {{ $candidate->present()->age }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+
+                                @endif
+
+                                <div class="ui  success message">
+                                    <div class="header">
+                                        @lang('project.description')
+                                    </div>
+                                    <p>{{ $cast->description }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+            @endif
+
+        </div>
+
+        <div class="ui bottom attached tab segment" data-tab="crew">
+
+            <div class="ui segment">
+                <button id="project-add-crew" class="ui button">
+                    @lang('project.add-crew')
+                </button>
+            </div>
+
+            @include('modals.project-crew-modal')
+
+            @if($project->crew->isEmpty())
+
+                <div class="ui warning message">
+                    <i class="close icon"></i>
+
+                    <div class="header">
+                        @lang('project.no-crew')
+                    </div>
+                </div>
+
+            @else
+
+                <div class="ui styled fluid accordion">
+                    @foreach($project->crew as $key => $crew)
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            {{ $crew->role }}
+                        </div>
+                        <div class="content">
+                            <div class="transition hidden">
+
+                                @if($crew->candidates->isEmpty())
+                                    <div class="ui error message">
+                                        <div class="header">
+                                            @lang('project.no-candidate')
+                                        </div>
+
+                                    </div>
+                                @else
+
+                                    <table class="ui celled padded table">
+                                        <thead>
+                                        <tr>
+                                            <th>@lang('crew.candidates')</th>
+                                            <th>@lang('crew.candidates-age')</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($crew->candidates as $candidate)
+                                            <tr>
+                                                <td> {{ $candidate->present()->name }}</td>
+                                                <td> {{ $candidate->present()->age }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+
+                                @endif
+
+                                <div class="ui  success message">
+                                    <div class="header">
+                                        @lang('project.description')
+                                    </div>
+                                    <p>{{ $crew->description }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+            @endif
+
         </div>
 
     </div>
