@@ -9,8 +9,9 @@
             {{ csrf_field() }}
 
             @include('partials.field', ['name' => 'role', 'label'=> trans('forms.role'), 'placeholder'=> trans('forms.role')])
+            @include('partials.field', ['name' => 'salary', 'label'=> trans('forms.salary'), 'placeholder'=> trans('forms.salary')])
 
-            @include('partials.textarea', ['name' => 'description', 'label' => trans('crew.description')])
+            @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
 
         </form>
     </div>

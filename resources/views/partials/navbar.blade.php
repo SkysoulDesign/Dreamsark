@@ -8,6 +8,7 @@
     <div id="showReport" class="item link">@lang('navbar.report')</div>
     <a class="item" href="{{ route('project.create') }}">@lang('navbar.create')</a>
     <a class="item" href="{{ route('projects') }}">@lang('navbar.discover')</a>
+    <a class="item" href="{{ route('auditions') }}">@lang('navbar.audition')</a>
 
     {{--<a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
 

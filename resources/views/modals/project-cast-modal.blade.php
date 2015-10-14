@@ -10,8 +10,9 @@
 
             @include('partials.field', ['name' => 'role', 'label'=> trans('forms.role'), 'placeholder'=> trans('forms.role')])
             @include('partials.field', ['name' => 'name', 'label'=> trans('forms.name'), 'placeholder'=> trans('forms.name')])
+            @include('partials.field', ['name' => 'salary', 'label'=> trans('forms.salary'), 'placeholder'=> trans('forms.salary')])
 
-            @include('partials.textarea', ['name' => 'description', 'label' => trans('cast.description')])
+            @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
 
         </form>
     </div>

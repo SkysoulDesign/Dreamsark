@@ -82,6 +82,12 @@ Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionCon
 Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => 'Setting\SettingController@update']);
 
 /**
+ * Audition Controller
+ */
+Route::get('auditions', ['as' => 'auditions', 'uses' => 'Project\AuditionController@index']);
+Route::get('audition/show/{project}', ['as' => 'audition.show', 'uses' => 'Project\AuditionController@show']);
+
+/**
  * Project Controller
  */
 Route::get('projects', ['as' => 'projects', 'uses' => 'Project\ProjectController@index']);

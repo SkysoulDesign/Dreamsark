@@ -14,5 +14,6 @@ return array (
   'logout' => 'Logout',
   'purchase-coins' => 'Purchase Coins',
   'coins' => 'Coins: :amount',
-  'translation' => '',
+  'translation' => 'Translation',
+  'audition' => 'Auditions',
 );

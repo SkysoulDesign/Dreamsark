@@ -14,6 +14,7 @@
                 <th>@lang('forms.role')</th>
                 <th>@lang('project.description')</th>
                 <th>@lang('project.number-of-candidates')</th>
+                <th>@lang('project.expected-salary')</th>
                 <th class="right aligned">@lang('forms.action')</th>
             </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td>{{ $cast->name }}</td>
                     <td>{{ $cast->description }}</td>
                     <td>{{ $cast->candidates->count() }}</td>
+                    <td>${{ $cast->salary }}</td>
                     <td class="right aligned">
                         <form method="post" action="{{ route('project.enroll.cast.store', $cast->id) }}">
                             {{ csrf_field() }}
@@ -44,6 +46,7 @@
                 <th>@lang('forms.role')</th>
                 <th>@lang('project.description')</th>
                 <th>@lang('project.number-of-candidates')</th>
+                <th>@lang('project.expected-salary')</th>
                 <th class="right aligned">@lang('forms.action')</th>
             </tr>
             </thead>
@@ -53,6 +56,7 @@
                     <td>{{ $crew->role }}</td>
                     <td>{{ $crew->description }}</td>
                     <td>{{ $crew->candidates->count() }}</td>
+                    <td>{{ $crew->salary }}</td>
                     <td class="right aligned">
                         <form method="post" action="{{ route('project.enroll.crew.store', $crew->id) }}">
                             {{ csrf_field() }}

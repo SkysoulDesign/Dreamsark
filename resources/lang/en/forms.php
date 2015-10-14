@@ -45,4 +45,5 @@ return array (
   'role' => 'Role',
   'apply' => 'Apply',
   'action' => 'Action',
+  'salary' => 'Salary',
 );

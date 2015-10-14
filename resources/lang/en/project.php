@@ -33,4 +33,6 @@ return array (
   'candidates-age' => 'Age',
   'role' => 'Role',
   'action' => 'Action',
+  'no-audition' => 'There are no active audition at this moment',
+  'expected-salary' => 'Expected Salary',
 );

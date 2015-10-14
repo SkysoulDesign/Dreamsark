@@ -7,9 +7,9 @@
         <div class="ui top attached tabular menu">
             <a class="item active" data-tab="project">@lang('project.project')</a>
             <a class="item" data-tab="script">@lang('project.script')</a>
-            <a class="item" data-tab="backers">@lang('project.backers')</a>
             <a class="item" data-tab="cast">@lang('project.cast')</a>
             <a class="item" data-tab="crew">@lang('project.crew')</a>
+            <a class="item" data-tab="backers">@lang('project.backers')</a>
         </div>
 
         <div class="ui bottom attached tab segment active" data-tab="project">
@@ -140,35 +140,6 @@
 
         </div>
 
-        <div class="ui bottom attached tab segment" data-tab="backers">
-            <table class="ui celled striped table">
-                <thead>
-                <tr>
-                    <th>@lang('project.user')</th>
-                    <th>@lang('project.amount')</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($backers as $baker)
-                    <tr>
-                        <td>
-                            <h4 class="ui image header">
-                                <img src="{{ $baker->present()->avatar }}" class="ui mini rounded image">
-
-                                <div class="content">
-                                    {{ $baker->present()->name }}
-                                </div>
-                            </h4>
-                        </td>
-                        <td>
-                            {{ $baker->pivot->amount }}
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-
         <div class="ui bottom attached tab segment" data-tab="cast">
 
             <div class="ui segment">
@@ -212,8 +183,8 @@
                                     <table class="ui celled padded table">
                                         <thead>
                                         <tr>
-                                            <th>@lang('cast.candidates')</th>
-                                            <th>@lang('cast.candidates-age')</th>
+                                            <th>@lang('project.candidates')</th>
+                                            <th>@lang('project.candidates-age')</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -287,8 +258,8 @@
                                     <table class="ui celled padded table">
                                         <thead>
                                         <tr>
-                                            <th>@lang('crew.candidates')</th>
-                                            <th>@lang('crew.candidates-age')</th>
+                                            <th>@lang('project.candidates')</th>
+                                            <th>@lang('project.candidates-age')</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -318,6 +289,36 @@
             @endif
 
         </div>
+
+        <div class="ui bottom attached tab segment" data-tab="backers">
+            <table class="ui celled striped table">
+                <thead>
+                <tr>
+                    <th>@lang('project.user')</th>
+                    <th>@lang('project.amount')</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($backers as $baker)
+                    <tr>
+                        <td>
+                            <h4 class="ui image header">
+                                <img src="{{ $baker->present()->avatar }}" class="ui mini rounded image">
+
+                                <div class="content">
+                                    {{ $baker->present()->name }}
+                                </div>
+                            </h4>
+                        </td>
+                        <td>
+                            {{ $baker->pivot->amount }}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+
 
     </div>
 

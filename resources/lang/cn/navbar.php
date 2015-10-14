@@ -15,4 +15,5 @@ return array (
   'logout' => 'Logout',
   'purchase-coins' => '购买影币',
   'coins' => 'Coins: :amount',
+  'audition' => NULL,
 );

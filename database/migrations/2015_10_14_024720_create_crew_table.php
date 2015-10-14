@@ -17,6 +17,7 @@ class CreateCrewTable extends Migration
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('role');
+            $table->string('salary');
             $table->longText('description');
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ class Cast extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'role', 'description'];
+    protected $fillable = ['name', 'role', 'description', 'salary'];
 
     /**
      * Candidates Relationship

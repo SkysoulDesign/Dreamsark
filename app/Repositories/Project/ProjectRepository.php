@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Repositories\Project;
 
+use DreamsArk\Models\Project\Audition;
 use DreamsArk\Models\Project\Cast;
 use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Project;
@@ -32,19 +33,25 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
      * @var Crew
      */
     private $crew;
+    /**
+     * @var Audition
+     */
+    private $audition;
 
     /**
      * @param Project $project
      * @param Take $take
      * @param Cast $cast
      * @param Crew $crew
+     * @param Audition $audition
      */
-    function __construct(Project $project, Take $take, Cast $cast, Crew $crew)
+    function __construct(Project $project, Take $take, Cast $cast, Crew $crew, Audition $audition)
     {
         $this->model = $project;
         $this->take = $take;
         $this->cast = $cast;
         $this->crew = $crew;
+        $this->audition = $audition;
     }
 
     /**
@@ -154,6 +161,15 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
     public function attachCrew($crew_id, $user_id)
     {
         return $this->crew->find($crew_id)->candidates()->attach($user_id);
+    }
+
+    /**
+     * returns all auditions
+     *
+     * @return Collection
+     */
+    public function auditions(){
+        return $this->audition->all();
     }
 
 }

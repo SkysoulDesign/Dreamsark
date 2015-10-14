@@ -81,4 +81,12 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_character');
     }
 
+    /**
+     * Audition Relationship
+     */
+    public function audition()
+    {
+        return $this->hasOne(Audition::class);
+    }
+
 }

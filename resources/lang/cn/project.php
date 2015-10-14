@@ -33,4 +33,6 @@ return array (
   'candidates-age' => NULL,
   'role' => NULL,
   'action' => NULL,
+  'no-audition' => NULL,
+  'expected-salary' => NULL,
 );
