@@ -25,9 +25,9 @@ class ProjectCreation extends Request
     {
         return [
             'title' => 'required',
-            'amount' => 'required|integer|between:1,' . $this->user()->bag->coins,
-            'budget' => 'required|integer',
-            'end_date' => 'required|date'
+            'reward' => 'required|integer|between:1,' . $this->user()->bag->coins,
+            'description' => 'required',
+            'end_date' => 'required|date',
         ];
     }
 }

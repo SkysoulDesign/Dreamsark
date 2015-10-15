@@ -5,7 +5,7 @@ namespace DreamsArk\Http\Controllers\Setting;
 use DreamsArk\Commands\Setting\UpdateSettingCommand;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests\Setting\SettingEdition;
-use DreamsArk\Models\Setting;
+use DreamsArk\Models\User\Setting;
 
 class SettingController extends Controller
 {

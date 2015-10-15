@@ -74,6 +74,16 @@ $(document).ready(function () {
 
     }));
 
+    $('#idea-submit-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#idea-submit-form').submit();
+            }
+        })
+        .modal('attach events', '#idea-submit-open', 'show');
+
     $('#project-take-modal')
         .modal({
             blurring: true,

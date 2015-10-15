@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model'  => DreamsArk\Models\User::class,
+        'model'  => DreamsArk\Models\User\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

@@ -2,13 +2,15 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Models\Idea\Idea;
+use DreamsArk\Models\Idea\Submission;
 use DreamsArk\Models\Project\Cast;
 use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Take;
-use DreamsArk\Models\Setting;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\Setting;
+use DreamsArk\Models\User\User;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -38,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
          */
         $router->model('user', User::class);
         $router->model('setting', Setting::class);
+        $router->model('idea', Idea::class);
+        $router->model('submission', Submission::class);
         $router->model('project', Project::class);
         $router->model('script', Script::class);
         $router->model('take', Take::class);

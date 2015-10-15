@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => DreamsArk\Models\User::class,
+    'model' => DreamsArk\Models\User\User::class,
 
     /*
     |--------------------------------------------------------------------------

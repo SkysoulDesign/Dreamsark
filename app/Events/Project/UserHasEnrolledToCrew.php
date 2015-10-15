@@ -4,9 +4,8 @@ namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
 use DreamsArk\Models\Project\Crew;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UserHasEnrolledToCrew extends Event
 {

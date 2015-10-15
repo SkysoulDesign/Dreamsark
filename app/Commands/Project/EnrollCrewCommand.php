@@ -5,7 +5,7 @@ namespace DreamsArk\Commands\Project;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\UserHasEnrolledToCrew;
 use DreamsArk\Models\Project\Crew;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

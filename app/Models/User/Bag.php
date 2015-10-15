@@ -1,24 +1,24 @@
 <?php
 
-namespace DreamsArk\Models;
+namespace DreamsArk\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class Bag extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'settings';
+    protected $table = 'bags';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['language', 'user_id'];
+    protected $fillable = [];
 
     /**
      * User Relationship
@@ -27,4 +27,5 @@ class Setting extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

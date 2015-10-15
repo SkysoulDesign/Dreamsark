@@ -4,7 +4,7 @@ namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
 use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
 class ProjectWasPledged extends Event

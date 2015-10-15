@@ -2,9 +2,8 @@
 
 namespace DreamsArk\Repositories\User;
 
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Repository;
-use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends Repository implements UserRepositoryInterface
 {

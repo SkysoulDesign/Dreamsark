@@ -27,5 +27,4 @@ class Report extends Model
      */
     protected $fillable = ['url', 'feedback', 'type'];
 
-
 }

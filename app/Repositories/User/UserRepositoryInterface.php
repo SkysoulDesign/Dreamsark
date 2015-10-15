@@ -2,8 +2,7 @@
 
 namespace DreamsArk\Repositories\User;
 
-use DreamsArk\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use DreamsArk\Models\User\User;
 
 interface UserRepositoryInterface
 {

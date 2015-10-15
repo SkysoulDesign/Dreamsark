@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Repositories\Bag;
 
-use DreamsArk\Models\Bag;
+use DreamsArk\Models\User\Bag;
 use DreamsArk\Repositories\Repository;
 
 class BagRepository extends Repository implements BagRepositoryInterface

@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Session;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Session\UserWasUpdated;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

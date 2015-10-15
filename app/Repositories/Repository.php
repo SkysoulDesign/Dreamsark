@@ -54,8 +54,7 @@ abstract class Repository
      */
     public function create(array $fields)
     {
-        $this->model->fill($fields)->save();
-        return $this->model;
+        return $this->model->create($fields);
     }
 
     /**

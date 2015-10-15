@@ -3,7 +3,6 @@
 namespace DreamsArk\Repositories\Report;
 
 use DreamsArk\Models\Report;
-use DreamsArk\Models\User;
 use DreamsArk\Repositories\Repository;
 
 class ReportRepository extends Repository implements ReportRepositoryInterface

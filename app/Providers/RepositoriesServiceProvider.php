@@ -4,6 +4,8 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
+use DreamsArk\Repositories\Project\Idea\IdeaRepository;
+use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepository;
@@ -73,6 +75,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             TranslationRepositoryInterface::class,
             TranslationRepository::class
+        );
+
+        /**
+         * Idea Repository
+         */
+        $this->app->bind(
+            IdeaRepositoryInterface::class,
+            IdeaRepository::class
         );
 
         /**

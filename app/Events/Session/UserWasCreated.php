@@ -3,9 +3,8 @@
 namespace DreamsArk\Events\Session;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UserWasCreated extends Event
 {

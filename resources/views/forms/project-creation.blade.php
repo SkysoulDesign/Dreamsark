@@ -17,14 +17,21 @@
         </div>
 
         <div class="ui segment">
-            @include('partials.field', ['name' => 'amount', 'label' => trans('forms.pledge-amount')])
-            @include('partials.field', ['name' => 'budget', 'label' => trans('forms.pledge-budget')])
+            @include('partials.field', ['name' => 'reward', 'label' => trans('forms.reward')])
         </div>
 
     </div>
 
+
     <div class="ui segment">
-        @include('partials.field', ['name' => 'end_date', 'type'=> 'date',  'label' => trans('forms.end-date')])
+        @include('partials.field-multiple', array(
+        'label' => trans('forms.due-date'),
+        'fields' => [
+                ['name' => 'end_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
+                ['name' => 'end_time', 'placeholder' => trans('forms.last-name'), 'type' => 'time']
+            ],
+        'class' => 'two'
+        ))
     </div>
 
     @if($user->bag->coins > 0)

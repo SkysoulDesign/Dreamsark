@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Repositories\Setting;
 
-use DreamsArk\Models\Setting;
+use DreamsArk\Models\User\Setting;
 
 interface SettingRepositoryInterface
 {

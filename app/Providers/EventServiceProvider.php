@@ -2,8 +2,12 @@
 
 namespace DreamsArk\Providers;
 
+use DreamsArk\Events\Bag\UserCoinsWasDeducted;
+use DreamsArk\Events\Idea\IdeaWasSubmitted;
+use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
+use DreamsArk\Events\Project\IdeaWasCreated;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Events\Project\ScriptWasCreated;
@@ -25,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         UserWasCreated::class => [],
         UserWasUpdated::class => [],
+        IdeaWasCreated::class => [],
+        IdeaWasSubmitted::class => [],
+        UserHasBiddenAnIdea::class => [],
         ProjectWasCreated::class => [],
         ProjectWasPledged::class => [],
         ScriptWasCreated::class => [],
@@ -33,6 +40,7 @@ class EventServiceProvider extends ServiceProvider
         UserHasEnrolledToCast::class => [],
         TakeWasCreated::class => [],
         TranslationsWasCreated::class => [],
+        UserCoinsWasDeducted::class => []
     ];
 
     /**

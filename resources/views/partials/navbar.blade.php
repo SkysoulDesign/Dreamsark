@@ -6,11 +6,12 @@
     <a class="item" href="{{ route('intro') }}">@lang('navbar.intro')</a>
 
     <div id="showReport" class="item link">@lang('navbar.report')</div>
-    <a class="item" href="{{ route('project.create') }}">@lang('navbar.create')</a>
-    <a class="item" href="{{ route('projects') }}">@lang('navbar.discover')</a>
+    <a class="item" href="{{ route('project.idea.create') }}">@lang('navbar.create-project')</a>
+    <a class="item" href="{{ route('projects') }}">@lang('navbar.discover-project')</a>
+    <a class="item" href="{{ route('project.ideas') }}">@lang('navbar.discover-idea')</a>
     <a class="item" href="{{ route('auditions') }}">@lang('navbar.audition')</a>
 
-    {{--<a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
+{{--    <a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
 
     @if(!auth()->check())
         <div class="right menu">

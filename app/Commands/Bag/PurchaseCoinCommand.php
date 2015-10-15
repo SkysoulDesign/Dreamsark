@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Bag;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Bag\CoinWasPurchased;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

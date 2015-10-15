@@ -6,7 +6,7 @@ use DreamsArk\Commands\Bag\DeductCoinCommand;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

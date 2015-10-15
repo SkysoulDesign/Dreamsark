@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Models\Project;
 
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Crew extends Model

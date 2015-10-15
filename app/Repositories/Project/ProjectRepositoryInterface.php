@@ -11,6 +11,16 @@ use Illuminate\Support\Collection;
 
 interface ProjectRepositoryInterface
 {
+
+    /**
+     * Create a Idea
+     *
+     * @param int $user_id
+     * @param int $stage
+     * @return Project
+     */
+    public function create($user_id, $stage);
+
     /**
      * Create a new Project on the Database
      *

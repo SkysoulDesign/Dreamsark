@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Models\Project;
 
-use DreamsArk\Models\User;
+use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\ProjectPresenter;
@@ -24,7 +24,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'description', 'budget', 'end_date'];
+    protected $fillable = [];
 
     /**
      * Presenter for this class
@@ -35,6 +35,14 @@ class Project extends Model
 
     /**
      * User Relationship
+     */
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Alias to User Relationship
      */
     public function author()
     {

@@ -1,7 +1,8 @@
 <?php
 
-namespace DreamsArk\Models;
+namespace DreamsArk\Models\User;
 
+use DreamsArk\Models\Idea\Idea;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\UserPresenter;
@@ -65,18 +66,26 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
-     * Bags= Relationship
+     * Bags Relationship
      */
     public function bag()
     {
         return $this->hasOne(Bag::class);
     }
 
+    /**
+     * Bidder Relationship
+     */
+    public function bids()
+    {
+        return $this->belongsToMany(Idea::class, 'idea_bidder');
+    }
+
     public function __get($name)
     {
 
         /**
-         * First check if the model has the property on it`s own
+         * First check if the model has the property on it's own
          */
         if ($this->getAttribute($name)) {
             return $this->getAttribute($name);

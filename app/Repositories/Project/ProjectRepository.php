@@ -8,11 +8,13 @@ use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Take;
-use DreamsArk\Repositories\Repository;
+use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Support\Collection;
 
-class ProjectRepository extends Repository implements ProjectRepositoryInterface
+class ProjectRepository implements ProjectRepositoryInterface
 {
+
+    use RepositoryHelperTrait;
 
     /**
      * @var Project
@@ -20,39 +22,31 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
     public $model;
 
     /**
-     * @var Take
-     */
-    private $take;
-
-    /**
-     * @var Cast
-     */
-    private $cast;
-
-    /**
-     * @var Crew
-     */
-    private $crew;
-    /**
-     * @var Audition
-     */
-    private $audition;
-
-    /**
      * @param Project $project
-     * @param Take $take
-     * @param Cast $cast
-     * @param Crew $crew
-     * @param Audition $audition
+     * @internal param Take $take
+     * @internal param Cast $cast
+     * @internal param Crew $crew
+     * @internal param Audition $audition
      */
-    function __construct(Project $project, Take $take, Cast $cast, Crew $crew, Audition $audition)
+    function __construct(Project $project)
     {
         $this->model = $project;
-        $this->take = $take;
-        $this->cast = $cast;
-        $this->crew = $crew;
-        $this->audition = $audition;
     }
+
+    /**
+     * Create a Idea
+     *
+     * @param int $user_id
+     * @param int $stage
+     * @return Project
+     */
+    public function create($user_id, $stage)
+    {
+        $project = $this->model->setAttribute('user_id', $user_id)->setAttribute('stage', $stage);
+        $project->save();
+        return $project;
+    }
+
 
     /**
      * Create a new entry on the Database
@@ -168,7 +162,8 @@ class ProjectRepository extends Repository implements ProjectRepositoryInterface
      *
      * @return Collection
      */
-    public function auditions(){
+    public function auditions()
+    {
         return $this->audition->all();
     }
 
