@@ -46,4 +46,6 @@ return array (
   'apply' => NULL,
   'action' => NULL,
   'salary' => NULL,
+  'reward' => NULL,
+  'due-date' => NULL,
 );

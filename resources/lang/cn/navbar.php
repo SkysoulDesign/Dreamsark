@@ -16,4 +16,7 @@ return array (
   'purchase-coins' => '购买影币',
   'coins' => 'Coins: :amount',
   'audition' => NULL,
+  'discover-idea' => NULL,
+  'discover-project' => NULL,
+  'create-project' => NULL,
 );

@@ -46,6 +46,6 @@ return array (
   'apply' => 'Apply',
   'action' => 'Action',
   'salary' => 'Salary',
-    'reward' => 'Reward',
-    'due-date' => 'Ending Date'
+  'reward' => 'Reward',
+  'due-date' => 'Ending Date',
 );
