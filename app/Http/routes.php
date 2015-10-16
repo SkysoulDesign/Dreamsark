@@ -84,23 +84,19 @@ Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => '
  * Audition Controller
  */
 Route::get('auditions', ['as' => 'auditions', 'uses' => 'Project\AuditionController@index']);
-Route::get('audition/show/{project}', ['as' => 'audition.show', 'uses' => 'Project\AuditionController@show']);
+Route::get('audition/show/{audition}', ['as' => 'audition.show', 'uses' => 'Project\AuditionController@show']);
 
 /**
  * Idea Controller
  */
 Route::get('ideas', ['as' => 'project.ideas', 'uses' => 'Project\Idea\IdeaController@index']);
-Route::get('idea/create', ['as' => 'project.idea.create', 'uses' => 'Project\Idea\IdeaController@create']);
-Route::post('idea/store', ['as' => 'project.idea.store', 'uses' => 'Project\Idea\IdeaController@store']);
 Route::get('idea/show/{idea}', ['as' => 'project.idea.show', 'uses' => 'Project\Idea\IdeaController@show']);
-Route::post('idea/bid/{idea}', ['as' => 'project.idea.bid.store', 'uses' => 'Project\Idea\IdeaController@bid']);
 
 /**
  * Submission Controller
  */
 Route::post('idea/submission/store/{idea}', ['as' => 'project.idea.submission.store', 'uses' => 'Project\Idea\SubmissionController@store']);
-Route::post('idea/submission/select/{submission}', ['as' => 'project.idea.submission.select', 'uses' => 'Project\Idea\SubmissionController@select']);
-
+Route::post('idea/submission/vote/{submission}/store', ['as' => 'project.idea.submission.vote.store', 'uses' => 'Project\Idea\SubmissionController@vote']);
 
 /**
  * Project Controller

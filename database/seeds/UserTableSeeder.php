@@ -1,5 +1,6 @@
 <?php
 
+use DreamsArk\Commands\Bag\PurchaseCoinCommand;
 use DreamsArk\Commands\Session\CreateUserCommand;
 use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -16,7 +17,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $admin = [
+        $rafael = [
             'first_name' => 'Rafael',
             'last_name' => 'Milewski',
             'gender' => 'male',
@@ -25,7 +26,8 @@ class UserTableSeeder extends Seeder
             'email' => 'rafael.milewski@gmail.com'
         ];
 
-        $this->dispatch(new CreateUserCommand($admin));
+        $user = $this->dispatch(new CreateUserCommand($rafael));
+        $this->dispatch(new PurchaseCoinCommand($user, 999999 ));
 
         $dreamsark = [
             'first_name' => 'Dreams',

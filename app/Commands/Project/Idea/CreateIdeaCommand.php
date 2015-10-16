@@ -5,8 +5,7 @@ namespace DreamsArk\Commands\Project\Idea;
 use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Events\Project\IdeaWasCreated;
-use DreamsArk\Models\Idea\Idea;
-use DreamsArk\Models\User\User;
+use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -18,14 +17,14 @@ class CreateIdeaCommand extends Command implements SelfHandling
     use DispatchesJobs;
 
     /**
-     * @var array
-     */
-    private $fields;
-
-    /**
      * @var int
      */
     private $project_id;
+
+    /**
+     * @var array
+     */
+    private $fields;
 
     /**
      * Create a new command instance.
@@ -35,8 +34,8 @@ class CreateIdeaCommand extends Command implements SelfHandling
      */
     public function __construct($project_id, array $fields)
     {
-        $this->fields = $fields;
         $this->project_id = $project_id;
+        $this->fields = $fields;
     }
 
     /**

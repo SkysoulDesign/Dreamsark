@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Idea\Idea;
+use DreamsArk\Models\Project\Idea\Idea;
 use Illuminate\Queue\SerializesModels;
 
 class IdeaWasCreated extends Event

@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Idea;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Idea\Submission;
+use DreamsArk\Models\Project\Idea\Submission;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,14 +12,14 @@ class IdeaWasSubmitted extends Event
     use SerializesModels;
 
     /**
-     * @var Submission
-     */
-    public $submission;
-
-    /**
      * @var User
      */
     public $user;
+
+    /**
+     * @var Submission
+     */
+    public $submission;
 
     /**
      * Create a new event instance.

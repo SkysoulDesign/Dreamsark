@@ -9,15 +9,20 @@
                 <div class="header">@lang('project.no-audition')</div>
             </div>
         @else
-            <div class="ui segments">
-                @foreach($auditions as $audition)
+            @foreach($auditions->groupBy('project.stage') as $stage=>$auditions)
+                <div class="ui segments">
                     <div class="ui segment">
-                        <a href="{{ route('audition.show', $audition->id) }}">
-                            {{ $audition->project->title }} - {{ $audition->project->budget }}
-                        </a>
+                        <p>{{ $stage }} stage </p>
                     </div>
-                @endforeach
-            </div>
+                    @foreach($auditions as $audition)
+                        <div class="ui secondary segment">
+                            <a href="{{ route('audition.show', $audition->id) }}">
+                                {{ $audition->project->name }}
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
         @endif
     </div>
 

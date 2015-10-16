@@ -2,6 +2,8 @@
 
 namespace DreamsArk\Models\Project;
 
+use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Idea\Submission;
 use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
@@ -24,7 +26,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['name'];
 
     /**
      * Presenter for this class
@@ -36,65 +38,25 @@ class Project extends Model
     /**
      * User Relationship
      */
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Alias to User Relationship
+     * Idea Relationship
      */
-    public function author()
+    public function idea()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(Idea::class);
     }
 
     /**
-     * User Relationship
+     * Submission Relationship
      */
-    public function backers()
-    {
-        return $this->belongsToMany(User::class, 'project_backers')->withPivot('amount');
+    public function submissions(){
+        return $this->hasManyThrough(Submission::class, Idea::class);
     }
 
-    /**
-     * Script Relationship
-     */
-    public function script()
-    {
-        return $this->hasOne(Script::class);
-    }
-
-    /**
-     * Cast Relationship
-     */
-    public function cast()
-    {
-        return $this->hasMany(Cast::class);
-    }
-
-    /**
-     * Crew Relationship
-     */
-    public function crew()
-    {
-        return $this->hasMany(Crew::class);
-    }
-
-    /**
-     * Crew Relationship
-     */
-    public function characters()
-    {
-        return $this->belongsToMany(User::class, 'project_character');
-    }
-
-    /**
-     * Audition Relationship
-     */
-    public function audition()
-    {
-        return $this->hasOne(Audition::class);
-    }
 
 }

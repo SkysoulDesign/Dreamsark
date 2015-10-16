@@ -2,11 +2,9 @@
 
 namespace DreamsArk\Repositories\Project\Idea;
 
-use DreamsArk\Models\Idea\Idea;
-use DreamsArk\Models\Idea\Submission;
-use DreamsArk\Models\User\User;
+use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Idea\Submission;
 use DreamsArk\Repositories\RepositoryHelperTrait;
-use Illuminate\Support\Collection;
 
 class IdeaRepository implements IdeaRepositoryInterface
 {
@@ -17,6 +15,7 @@ class IdeaRepository implements IdeaRepositoryInterface
      * @var Idea
      */
     public $model;
+
     /**
      * @var Submission
      */
@@ -58,44 +57,29 @@ class IdeaRepository implements IdeaRepositoryInterface
     }
 
     /**
-     * Submit new suggestion to an Idea
+     * Submit Idea
      *
      * @param int $idea_id
      * @param int $user_id
      * @param array $fields
      * @return Submission
      */
-    public function submitIdea($idea_id, $user_id, array $fields)
+    public function submit($idea_id, $user_id, array $fields)
     {
-        $submission = $this->submission
-            ->setAttribute('idea_id', $idea_id)
-            ->setAttribute('user_id', $user_id)
-            ->fill($fields);
+        $submission = $this->submission->setRawAttributes(compact('idea_id', 'user_id'))->fill($fields);
         $submission->save();
         return $submission;
     }
 
     /**
-     * Bid a user to an Idea
+     * Vote on a Submission
      *
+     * @param int $submission_id
      * @param int $user_id
-     * @param int $idea_id
-     * @return null
      */
-    public function bid($user_id, $idea_id)
+    public function vote($submission_id, $user_id)
     {
-        return $this->model($idea_id)->bidders()->attach(compact('user_id'));
-    }
-
-    /**
-     * Return all Ideas which the given user has Bid
-     *
-     * @param int $user_id
-     * @return Collection of Idea
-     */
-    public function bids($user_id)
-    {
-        return User::findOrFail($user_id)->bids;
+        $this->submission->find($submission_id)->attach($user_id);
     }
 
 }

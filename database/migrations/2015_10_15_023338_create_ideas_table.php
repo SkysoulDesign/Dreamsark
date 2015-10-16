@@ -16,10 +16,9 @@ class CreateIdeasTable extends Migration
             $table->increments('id');
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->string('title');
-            $table->string('description');
+            $table->string('content');
             $table->string('reward');
-            $table->dateTime('end_date');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

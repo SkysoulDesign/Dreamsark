@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models\Idea;
+namespace DreamsArk\Models\Project\Idea;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User\User;
@@ -26,7 +26,7 @@ class Idea extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'description', 'reward', 'end_date'];
+    protected $fillable = ['content', 'reward'];
 
     /**
      * Presenter for this class
@@ -53,15 +53,5 @@ class Idea extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function bidders()
-    {
-        return $this->belongsToMany(User::class, 'idea_bidder');
     }
 }

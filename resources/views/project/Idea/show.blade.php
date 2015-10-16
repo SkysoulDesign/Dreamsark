@@ -13,11 +13,11 @@
             <div class="ui segments">
 
                 <div class="ui segment">
-                    {{ $idea->title }}
+                    {{ $idea->project->name }}
                 </div>
 
                 <div class="ui secondary segment">
-                    {{ $idea->description }}
+                    {{ $idea->content }}
                 </div>
 
                 <div class="ui secondary segment">
@@ -25,11 +25,11 @@
                 </div>
 
                 <div class="ui segment">
-                    @lang('idea.number-of-ideas') {{ $idea->submissions->count() }}
+                    @lang('idea.number-of-ideas')
                 </div>
 
                 <div class="ui segment">
-                    @lang('idea.number-of-bid') {{ $idea->bidders->count() }}
+                    @lang('idea.number-of-bid')
                 </div>
 
                 <div class="ui segment">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="ui segment">
-                <form method="post" action="{{ route('project.idea.bid.store', $idea->id) }}">
+                <form method="post" action="{{ route('project.ideas', $idea->id) }}">
                     {{ csrf_field() }}
                     <button type="submit" class="ui olive button">
                         @lang('idea.bid-now')
@@ -69,6 +69,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     @foreach($idea->submissions as $submission)
                         <tr>
                             <td class="collapsing">
@@ -81,7 +82,7 @@
                                 </h4>
                             </td>
                             <td>
-                                {{ $submission->description }}
+                                {{ $submission->content }}
                             </td>
                         </tr>
                     @endforeach

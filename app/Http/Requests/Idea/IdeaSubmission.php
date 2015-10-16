@@ -24,7 +24,7 @@ class IdeaSubmission extends Request
     public function rules()
     {
         return [
-            'description' => 'required',
+            'content' => 'required',
         ];
     }
 }

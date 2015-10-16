@@ -2,8 +2,8 @@
 
 namespace DreamsArk\Repositories\Project\Idea;
 
-use DreamsArk\Models\Idea\Idea;
-use Illuminate\Support\Collection;
+use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Idea\Submission;
 
 interface IdeaRepositoryInterface
 {
@@ -26,11 +26,14 @@ interface IdeaRepositoryInterface
     public function create($project_id, array $fields);
 
     /**
-     * Return all Ideas which the given user has Bid
+     * Submit Idea
      *
+     * @param int $idea_id
      * @param int $user_id
-     * @return Collection of Idea
+     * @param array $fields
+     * @return Submission
      */
-    public function bids($user_id);
+    public function submit($idea_id, $user_id, array $fields);
+
 
 }

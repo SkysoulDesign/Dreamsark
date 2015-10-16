@@ -2,7 +2,9 @@
 
 namespace DreamsArk\Commands\Project;
 
+use Carbon\Carbon;
 use DreamsArk\Commands\Command;
+use DreamsArk\Commands\Project\Audition\CreateAuditionCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Models\Project\Project;
@@ -51,15 +53,28 @@ class CreateProjectCommand extends Command implements SelfHandling
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
+        $stage = $this->request->get('type');
+        $time = Carbon::parse($this->request->get('audition_time'));
+        /** @var Carbon $audition_open_date */
+        $audition_open_date = Carbon::parse($this->request->get('audition_date'))->setTime($time->hour, $time->minute);
+        $audition_close_date = $audition_open_date->copy()->addMinute();
+
         /**
          * Create Project
          */
-        $project = $repository->create($this->user->id, 1);
+        $project = $repository->create($this->user->id, $stage, $this->request->all());
 
         /**
          * Create Project Idea
          */
-        $this->dispatch(new CreateIdeaCommand($project->id, $this->request->all()));
+        if ($stage == 'idea') {
+            $this->dispatch(new CreateIdeaCommand($project->id, $this->request->all()));
+        }
+
+        /**
+         * Create Audition
+         */
+        $this->dispatch(new CreateAuditionCommand($project, $audition_open_date, $audition_close_date));
 
         /**
          * Announce ProjectWasCreated

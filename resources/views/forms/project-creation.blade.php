@@ -2,9 +2,11 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field', ['name' => 'title', 'label' => trans('forms.project-title')])
+    @include('partials.field', ['name' => 'name', 'label' => trans('forms.project-name')])
 
-    @include('partials.textarea', ['name' => 'description', 'label' => trans('forms.description')])
+    @include('partials.select', ['name' => 'type', 'collection' => ['idea' => trans('forms.idea'), 'synapse' => trans('forms.synapse'), 'script' => trans('forms.script')]])
+
+    @include('partials.textarea', ['name' => 'content', 'label' => trans('forms.description')])
 
     <div class="ui segments">
 
@@ -27,8 +29,8 @@
         @include('partials.field-multiple', array(
         'label' => trans('forms.due-date'),
         'fields' => [
-                ['name' => 'end_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
-                ['name' => 'end_time', 'placeholder' => trans('forms.last-name'), 'type' => 'time']
+                ['name' => 'audition_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
+                ['name' => 'audition_time', 'placeholder' => trans('forms.last-name'), 'type' => 'time']
             ],
         'class' => 'two'
         ))

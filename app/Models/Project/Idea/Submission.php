@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models\Idea;
+namespace DreamsArk\Models\Project\Idea;
 
 use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ class Submission extends Model
      *
      * @var array
      */
-    protected $fillable = ['description'];
+    protected $fillable = ['content'];
 
     /**
      * User Relationship
@@ -30,4 +30,25 @@ class Submission extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Idea Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function idea()
+    {
+        return $this->belongsTo(Idea::class);
+    }
+
+    /**
+     * Vote Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function votes()
+    {
+        return $this->belongsToMany(User::class, 'submission_vote');
+    }
+
 }

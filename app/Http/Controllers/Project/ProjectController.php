@@ -47,7 +47,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectCreation $request)
     {
-        $command = new CreateProjectCommand($request, $request->user());
+        $command = new CreateProjectCommand($request->user(), $request);
         $this->dispatch($command);
         return redirect()->back();
     }

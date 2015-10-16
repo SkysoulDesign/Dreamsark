@@ -11,10 +11,10 @@
                     <i class="right floated like icon"></i>
                     <i class="right floated star icon"></i>
 
-                    <a class="header" href="{{ route('idea.show', $idea->id) }}">{{ $idea->title }}</a>
+                    <a class="header" href="{{ route('project.idea.show', $idea->id) }}">{{ $idea->project->name }}</a>
 
                     <div class="description">
-                        <p>{{ $idea->description }}</p>
+                        <p>{{ $idea->content }}</p>
                     </div>
                 </div>
             </div>

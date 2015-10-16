@@ -4,10 +4,14 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
+use DreamsArk\Repositories\Project\Audition\AuditionRepository;
+use DreamsArk\Repositories\Project\Audition\AuditionRepositoryInterface;
 use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
+use DreamsArk\Repositories\Project\Submission\SubmissionRepository;
+use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepository;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\Translation\TranslationRepository;
@@ -91,6 +95,22 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             ProjectRepositoryInterface::class,
             ProjectRepository::class
+        );
+
+        /**
+         * Audition Repository
+         */
+        $this->app->bind(
+            AuditionRepositoryInterface::class,
+            AuditionRepository::class
+        );
+
+        /**
+         * Submission Repository
+         */
+        $this->app->bind(
+            SubmissionRepositoryInterface::class,
+            SubmissionRepository::class
         );
 
     }
