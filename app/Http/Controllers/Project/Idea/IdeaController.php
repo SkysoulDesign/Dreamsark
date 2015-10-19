@@ -6,6 +6,7 @@ use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
+use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 
 class IdeaController extends Controller
 {
@@ -32,11 +33,14 @@ class IdeaController extends Controller
      * Display the specified resource.
      *
      * @param Idea $idea
+     * @param SubmissionRepositoryInterface $repository
      * @return \Illuminate\Http\Response
+     * @internal param IdeaRepositoryInterface $IdeaRepository
      */
-    public function show(Idea $idea)
+    public function show(Idea $idea, SubmissionRepositoryInterface $repository)
     {
-        return view('project.idea.show')->with('idea', $idea);
+        $submissions = $repository->idea($idea)->allPublic();
+        return view('project.idea.show')->with('idea', $idea)->with('submissions', $submissions);
     }
 
 }

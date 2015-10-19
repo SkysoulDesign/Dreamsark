@@ -143,7 +143,10 @@ Route::post('purchase/coins/store', ['as' => 'coin.store', 'uses' => 'Bag\CoinCo
 /**
  * User Projects Controller
  */
-Route::get('user/projects', ['as' => 'user.projects', 'uses' => 'Project\UserProjectController@index']);
+Route::get('user/projects', ['as' => 'user.projects', 'uses' => 'User\ProjectController@index']);
+Route::get('user/project/publish/{draft}', ['as' => 'user.project.publish', 'uses' => 'User\ProjectController@publish']);
+Route::get('user/project/edit/{draft}', ['as' => 'user.project.edit', 'uses' => 'User\ProjectController@edit']);
+Route::post('user/project/store', ['as' => 'user.project.store', 'uses' => 'User\ProjectController@store']);
 
 
 /**

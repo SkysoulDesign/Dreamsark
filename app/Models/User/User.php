@@ -3,6 +3,7 @@
 namespace DreamsArk\Models\User;
 
 use DreamsArk\Models\Idea\Idea;
+use DreamsArk\Models\Project\Draft;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\UserPresenter;
@@ -74,11 +75,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
-     * Bidder Relationship
+     * Draft Relationship
      */
-    public function bids()
+    public function drafts()
     {
-        return $this->belongsToMany(Idea::class, 'idea_bidder');
+        return $this->hasMany(Draft::class);
     }
 
     public function __get($name)

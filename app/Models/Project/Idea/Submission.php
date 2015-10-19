@@ -19,7 +19,29 @@ class Submission extends Model
      *
      * @var array
      */
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'visibility'];
+
+    /**
+     * Scope a query to only show visible entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('visibility', true);
+    }
+
+    /**
+     * Scope a query to only show private entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrivate($query)
+    {
+        return $query->where('visibility', false);
+    }
 
     /**
      * User Relationship
@@ -48,7 +70,7 @@ class Submission extends Model
      */
     public function votes()
     {
-        return $this->belongsToMany(User::class, 'submission_vote');
+        return $this->belongsToMany(User::class, 'submission_vote')->withPivot('amount');
     }
 
 }

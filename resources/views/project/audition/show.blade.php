@@ -46,15 +46,18 @@
                             {{ $submission->content }}
                         </td>
                         <td>
-                            {{ $submission->votes->count() }}
+                            {{ $submission->votes->sum('pivot.amount') }}
                         </td>
                         <td class="collapsing">
-                            <form method="post"
+                            <form class="ui form" method="post"
                                   action="{{ route('project.idea.submission.vote.store', $submission->id) }}">
                                 {{ csrf_field() }}
-                                <button class="olive circular ui icon button">
-                                    <i class="icon thumbs up"></i>
-                                </button>
+                                <div class="inline fields">
+                                    @include('partials.field', ['name' => 'amount'])
+                                    <button class="olive circular ui icon button">
+                                        <i class="icon thumbs up"></i>
+                                    </button>
+                                </div>
                             </form>
                         </td>
                     </tr>

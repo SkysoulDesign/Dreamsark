@@ -24,7 +24,7 @@ class CreateProjectCommand extends Command implements SelfHandling
     /**
      * @var array
      */
-    private $request;
+    private $fields;
 
     /**
      * @var User
@@ -35,11 +35,11 @@ class CreateProjectCommand extends Command implements SelfHandling
      * Create a new command instance.
      *
      * @param User $user
-     * @param Request $request
+     * @param array $fields
      */
-    public function __construct(User $user, Request $request)
+    public function __construct(User $user, array $fields)
     {
-        $this->request = $request;
+        $this->fields = collect($fields);
         $this->user = $user;
     }
 
@@ -53,22 +53,23 @@ class CreateProjectCommand extends Command implements SelfHandling
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
-        $stage = $this->request->get('type');
-        $time = Carbon::parse($this->request->get('audition_time'));
+        $type = $this->fields['type'];
+        $time = Carbon::parse($this->fields->get('audition_time', '11:00'));
+
         /** @var Carbon $audition_open_date */
-        $audition_open_date = Carbon::parse($this->request->get('audition_date'))->setTime($time->hour, $time->minute);
+        $audition_open_date = Carbon::parse($this->fields->get('audition_date'))->setTime($time->hour, $time->minute);
         $audition_close_date = $audition_open_date->copy()->addMinute();
 
         /**
          * Create Project
          */
-        $project = $repository->create($this->user->id, $stage, $this->request->all());
+        $project = $repository->create($this->user->id, $type, $this->fields->toArray());
 
         /**
          * Create Project Idea
          */
-        if ($stage == 'idea') {
-            $this->dispatch(new CreateIdeaCommand($project->id, $this->request->all()));
+        if ($type == 'idea') {
+            $this->dispatch(new CreateIdeaCommand($project->id, $this->fields->toArray()));
         }
 
         /**

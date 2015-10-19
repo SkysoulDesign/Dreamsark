@@ -3,6 +3,7 @@
 namespace DreamsArk\Repositories\User;
 
 use DreamsArk\Models\User\User;
+use Illuminate\Support\Collection;
 
 interface UserRepositoryInterface
 {
@@ -23,4 +24,11 @@ interface UserRepositoryInterface
      */
     public function update($user_id, array $fields);
 
+    /**
+     * Returns all drafts for this user
+     *
+     * @param int $user_id
+     * @return Collection
+     */
+    public function drafts($user_id);
 }

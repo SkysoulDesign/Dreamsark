@@ -2,11 +2,11 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field', ['name' => 'name', 'label' => trans('forms.project-name')])
+    @include('partials.field', ['name' => 'name', 'label' => trans('forms.project-name'), 'placeholder' => $project->name])
 
     @include('partials.select', ['name' => 'type', 'collection' => ['idea' => trans('forms.seeking-idea'), 'synapse' => trans('forms.seeking-synapse'), 'script' => trans('forms.seeking-script')]])
 
-    @include('partials.textarea', ['name' => 'content', 'label' => trans('forms.description')])
+    @include('partials.textarea', ['name' => 'content', 'label' => trans('forms.description'), 'placeholder' => $project->content])
 
     <div class="ui segments">
 
@@ -27,6 +27,6 @@
         ))
     </div>
 
-    <button class="ui primary button" type="submit">@lang('forms.save-draft')</button>
+    <button class="ui primary button" type="submit">@lang('forms.save')</button>
 
 </form>

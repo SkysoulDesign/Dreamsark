@@ -38,7 +38,6 @@ class AuditionController extends Controller
      */
     public function show(Audition $audition)
     {
-        $this->dispatch(new CloseAuditionCommand($audition));
         return view('project.audition.show')->with('audition', $audition->load('project.submissions.user'));
     }
 

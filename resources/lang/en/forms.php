@@ -48,5 +48,9 @@ return array(
     'salary' => 'Salary',
     'reward' => 'Reward',
     'due-date' => 'Ending Date',
-    'project-name' => 'Project Name'
+    'project-name' => 'Project Name',
+    'save-draft' => 'Save as Draft',
+    'seeking-idea' => 'Seeking for Creative Ideas',
+    'seeking-synapse' => 'Seeking for Synapse',
+    'seeking-script' => 'Seeking for Script',
 );

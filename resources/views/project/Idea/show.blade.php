@@ -43,15 +43,9 @@
             </div>
 
             <div class="ui segment">
-                <form method="post" action="{{ route('project.ideas', $idea->id) }}">
-                    {{ csrf_field() }}
-                    <button type="submit" class="ui olive button">
-                        @lang('idea.bid-now')
-                    </button>
-                    <a id="idea-submit-open" href="#" class="ui primary button">
-                        @lang('idea.submit-your-idea')
-                    </a>
-                </form>
+                <a id="idea-submit-open" href="#" class="ui primary button">
+                    @lang('idea.submit-your-idea')
+                </a>
             </div>
 
             @include('modals.idea-submit-modal')
@@ -70,7 +64,7 @@
                     </thead>
                     <tbody>
 
-                    @foreach($idea->submissions as $submission)
+                    @foreach($submissions as $submission)
                         <tr>
                             <td class="collapsing">
                                 <h4 class="ui image header">

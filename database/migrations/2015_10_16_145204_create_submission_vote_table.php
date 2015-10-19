@@ -14,6 +14,7 @@ class CreateSubmissionVoteTable extends Migration
     {
         Schema::create('submission_vote', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('amount');
             $table->integer('submission_id')->unsigned()->index();
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();

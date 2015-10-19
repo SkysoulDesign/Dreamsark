@@ -5,6 +5,7 @@ namespace DreamsArk\Providers;
 use DreamsArk\Models\Project\Audition;
 use DreamsArk\Models\Project\Cast;
 use DreamsArk\Models\Project\Crew;
+use DreamsArk\Models\Project\Draft;
 use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Idea\Submission;
 use DreamsArk\Models\Project\Project;
@@ -44,6 +45,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('idea', Idea::class);
         $router->model('submission', Submission::class);
         $router->model('project', Project::class);
+        $router->model('draft', Draft::class);
         $router->model('audition', Audition::class);
         $router->model('script', Script::class);
         $router->model('take', Take::class);

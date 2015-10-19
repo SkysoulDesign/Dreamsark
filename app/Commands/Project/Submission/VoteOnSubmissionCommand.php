@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Commands\Project\Submission;
 
+use DreamsArk\Commands\Bag\DeductCoinCommand;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\Submission\SubmissionReceivedAVote;
 use DreamsArk\Models\Project\Idea\Submission;
@@ -9,9 +10,18 @@ use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class VoteOnSubmissionCommand extends Command implements SelfHandling
 {
+
+    use DispatchesJobs;
+
+    /**
+     * @var
+     */
+    private $amount;
+
     /**
      * @var Submission
      */
@@ -25,11 +35,13 @@ class VoteOnSubmissionCommand extends Command implements SelfHandling
     /**
      * Create a new command instance.
      *
+     * @param int $amount
      * @param Submission $submission
      * @param User $user
      */
-    public function __construct(Submission $submission, User $user)
+    public function __construct($amount, Submission $submission, User $user)
     {
+        $this->amount = $amount;
         $this->submission = $submission;
         $this->user = $user;
     }
@@ -45,7 +57,13 @@ class VoteOnSubmissionCommand extends Command implements SelfHandling
         /**
          * Vote on a Idea Submission
          */
-        $repository->vote($this->submission->id, $this->user->id);
+        $repository->vote($this->amount, $this->submission->id, $this->user->id);
+
+        /**
+         * Deduct User Credit
+         */
+        $command = new DeductCoinCommand($this->user->id, $this->amount);
+        $this->dispatch($command);
 
         /**
          * Announce a SubmissionReceivedAVote

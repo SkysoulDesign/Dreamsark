@@ -35,6 +35,8 @@ class Idea extends Model
      */
     protected $presenter = IdeaPresenter::class;
 
+
+
     /**
      * Project Relationship
      *
