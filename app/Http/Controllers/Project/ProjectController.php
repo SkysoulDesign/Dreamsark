@@ -26,7 +26,7 @@ class ProjectController extends Controller
      */
     public function index(ProjectRepositoryInterface $repository)
     {
-        return view('project.index')->with('projects', $repository->all());
+        return view('project.index')->with('projects', $repository->actives());
     }
 
     /**
@@ -47,9 +47,9 @@ class ProjectController extends Controller
      */
     public function store(ProjectCreation $request)
     {
-        $command = new CreateProjectCommand($request->user(), $request);
-        $this->dispatch($command);
-        return redirect()->back();
+        $command = new CreateProjectCommand($request->user(), $request->all());
+        $project = $this->dispatch($command);
+        return redirect()->route('project.idea.show', $project->id );
     }
 
     /**

@@ -9,7 +9,7 @@ use DreamsArk\Repositories\Bag\BagRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class RefoundUserCommand extends Command implements SelfHandling
+class RefundUserCommand extends Command implements SelfHandling
 {
     /**
      * @var int

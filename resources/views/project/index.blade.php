@@ -4,31 +4,29 @@
 
     <div class="column">
 
-        @foreach($projects as $project)
-
-            <div class="ui fluid card">
-                <div class="content">
-                    <i class="right floated like icon"></i>
-                    <i class="right floated star icon"></i>
-
-                    <a class="header" href="{{ route('project.show', $project->id) }}">{{ $project->title }}</a>
-
-                    <div class="description">
-                        <p>{{ $project->description }}</p>
-                    </div>
-                </div>
-                <div class="extra content">
-                    <div class="ui indicating progress" data-percent="{{ $project->present()->progress }}">
-                        <div class="bar"
-                             style="transition-duration: 300ms; width: {{ $project->present()->progress }}%;">
-                            <div class="progress">{{ $project->present()->progress }}%</div>
-                        </div>
-                    </div>
-                </div>
+        @if($projects->isEmpty())
+            <div class="ui error message">
+                <div class="header">@lang('project.no-project')</div>
             </div>
+        @else
 
-        @endforeach
+            @foreach($projects as $project)
 
+                @if($project->stage() instanceof \DreamsArk\Models\Project\Idea\Idea)
+                    @include('partials.card-idea')
+                @endif
+
+                @if($project->type == 'synapse')
+                    @include('partials.card-idea')
+                @endif
+
+                @if($project->type == 'script')
+                    @include('partials.card-idea')
+                @endif
+
+            @endforeach
+
+        @endif
     </div>
 
 

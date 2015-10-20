@@ -41,6 +41,17 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     /**
+     * Get all Model from the DB
+     *
+     * @param array $columns
+     * @return mixed
+     */
+    public function actives(array $columns = ['*'])
+    {
+        return $this->model->active()->get($columns);
+    }
+
+    /**
      * Create a Idea
      *
      * @param int $user_id
@@ -89,6 +100,27 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function draft($draft_id = null)
     {
         return $this->newInstance($draft_id, Draft::class);
+    }
+
+    /**
+     * Fail a project
+     *
+     * @param int $project_id
+     * @return bool
+     */
+    public function fail($project_id)
+    {
+        return $this->model($project_id)->setAttribute('active', false)->save();
+    }
+
+    /**
+     * Returns all failed Projects
+     *
+     * @return ProjectRepository
+     */
+    public function failed()
+    {
+        return $this->model->failed()->get();
     }
 
     /**

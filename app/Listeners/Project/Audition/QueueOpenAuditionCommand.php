@@ -48,7 +48,7 @@ class QueueOpenAuditionCommand
 
         $delay = $event->audition->open_date->timestamp - $this->carbon->now()->timestamp;
 
-        $this->queue->laterOn('open-audition', $delay, $command);
+        $this->queue->laterOn('audition', $delay, $command);
 
     }
 

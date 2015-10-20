@@ -5,9 +5,8 @@ namespace DreamsArk\Events\Project\Audition;
 use DreamsArk\Events\Event;
 use DreamsArk\Models\Project\Audition;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AuditionHasFinished extends Event
+class AuditionWasOpened extends Event
 {
     use SerializesModels;
 

@@ -14,7 +14,7 @@ return array(
     'CreateCrewTable' => $baseDir . '/database/migrations/2015_10_14_024720_create_crew_table.php',
     'CreateGroupTranslationTable' => $baseDir . '/database/migrations/2015_10_11_053923_create_group_translation_table.php',
     'CreateGroupsTable' => $baseDir . '/database/migrations/2015_10_11_053750_create_groups_table.php',
-    'CreateIdeaBidderTable' => $baseDir . '/database/migrations/2015_10_15_050900_create_idea_bidder_table.php',
+    'CreateIdeaSubmissionTable' => $baseDir . '/database/migrations/2015_10_15_050900_create_idea_submission_table.php',
     'CreateIdeasTable' => $baseDir . '/database/migrations/2015_10_15_023338_create_ideas_table.php',
     'CreateJobsTable' => $baseDir . '/database/migrations/2015_10_16_110744_create_jobs_table.php',
     'CreateLanguagesTable' => $baseDir . '/database/migrations/2015_10_11_053902_create_languages_table.php',

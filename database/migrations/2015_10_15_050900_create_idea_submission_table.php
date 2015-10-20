@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIdeaBidderTable extends Migration
+class CreateIdeaSubmissionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateIdeaBidderTable extends Migration
      */
     public function up()
     {
-        Schema::create('idea_bidder', function (Blueprint $table) {
+        Schema::create('idea_submission', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idea_id')->unsigned()->index();
             $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('submission_id')->unsigned()->index();
+            $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateIdeaBidderTable extends Migration
      */
     public function down()
     {
-        Schema::drop('idea_bidder');
+        Schema::drop('idea_submission');
     }
 }

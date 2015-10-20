@@ -82,4 +82,26 @@ class IdeaRepository implements IdeaRepositoryInterface
         $this->submission->find($submission_id)->attach($user_id);
     }
 
+    /**
+     * Fail an Idea
+     *
+     * @param int $idea_id
+     * @return bool
+     */
+    public function fail($idea_id)
+    {
+        return $this->model($idea_id)->setAttribute('active', false)->save();
+    }
+
+    /**
+     * Submit Idea
+     *
+     * @param int $idea_id
+     * @param int $submission_id
+     */
+    public function createWinner($idea_id, $submission_id)
+    {
+        return $this->model($idea_id)->winners()->attach($submission_id);
+    }
+
 }

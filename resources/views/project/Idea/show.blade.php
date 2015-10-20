@@ -25,28 +25,22 @@
                 </div>
 
                 <div class="ui segment">
-                    @lang('idea.number-of-ideas')
+                    @lang('idea.number-of-ideas') {{ $idea->submissions->count() }}
                 </div>
 
                 <div class="ui segment">
-                    @lang('idea.number-of-bid')
-                </div>
-
-                <div class="ui segment">
-                    <div class="ui indicating progress active" data-percent="0">
-                        <div class="bar" style="transition-duration: 300ms; width: 0%;">
-                            <div class="progress">0%</div>
-                        </div>
-                    </div>
+                    asasasasas
                 </div>
 
             </div>
 
-            <div class="ui segment">
-                <a id="idea-submit-open" href="#" class="ui primary button">
-                    @lang('idea.submit-your-idea')
-                </a>
-            </div>
+            @if($idea->active)
+                <div class="ui segment">
+                    <a id="idea-submit-open" href="#" class="ui primary button">
+                        @lang('idea.submit-your-idea')
+                    </a>
+                </div>
+            @endif
 
             @include('modals.idea-submit-modal')
 

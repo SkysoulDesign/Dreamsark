@@ -53,4 +53,5 @@ return array(
     'seeking-idea' => 'Seeking for Creative Ideas',
     'seeking-synapse' => 'Seeking for Synapse',
     'seeking-script' => 'Seeking for Script',
+    'publish' => 'Publish'
 );

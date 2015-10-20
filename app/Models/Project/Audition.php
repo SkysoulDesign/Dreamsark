@@ -2,7 +2,6 @@
 
 namespace DreamsArk\Models\Project;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use Illuminate\Database\Eloquent\Model;
 
 class Audition extends Model
@@ -27,6 +26,28 @@ class Audition extends Model
      * @var array
      */
     protected $dates = ['open_date', 'close_date'];
+
+    /**
+     * Scope a query to only show open entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOpened($query)
+    {
+        return $query->where('active', true);
+    }
+
+    /**
+     * Scope a query to only show close entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeClosed($query)
+    {
+        return $query->where('active', false);
+    }
 
     /**
      * Project Relationship

@@ -4,9 +4,7 @@ namespace DreamsArk\Listeners\Project\Audition;
 
 use Carbon\Carbon;
 use DreamsArk\Commands\Project\Audition\CloseAuditionCommand;
-use DreamsArk\Commands\Project\Audition\OpenAuditionCommand;
-use DreamsArk\Events\Project\Audition\AuditionWasCreated;
-use DreamsArk\Models\Project\Project;
+use DreamsArk\Events\Project\Audition\AuditionWasOpened;
 use Illuminate\Queue\DatabaseQueue;
 use Illuminate\Queue\QueueManager;
 
@@ -37,10 +35,10 @@ class QueueCloseAuditionCommand
     /**
      * Handle the event.
      *
-     * @param  AuditionWasCreated $event
+     * @param  AuditionWasOpened $event
      * @return void
      */
-    public function handle(AuditionWasCreated $event)
+    public function handle(AuditionWasOpened $event)
     {
 
         /**
@@ -50,7 +48,7 @@ class QueueCloseAuditionCommand
 
         $delay = $event->audition->close_date->timestamp - $this->carbon->now()->timestamp;
 
-        $this->queue->laterOn('close-audition', $delay, $command);
+        $this->queue->laterOn('audition', $delay, $command);
 
     }
 

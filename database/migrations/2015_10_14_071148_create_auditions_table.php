@@ -18,6 +18,7 @@ class CreateAuditionsTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->dateTime('open_date');
             $table->dateTime('close_date');
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

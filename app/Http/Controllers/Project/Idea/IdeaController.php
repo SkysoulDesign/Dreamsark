@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Http\Controllers\Project\Idea;
 
+use DreamsArk\Commands\Project\Audition\OpenAuditionCommand;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Models\Project\Idea\Idea;
@@ -39,6 +40,7 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea, SubmissionRepositoryInterface $repository)
     {
+//        dd($idea->submissions->winner);
         $submissions = $repository->idea($idea)->allPublic();
         return view('project.idea.show')->with('idea', $idea)->with('submissions', $submissions);
     }

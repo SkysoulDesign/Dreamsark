@@ -8,6 +8,7 @@ use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests\User\Project\ProjectCreation;
 use DreamsArk\Http\Requests\User\Project\ProjectPublication;
 use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
@@ -25,10 +26,13 @@ class ProjectController extends Controller
      */
     public function index(UserRepositoryInterface $userRepository, ProjectRepositoryInterface $projectRepository, Request $request)
     {
-        $projects = $userRepository->drafts($request->user()->id);
-        $publishedProjects = $projectRepository->publishedBy($request->user()->id);
 
-        return view('user.project.index')->with('projects', $projects)->with('publishedProjects', $publishedProjects);
+
+        $projects = $userRepository->drafts($request->user()->id);
+        $publishedProjects = $userRepository->published($request->user()->id);
+        $failedProjects = $userRepository->failed($request->user()->id);
+
+        return view('user.project.index', compact('projects', 'publishedProjects', 'failedProjects'));
     }
 
     /**

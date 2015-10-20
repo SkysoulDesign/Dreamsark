@@ -8,6 +8,7 @@ use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\ProjectPresenter;
+use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -22,6 +23,13 @@ class Project extends Model
     protected $table = 'projects';
 
     /**
+     * Define this model Repository.
+     *
+     * @var string
+     */
+    public $repository = ProjectRepositoryInterface::class;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -34,6 +42,28 @@ class Project extends Model
      * @var Presenter
      */
     protected $presenter = ProjectPresenter::class;
+
+    /**
+     * Scope a query to only show active entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
+    /**
+     * Scope a query to only show failed entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFailed($query)
+    {
+        return $query->where('active', false);
+    }
 
     /**
      * User Relationship
@@ -52,11 +82,27 @@ class Project extends Model
     }
 
     /**
+     * Audition Relationship
+     */
+    public function audition()
+    {
+        return $this->hasOne(Audition::class);
+    }
+
+    /**
      * Submission Relationship
      */
-    public function submissions(){
+    public function submissions()
+    {
         return $this->hasManyThrough(Submission::class, Idea::class);
     }
 
+    /**
+     * Returns the right Relationship for the current project stage
+     */
+    public function stage()
+    {
+        return $this->{$this->type};
+    }
 
 }

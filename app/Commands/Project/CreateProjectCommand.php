@@ -53,7 +53,7 @@ class CreateProjectCommand extends Command implements SelfHandling
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
-        $type = $this->fields['type'];
+        $type = $this->fields->get('type');
         $time = Carbon::parse($this->fields->get('audition_time', '11:00'));
 
         /** @var Carbon $audition_open_date */
@@ -82,5 +82,6 @@ class CreateProjectCommand extends Command implements SelfHandling
          */
         $event->fire(new ProjectWasCreated($project));
 
+        return $project;
     }
 }

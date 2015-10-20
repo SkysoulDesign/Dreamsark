@@ -7,7 +7,7 @@ use DreamsArk\Models\Project\Audition;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AuditionHasFinished extends Event
+class AuditionHasFailed extends Event
 {
     use SerializesModels;
 

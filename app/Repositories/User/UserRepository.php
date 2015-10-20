@@ -33,4 +33,37 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return $this->model($user_id)->drafts;
     }
 
+    /**
+     * Returns all projects that this user has Published
+     *
+     * @param int $user_id
+     * @return Collection
+     */
+    public function published($user_id)
+    {
+        return $this->model($user_id)->projects()->active()->get();
+    }
+
+    /**
+     * Returns all failed project for this user
+     *
+     * @param int $user_id
+     * @return Collection
+     */
+    public function failed($user_id)
+    {
+        return $this->model($user_id)->projects()->failed()->get();
+    }
+
+    /**
+     * Returns all Active project for this user
+     *
+     * @param int $user_id
+     * @return Collection
+     */
+    public function active($user_id)
+    {
+        return $this->model($user_id)->projects()->active()->get();
+    }
+
 }

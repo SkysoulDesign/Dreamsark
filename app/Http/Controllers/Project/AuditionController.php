@@ -3,6 +3,7 @@
 namespace DreamsArk\Http\Controllers\Project;
 
 use DreamsArk\Commands\Project\Audition\CloseAuditionCommand;
+use DreamsArk\Commands\Project\Audition\OpenAuditionCommand;
 use DreamsArk\Models\Project\Audition;
 use DreamsArk\Repositories\Project\Audition\AuditionRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
@@ -27,7 +28,7 @@ class AuditionController extends Controller
      */
     public function index(AuditionRepositoryInterface $repository)
     {
-        return view('project.audition.index')->with('auditions', $repository->all()->load('project'));
+        return view('project.audition.index')->with('auditions', $repository->allOpened()->load('project'));
     }
 
     /**
@@ -38,6 +39,7 @@ class AuditionController extends Controller
      */
     public function show(Audition $audition)
     {
+        $this->dispatch(new CloseAuditionCommand($audition));
         return view('project.audition.show')->with('audition', $audition->load('project.submissions.user'));
     }
 

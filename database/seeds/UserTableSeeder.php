@@ -27,7 +27,7 @@ class UserTableSeeder extends Seeder
         ];
 
         $user = $this->dispatch(new CreateUserCommand($rafael));
-        $this->dispatch(new PurchaseCoinCommand($user, 999999 ));
+        $this->dispatch(new PurchaseCoinCommand($user, 50 ));
 
         $dreamsark = [
             'first_name' => 'Dreams',

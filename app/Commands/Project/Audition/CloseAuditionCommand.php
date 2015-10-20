@@ -2,8 +2,11 @@
 
 namespace DreamsArk\Commands\Project\Audition;
 
-use DreamsArk\Commands\Bag\RefoundUserCommand;
+use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Commands\Command;
+use DreamsArk\Commands\Project\FailProjectCommand;
+use DreamsArk\Commands\Project\Idea\CreateIdeaWinnerCommand;
+use DreamsArk\Events\Project\Audition\AuditionHasFailed;
 use DreamsArk\Events\Project\Audition\AuditionHasFinished;
 use DreamsArk\Models\Project\Audition;
 use DreamsArk\Models\Project\Idea\Submission;
@@ -43,6 +46,7 @@ class CloseAuditionCommand extends Command implements SelfHandling
     public function handle(Submission $submission, AuditionRepositoryInterface $repository, Dispatcher $event)
     {
 
+
         /**
          * Get which Submission had more Votes
          * @todo Improve this messy function
@@ -54,12 +58,34 @@ class CloseAuditionCommand extends Command implements SelfHandling
         });
 
         /**
+         * if don't have any votes there will be no winner, so declare this failed
+         */
+        if ($votes->sum() <= 0) {
+            /**
+             * Fail The project Stage
+             */
+            $this->dispatch(new FailProjectCommand($this->audition->project->stage()));
+
+            /**
+             * Announce Audition has Failed
+             */
+            $event->fire(new AuditionHasFailed($this->audition));
+
+            return;
+        }
+
+        /**
          * Retrieve Winner Submission
          */
         $submission_winner = $submission->findOrFail($votes->sort()->keys()->pop());
 
         /**
-         * Refund Users
+         * Register Winner
+         */
+        $this->dispatch(new CreateIdeaWinnerCommand($submission_winner));
+
+        /**
+         * Refund Losers
          */
         $losers = $submissions->filter(function ($submission) use ($submission_winner) {
             return $submission->id != $submission_winner->id;
@@ -67,20 +93,15 @@ class CloseAuditionCommand extends Command implements SelfHandling
 
         $losers->pluck('votes', 'id')->map(function ($item) {
             $item->map(function ($user) {
-                $command = $command = new RefoundUserCommand($user->pivot->amount, $user);
+                $command = $command = new RefundUserCommand($user->pivot->amount, $user);
                 $this->dispatch($command);
             });
         });
 
         /**
-         * Remove Audition
-         */
-        $repository->delete($this->audition->id);
-
-        /**
          * Announce AuditionHasFinished
          */
-        $event->fire(new AuditionHasFinished());
+        $event->fire(new AuditionHasFinished($this->audition));
 
     }
 }

@@ -7,6 +7,7 @@ use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\IdeaPresenter;
+use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Idea extends Model
@@ -22,6 +23,13 @@ class Idea extends Model
     protected $table = 'ideas';
 
     /**
+     * Define this model Repository.
+     *
+     * @var string
+     */
+    public $repository = IdeaRepositoryInterface::class;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -34,8 +42,6 @@ class Idea extends Model
      * @var Presenter
      */
     protected $presenter = IdeaPresenter::class;
-
-
 
     /**
      * Project Relationship
@@ -56,4 +62,25 @@ class Idea extends Model
     {
         return $this->hasMany(Submission::class);
     }
+
+    /**
+     * Submission Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function winners()
+    {
+        return $this->belongsToMany(Submission::class);
+    }
+
+    /**
+     * User Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user()
+    {
+        return $this->project->user();
+    }
+
 }

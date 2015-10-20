@@ -1,29 +1,29 @@
 <?php
 
-namespace DreamsArk\Events\Project\Audition;
+namespace DreamsArk\Events\Project\Idea;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Audition;
+use DreamsArk\Models\Project\Idea\Idea;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AuditionHasFinished extends Event
+class IdeaWinnerWasSelected extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Audition
+     * @var Idea
      */
-    public $audition;
+    public $idea;
 
     /**
      * Create a new event instance.
      *
-     * @param Audition $audition
+     * @param Idea $idea
      */
-    public function __construct(Audition $audition)
+    public function __construct(Idea $idea)
     {
-        $this->audition = $audition;
+        $this->idea = $idea;
     }
 
     /**

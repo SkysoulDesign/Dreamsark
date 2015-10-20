@@ -5,10 +5,14 @@ namespace DreamsArk\Providers;
 use DreamsArk\Events\Bag\UserCoinsWasDeducted;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
 use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
+use DreamsArk\Events\Project\Audition\AuditionHasFailed;
+use DreamsArk\Events\Project\Audition\AuditionHasFinished;
 use DreamsArk\Events\Project\Audition\AuditionWasCreated;
+use DreamsArk\Events\Project\Audition\AuditionWasOpened;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
 use DreamsArk\Events\Project\IdeaWasCreated;
+use DreamsArk\Events\Project\ProjectHasFailed;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Events\Project\ScriptWasCreated;
@@ -17,6 +21,7 @@ use DreamsArk\Events\Project\UserHasEnrolledToCast;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
 use DreamsArk\Events\Translation\TranslationsWasCreated;
+use DreamsArk\Listeners\DeactivateAudition;
 use DreamsArk\Listeners\Project\Audition\QueueCloseAuditionCommand;
 use DreamsArk\Listeners\Project\Audition\QueueOpenAuditionCommand;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -35,8 +40,23 @@ class EventServiceProvider extends ServiceProvider
          * Audition
          */
         AuditionWasCreated::class => [
-            QueueOpenAuditionCommand::class,
-            QueueCloseAuditionCommand::class,
+            QueueOpenAuditionCommand::class
+        ],
+
+        AuditionWasOpened::class => [
+            QueueCloseAuditionCommand::class
+        ],
+
+        AuditionHasFailed::class => [
+            DeactivateAudition::class,
+        ],
+
+        AuditionHasFinished::class => [
+            DeactivateAudition::class,
+        ],
+
+        ProjectHasFailed::class => [
+
         ],
 
         UserWasCreated::class => [],

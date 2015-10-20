@@ -29,4 +29,14 @@
 
     <button class="ui primary button" type="submit">@lang('forms.save-draft')</button>
 
+    <a id="publish" href="#" class="ui olive button">@lang('forms.publish')</a>
+
+    <script>
+        document.getElementById('publish').addEventListener('click', function () {
+            $form = this.parentElement;
+            $form.action = '{{ route('project.store')  }}';
+            $form.submit();
+        })
+    </script>
+
 </form>
