@@ -35,4 +35,7 @@ return array (
   'action' => NULL,
   'no-audition' => NULL,
   'expected-salary' => NULL,
+  'no-project' => NULL,
+  'idea' => NULL,
+  'synapse' => NULL,
 );
