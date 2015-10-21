@@ -9,7 +9,7 @@ use DreamsArk\Commands\Project\Idea\CreateIdeaWinnerCommand;
 use DreamsArk\Events\Project\Audition\AuditionHasFailed;
 use DreamsArk\Events\Project\Audition\AuditionHasFinished;
 use DreamsArk\Models\Project\Audition;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\Project\Audition\AuditionRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

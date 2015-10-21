@@ -10,8 +10,12 @@ use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
+use DreamsArk\Repositories\Project\Script\ScriptRepository;
+use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepository;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
+use DreamsArk\Repositories\Project\Synapse\SynapseRepository;
+use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepository;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\Translation\TranslationRepository;
@@ -87,6 +91,22 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             IdeaRepositoryInterface::class,
             IdeaRepository::class
+        );
+
+        /**
+         * Synapse Repository
+         */
+        $this->app->bind(
+            SynapseRepositoryInterface::class,
+            SynapseRepository::class
+        );
+
+        /**
+         * Script Repository
+         */
+        $this->app->bind(
+            ScriptRepositoryInterface::class,
+            ScriptRepository::class
         );
 
         /**

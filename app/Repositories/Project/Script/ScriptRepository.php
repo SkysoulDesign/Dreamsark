@@ -1,18 +1,18 @@
 <?php
 
-namespace DreamsArk\Repositories\Project\Idea;
+namespace DreamsArk\Repositories\Project\Script;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Script\Script;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 
-class IdeaRepository implements IdeaRepositoryInterface
+class ScriptRepository implements ScriptRepositoryInterface
 {
 
     use RepositoryHelperTrait;
 
     /**
-     * @var Idea
+     * @var Script
      */
     public $model;
 
@@ -22,12 +22,12 @@ class IdeaRepository implements IdeaRepositoryInterface
     private $submission;
 
     /**
-     * @param Idea $idea
+     * @param Script $script
      * @param Submission $submission
      */
-    function __construct(Idea $idea, Submission $submission)
+    function __construct(Script $script, Submission $submission)
     {
-        $this->model = $idea;
+        $this->model = $script;
         $this->submission = $submission;
     }
 
@@ -43,30 +43,30 @@ class IdeaRepository implements IdeaRepositoryInterface
     }
 
     /**
-     * Create a Idea
+     * Create a Script
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return Script
      */
     public function create($project_id, array $fields)
     {
-        $idea = $this->model->setAttribute('project_id', $project_id)->fill($fields);
-        $idea->save();
-        return $idea;
+        $script = $this->model->setAttribute('project_id', $project_id)->fill($fields);
+        $script->save();
+        return $script;
     }
 
     /**
-     * Submit Idea
+     * Submit Script
      *
-     * @param int $idea_id
+     * @param int $script_id
      * @param int $user_id
      * @param array $fields
      * @return Submission
      */
-    public function submit($idea_id, $user_id, array $fields)
+    public function submit($script_id, $user_id, array $fields)
     {
-        $submission = $this->submission->setRawAttributes(compact('idea_id', 'user_id'))->fill($fields);
+        $submission = $this->submission->setRawAttributes(compact('script_id', 'user_id'))->fill($fields);
         $submission->save();
         return $submission;
     }
@@ -83,25 +83,25 @@ class IdeaRepository implements IdeaRepositoryInterface
     }
 
     /**
-     * Fail an Idea
+     * Fail an Script
      *
-     * @param int $idea_id
+     * @param int $script_id
      * @return bool
      */
-    public function fail($idea_id)
+    public function fail($script_id)
     {
-        return $this->model($idea_id)->setAttribute('active', false)->save();
+        return $this->model($script_id)->setAttribute('active', false)->save();
     }
 
     /**
-     * Submit Idea
+     * Submit Script
      *
-     * @param int $idea_id
+     * @param int $script_id
      * @param int $submission_id
      */
-    public function createWinner($idea_id, $submission_id)
+    public function createWinner($script_id, $submission_id)
     {
-        return $this->model($idea_id)->winners()->attach($submission_id);
+        return $this->model($script_id)->winners()->attach($submission_id);
     }
 
 }

@@ -8,7 +8,7 @@ use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests\Idea\IdeaSubmission;
 use DreamsArk\Http\Requests\Idea\SubmissionVoting;
 use DreamsArk\Models\Project\Idea\Idea;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 
 class SubmissionController extends Controller
 {

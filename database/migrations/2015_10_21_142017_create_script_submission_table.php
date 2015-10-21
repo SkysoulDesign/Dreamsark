@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTakesTable extends Migration
+class CreateScriptSubmissionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,12 @@ class CreateTakesTable extends Migration
      */
     public function up()
     {
-        Schema::create('takes', function (Blueprint $table) {
+        Schema::create('script_submission', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('script_id')->unsigned()->index();
             $table->foreign('script_id')->references('id')->on('scripts')->onDelete('cascade');
-            $table->string('title');
-            $table->string('length');
-            $table->string('location');
-            $table->string('shot');
-            $table->longText('description');
+            $table->integer('submission_id')->unsigned()->index();
+            $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateTakesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('takes');
+        Schema::drop('script_submission');
     }
 }

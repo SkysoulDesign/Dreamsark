@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScriptsTable extends Migration
+class CreateSynapsesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,13 @@ class CreateScriptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('scripts', function (Blueprint $table) {
+        Schema::create('synapses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->string('content');
+            $table->string('reward');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateScriptsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('scripts');
+        Schema::drop('synapses');
     }
 }

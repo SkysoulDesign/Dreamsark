@@ -69,12 +69,13 @@
                 </thead>
                 <tbody>
                 @foreach($publishedProjects as $project)
+
                     <tr>
                         <td class="collapsing">{{ $project->name }}</td>
                         <td>{{ $project->type }}</td>
-                        <td>{{ $project->stage()->content }}</td>
-                        <td>${{ $project->stage()->reward }}</td>
-                        {{--<td>{{ $project->audition->open_date }}</td>--}}
+                        <td>{{ $project->stage->content }}</td>
+                        <td>${{ $project->stage->reward }}</td>
+                        <td>{{ $project->stage->audition->open_date }}</td>
 
                         <td class="right aligned">
                             <a href="{{ route('project.idea.show', $project->id) }}" class="ui primary button">

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\Audition\CreateAuditionCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
+use DreamsArk\Commands\Project\Script\CreateScriptCommand;
+use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User\User;
@@ -13,7 +15,6 @@ use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
 
 
 class CreateProjectCommand extends Command implements SelfHandling
@@ -70,6 +71,20 @@ class CreateProjectCommand extends Command implements SelfHandling
          */
         if ($type == 'idea') {
             $this->dispatch(new CreateIdeaCommand($project->id, $this->fields->toArray()));
+        }
+
+        /**
+         * Create Project Synapse
+         */
+        if ($type == 'synapse') {
+            $this->dispatch(new CreateSynapseCommand($project->id, $this->fields->toArray()));
+        }
+
+        /**
+         * Create Project Script
+         */
+        if ($type == 'script') {
+            $this->dispatch(new CreateScriptCommand($project->id, $this->fields->toArray()));
         }
 
         /**

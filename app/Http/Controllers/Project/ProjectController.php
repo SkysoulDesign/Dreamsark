@@ -6,6 +6,7 @@ use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
+use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
@@ -49,18 +50,21 @@ class ProjectController extends Controller
     {
         $command = new CreateProjectCommand($request->user(), $request->all());
         $project = $this->dispatch($command);
-        return redirect()->route('project.idea.show', $project->id );
+        return redirect()->route('project.show', $project->id);
     }
 
     /**
      * Show a specific project.
      *
      * @param Project $project
+     * @param ProjectRepositoryInterface $repository
      * @return \Illuminate\View\View
      */
-    public function show(Project $project)
+    public function show(Project $project, ProjectRepositoryInterface $repository)
     {
-        return view('project.show', compact('project'))->with('backers', $project->backers);
+        $submissions = $repository->submissions($project->id)->load('user');
+
+        return view('project.show', compact('project'))->with('submissions', $submissions);
     }
 
 }

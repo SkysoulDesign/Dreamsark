@@ -2,10 +2,11 @@
 
 namespace DreamsArk\Http\Controllers\Home;
 
-use DreamsArk\Commands\Project\Audition\CreateAuditionCommand;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests;
-use DreamsArk\Models\Idea\Idea;
+use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Stage;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller
@@ -17,9 +18,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-//        $this->dispatch(new CreateAuditionCommand(Idea::find(5)));
-
         return view('index');
     }
 }

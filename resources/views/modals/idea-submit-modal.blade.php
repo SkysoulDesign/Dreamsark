@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <form id="idea-submit-form" class="ui error form" method="post"
-              action="{{ route('project.idea.submission.store', $idea->id) }}">
+              action="{{ route('project.idea.submission.store', $project->stage->id) }}">
 
             {{ csrf_field() }}
 

@@ -1,25 +1,34 @@
 <?php
 
-namespace DreamsArk\Models\Project\Idea;
+namespace DreamsArk\Models\Project\Script;
 
-use DreamsArk\Models\User\User;
+use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Project;
+use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Submission extends Model
+class Script extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'submissions';
+    protected $table = 'scripts';
+
+    /**
+     * Define this model Repository.
+     *
+     * @var string
+     */
+    public $repository = ScriptRepositoryInterface::class;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['content', 'visibility'];
+    protected $fillable = ['content', 'reward'];
 
     /**
      * Scope a query to only show visible entries.
@@ -44,33 +53,33 @@ class Submission extends Model
     }
 
     /**
-     * User Relationship
+     * Project Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user()
+    public function project()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Project::class);
     }
 
     /**
-     * Idea Relationship
+     * Audition Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function idea()
+    public function audition()
     {
-        return $this->belongsTo(Idea::class);
+        return $this->project->audition();
     }
 
     /**
-     * Vote Relationship
+     * Submission Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function votes()
+    public function submissions()
     {
-        return $this->belongsToMany(User::class, 'submission_vote')->withPivot('amount');
+        return $this->morphToMany(Script::class, 'submissionable', 'submissions');
     }
 
 }

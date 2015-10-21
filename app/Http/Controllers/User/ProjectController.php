@@ -27,12 +27,12 @@ class ProjectController extends Controller
     public function index(UserRepositoryInterface $userRepository, ProjectRepositoryInterface $projectRepository, Request $request)
     {
 
-
         $projects = $userRepository->drafts($request->user()->id);
         $publishedProjects = $userRepository->published($request->user()->id);
         $failedProjects = $userRepository->failed($request->user()->id);
 
         return view('user.project.index', compact('projects', 'publishedProjects', 'failedProjects'));
+
     }
 
     /**

@@ -7,7 +7,7 @@
         {!! $project->present()->ribbon !!}
 
         <p></p>
-        <a href="#{{$project->type}}" class="ui yellow ribbon label">
+        <a href="#{{$project->type}}" class="ui red ribbon label">
             {{ strtoupper(trans('project.' . $project->type)) }}
         </a>
 

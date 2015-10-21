@@ -5,7 +5,7 @@ namespace DreamsArk\Commands\Project\Submission;
 use DreamsArk\Commands\Bag\DeductCoinCommand;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\Submission\SubmissionReceivedAVote;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;

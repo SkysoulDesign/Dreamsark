@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Project\Idea;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Project\Idea\IdeaWinnerWasSelected;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

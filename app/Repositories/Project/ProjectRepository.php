@@ -3,6 +3,7 @@
 namespace DreamsArk\Repositories\Project;
 
 use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Support\Collection;
@@ -121,6 +122,27 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function failed()
     {
         return $this->model->failed()->get();
+    }
+
+    /**
+     * Returns all submissions for this project stage
+     *
+     * @param int $project_id
+     * @param bool $public Returns Public Submissions
+     * @param bool $force Force return all submissions
+     * @return Collection
+     */
+    public function submissions($project_id, $public = true, $force = false)
+    {
+
+        $submissions = $this->model($project_id)->stage->submissions();
+
+        if ($force) return $submissions->get();
+
+        if ($public) return $submissions->public()->get();
+
+        return $submissions->private()->get();
+
     }
 
     /**

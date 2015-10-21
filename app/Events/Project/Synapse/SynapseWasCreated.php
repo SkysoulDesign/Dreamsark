@@ -1,29 +1,29 @@
 <?php
 
-namespace DreamsArk\Events\Project;
+namespace DreamsArk\Events\Project\Synapse;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Script;
+use DreamsArk\Models\Project\Synapse\Synapse;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ScriptWasCreated extends Event
+class SynapseWasCreated extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Script
+     * @var Synapse
      */
-    public $script;
+    public $synapse;
 
     /**
      * Create a new event instance.
      *
-     * @param Script $script
+     * @param Synapse $synapse
      */
-    public function __construct(Script $script)
+    public function __construct(Synapse $synapse)
     {
-        $this->script = $script;
+        $this->synapse = $synapse;
     }
 
     /**

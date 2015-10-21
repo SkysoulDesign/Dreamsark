@@ -15,7 +15,7 @@ use DreamsArk\Events\Project\IdeaWasCreated;
 use DreamsArk\Events\Project\ProjectHasFailed;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Project\ProjectWasPledged;
-use DreamsArk\Events\Project\ScriptWasCreated;
+use DreamsArk\Events\Project\Script\ScriptWasCreated;
 use DreamsArk\Events\Project\TakeWasCreated;
 use DreamsArk\Events\Project\UserHasEnrolledToCast;
 use DreamsArk\Events\Session\UserWasCreated;

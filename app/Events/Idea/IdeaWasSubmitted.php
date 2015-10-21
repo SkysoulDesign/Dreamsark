@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Idea;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 

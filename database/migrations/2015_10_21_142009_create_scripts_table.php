@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCastTable extends Migration
+class CreateScriptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,13 @@ class CreateCastTable extends Migration
      */
     public function up()
     {
-        Schema::create('cast', function (Blueprint $table) {
+        Schema::create('scripts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->string('name');
-            $table->string('role');
-            $table->string('salary');
-            $table->longText('description');
+            $table->string('content');
+            $table->string('reward');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateCastTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cast');
+        Schema::drop('scripts');
     }
 }

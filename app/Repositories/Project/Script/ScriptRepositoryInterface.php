@@ -1,11 +1,11 @@
 <?php
 
-namespace DreamsArk\Repositories\Project\Idea;
+namespace DreamsArk\Repositories\Project\Script;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Script\Script;
 
-interface IdeaRepositoryInterface
+interface ScriptRepositoryInterface
 {
 
     /**
@@ -17,23 +17,23 @@ interface IdeaRepositoryInterface
     public function all(array $columns = ['*']);
 
     /**
-     * Create a Idea
+     * Create a Script
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return Script
      */
     public function create($project_id, array $fields);
 
     /**
-     * Submit Idea
+     * Submit Script
      *
-     * @param int $idea_id
+     * @param int $script_id
      * @param int $user_id
      * @param array $fields
      * @return Submission
      */
-    public function submit($idea_id, $user_id, array $fields);
+    public function submit($script_id, $user_id, array $fields);
 
 
 }

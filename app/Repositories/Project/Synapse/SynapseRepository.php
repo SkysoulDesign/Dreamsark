@@ -1,18 +1,18 @@
 <?php
 
-namespace DreamsArk\Repositories\Project\Idea;
+namespace DreamsArk\Repositories\Project\Synapse;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Synapse\Synapse;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 
-class IdeaRepository implements IdeaRepositoryInterface
+class SynapseRepository implements SynapseRepositoryInterface
 {
 
     use RepositoryHelperTrait;
 
     /**
-     * @var Idea
+     * @var Synapse
      */
     public $model;
 
@@ -22,12 +22,12 @@ class IdeaRepository implements IdeaRepositoryInterface
     private $submission;
 
     /**
-     * @param Idea $idea
+     * @param Synapse $synapse
      * @param Submission $submission
      */
-    function __construct(Idea $idea, Submission $submission)
+    function __construct(Synapse $synapse, Submission $submission)
     {
-        $this->model = $idea;
+        $this->model = $synapse;
         $this->submission = $submission;
     }
 
@@ -43,30 +43,30 @@ class IdeaRepository implements IdeaRepositoryInterface
     }
 
     /**
-     * Create a Idea
+     * Create a Synapse
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return Synapse
      */
     public function create($project_id, array $fields)
     {
-        $idea = $this->model->setAttribute('project_id', $project_id)->fill($fields);
-        $idea->save();
-        return $idea;
+        $synapse = $this->model->setAttribute('project_id', $project_id)->fill($fields);
+        $synapse->save();
+        return $synapse;
     }
 
     /**
-     * Submit Idea
+     * Submit Synapse
      *
-     * @param int $idea_id
+     * @param int $synapse_id
      * @param int $user_id
      * @param array $fields
      * @return Submission
      */
-    public function submit($idea_id, $user_id, array $fields)
+    public function submit($synapse_id, $user_id, array $fields)
     {
-        $submission = $this->submission->setRawAttributes(compact('idea_id', 'user_id'))->fill($fields);
+        $submission = $this->submission->setRawAttributes(compact('synapse_id', 'user_id'))->fill($fields);
         $submission->save();
         return $submission;
     }
@@ -83,25 +83,25 @@ class IdeaRepository implements IdeaRepositoryInterface
     }
 
     /**
-     * Fail an Idea
+     * Fail an Synapse
      *
-     * @param int $idea_id
+     * @param int $synapse_id
      * @return bool
      */
-    public function fail($idea_id)
+    public function fail($synapse_id)
     {
-        return $this->model($idea_id)->setAttribute('active', false)->save();
+        return $this->model($synapse_id)->setAttribute('active', false)->save();
     }
 
     /**
-     * Submit Idea
+     * Submit Synapse
      *
-     * @param int $idea_id
+     * @param int $synapse_id
      * @param int $submission_id
      */
-    public function createWinner($idea_id, $submission_id)
+    public function createWinner($synapse_id, $submission_id)
     {
-        return $this->model($idea_id)->winners()->attach($submission_id);
+        return $this->model($synapse_id)->winners()->attach($submission_id);
     }
 
 }

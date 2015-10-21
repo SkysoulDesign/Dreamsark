@@ -1,11 +1,11 @@
 <?php
 
-namespace DreamsArk\Repositories\Project\Idea;
+namespace DreamsArk\Repositories\Project\Synapse;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Synapse\Synapse;
 
-interface IdeaRepositoryInterface
+interface SynapseRepositoryInterface
 {
 
     /**
@@ -17,23 +17,23 @@ interface IdeaRepositoryInterface
     public function all(array $columns = ['*']);
 
     /**
-     * Create a Idea
+     * Create a Synapse
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return Synapse
      */
     public function create($project_id, array $fields);
 
     /**
-     * Submit Idea
+     * Submit Synapse
      *
-     * @param int $idea_id
+     * @param int $synapse_id
      * @param int $user_id
      * @param array $fields
      * @return Submission
      */
-    public function submit($idea_id, $user_id, array $fields);
+    public function submit($synapse_id, $user_id, array $fields);
 
 
 }

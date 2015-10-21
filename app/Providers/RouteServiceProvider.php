@@ -7,7 +7,7 @@ use DreamsArk\Models\Project\Cast;
 use DreamsArk\Models\Project\Crew;
 use DreamsArk\Models\Project\Draft;
 use DreamsArk\Models\Project\Idea\Idea;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Take;

@@ -3,7 +3,8 @@
 namespace DreamsArk\Models\Project;
 
 use DreamsArk\Models\Project\Idea\Idea;
-use DreamsArk\Models\Project\Idea\Submission;
+use DreamsArk\Models\Project\Script\Script;
+use DreamsArk\Models\Project\Synapse\Synapse;
 use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
@@ -74,11 +75,35 @@ class Project extends Model
     }
 
     /**
+     * Returns the right Relationship for the current project stage
+     */
+    public function stage()
+    {
+        return $this->{$this->type}();
+    }
+
+    /**
      * Idea Relationship
      */
     public function idea()
     {
         return $this->hasOne(Idea::class);
+    }
+
+    /**
+     * Synapse Relationship
+     */
+    public function synapse()
+    {
+        return $this->hasOne(Synapse::class);
+    }
+
+    /**
+     * Script Relationship
+     */
+    public function script()
+    {
+        return $this->hasOne(Script::class);
     }
 
     /**
@@ -95,14 +120,6 @@ class Project extends Model
     public function submissions()
     {
         return $this->hasManyThrough(Submission::class, Idea::class);
-    }
-
-    /**
-     * Returns the right Relationship for the current project stage
-     */
-    public function stage()
-    {
-        return $this->{$this->type};
     }
 
 }
