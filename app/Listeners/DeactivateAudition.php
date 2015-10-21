@@ -2,9 +2,7 @@
 
 namespace DreamsArk\Listeners;
 
-
 use DreamsArk\Events\Event;
-use DreamsArk\Events\Project\Audition\AuditionHasFailed;
 use DreamsArk\Repositories\Project\Audition\AuditionRepositoryInterface;
 
 class DeactivateAudition

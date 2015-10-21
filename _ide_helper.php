@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.1.19 (LTS) on 2015-10-08.
+ * Generated for Laravel 5.1.20 (LTS) on 2015-10-21.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1271,7 +1271,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \DreamsArk\Models\User|null 
+         * @return \DreamsArk\Models\User\User|null 
          * @static 
          */
         public static function user(){
@@ -1373,7 +1373,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \DreamsArk\Models\User 
+         * @return \DreamsArk\Models\User\User 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1478,7 +1478,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \DreamsArk\Models\User|null 
+         * @return \DreamsArk\Models\User\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1520,7 +1520,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \DreamsArk\Models\User 
+         * @return \DreamsArk\Models\User\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -3715,7 +3715,7 @@ namespace {
         /**
          * Set the columns to be selected.
          *
-         * @param array $columns
+         * @param array|mixed $columns
          * @return $this 
          * @static 
          */
@@ -3750,7 +3750,7 @@ namespace {
         /**
          * Add a new select column to the query.
          *
-         * @param mixed $column
+         * @param array|mixed $column
          * @return $this 
          * @static 
          */
@@ -4414,6 +4414,7 @@ namespace {
          *
          * @param array $columns
          * @return array|static[] 
+         * @deprecated since version 5.1. Use get instead.
          * @static 
          */
         public static function getFresh($columns = array()){
@@ -5256,6 +5257,17 @@ namespace {
         }
         
         /**
+         * Register a callback to run after all Gate checks.
+         *
+         * @param callable $callback
+         * @return $this 
+         * @static 
+         */
+        public static function after($callback){
+            return \Illuminate\Auth\Access\Gate::after($callback);
+        }
+        
+        /**
          * Determine if the given ability should be granted for the current user.
          *
          * @param string $ability
@@ -5289,6 +5301,19 @@ namespace {
          */
         public static function check($ability, $arguments = array()){
             return \Illuminate\Auth\Access\Gate::check($ability, $arguments);
+        }
+        
+        /**
+         * Determine if the given ability should be granted for the current user.
+         *
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return \Illuminate\Auth\Access\Response 
+         * @throws \Illuminate\Auth\Access\UnauthorizedException
+         * @static 
+         */
+        public static function authorize($ability, $arguments = array()){
+            return \Illuminate\Auth\Access\Gate::authorize($ability, $arguments);
         }
         
         /**
@@ -5605,7 +5630,7 @@ namespace {
         /**
          * Get all of the input except for a specified array of items.
          *
-         * @param array $keys
+         * @param array|mixed $keys
          * @return array 
          * @static 
          */
@@ -5722,7 +5747,7 @@ namespace {
         /**
          * Flash only some of the input to the session.
          *
-         * @param mixed  string
+         * @param array|mixed $keys
          * @return void 
          * @static 
          */
@@ -5733,7 +5758,7 @@ namespace {
         /**
          * Flash only some of the input to the session.
          *
-         * @param mixed  string
+         * @param array|mixed $keys
          * @return void 
          * @static 
          */
@@ -7834,12 +7859,11 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
-         * @throws \Throwable
+         * @return void 
          * @static 
          */
         public static function push($job, $data = '', $queue = null){
-            return \Illuminate\Queue\SyncQueue::push($job, $data, $queue);
+            \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
         }
         
         /**
@@ -7852,7 +7876,7 @@ namespace {
          * @static 
          */
         public static function pushRaw($payload, $queue = null, $options = array()){
-            return \Illuminate\Queue\SyncQueue::pushRaw($payload, $queue, $options);
+            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
         }
         
         /**
@@ -7862,11 +7886,37 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
+         * @return void 
          * @static 
          */
         public static function later($delay, $job, $data = '', $queue = null){
-            return \Illuminate\Queue\SyncQueue::later($delay, $job, $data, $queue);
+            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */
+        public static function bulk($jobs, $data = '', $queue = null){
+            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
+        }
+        
+        /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \StdClass $job
+         * @param int $delay
+         * @return void 
+         * @static 
+         */
+        public static function release($queue, $job, $delay){
+            \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
         }
         
         /**
@@ -7877,7 +7927,50 @@ namespace {
          * @static 
          */
         public static function pop($queue = null){
-            return \Illuminate\Queue\SyncQueue::pop($queue);
+            return \Illuminate\Queue\DatabaseQueue::pop($queue);
+        }
+        
+        /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @static 
+         */
+        public static function deleteReserved($queue, $id){
+            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
+        }
+        
+        /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */
+        public static function getDatabase(){
+            return \Illuminate\Queue\DatabaseQueue::getDatabase();
+        }
+        
+        /**
+         * Get the expiration time in seconds.
+         *
+         * @return int|null 
+         * @static 
+         */
+        public static function getExpire(){
+            return \Illuminate\Queue\DatabaseQueue::getExpire();
+        }
+        
+        /**
+         * Set the expiration time in seconds.
+         *
+         * @param int|null $seconds
+         * @return void 
+         * @static 
+         */
+        public static function setExpire($seconds){
+            \Illuminate\Queue\DatabaseQueue::setExpire($seconds);
         }
         
         /**
@@ -7891,7 +7984,7 @@ namespace {
          */
         public static function pushOn($queue, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::pushOn($queue, $job, $data);
+            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
         }
         
         /**
@@ -7906,7 +7999,7 @@ namespace {
          */
         public static function laterOn($queue, $delay, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::laterOn($queue, $delay, $job, $data);
+            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
         }
         
         /**
@@ -7918,21 +8011,7 @@ namespace {
          */
         public static function marshal(){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::marshal();
-        }
-        
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array $jobs
-         * @param mixed $data
-         * @param string $queue
-         * @return mixed 
-         * @static 
-         */
-        public static function bulk($jobs, $data = '', $queue = null){
-            //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::bulk($jobs, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::marshal();
         }
         
         /**
@@ -7944,7 +8023,7 @@ namespace {
          */
         public static function setContainer($container){
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\SyncQueue::setContainer($container);
+            \Illuminate\Queue\DatabaseQueue::setContainer($container);
         }
         
         /**
@@ -7956,7 +8035,7 @@ namespace {
          */
         public static function setEncrypter($crypt){
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\SyncQueue::setEncrypter($crypt);
+            \Illuminate\Queue\DatabaseQueue::setEncrypter($crypt);
         }
         
     }
@@ -8342,7 +8421,7 @@ namespace {
         /**
          * Get all of the input except for a specified array of items.
          *
-         * @param array $keys
+         * @param array|mixed $keys
          * @return array 
          * @static 
          */
@@ -8459,7 +8538,7 @@ namespace {
         /**
          * Flash only some of the input to the session.
          *
-         * @param mixed  string
+         * @param array|mixed $keys
          * @return void 
          * @static 
          */
@@ -8470,7 +8549,7 @@ namespace {
         /**
          * Flash only some of the input to the session.
          *
-         * @param mixed  string
+         * @param array|mixed $keys
          * @return void 
          * @static 
          */
@@ -10087,7 +10166,7 @@ namespace {
         /**
          * Resolve the middleware name to a class name preserving passed parameters.
          *
-         * @param $name
+         * @param string $name
          * @return string 
          * @static 
          */
@@ -10200,7 +10279,7 @@ namespace {
          * @param string $class
          * @param \Closure|null $callback
          * @return void 
-         * @throws NotFoundHttpException
+         * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
          * @static 
          */
         public static function model($key, $class, $callback = null){
@@ -11347,7 +11426,7 @@ namespace {
         }
         
         /**
-         * Generate a absolute URL to the given path.
+         * Generate an absolute URL to the given path.
          *
          * @param string $path
          * @param mixed $extra
@@ -11381,6 +11460,19 @@ namespace {
          */
         public static function asset($path, $secure = null){
             return \Illuminate\Routing\UrlGenerator::asset($path, $secure);
+        }
+        
+        /**
+         * Generate a URL to an asset from a custom root domain such as CDN, etc.
+         *
+         * @param string $root
+         * @param string $path
+         * @param bool|null $secure
+         * @return string 
+         * @static 
+         */
+        public static function assetFrom($root, $path, $secure = null){
+            return \Illuminate\Routing\UrlGenerator::assetFrom($root, $path, $secure);
         }
         
         /**
@@ -12566,6 +12658,19 @@ namespace {
          * @return string 
          * @static 
          */
+        public static function getErrorMessageClass(){
+            return \SkysoulDesign\Form\Implementations\Semantic::getErrorMessageClass();
+        }
+        
+        /**
+         * Error Class
+         * <div class=".
+         * 
+         * .."> ... </div>
+         *
+         * @return string 
+         * @static 
+         */
         public static function getErrorClass(){
             return \SkysoulDesign\Form\Implementations\Semantic::getErrorClass();
         }
@@ -12634,6 +12739,15 @@ namespace {
         }
         
         /**
+         * 
+         *
+         * @static 
+         */
+        public static function makeErrorMessage($attributes = null, $errors = null, $title = null){
+            return \SkysoulDesign\Form\Implementations\Semantic::makeErrorMessage($attributes, $errors, $title);
+        }
+        
+        /**
          * Create Label
          *
          * @param $attributes
@@ -12695,8 +12809,11 @@ namespace {
         }
         
         /**
-         * 
+         * Form Open Method
          *
+         * @param null $method
+         * @param null $action
+         * @return mixed 
          * @static 
          */
         public static function open($method = null, $action = null){
@@ -12779,7 +12896,20 @@ namespace {
         /**
          * Add Method to form
          *
-         * @param $action
+         * @param string $route
+         * @param array|string $params
+         * @return $this 
+         * @static 
+         */
+        public static function route($route, $params = array()){
+            //Method inherited from \SkysoulDesign\Form\FormBuilder            
+            return \SkysoulDesign\Form\Implementations\Semantic::route($route, $params);
+        }
+        
+        /**
+         * Add Method to form
+         *
+         * @param string $action
          * @return $this 
          * @static 
          */
@@ -12833,6 +12963,30 @@ namespace {
         public static function generateButton($type, $content){
             //Method inherited from \SkysoulDesign\Form\FormBuilder            
             return \SkysoulDesign\Form\Implementations\Semantic::generateButton($type, $content);
+        }
+        
+        /**
+         * Error Box
+         *
+         * @param null $title
+         * @return  
+         * @static 
+         */
+        public static function errorBox($title = null){
+            //Method inherited from \SkysoulDesign\Form\FormBuilder            
+            return \SkysoulDesign\Form\Implementations\Semantic::errorBox($title);
+        }
+        
+        /**
+         * Display Error Box
+         *
+         * @param null $title
+         * @return  
+         * @static 
+         */
+        public static function generateErrors($title = null){
+            //Method inherited from \SkysoulDesign\Form\FormBuilder            
+            return \SkysoulDesign\Form\Implementations\Semantic::generateErrors($title);
         }
         
         /**
@@ -12900,8 +13054,10 @@ namespace {
         }
         
         /**
-         * 
+         * Append Errors to Tag
          *
+         * @param \SkysoulDesign\Form\Collection $item
+         * @return null 
          * @static 
          */
         public static function appendErrors($item){
@@ -13039,22 +13195,35 @@ namespace {
          * @return string 
          * @static 
          */
-        public static function map($attributes){
+        public static function map($attributes = null){
             //Method inherited from \SkysoulDesign\Form\FormBuilder            
             return \SkysoulDesign\Form\Implementations\Semantic::map($attributes);
+        }
+        
+        /**
+         * Generate Ul li HTML attributes
+         *
+         * @param \SkysoulDesign\Form\Collection|array $attributes
+         * @param null $ulClass
+         * @param null $liClass
+         * @return string 
+         * @static 
+         */
+        public static function mapUl($attributes, $ulClass = null, $liClass = null){
+            //Method inherited from \SkysoulDesign\Form\FormBuilder            
+            return \SkysoulDesign\Form\Implementations\Semantic::mapUl($attributes, $ulClass, $liClass);
         }
         
         /**
          * Generate HTML attributes
          *
          * @param \SkysoulDesign\Form\Collection|array $attributes
-         * @param bool $prettify
          * @return string 
          * @static 
          */
-        public static function options($attributes, $prettify = false){
+        public static function options($attributes){
             //Method inherited from \SkysoulDesign\Form\FormBuilder            
-            return \SkysoulDesign\Form\Implementations\Semantic::options($attributes, $prettify);
+            return \SkysoulDesign\Form\Implementations\Semantic::options($attributes);
         }
         
         /**
