@@ -12,7 +12,9 @@
     "laravel/framework": "5.1.*",
     "laravel/envoy": "~1.0",
     "barryvdh/laravel-ide-helper": "^2.1",
-    "adamwathan/bootforms": "^0.7.0"
+    "adamwathan/bootforms": "^0.7.0",
+    "pda/pheanstalk": "^3.1",
+    "ptrofimov/beanstalk_console": "1.*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

@@ -3480,5 +3480,109 @@
             "profiler",
             "webprofiler"
         ]
+    },
+    {
+        "name": "pda/pheanstalk",
+        "version": "v3.1.0",
+        "version_normalized": "3.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pda/pheanstalk.git",
+            "reference": "430e77c551479aad0c6ada0450ee844cf656a18b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pda/pheanstalk/zipball/430e77c551479aad0c6ada0450ee844cf656a18b",
+            "reference": "430e77c551479aad0c6ada0450ee844cf656a18b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2015-08-07 21:42:41",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Pheanstalk\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Paul Annesley",
+                "email": "paul@annesley.cc",
+                "homepage": "http://paul.annesley.cc/",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP client for beanstalkd queue",
+        "homepage": "https://github.com/pda/pheanstalk",
+        "keywords": [
+            "beanstalkd"
+        ]
+    },
+    {
+        "name": "ptrofimov/beanstalk_console",
+        "version": "1.7.4",
+        "version_normalized": "1.7.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ptrofimov/beanstalk_console.git",
+            "reference": "17490b2db1149a3e88c04387938b969a7d92c950"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ptrofimov/beanstalk_console/zipball/17490b2db1149a3e88c04387938b969a7d92c950",
+            "reference": "17490b2db1149a3e88c04387938b969a7d92c950",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-09-30 12:41:10",
+        "type": "project",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Petr Trofimov"
+            },
+            {
+                "name": "Sergey Lysenko"
+            },
+            {
+                "name": "Pentium10"
+            }
+        ],
+        "description": "Admin console for Beanstalk queue server",
+        "keywords": [
+            "admin",
+            "beanstalk",
+            "beanstalkd",
+            "console",
+            "gui",
+            "interface",
+            "monitoring",
+            "php",
+            "queue",
+            "stats",
+            "web admin"
+        ]
     }
 ]
