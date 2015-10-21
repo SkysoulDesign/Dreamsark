@@ -44,7 +44,7 @@ return [
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',
-            'host'   => 'dreamsark.dev',
+            'host'   => 'localhost',
             'queue'  => 'default',
             'ttr'    => 60,
         ],
