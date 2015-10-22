@@ -114,12 +114,4 @@ class Project extends Model
         return $this->hasOne(Audition::class);
     }
 
-    /**
-     * Submission Relationship
-     */
-    public function submissions()
-    {
-        return $this->hasManyThrough(Submission::class, Idea::class);
-    }
-
 }

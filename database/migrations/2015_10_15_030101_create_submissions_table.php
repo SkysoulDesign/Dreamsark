@@ -17,13 +17,11 @@ class CreateSubmissionsTable extends Migration
             $table->string('content');
             $table->boolean('visibility');
 
-            $table->integer('submissionable_id')->unsigned()->index();
-            $table->string('submissionable_type');
+            $table->integer('submissible_id')->unsigned()->index();
+            $table->string('submissible_type');
 
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('idea_id')->unsigned()->index();
-            $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
 
             $table->timestamps();
         });

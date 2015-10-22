@@ -5,6 +5,7 @@ namespace DreamsArk\Repositories\Project\Idea;
 use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\RepositoryHelperTrait;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class IdeaRepository implements IdeaRepositoryInterface
 {
@@ -66,9 +67,13 @@ class IdeaRepository implements IdeaRepositoryInterface
      */
     public function submit($idea_id, $user_id, array $fields)
     {
-        $submission = $this->submission->setRawAttributes(compact('idea_id', 'user_id'))->fill($fields);
-        $submission->save();
-        return $submission;
+        /** Todo: Find a way to not massassign the user ID */
+
+        /** @var MorphMany $submission */
+        $submission = $this->model($idea_id)->submissions();
+
+        return $submission->create(array_merge($fields, compact('user_id')));
+
     }
 
     /**

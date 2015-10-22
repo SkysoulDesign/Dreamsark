@@ -12,19 +12,7 @@ use DreamsArk\Models\Project\Submission;
 
 class SubmissionController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Idea $idea
-     * @param IdeaSubmission $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Idea $idea, IdeaSubmission $request)
-    {
-        $command = new SubmitIdeaCommand($idea, $request->user(), $request->all());
-        $this->dispatch($command);
-        return redirect()->back();
-    }
+
 
     /**
      * Vote on a Submission

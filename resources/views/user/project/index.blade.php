@@ -78,7 +78,7 @@
                         <td>{{ $project->stage->audition->open_date }}</td>
 
                         <td class="right aligned">
-                            <a href="{{ route('project.idea.show', $project->id) }}" class="ui primary button">
+                            <a href="{{ route('project.show', $project->id) }}" class="ui primary button">
                                 View
                             </a>
                         </td>

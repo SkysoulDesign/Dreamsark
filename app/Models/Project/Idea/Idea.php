@@ -44,28 +44,6 @@ class Idea extends Model
     protected $presenter = IdeaPresenter::class;
 
     /**
-     * Scope a query to only show visible entries.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopePublic($query)
-    {
-        return $query->where('visibility', true);
-    }
-
-    /**
-     * Scope a query to only show private entries.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopePrivate($query)
-    {
-        return $query->where('visibility', false);
-    }
-
-    /**
      * Project Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -82,7 +60,7 @@ class Idea extends Model
      */
     public function submissions()
     {
-        return $this->morphToMany(Idea::class, 'submissionable', 'submissions');
+        return $this->morphMany(Submission::class, 'submissible');
     }
 
     /**

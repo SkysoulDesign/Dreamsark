@@ -5,6 +5,7 @@ namespace DreamsArk\Repositories\Project\Script;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Script\Script;
 use DreamsArk\Repositories\RepositoryHelperTrait;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class ScriptRepository implements ScriptRepositoryInterface
 {
@@ -66,9 +67,13 @@ class ScriptRepository implements ScriptRepositoryInterface
      */
     public function submit($script_id, $user_id, array $fields)
     {
-        $submission = $this->submission->setRawAttributes(compact('script_id', 'user_id'))->fill($fields);
-        $submission->save();
-        return $submission;
+        /** Todo: Find a way to not massassign the user ID */
+
+        /** @var MorphMany $submission */
+        $submission = $this->model($script_id)->submissions();
+
+        return $submission->create(array_merge($fields, compact('user_id')));
+
     }
 
     /**

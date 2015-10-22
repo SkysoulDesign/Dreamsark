@@ -79,6 +79,6 @@ class Synapse extends Model
      */
     public function submissions()
     {
-        return $this->morphToMany(Synapse::class, 'submissionable', 'submissions');
+        return $this->morphMany(Submission::class, 'submissible');
     }
 }

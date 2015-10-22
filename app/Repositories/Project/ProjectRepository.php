@@ -6,6 +6,7 @@ use DreamsArk\Models\Project\Draft;
 use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\RepositoryHelperTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -122,6 +123,21 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function failed()
     {
         return $this->model->failed()->get();
+    }
+
+    /**
+     * Returns all submissions for this project stage
+     *
+     * @param Model $model
+     * @param $user_id
+     * @param array $fields
+     * @return Collection
+     * @internal param Model $stage
+     * @internal param Model $model
+     */
+    public function submit(Model $model, $user_id, array $fields)
+    {
+        return app()->make($model->repository)->submit($model->id, $user_id, $fields);
     }
 
     /**

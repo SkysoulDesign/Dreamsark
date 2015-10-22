@@ -5,7 +5,7 @@
         <a class="item" data-tab="submissions">@lang('idea.submissions')</a>
     </div>
 
-    <div class="ui bottom attached tab segment active" data-tab="request">
+    <div class="ui  bottom attached tab segment active" data-tab="request">
         <div class="ui segments">
 
             <div class="ui segment">

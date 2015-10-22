@@ -79,7 +79,7 @@ class Script extends Model
      */
     public function submissions()
     {
-        return $this->morphToMany(Script::class, 'submissionable', 'submissions');
+        return $this->morphMany(Submission::class, 'submissible');
     }
 
 }

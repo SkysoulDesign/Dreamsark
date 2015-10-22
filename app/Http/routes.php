@@ -95,7 +95,7 @@ Route::get('idea/show/{idea}', ['as' => 'project.idea.show', 'uses' => 'Project\
 /**
  * Submission Controller
  */
-Route::post('idea/submission/store/{idea}', ['as' => 'project.idea.submission.store', 'uses' => 'Project\Idea\SubmissionController@store']);
+Route::post('idea/submission/store/{project}', ['as' => 'project.submission.store', 'uses' => 'Project\SubmissionController@store']);
 Route::post('idea/submission/vote/{submission}/store', ['as' => 'project.idea.submission.vote.store', 'uses' => 'Project\Idea\SubmissionController@vote']);
 
 /**

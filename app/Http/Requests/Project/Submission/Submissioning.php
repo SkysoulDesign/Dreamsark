@@ -1,10 +1,10 @@
 <?php
 
-namespace DreamsArk\Http\Requests\Idea;
+namespace DreamsArk\Http\Requests\Project\Submission;
 
 use DreamsArk\Http\Requests\Request;
 
-class IdeaSubmission extends Request
+class Submissioning extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class IdeaSubmission extends Request
     {
         return [
             'content' => 'required',
+            'visibility' => 'required|boolean'
         ];
     }
 }

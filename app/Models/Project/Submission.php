@@ -20,7 +20,29 @@ class Submission extends Model
      *
      * @var array
      */
-    protected $fillable = ['content', 'visibility'];
+    protected $fillable = ['content', 'visibility', 'user_id'];
+
+    /**
+     * Scope a query to only show visible entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('visibility', true);
+    }
+
+    /**
+     * Scope a query to only show private entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrivate($query)
+    {
+        return $query->where('visibility', false);
+    }
 
     /**
      * User Relationship
@@ -55,7 +77,7 @@ class Submission extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function stageble()
+    public function submissible()
     {
         return $this->morphTo();
     }
