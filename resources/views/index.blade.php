@@ -7,7 +7,7 @@
         <div class="ui segment">
 
             <div class="ui list">
-                <div class="ui item header">Completed Features</div>
+                <div class="ui item header">Credentials</div>
                 <div class="item">Default Email: dreamsark@dreamsark.com</div>
                 <div class="item"> Default Password: dreamsark</div>
             </div>
@@ -17,8 +17,8 @@
         <div class="ui segment">
 
             <div class="ui list">
-                <div class="ui item header">Completed Features</div>
-                <div class="item">Creation of Idea, Script, Synapse</div>
+                <div class="ui item header">Last Updated</div>
+                <div class="item">October 22, 5:59</div>
             </div>
 
         </div>
