@@ -19,6 +19,10 @@ class CreateSynapsesTable extends Migration
             $table->string('content');
             $table->string('reward');
             $table->boolean('active')->default(true);
+
+            $table->integer('submission_id')->unsigned()->nullable()->index();
+            $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

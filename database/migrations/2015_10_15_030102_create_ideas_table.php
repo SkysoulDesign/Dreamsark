@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSynapseSubmissionTable extends Migration
+class CreateIdeasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,17 @@ class CreateSynapseSubmissionTable extends Migration
      */
     public function up()
     {
-        Schema::create('synapse_submission', function (Blueprint $table) {
+        Schema::create('ideas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('synapse_id')->unsigned()->index();
-            $table->foreign('synapse_id')->references('id')->on('synapses')->onDelete('cascade');
-            $table->integer('submission_id')->unsigned()->index();
+            $table->integer('project_id')->unsigned()->index();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->string('content');
+            $table->string('reward');
+            $table->boolean('active')->default(true);
+
+            $table->integer('submission_id')->unsigned()->nullable()->index();
             $table->foreign('submission_id')->references('id')->on('submissions')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ class CreateSynapseSubmissionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('synapse_submission');
+        Schema::drop('ideas');
     }
 }

@@ -6,7 +6,7 @@
 
         @if($auditions->isEmpty())
             <div class="ui error message">
-                <div class="header">@lang('project.no-audition')</div>
+                <div class="ui header">@lang('project.no-audition')</div>
             </div>
         @else
             @foreach($auditions->groupBy('project.stage') as $stage=>$auditions)

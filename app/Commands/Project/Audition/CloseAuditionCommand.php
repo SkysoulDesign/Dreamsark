@@ -6,6 +6,7 @@ use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\FailProjectCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaWinnerCommand;
+use DreamsArk\Commands\Project\Submission\CreateSubmissionWinnerCommand;
 use DreamsArk\Events\Project\Audition\AuditionHasFailed;
 use DreamsArk\Events\Project\Audition\AuditionHasFinished;
 use DreamsArk\Models\Project\Audition;
@@ -46,13 +47,12 @@ class CloseAuditionCommand extends Command implements SelfHandling
     public function handle(Submission $submission, AuditionRepositoryInterface $repository, Dispatcher $event)
     {
 
-
         /**
          * Get which Submission had more Votes
          * @todo Improve this messy function
          */
         /** @var Collection $submissions */
-        $submissions = $this->audition->project->submissions->load('votes');
+        $submissions = $this->audition->project->stage->submissions->load('votes');
         $votes = $submissions->pluck('votes', 'id')->map(function ($item) {
             return $item->sum('pivot.amount');
         });
@@ -61,10 +61,11 @@ class CloseAuditionCommand extends Command implements SelfHandling
          * if don't have any votes there will be no winner, so declare this failed
          */
         if ($votes->sum() <= 0) {
+
             /**
-             * Fail The project Stage
+             * Fail The project stage
              */
-            $this->dispatch(new FailProjectCommand($this->audition->project->stage()));
+            $this->dispatch(new FailProjectCommand($this->audition->project));
 
             /**
              * Announce Audition has Failed
@@ -82,7 +83,7 @@ class CloseAuditionCommand extends Command implements SelfHandling
         /**
          * Register Winner
          */
-        $this->dispatch(new CreateIdeaWinnerCommand($submission_winner));
+        $this->dispatch(new CreateSubmissionWinnerCommand($submission_winner));
 
         /**
          * Refund Losers

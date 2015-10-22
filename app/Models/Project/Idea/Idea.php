@@ -55,6 +55,17 @@ class Idea extends Model
 
     /**
      * Submission Relationship
+     * Only Available once there is a winner for this project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submission()
+    {
+        return $this->belongsto(Submission::class);
+    }
+
+    /**
+     * Submission Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -92,5 +103,6 @@ class Idea extends Model
     {
         return $this->project->audition();
     }
+
 
 }

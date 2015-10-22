@@ -8,11 +8,11 @@
             <div class="ui header">{{ $audition->project->name }}</div>
 
             <div class="ui segment">
-                {{ $audition->project->idea->content }}
+                {{ $audition->project->stage->content }}
             </div>
 
             <div class="ui  segment">
-                Reward: {{ $audition->project->idea->reward }}
+                Reward: {{ $audition->project->stage->reward }}
             </div>
 
             <div class="ui segment">
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($audition->project->submissions as $submission)
+                @foreach($submissions as $submission)
                     <tr>
                         <td class="collapsing">
                             <h4 class="ui image header">

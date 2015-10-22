@@ -7,26 +7,26 @@
         <div class="ui right aligned segment">
 
             <a href="{{ route('project.create') }}" class="ui primary button">
-                @lang('navbar.create-project')
+                @lang('project.start-project')
             </a>
 
         </div>
 
         <div class="ui pointing secondary tabular menu">
-            <a class="item active" data-tab="unpublished">Unpublished Projects</a>
-            <a class="item" data-tab="published">Published Projects</a>
-            <a class="item" data-tab="failed">Failed Projects</a>
+            <a class="item active" data-tab="unpublished">@lang('project.unpublished')</a>
+            <a class="item" data-tab="published">@lang('project.published')</a>
+            <a class="item" data-tab="failed">@lang('project.failed')</a>
         </div>
 
         <div class="ui tab active" data-tab="unpublished">
             <table class="ui unstackable table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Reward</th>
-                    <th>Audition Date</th>
-                    <th class="right aligned">Action</th>
+                    <th>@lang('project.name')</th>
+                    <th>@lang('project.description')</th>
+                    <th>@lang('project.reward')</th>
+                    <th>@lang('project.audition-date')</th>
+                    <th class="right aligned">@lang('project.action')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,10 +40,10 @@
                         <td class="right aligned">
                             <form action="{{ route('user.project.publish', $project->id) }}">
                                 <a href="{{ route('user.project.edit', $project->id) }}" class="ui primary button">
-                                    Edit
+                                    @lang('project.edit')
                                 </a>
                                 <button type="submit" class="ui olive button">
-                                    Publish
+                                    @lang('project.publish')
                                 </button>
                             </form>
 
@@ -59,12 +59,12 @@
             <table class="ui unstackable table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Stage</th>
-                    <th>Description</th>
-                    <th>Reward</th>
-                    <th>Audition Date</th>
-                    <th class="right aligned">Action</th>
+                    <th>@lang('project.name')</th>
+                    <th>@lang('project.stage')</th>
+                    <th>@lang('project.description')</th>
+                    <th>@lang('project.reward')</th>
+                    <th>@lang('project.audition-date')</th>
+                    <th class="right aligned">@lang('project.action')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,7 +79,7 @@
 
                         <td class="right aligned">
                             <a href="{{ route('project.show', $project->id) }}" class="ui primary button">
-                                View
+                                @lang('project.view')
                             </a>
                         </td>
 
@@ -93,9 +93,9 @@
             <table class="ui unstackable table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Stage</th>
-                    <th class="right aligned">Action</th>
+                    <th>@lang('project.name')</th>
+                    <th>@lang('project.stage')</th>
+                    <th class="right aligned">@lang('project.action')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -104,8 +104,8 @@
                         <td>{{ $project->name }}</td>
                         <td>{{ $project->type }}</td>
                         <td class="right aligned">
-                            <a href="{{ route('project.idea.show', $project->id) }}" class="ui primary button">
-                                View
+                            <a href="{{ route('project.show', $project->id) }}" class="ui primary button">
+                                @lang('project.view')
                             </a>
                         </td>
 

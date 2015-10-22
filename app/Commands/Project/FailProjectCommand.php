@@ -6,6 +6,8 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Events\Project\ProjectHasFailed;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Repositories\Project\ProjectRepository;
+use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Model;
@@ -19,44 +21,46 @@ class FailProjectCommand extends Command implements SelfHandling
     /**
      * @var Project
      */
-    private $model;
+    private $project;
 
     /**
      * Create a new command instance.
      *
-     * @param Model $model
+     * @param Project $project
      */
-    public function __construct(Model $model)
+    public function __construct(Project $project)
     {
-        $this->model = $model;
+        $this->project = $project;
     }
 
     /**
      * Execute the command.
      *
+     * @param ProjectRepositoryInterface $repository
      * @param Dispatcher $event
      */
-    public function handle(Dispatcher $event)
+    public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * If it`s not a Project Instance then initialize its repository and fail it
          */
-        app()->make($this->model->repository)->fail($this->model->id);
+        $repository->fail($this->project->id);
+        app()->make($this->project->stage->repository)->fail($this->project->stage->id);
 
         /**
          * Set Reward
          */
-        $reward = $this->model->reward ?: $this->model->stage()->reward;
+        $reward = $this->project->stage->reward;
 
         /**
          * Refund Project Owner
          */
-        $this->dispatch(new RefundUserCommand($reward, $this->model->user));
+        $this->dispatch(new RefundUserCommand($reward, $this->project->user));
 
         /**
          * Announce ProjectHasFailed
          */
-        $event->fire(new ProjectHasFailed($this->model->project ?: $this->model));
+        $event->fire(new ProjectHasFailed($this->project));
 
     }
 }

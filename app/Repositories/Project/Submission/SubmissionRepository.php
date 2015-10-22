@@ -8,6 +8,7 @@ use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\RepositoryHelperTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class SubmissionRepository implements SubmissionRepositoryInterface
@@ -80,6 +81,18 @@ class SubmissionRepository implements SubmissionRepositoryInterface
     public function idea(Idea $idea)
     {
         return $this->newInstance($idea);
+    }
+
+    /**
+     * Update The Model Submission Id so defining who is the winner
+     *
+     * @param Model $model
+     * @param int $submission_id
+     * @return bool
+     */
+    public function createWinner(Model $model, $submission_id)
+    {
+        return $model->setAttribute('submission_id', $submission_id)->save();
     }
 
 }

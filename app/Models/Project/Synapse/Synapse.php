@@ -63,6 +63,16 @@ class Synapse extends Model
     }
 
     /**
+     * User Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user()
+    {
+        return $this->project->user();
+    }
+
+    /**
      * Audition Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -70,6 +80,17 @@ class Synapse extends Model
     public function audition()
     {
         return $this->project->audition();
+    }
+
+    /**
+     * Submission Relationship
+     * Only Available once there is a winner for this project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submission()
+    {
+        return $this->belongsto(Submission::class);
     }
 
     /**

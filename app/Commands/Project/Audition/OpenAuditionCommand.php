@@ -45,12 +45,12 @@ class OpenAuditionCommand extends Command implements SelfHandling
         /**
          * If there are no submission then project failed, or less than the minimum submissions
          */
-        if ($this->audition->project->submissions->count() < 10) {
+        if ($this->audition->project->stage->submissions->count() < 10) {
 
             /**
              * Fail this project
              */
-            $this->dispatch(new FailProjectCommand($this->audition->project->stage()));
+            $this->dispatch(new FailProjectCommand($this->audition->project));
 
             return;
         }

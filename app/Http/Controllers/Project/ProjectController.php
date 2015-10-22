@@ -63,7 +63,6 @@ class ProjectController extends Controller
     public function show(Project $project, ProjectRepositoryInterface $repository)
     {
         $submissions = $repository->submissions($project->id)->load('user');
-
         return view('project.show', compact('project'))->with('submissions', $submissions);
     }
 

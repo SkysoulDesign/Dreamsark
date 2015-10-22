@@ -16,17 +16,34 @@
                 {{ $project->stage->content }}
             </div>
 
-            <div class="ui secondary segment">
-                <h3>@lang('idea.reward') ${{ $project->stage->reward }}</h3>
-            </div>
+            @if(!$project->stage->submission)
 
-            <div class="ui segment">
-                @lang('idea.number-of-ideas') {{ $project->stage->submissions->count() }}
-            </div>
+                <div class="ui secondary segment">
+                    <h3>@lang('idea.reward') ${{ $project->stage->reward }}</h3>
+                </div>
+
+                <div class="ui segment">
+                    @lang('idea.number-of-ideas') {{ $project->stage->submissions->count() }}
+                </div>
+
+            @else
+
+                <div class="ui tall stacked ui yellow inverted segment">
+                    <a class="ui red massive ribbon label">Winner</a>
+                    <a class="ui massive label basic image ">
+                        <img class="ui right spaced avatar image" src="{{ $project->stage->submission->user->present()->avatar() }}">
+                        {{ $project->stage->submission->user->present()->name() }}
+                    </a>
+                    <p><p></p></p>
+
+                    <div class="content">{{ $project->stage->submission->content }}</div>
+                </div>
+
+            @endif
 
         </div>
 
-        @if($project->stage->active)
+        @if($project->stage->active && !$project->stage->audition->active && !$project->stage->submission)
             <div class="ui segment">
                 <a id="idea-submit-open" href="#" class="ui primary button">
                     @lang('idea.submit-your-idea')

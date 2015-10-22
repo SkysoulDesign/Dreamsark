@@ -75,6 +75,16 @@ class Submission extends Model
     }
 
     /**
+     * Winner Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'submission_winner');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function submissible()
