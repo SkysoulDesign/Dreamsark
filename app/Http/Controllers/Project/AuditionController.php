@@ -39,9 +39,7 @@ class AuditionController extends Controller
      */
     public function show(Audition $audition)
     {
-
         $submissions = $audition->project->stage->submissions->load('user', 'votes');
-
         return view('project.audition.show')->with('audition', $audition)->with('submissions', $submissions);
     }
 

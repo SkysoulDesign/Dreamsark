@@ -16,7 +16,7 @@
             </div>
 
             <div class="ui center aligned segment">
-                <div id="flipclock" data-time="{{$project->stage->audition->close_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
+                <div id="flipclock" data-time="{{ $audition->project->stage->audition->close_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
             </div>
 
             <table class="ui celled table">
