@@ -24,6 +24,13 @@ class Project extends Model
     protected $table = 'projects';
 
     /**
+     * Define The Order which a project must to follow
+     *
+     * @var array
+     */
+    protected $stages = ['idea', 'synapse', 'script'];
+
+    /**
      * Define this model Repository.
      *
      * @var string
@@ -75,14 +82,6 @@ class Project extends Model
     }
 
     /**
-     * Returns the right Relationship for the current project stage
-     */
-    public function stage()
-    {
-        return $this->{$this->type}();
-    }
-
-    /**
      * Idea Relationship
      */
     public function idea()
@@ -112,6 +111,24 @@ class Project extends Model
     public function audition()
     {
         return $this->hasOne(Audition::class);
+    }
+
+    /**
+     * Returns the right Relationship for the current project stage
+     */
+    public function stage()
+    {
+        return $this->{$this->type}();
+    }
+
+    /**
+     * Get what is the next stage of this project
+     */
+    public function nextStageName()
+    {
+        $next = collect($this->stages);
+        $intersection = $next->intersect($this->type);
+        return $next->slice($intersection->keys()->first() + 1, 1)->first();
     }
 
 }

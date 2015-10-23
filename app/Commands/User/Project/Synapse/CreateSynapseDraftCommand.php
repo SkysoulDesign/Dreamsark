@@ -1,16 +1,15 @@
 <?php
 
-namespace DreamsArk\Commands\User\Project;
+namespace DreamsArk\Commands\User\Project\Synapse;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Events\User\Project\ProjectDraftWasCreated;
+use DreamsArk\Events\User\Project\Synapse\SynapseDraftWasCreated;
 use DreamsArk\Models\User\User;
-use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
-use DreamsArk\Repositories\User\UserRepositoryInterface;
+use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class CreateProjectDraftCommand extends Command implements SelfHandling
+class CreateSynapseDraftCommand extends Command implements SelfHandling
 {
     /**
      * @var array
@@ -31,26 +30,26 @@ class CreateProjectDraftCommand extends Command implements SelfHandling
     public function __construct(User $user, array $fields)
     {
         $this->user = $user;
-        $this->fields = collect($fields);
+        $this->fields = $fields;
     }
 
     /**
      * Execute the command.
      *
-     * @param ProjectRepositoryInterface $repository
+     * @param SynapseRepositoryInterface $repository
      * @param Dispatcher $event
      */
-    public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
+    public function handle(SynapseRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * Create Project Draft
          */
-        $draft = $repository->draft()->create($this->user->id, $this->fields->get('type'), $this->fields->toArray());
+        $draft = $repository->draft()->create($this->user->id, $this->fields);
 
         /**
          * Announce ProjectDraftWasCreated
          */
-        $event->fire(new ProjectDraftWasCreated($draft));
+        $event->fire(new SynapseDraftWasCreated($draft));
 
     }
 }

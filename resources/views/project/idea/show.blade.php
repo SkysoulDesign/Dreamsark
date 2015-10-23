@@ -26,6 +26,10 @@
                     @lang('idea.number-of-ideas') {{ $project->stage->submissions->count() }}
                 </div>
 
+                <div class="ui center aligned segment">
+                    <div id="flipclock" data-time="{{$project->stage->audition->open_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
+                </div>
+
             @else
 
                 <div class="ui tall stacked ui yellow inverted segment">

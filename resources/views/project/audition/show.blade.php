@@ -15,8 +15,8 @@
                 Reward: {{ $audition->project->stage->reward }}
             </div>
 
-            <div class="ui segment">
-                Audition Ends at: {{ $audition->close_date }}
+            <div class="ui center aligned segment">
+                <div id="flipclock" data-time="{{$project->stage->audition->close_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
             </div>
 
             <table class="ui celled table">

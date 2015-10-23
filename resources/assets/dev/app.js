@@ -1,11 +1,29 @@
 global.jQuery = require("jquery");
 global.$ = global.jQuery;
+
 var td = require('throttle-debounce');
+var moment = require('moment');
+var datapicker = require('jquery-datetimepicker');
 
 /**
  * Prototype
  */
 $(document).ready(function () {
+
+    $('#datetime').datetimepicker({
+        lang: $('#datetime').attr('data-lang'),
+        minDate: 0,
+        minTime:0,
+        step:1,
+        todayButton: false,
+    });
+
+    /**
+     * Countdown
+     */
+    $('#flipclock').FlipClock($('#flipclock').attr('data-time'), {
+        countdown: true
+    });
 
     $('.ui.dropdown:not(.no-default)').dropdown();
     $('.ui.form .ui.checkbox').checkbox();

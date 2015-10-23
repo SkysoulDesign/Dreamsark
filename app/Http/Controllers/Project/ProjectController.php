@@ -66,4 +66,15 @@ class ProjectController extends Controller
         return view('project.show', compact('project'))->with('submissions', $submissions);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\Response
+     */
+    public function next(Project $project)
+    {
+        return view('project.' . $project->nextStageName() . '.create')->with('project', $project);
+    }
+
 }

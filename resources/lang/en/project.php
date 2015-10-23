@@ -50,4 +50,5 @@ return array (
   'stage' => 'Stage',
   'view' => 'View',
   'start-project' => 'Start a new Project',
+    'start-next-stage' => 'Start Next Stage'
 );

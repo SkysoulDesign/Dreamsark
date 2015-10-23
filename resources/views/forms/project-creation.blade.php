@@ -11,20 +11,20 @@
     <div class="ui segments">
 
         <div class="ui segment">
-            @include('partials.field', ['name' => 'reward', 'label' => trans('forms.reward')])
+            @include('partials.field', ['name' => 'reward', 'label' => trans('forms.reward'), 'type' => 'text'])
         </div>
 
     </div>
 
     <div class="ui segment">
-        @include('partials.field-multiple', array(
-        'label' => trans('forms.due-date'),
-        'fields' => [
-                ['name' => 'audition_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
-                ['name' => 'audition_time', 'placeholder' => trans('forms.last-name'), 'type' => 'time']
-            ],
-        'class' => 'two'
-        ))
+        <div class="field">
+            <label>{{ trans('forms.due-date') }}</label>
+
+            <div class="field">
+                <input id="datetime" name="audition_date" type="text" data-lang="{{ auth()->user()->settings->language == 'cn' ? 'ch' : 'en' }}" >
+            </div>
+
+        </div>
     </div>
 
     <button class="ui primary button" type="submit">@lang('forms.save-draft')</button>

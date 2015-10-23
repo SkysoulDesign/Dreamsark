@@ -1,12 +1,21 @@
 {
   "private": true,
   "dependencies": {
+    "bootstrap-material-datetimepicker": "*",
     "bulkify": "*",
+    "flipclock": "^0.7.8",
     "gulp-concat": "*",
     "gulp-rename": "*",
     "jquery": "^2.1.4",
+    "jquery-datetimepicker": "^2.4.0",
+    "moment": "*",
     "three": "*",
     "throttle-debounce": "~0.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "debowerify"
+    ]
   },
   "devDependencies": {
     "gulp": "*",

@@ -64,6 +64,7 @@
                     <th>@lang('project.description')</th>
                     <th>@lang('project.reward')</th>
                     <th>@lang('project.audition-date')</th>
+                    <th>@lang('project.status')</th>
                     <th class="right aligned">@lang('project.action')</th>
                 </tr>
                 </thead>
@@ -76,8 +77,14 @@
                         <td>{{ $project->stage->content }}</td>
                         <td>${{ $project->stage->reward }}</td>
                         <td>{{ $project->stage->audition->open_date }}</td>
+                        <td>{{ $project->stage->submission ? 'Finished' : 'Waiting' }}</td>
 
                         <td class="right aligned">
+                            @if($project->stage->submission)
+                                <a href="{{ route('project.next.create', $project->id) }}" class="ui olive button">
+                                    @lang('project.start-next-stage')
+                                </a>
+                            @endif
                             <a href="{{ route('project.show', $project->id) }}" class="ui primary button">
                                 @lang('project.view')
                             </a>
@@ -108,7 +115,6 @@
                                 @lang('project.view')
                             </a>
                         </td>
-
                     </tr>
                 @endforeach
                 </tbody>

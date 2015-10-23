@@ -5,6 +5,8 @@
     <title>DreamsArk</title>
 
     <link rel="stylesheet" media="all" href="{{ asset('css/semantic.min.css') }}">
+    <link rel="stylesheet" media="all" href="{{ asset('css/jquery.datetimepicker.css') }}">
+    <link rel="stylesheet" media="all" href="{{ asset('css/flipclock.css') }}">
 
 </head>
 <body>
@@ -39,6 +41,7 @@
 
 <script src="{{ asset('js/dev.js') }}"></script>
 <script src="{{ asset('js/semantic.min.js') }}"></script>
+<script src="{{ asset('js/flipclock.min.js') }}"></script>
 
 </body>
 </html>

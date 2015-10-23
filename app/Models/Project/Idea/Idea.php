@@ -4,6 +4,7 @@ namespace DreamsArk\Models\Project\Idea;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Project\Synapse\Synapse;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\IdeaPresenter;
@@ -104,5 +105,14 @@ class Idea extends Model
         return $this->project->audition();
     }
 
+    /**
+     * Define which model is the Next on its creation order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function next()
+    {
+        return app()->make(Synapse::class);
+    }
 
 }

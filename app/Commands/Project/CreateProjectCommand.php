@@ -33,15 +33,22 @@ class CreateProjectCommand extends Command implements SelfHandling
     private $user;
 
     /**
+     * @var Project
+     */
+    private $project;
+
+    /**
      * Create a new command instance.
      *
      * @param User $user
      * @param array $fields
+     * @param Project $project
      */
-    public function __construct(User $user, array $fields)
+    public function __construct(User $user, array $fields, Project $project = null)
     {
         $this->fields = collect($fields);
         $this->user = $user;
+        $this->project = $project;
     }
 
     /**
@@ -54,17 +61,25 @@ class CreateProjectCommand extends Command implements SelfHandling
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
-        $type = $this->fields->get('type');
-        $time = Carbon::parse($this->fields->get('audition_time', '11:00'));
+        $type = $this->fields->get('type', $this->project->nextStageName());
 
         /** @var Carbon $audition_open_date */
-        $audition_open_date = Carbon::parse($this->fields->get('audition_date'))->setTime($time->hour, $time->minute);
-        $audition_close_date = $audition_open_date->copy()->addMinute();
+        $audition_open_date = Carbon::parse($this->fields->get('audition_date'));
+        $audition_close_date = $audition_open_date->copy()->addMinutes(5);
 
         /**
-         * Create Project
+         * Create Project if not already created
          */
-        $project = $repository->create($this->user->id, $type, $this->fields->toArray());
+        $project = $this->project ?: $repository->create($this->user->id, $type, $this->fields->toArray());
+
+        /**
+         * @todo the update command is generating a new instance and the old type is being sent down the line
+         *       maybe if some function use $project->stage will get wrong stage
+         * If project exists then update it to the next stage
+         */
+        if ($this->project) {
+            $this->dispatch(new UpdateProjectStageCommand($this->project, $this->project->nextStageName()));
+        }
 
         /**
          * Create Project Idea

@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Repositories\Project\Synapse;
 
+use DreamsArk\Models\Project\Draft;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Synapse\Synapse;
 use DreamsArk\Repositories\RepositoryHelperTrait;
@@ -107,6 +108,17 @@ class SynapseRepository implements SynapseRepositoryInterface
     public function createWinner($synapse_id, $submission_id)
     {
         return $this->model($synapse_id)->winners()->attach($submission_id);
+    }
+
+    /**
+     * Set Model to Draft
+     *
+     * @param null|Draft $draft_id
+     * @return $this
+     */
+    public function draft($draft_id = null)
+    {
+        return $this->newInstance($draft_id, Draft::class);
     }
 
 }

@@ -105,6 +105,18 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     /**
+     * Set The Project to the next Stage
+     *
+     * @param int $project_id
+     * @param string $type
+     * @return ProjectRepository
+     */
+    public function nextStage($project_id, $type)
+    {
+        return $this->model($project_id)->setAttribute('type', $type)->save();
+    }
+
+    /**
      * Fail a project
      *
      * @param int $project_id

@@ -11,15 +11,23 @@
 |
 */
 
+use DreamsArk\Models\User\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /**
  * Artisan Commands
  */
-Route::get('artisan/{mode?}', function ($mode = 'refresh') {
+Route::get('artisan/{mode?}/{queue?}', [ 'as' => 'artisan', 'uses' => function ($mode = 'refresh', $queue = 'default') {
+
+    if (Gate::denies('execute-artisan-commands', auth()->user())) {
+        return redirect()->route('home');
+    }
 
     switch ($mode) {
+        case "queue" :
+            Artisan::call('queue:work', ['--queue' => $queue]);
+            break;
         case "refresh" :
             Artisan::call('migrate:refresh', ['--seed' => true]);
             break;
@@ -39,7 +47,7 @@ Route::get('artisan/{mode?}', function ($mode = 'refresh') {
 
     return redirect()->route('home');
 
-});
+}]);
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 
@@ -64,7 +72,6 @@ Route::post('translation/group/store', ['as' => 'translation.newGroup', 'uses' =
 Route::post('translation/translation/store', ['as' => 'translation.newTranslation', 'uses' => 'Translation\TranslationController@newTranslation']);
 Route::post('translation/update/{translation}', ['as' => 'translation.update', 'uses' => 'Translation\TranslationController@update']);
 Route::get('translation/{language?}/{group?}', ['as' => 'translation', 'uses' => 'Translation\TranslationController@index']);
-
 
 /**
  * Session Controller
@@ -105,6 +112,13 @@ Route::get('projects', ['as' => 'projects', 'uses' => 'Project\ProjectController
 Route::get('project/create', ['as' => 'project.create', 'uses' => 'Project\ProjectController@create']);
 Route::get('project/show/{project}', ['as' => 'project.show', 'uses' => 'Project\ProjectController@show']);
 Route::post('project/store', ['as' => 'project.store', 'uses' => 'Project\ProjectController@store']);
+Route::get('project/next/create/{project}', ['as' => 'project.next.create', 'uses' => 'Project\ProjectController@next']);
+
+/**
+ * Project Synapse Controller
+ */
+Route::post('project/synapse/store/{project}', ['as' => 'project.synapse.store', 'uses' => 'Project\Synapse\SynapseController@store']);
+Route::get('project/synapse/show/{project}', ['as' => 'project.synapse.show', 'uses' => 'Project\Synapse\SynapseController@show']);
 
 /**
  * Project Take Controller
@@ -147,6 +161,8 @@ Route::get('user/projects', ['as' => 'user.projects', 'uses' => 'User\ProjectCon
 Route::get('user/project/publish/{draft}', ['as' => 'user.project.publish', 'uses' => 'User\ProjectController@publish']);
 Route::get('user/project/edit/{draft}', ['as' => 'user.project.edit', 'uses' => 'User\ProjectController@edit']);
 Route::post('user/project/store', ['as' => 'user.project.store', 'uses' => 'User\ProjectController@store']);
+
+Route::post('user/project/synapse/store', ['as' => 'user.project.synapse.store', 'uses' => 'User\Project\SynapseController@store']);
 
 
 /**

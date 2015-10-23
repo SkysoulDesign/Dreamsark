@@ -19,6 +19,10 @@ class CreateAuditionsTable extends Migration
             $table->dateTime('open_date');
             $table->dateTime('close_date');
             $table->boolean('active')->default(false);
+
+//            $table->integer('auditable_id')->unsigned()->index();
+//            $table->string('auditable_type');
+
             $table->timestamps();
         });
     }
