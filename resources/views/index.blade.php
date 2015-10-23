@@ -18,7 +18,7 @@
 
             <div class="ui list">
                 <div class="ui item header">Last Updated</div>
-                <div class="item">October 22, 5:59</div>
+                <div class="item">October 23, 5:45</div>
             </div>
 
         </div>
