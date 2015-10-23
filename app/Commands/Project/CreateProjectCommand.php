@@ -61,7 +61,7 @@ class CreateProjectCommand extends Command implements SelfHandling
     public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
     {
 
-        $type = $this->fields->get('type', $this->project->nextStageName());
+        $type = $this->fields->get('type', $this->project ? $this->project->nextStageName() : 'idea');
 
         /** @var Carbon $audition_open_date */
         $audition_open_date = Carbon::parse($this->fields->get('audition_date'));
