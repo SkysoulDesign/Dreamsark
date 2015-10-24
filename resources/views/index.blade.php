@@ -9,7 +9,7 @@
             <div class="ui list">
                 <div class="ui item header">Credentials</div>
                 <div class="item">Default Email: dreamsark@dreamsark.com</div>
-                <div class="item"> Default Password: dreamsark</div>
+                <div class="item">Default Password: dreamsark</div>
             </div>
 
         </div>
@@ -18,7 +18,7 @@
 
             <div class="ui list">
                 <div class="ui item header">Last Updated</div>
-                <div class="item">October 23, 5:45</div>
+                <div class="item">October 24, 6:10</div>
             </div>
 
         </div>
