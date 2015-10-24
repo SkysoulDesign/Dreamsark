@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('artisan/{mode?}/{queue?}', ['as' => 'artisan', 'uses' => function ($mode = 'refresh', $queue = 'default') {
 
-    if (Gate::denies('execute-artisan-commands', auth()->user())) {
-        return redirect()->route('home');
-    }
+//    if (Gate::denies('execute-artisan-commands', auth()->user())) {
+//        return redirect()->route('home');
+//    }
 
     switch ($mode) {
         case "queue" :
