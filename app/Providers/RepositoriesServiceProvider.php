@@ -4,8 +4,8 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
-use DreamsArk\Repositories\Project\Audition\AuditionRepository;
-use DreamsArk\Repositories\Project\Audition\AuditionRepositoryInterface;
+use DreamsArk\Repositories\Project\Vote\VoteRepository;
+use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
 use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
@@ -118,11 +118,11 @@ class RepositoriesServiceProvider extends ServiceProvider
         );
 
         /**
-         * Audition Repository
+         * Vote Repository
          */
         $this->app->bind(
-            AuditionRepositoryInterface::class,
-            AuditionRepository::class
+            VoteRepositoryInterface::class,
+            VoteRepository::class
         );
 
         /**

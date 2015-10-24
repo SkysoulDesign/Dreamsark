@@ -20,7 +20,7 @@ class CreateProjectDraftTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->longText('content');
-            $table->dateTime('audition_date');
+            $table->dateTime('vote_date');
             $table->timestamps();
         });
     }

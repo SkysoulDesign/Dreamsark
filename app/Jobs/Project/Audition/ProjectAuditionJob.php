@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Jobs\Project\Audition;
+namespace DreamsArk\Jobs\Project\Vote;
 
 use DreamsArk\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProjectAuditionJob extends Job implements SelfHandling, ShouldQueue
+class ProjectVoteJob extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

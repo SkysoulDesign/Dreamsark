@@ -10,9 +10,9 @@
             {{ strtoupper(trans('project.' . $project->type)) }}
         </a>
 
-        @if($project->stage->audition->active)
+        @if($project->stage->vote->active)
 
-            <a href="{{ route('audition.show', $project->stage->audition->id) }}" class="ui green label">
+            <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui green label">
                 <i class="check icon"></i>
                 Auditing
             </a>

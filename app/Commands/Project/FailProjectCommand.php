@@ -11,6 +11,7 @@ use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class FailProjectCommand extends Command implements SelfHandling
@@ -21,46 +22,45 @@ class FailProjectCommand extends Command implements SelfHandling
     /**
      * @var Project
      */
-    private $project;
+    private $model;
 
     /**
      * Create a new command instance.
      *
-     * @param Project $project
+     * @param Model $model
      */
-    public function __construct(Project $project)
+    public function __construct(Model $model)
     {
-        $this->project = $project;
+        $this->model = $model;
     }
 
     /**
      * Execute the command.
      *
-     * @param ProjectRepositoryInterface $repository
      * @param Dispatcher $event
+     * @param Application $app
      */
-    public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
+    public function handle(Dispatcher $event, Application $app)
     {
         /**
          * If it`s not a Project Instance then initialize its repository and fail it
          */
-        $repository->fail($this->project->id);
-        app()->make($this->project->stage->repository)->fail($this->project->stage->id);
+        $app->make($this->model->repository)->fail($this->model->id);
 
         /**
          * Set Reward
          */
-        $reward = $this->project->stage->reward;
+        $reward = $this->model->reward;
 
         /**
          * Refund Project Owner
          */
-        $this->dispatch(new RefundUserCommand($reward, $this->project->user));
+        $this->dispatch(new RefundUserCommand($reward, $this->model->user));
 
         /**
          * Announce ProjectHasFailed
          */
-        $event->fire(new ProjectHasFailed($this->project));
+        $event->fire(new ProjectHasFailed($this->model->project));
 
     }
 }

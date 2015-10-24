@@ -26,9 +26,13 @@
                     @lang('idea.number-of-ideas') {{ $project->stage->submissions->count() }}
                 </div>
 
-                <div class="ui center aligned segment">
-                    <div id="flipclock" data-time="{{$project->stage->audition->open_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
-                </div>
+                @if($project->stage->active && !$project->stage->vote->active && !$project->stage->submission)
+
+                    <div class="ui center aligned segment">
+                        <div id="flipclock" data-time="{{$project->stage->vote->open_date->diffInSeconds(\Carbon\Carbon::now()) }}" style="margin:2em;"></div>
+                    </div>
+
+                @endif
 
             @else
 
@@ -47,7 +51,7 @@
 
         </div>
 
-        @if($project->stage->active && !$project->stage->audition->active && !$project->stage->submission)
+        @if($project->stage->active && !$project->stage->vote->active && !$project->stage->submission)
             <div class="ui segment">
                 <a id="idea-submit-open" href="#" class="ui primary button">
                     @lang('idea.submit-your-idea')

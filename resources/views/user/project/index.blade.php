@@ -25,7 +25,7 @@
                     <th>@lang('project.name')</th>
                     <th>@lang('project.description')</th>
                     <th>@lang('project.reward')</th>
-                    <th>@lang('project.audition-date')</th>
+                    <th>@lang('project.vote-date')</th>
                     <th class="right aligned">@lang('project.action')</th>
                 </tr>
                 </thead>
@@ -35,7 +35,7 @@
                         <td class="collapsing">{{ $project->name }}</td>
                         <td>{{ $project->content }}</td>
                         <td>${{ $project->reward }}</td>
-                        <td>{{ $project->audition_date }}</td>
+                        <td>{{ $project->vote_date }}</td>
 
                         <td class="right aligned">
                             <form action="{{ route('user.project.publish', $project->id) }}">
@@ -63,7 +63,7 @@
                     <th>@lang('project.stage')</th>
                     <th>@lang('project.description')</th>
                     <th>@lang('project.reward')</th>
-                    <th>@lang('project.audition-date')</th>
+                    <th>@lang('project.vote-date')</th>
                     <th>@lang('project.status')</th>
                     <th class="right aligned">@lang('project.action')</th>
                 </tr>
@@ -76,7 +76,7 @@
                         <td>{{ $project->type }}</td>
                         <td>{{ $project->stage->content }}</td>
                         <td>${{ $project->stage->reward }}</td>
-                        <td>{{ $project->stage->audition->open_date }}</td>
+                        <td>{{ $project->stage->vote->open_date }}</td>
                         <td>{{ $project->stage->submission ? 'Finished' : 'Waiting' }}</td>
 
                         <td class="right aligned">

@@ -28,7 +28,7 @@ class ProjectCreation extends Request
             'reward' => 'required|integer|min:1',
             'content' => 'required',
             'type' => 'required|in:idea,synapse,script',
-            'audition_date' => 'required|date',
+            'vote_date' => 'required|date',
         ];
     }
 }

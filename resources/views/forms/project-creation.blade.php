@@ -21,7 +21,7 @@
             <label>{{ trans('forms.due-date') }}</label>
 
             <div class="field">
-                <input id="datetime" name="audition_date" type="text" data-lang="{{ auth()->user()->settings->language == 'cn' ? 'ch' : 'en' }}" >
+                <input id="datetime" name="vote_date" type="text" data-lang="{{ auth()->user()->settings->language == 'cn' ? 'ch' : 'en' }}" >
             </div>
 
         </div>

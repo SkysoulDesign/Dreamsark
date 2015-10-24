@@ -7,7 +7,7 @@
 
     <div id="showReport" class="item link">@lang('navbar.report')</div>
     <a class="item" href="{{ route('projects') }}">@lang('navbar.discover-project')</a>
-    <a class="item" href="{{ route('auditions') }}">@lang('navbar.audition')</a>
+    <a class="item" href="{{ route('votes') }}">@lang('navbar.vote')</a>
 
     {{--    <a class="item" href="{{ route('translation') }}">@lang('navbar.translation')</a>--}}
 
@@ -44,6 +44,7 @@
                                 Database Commands
 
                                 <div class="left menu">
+                                    <a class="item" href="{{ route('artisan', 'backup') }}">Backup Database</a>
                                     <a class="item" href="{{ route('artisan', 'refresh') }}">Refresh Database</a>
                                     <a class="item" href="{{ route('artisan', 'reset') }}">Reset Database</a>
                                     <a class="item" href="{{ route('artisan', 'migrate') }}">Migrate Only</a>
@@ -57,7 +58,7 @@
 
                                 <div class="left menu">
                                     <a class="item" href="{{ route('artisan', 'queue') }}">Default</a>
-                                    <a class="item" href="{{ route('artisan', ['queue', 'audition']) }}">Audition</a>
+                                    <a class="item" href="{{ route('artisan', ['queue', 'vote']) }}">Vote</a>
                                 </div>
 
                             </div>

@@ -5,6 +5,7 @@ namespace DreamsArk\Models\Project\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Vote;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\IdeaPresenter;
@@ -43,6 +44,14 @@ class Idea extends Model
      * @var Presenter
      */
     protected $presenter = IdeaPresenter::class;
+
+    /**
+     * Get all of the product's photos.
+     */
+    public function vote()
+    {
+        return $this->morphOne(Vote::class, 'votable');
+    }
 
     /**
      * Project Relationship
@@ -92,17 +101,7 @@ class Idea extends Model
      */
     public function user()
     {
-        return $this->project->user();
-    }
-
-    /**
-     * Audition Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function audition()
-    {
-        return $this->project->audition();
+            return $this->project->user();
     }
 
     /**

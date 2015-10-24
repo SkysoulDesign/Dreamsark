@@ -5,10 +5,10 @@ namespace DreamsArk\Providers;
 use DreamsArk\Events\Bag\UserCoinsWasDeducted;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
 use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
-use DreamsArk\Events\Project\Audition\AuditionHasFailed;
-use DreamsArk\Events\Project\Audition\AuditionHasFinished;
-use DreamsArk\Events\Project\Audition\AuditionWasCreated;
-use DreamsArk\Events\Project\Audition\AuditionWasOpened;
+use DreamsArk\Events\Project\Vote\VoteHasFailed;
+use DreamsArk\Events\Project\Vote\VoteHasFinished;
+use DreamsArk\Events\Project\Vote\VoteWasCreated;
+use DreamsArk\Events\Project\Vote\VoteWasOpened;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
 use DreamsArk\Events\Project\IdeaWasCreated;
@@ -21,9 +21,9 @@ use DreamsArk\Events\Project\UserHasEnrolledToCast;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
 use DreamsArk\Events\Translation\TranslationsWasCreated;
-use DreamsArk\Listeners\DeactivateAudition;
-use DreamsArk\Listeners\Project\Audition\QueueCloseAuditionCommand;
-use DreamsArk\Listeners\Project\Audition\QueueOpenAuditionCommand;
+use DreamsArk\Listeners\DeactivateVoting;
+use DreamsArk\Listeners\Project\Vote\QueueCloseVotingCommand;
+use DreamsArk\Listeners\Project\Vote\QueueOpenVotingCommand;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -37,22 +37,22 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
 
         /**
-         * Audition
+         * Vote
          */
-        AuditionWasCreated::class => [
-            QueueOpenAuditionCommand::class
+        VoteWasCreated::class => [
+            QueueOpenVotingCommand::class
         ],
 
-        AuditionWasOpened::class => [
-            QueueCloseAuditionCommand::class
+        VoteWasOpened::class => [
+            QueueCloseVotingCommand::class
         ],
 
-        AuditionHasFailed::class => [
-            DeactivateAudition::class,
+        VoteHasFailed::class => [
+            DeactivateVoting::class,
         ],
 
-        AuditionHasFinished::class => [
-            DeactivateAudition::class,
+        VoteHasFinished::class => [
+            DeactivateVoting::class,
         ],
 
         ProjectHasFailed::class => [

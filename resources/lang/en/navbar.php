@@ -15,7 +15,7 @@ return array (
   'purchase-coins' => 'Purchase Coins',
   'coins' => 'Coins: :amount',
   'translation' => 'Translation',
-  'audition' => 'Auditions',
+  'vote' => 'Votes',
   'discover-idea' => 'Discover Ideas',
   'discover-project' => 'Projects',
   'create-project' => 'Start a Project',

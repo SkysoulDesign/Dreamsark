@@ -24,7 +24,7 @@ class ProjectRepository implements ProjectRepositoryInterface
      * @internal param Take $take
      * @internal param Cast $cast
      * @internal param Crew $crew
-     * @internal param Audition $audition
+     * @internal param Vote $vote
      */
     public function __construct(Project $project)
     {

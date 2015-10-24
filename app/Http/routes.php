@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Artisan Commands
  */
-Route::get('artisan/{mode?}/{queue?}', [ 'as' => 'artisan', 'uses' => function ($mode = 'refresh', $queue = 'default') {
+Route::get('artisan/{mode?}/{queue?}', ['as' => 'artisan', 'uses' => function ($mode = 'refresh', $queue = 'default') {
 
     if (Gate::denies('execute-artisan-commands', auth()->user())) {
         return redirect()->route('home');
@@ -27,6 +27,9 @@ Route::get('artisan/{mode?}/{queue?}', [ 'as' => 'artisan', 'uses' => function (
     switch ($mode) {
         case "queue" :
             Artisan::call('queue:work', ['--queue' => $queue]);
+            break;
+        case "backup":
+            Artisan::call('backup:run', ['--only-db' => true]);
             break;
         case "refresh" :
             Artisan::call('migrate:refresh', ['--seed' => true]);
@@ -88,10 +91,10 @@ Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionCon
 Route::post('settings/update/{setting}', ['as' => 'settings.update', 'uses' => 'Setting\SettingController@update']);
 
 /**
- * Audition Controller
+ * Vote Controller
  */
-Route::get('auditions', ['as' => 'auditions', 'uses' => 'Project\AuditionController@index']);
-Route::get('audition/show/{audition}', ['as' => 'audition.show', 'uses' => 'Project\AuditionController@show']);
+Route::get('votes', ['as' => 'votes', 'uses' => 'Project\VoteController@index']);
+Route::get('vote/show/{vote}', ['as' => 'vote.show', 'uses' => 'Project\VoteController@show']);
 
 /**
  * Idea Controller
@@ -119,6 +122,12 @@ Route::get('project/next/create/{project}', ['as' => 'project.next.create', 'use
  */
 Route::post('project/synapse/store/{project}', ['as' => 'project.synapse.store', 'uses' => 'Project\Synapse\SynapseController@store']);
 Route::get('project/synapse/show/{project}', ['as' => 'project.synapse.show', 'uses' => 'Project\Synapse\SynapseController@show']);
+
+/**
+ * Project Script Controller
+ */
+Route::post('project/script/store/{project}', ['as' => 'project.script.store', 'uses' => 'Project\Script\ScriptController@store']);
+Route::get('project/script/show/{project}', ['as' => 'project.script.show', 'uses' => 'Project\Script\ScriptController@show']);
 
 /**
  * Project Take Controller
@@ -163,6 +172,7 @@ Route::get('user/project/edit/{draft}', ['as' => 'user.project.edit', 'uses' => 
 Route::post('user/project/store', ['as' => 'user.project.store', 'uses' => 'User\ProjectController@store']);
 
 Route::post('user/project/synapse/store', ['as' => 'user.project.synapse.store', 'uses' => 'User\Project\SynapseController@store']);
+Route::post('user/project/script/store', ['as' => 'user.project.script.store', 'uses' => 'User\Project\ScriptController@store']);
 
 
 /**

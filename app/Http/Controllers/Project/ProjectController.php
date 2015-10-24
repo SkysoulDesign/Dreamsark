@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
+use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
 use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;

@@ -39,7 +39,7 @@ class ProjectPublication extends Req
             'reward' => 'required|integer|between:1,' . $this->user()->bag->coins,
             'content' => 'required',
             'type' => 'required|in:idea,synapse,script',
-            'audition_date' => 'required|date',
+            'vote_date' => 'required|date',
         ];
     }
 }

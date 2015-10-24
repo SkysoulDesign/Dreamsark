@@ -142,6 +142,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
 
         /**
          * Developed

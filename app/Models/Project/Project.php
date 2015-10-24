@@ -106,14 +106,6 @@ class Project extends Model
     }
 
     /**
-     * Audition Relationship
-     */
-    public function audition()
-    {
-        return $this->hasOne(Audition::class);
-    }
-
-    /**
      * Returns the right Relationship for the current project stage
      */
     public function stage()

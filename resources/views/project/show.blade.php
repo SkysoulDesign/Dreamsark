@@ -10,10 +10,10 @@
             </div>
         @endif
 
-        @if($project->stage->audition->active)
+        @if($project->stage->vote->active)
             <div class="ui inverted olive segment">
-                <a class="ui header" href="{{ route('audition.show', $project->stage->audition->id) }}">
-                    @lang('audition.is-open')
+                <a class="ui header" href="{{ route('vote.show', $project->stage->vote->id) }}">
+                    @lang('vote.is-open')
                 </a>
             </div>
         @endif

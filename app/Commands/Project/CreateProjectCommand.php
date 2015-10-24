@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Project;
 
 use Carbon\Carbon;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\Audition\CreateAuditionCommand;
+use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
 use DreamsArk\Commands\Project\Script\CreateScriptCommand;
 use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;
@@ -63,10 +63,6 @@ class CreateProjectCommand extends Command implements SelfHandling
 
         $type = $this->fields->get('type', $this->project ? $this->project->nextStageName() : 'idea');
 
-        /** @var Carbon $audition_open_date */
-        $audition_open_date = Carbon::parse($this->fields->get('audition_date'));
-        $audition_close_date = $audition_open_date->copy()->addMinutes(5);
-
         /**
          * Create Project if not already created
          */
@@ -101,11 +97,6 @@ class CreateProjectCommand extends Command implements SelfHandling
         if ($type == 'script') {
             $this->dispatch(new CreateScriptCommand($project->id, $this->fields->toArray()));
         }
-
-        /**
-         * Create Audition
-         */
-        $this->dispatch(new CreateAuditionCommand($project, $audition_open_date, $audition_close_date));
 
         /**
          * Announce ProjectWasCreated

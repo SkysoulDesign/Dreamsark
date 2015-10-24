@@ -4,6 +4,7 @@ namespace DreamsArk\Models\Project\Synapse;
 
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Vote;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,14 @@ class Synapse extends Model
      * @var array
      */
     protected $fillable = ['content', 'reward'];
+
+    /**
+     * Get all of the product's photos.
+     */
+    public function vote()
+    {
+        return $this->morphOne(Vote::class, 'votable');
+    }
 
     /**
      * Scope a query to only show visible entries.
@@ -73,16 +82,6 @@ class Synapse extends Model
     }
 
     /**
-     * Audition Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function audition()
-    {
-        return $this->project->audition();
-    }
-
-    /**
      * Submission Relationship
      * Only Available once there is a winner for this project
      *
@@ -102,4 +101,5 @@ class Synapse extends Model
     {
         return $this->morphMany(Submission::class, 'submissible');
     }
+
 }
