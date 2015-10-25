@@ -4,7 +4,6 @@ namespace DreamsArk\Commands\Project;
 
 use Carbon\Carbon;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
 use DreamsArk\Commands\Project\Script\CreateScriptCommand;
 use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;

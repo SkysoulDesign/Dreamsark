@@ -107,7 +107,7 @@ class ObjectBehavior implements
      * Sets the value in a particular position in the ArrayAccess object
      *
      * @param string|integer $key
-     * @param mixed          $value
+     * @param mixed $value
      */
     public function offsetSet($key, $value)
     {
@@ -128,7 +128,7 @@ class ObjectBehavior implements
      * Proxies all calls to the PhpSpec subject
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return mixed
      */
@@ -141,7 +141,7 @@ class ObjectBehavior implements
      * Proxies setting to the PhpSpec subject
      *
      * @param string $property
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function __set($property, $value)
     {

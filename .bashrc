@@ -1,3 +1,3 @@
-alias phpspec="/home/vagrant/dreamsark.dev/vendor/bin/phpspec"
-alias phpunit="/home/vagrant/dreamsark.dev/vendor/bin/phpunit"
-alias envoy="/home/vagrant/dreamsark.dev/vendor/bin/envoy"
+alias phpspec="php ~/dreamsark.dev/vendor/phpspec/phpspec/bin/phpspec"
+alias phpunit="php ~/dreamsark.dev/vendor/phpunit/phpunit/phpunit"
+alias envoy="php ~/dreamsark.dev/vendor/laravel/envoy/envoy"
