@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Models\Project\Synapse;
 
+use DreamsArk\Models\Project\Script\Script;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Vote;
@@ -100,6 +101,16 @@ class Synapse extends Model
     public function submissions()
     {
         return $this->morphMany(Submission::class, 'submissible');
+    }
+
+    /**
+     * Define which model is the Next on its creation order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function next()
+    {
+        return app()->make(Script::class);
     }
 
 }

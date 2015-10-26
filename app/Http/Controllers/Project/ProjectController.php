@@ -49,9 +49,12 @@ class ProjectController extends Controller
      */
     public function store(ProjectCreation $request)
     {
+
         $command = new CreateProjectCommand($request->user(), $request->all());
-        $project = $this->dispatch($command);
-        return redirect()->route('project.show', $project->id);
+        $this->dispatch($command);
+
+        return redirect()->route('projects');
+
     }
 
     /**

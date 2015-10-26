@@ -2,13 +2,10 @@
 
 namespace DreamsArk\Commands\Project\Vote;
 
-use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\FailProjectCommand;
-use DreamsArk\Commands\Project\Idea\CreateIdeaWinnerCommand;
-use DreamsArk\Commands\Project\Submission\CreateSubmissionWinnerCommand;
+use DreamsArk\Commands\Project\FailStageCommand;
 use DreamsArk\Events\Project\Vote\VoteHasFailed;
-use DreamsArk\Events\Project\Vote\VoteHasFinished;
+use DreamsArk\Events\Project\Vote\VotingHasFinished;
 use DreamsArk\Models\Project\Vote;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
@@ -65,7 +62,7 @@ class CloseVotingCommand extends Command implements SelfHandling
             /**
              * Fail The project stage
              */
-            $this->dispatch(new FailProjectCommand($this->vote->votable->project));
+            $this->dispatch(new FailStageCommand($this->vote->votable));
 
             /**
              * Announce Vote has Failed
@@ -81,28 +78,16 @@ class CloseVotingCommand extends Command implements SelfHandling
         $submission_winner = $submission->findOrFail($votes->sort()->keys()->pop());
 
         /**
-         * Register Winner
-         */
-        $this->dispatch(new CreateSubmissionWinnerCommand($submission_winner));
-
-        /**
          * Refund Losers
          */
         $losers = $submissions->filter(function ($submission) use ($submission_winner) {
             return $submission->id != $submission_winner->id;
         });
 
-        $losers->pluck('votes', 'id')->map(function ($item) {
-            $item->map(function ($user) {
-                $command = $command = new RefundUserCommand($user->pivot->amount, $user);
-                $this->dispatch($command);
-            });
-        });
-
         /**
          * Announce VoteHasFinished
          */
-        $event->fire(new VoteHasFinished($this->vote));
+        $event->fire(new VotingHasFinished($this->vote, $submission_winner, $losers));
 
     }
 }

@@ -48,7 +48,7 @@ class QueueOpenVotingCommand
 
         $delay = $event->vote->open_date->timestamp - $this->carbon->now()->timestamp;
 
-        $this->queue->laterOn('vote', $delay, $command);
+        $this->queue->laterOn('voting', $delay, $command);
 
     }
 

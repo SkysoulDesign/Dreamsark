@@ -3,6 +3,7 @@
 namespace DreamsArk\Http\Controllers\Project\Synapse;
 
 use DreamsArk\Commands\Project\CreateProjectCommand;
+use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
@@ -34,9 +35,8 @@ class SynapseController extends Controller
      */
     public function store(Project $project, Request $request)
     {
-        $command = new CreateProjectCommand($request->user(), $request->all(), $project);
-        $project = $this->dispatch($command);
-        return redirect()->route('project.synapse.show', $project->id);
+        $this->dispatch(new CreateSynapseCommand($project->id, $request->all()));
+        return redirect()->route('projects');
     }
 
 }

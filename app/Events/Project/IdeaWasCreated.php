@@ -13,7 +13,7 @@ class IdeaWasCreated extends Event
     /**
      * @var Idea
      */
-    public $idea;
+    public $model;
 
     /**
      * Create a new event instance.
@@ -22,7 +22,7 @@ class IdeaWasCreated extends Event
      */
     public function __construct(Idea $idea)
     {
-        $this->idea = $idea;
+        $this->model = $idea;
     }
 
     /**

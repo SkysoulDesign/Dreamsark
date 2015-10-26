@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Models\Project\Script;
 
+use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Vote;
@@ -100,6 +101,16 @@ class Script extends Model
     public function user()
     {
         return $this->project->user();
+    }
+
+    /**
+     * Define which model is the Next on its creation order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function next()
+    {
+        return app()->make(Idea::class);
     }
 
 }

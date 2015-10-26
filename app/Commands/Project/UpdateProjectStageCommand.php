@@ -8,6 +8,7 @@ use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Eloquent\Model;
 
 class UpdateProjectStageCommand extends Command implements SelfHandling
 {
@@ -27,7 +28,7 @@ class UpdateProjectStageCommand extends Command implements SelfHandling
      * @param Project $project
      * @param $stage
      */
-    public function __construct(Project $project, $stage)
+    public function __construct(Project $project, Model $stage)
     {
         $this->project = $project;
         $this->stage = $stage;
@@ -44,7 +45,7 @@ class UpdateProjectStageCommand extends Command implements SelfHandling
         /**
          * Update Project Stage
          */
-        $repository->nextStage($this->project->id, $this->stage);
+        $repository->nextStage($this->project->id, strtolower(class_basename($this->stage)));
 
         /**
          * Announce ProjectStageWasUpdated

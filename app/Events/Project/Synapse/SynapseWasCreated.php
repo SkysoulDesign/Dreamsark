@@ -14,16 +14,23 @@ class SynapseWasCreated extends Event
     /**
      * @var Synapse
      */
-    public $synapse;
+    public $model;
+
+    /**
+     * @var
+     */
+    public $voting_date;
 
     /**
      * Create a new event instance.
      *
      * @param Synapse $synapse
+     * @param $voting_date
      */
-    public function __construct(Synapse $synapse)
+    public function __construct(Synapse $synapse, $voting_date)
     {
-        $this->synapse = $synapse;
+        $this->model = $synapse;
+        $this->voting_date = $voting_date;
     }
 
     /**

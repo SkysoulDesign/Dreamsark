@@ -3,6 +3,7 @@
 namespace DreamsArk\Events\Project\Script;
 
 use DreamsArk\Events\Event;
+use DreamsArk\Models\Project\Script\Script;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -11,13 +12,18 @@ class ScriptWasCreated extends Event
     use SerializesModels;
 
     /**
+     * @var Script
+     */
+    public $model;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Script $script
      */
-    public function __construct()
+    public function __construct(Script $script)
     {
-        //
+        $this->model = $script;
     }
 
     /**

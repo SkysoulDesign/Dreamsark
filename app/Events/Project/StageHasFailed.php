@@ -3,19 +3,19 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ProjectHasFailed extends Event
+class StageHasFailed extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Project
+     * @var Model
      */
-    public $project;
+    public $model;
 
     /**
      * @var
@@ -30,15 +30,15 @@ class ProjectHasFailed extends Event
     /**
      * Create a new event instance.
      *
-     * @param Project $project
-     * @param $user
-     * @param $amount
+     * @param Model $model
+     * @param User $user
+     * @param int $amount
      */
-    public function __construct(Project $project, User $user, $amount)
+    public function __construct(Model $model, User $user, $amount)
     {
-        $this->project = $project;
-        $this->amount = $amount;
+        $this->model = $model;
         $this->user = $user;
+        $this->amount = $amount;
     }
 
     /**

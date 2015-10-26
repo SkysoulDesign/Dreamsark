@@ -44,10 +44,9 @@ class CreateSynapseCommand extends Command implements SelfHandling
      *
      * @param SynapseRepositoryInterface $repository
      * @param Dispatcher $event
-     * @param Carbon $carbon
      * @return Synapse
      */
-    public function handle(SynapseRepositoryInterface $repository, Dispatcher $event, Carbon $carbon)
+    public function handle(SynapseRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * Create Idea
@@ -55,24 +54,9 @@ class CreateSynapseCommand extends Command implements SelfHandling
         $synapse = $repository->create($this->project_id, $this->fields->all());
 
         /**
-         * Deduct Coins from the user
-         */
-        $command = new ChargeUserCommand($synapse->project->user, $this->fields->get('reward'));
-        $this->dispatch($command);
-
-        /**
-         * Create Voting
-         */
-        /** @var Carbon $vote_open_date */
-        $vote_open_date = $carbon->parse($this->fields->get('vote_date'));
-        $vote_close_date = $vote_open_date->copy()->addMinutes(5);
-
-        $this->dispatch(new CreateVotingCommand($synapse, $vote_open_date, $vote_close_date));
-
-        /**
          * Announce IdeaWasCreated
          */
-        $event->fire(new SynapseWasCreated($synapse));
+        $event->fire(new SynapseWasCreated($synapse, $this->fields->get('vote_date')));
 
     }
 }

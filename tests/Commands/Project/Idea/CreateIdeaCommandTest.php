@@ -33,7 +33,7 @@ class CreateIdeaCommandTest extends TestCase
     public function it_creates_a_new_idea()
     {
 
-        $command = new CreateIdeaCommand(1, []);
+        $command = new CreateIdeaCommand(1, [['user' => 'hello world']]);
 
 //        $this->expectsJobs(ChargeUserCommand::class);
 //        $this->expectsJobs(CreateVotingCommand::class);

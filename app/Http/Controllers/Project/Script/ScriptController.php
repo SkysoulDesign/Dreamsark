@@ -3,6 +3,7 @@
 namespace DreamsArk\Http\Controllers\Project\Script;
 
 use DreamsArk\Commands\Project\CreateProjectCommand;
+use DreamsArk\Commands\Project\Script\CreateScriptCommand;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
@@ -33,8 +34,7 @@ class ScriptController extends Controller
      */
     public function store(Project $project, Request $request)
     {
-        $command = new CreateProjectCommand($request->user(), $request->all(), $project);
-        $project = $this->dispatch($command);
-        return redirect()->route('project.script.show', $project->id);
+        $this->dispatch(new CreateScriptCommand($project->id, $request->all()));
+        return redirect()->route('projects');
     }
 }

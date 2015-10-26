@@ -3,9 +3,8 @@
 namespace DreamsArk\Commands\Project\Vote;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\FailProjectCommand;
+use DreamsArk\Commands\Project\FailStageCommand;
 use DreamsArk\Events\Project\Vote\VoteWasOpened;
-use DreamsArk\Events\Project\ProjectHasFailed;
 use DreamsArk\Models\Project\Vote;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -50,7 +49,7 @@ class OpenVotingCommand extends Command implements SelfHandling
             /**
              * Fail this project
              */
-            $this->dispatch(new FailProjectCommand($this->vote->votable));
+            $this->dispatch(new FailStageCommand($this->vote->votable));
 
             return;
         }
