@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
+use DreamsArk\Commands\Project\StartProjectCommand;
 use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
 use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
@@ -51,6 +52,22 @@ class ProjectController extends Controller
     {
 
         $command = new CreateProjectCommand($request->user(), $request->all());
+        $this->dispatch($command);
+
+        return redirect()->route('projects');
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param ProjectCreation|Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function projectStore(Project $project, Request $request)
+    {
+
+        $command = new StartProjectCommand($project, $request->all());
         $this->dispatch($command);
 
         return redirect()->route('projects');

@@ -10,20 +10,20 @@
             {{ strtoupper(trans('project.' . $project->type)) }}
         </a>
 
-        @if(!$project->stage->active)
-
-            <a href="{{ route('project.show', $project->id) }}" class="ui red label">
-                <i class="x icon"></i>
-                Failed
-            </a>
-
-        @endif
-
         @if($project->stage->vote->active)
 
             <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui green label">
                 <i class="check icon"></i>
-                Auditing
+                @lang('project.voting')
+            </a>
+
+        @endif
+
+        @if(!$project->stage->active)
+
+            <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui red label">
+                <i class="x icon"></i>
+                @lang('project.failed')
             </a>
 
         @endif
@@ -32,7 +32,7 @@
 
             <a class="ui green label">
                 <i class="check icon"></i>
-                Finished
+                @lang('project.finished')
             </a>
 
         @endif

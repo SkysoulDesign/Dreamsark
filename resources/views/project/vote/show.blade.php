@@ -12,7 +12,7 @@
             </div>
 
             <div class="ui  segment">
-                Reward: {{ $vote->votable->reward }}
+                @lang('vote.reward') {{ $vote->votable->reward }}
             </div>
 
             <div class="ui center aligned segment">
@@ -22,10 +22,10 @@
             <table class="ui celled table">
                 <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Content</th>
-                    <th class="collapsing">Votes</th>
-                    <th class="collapsing">Action</th>
+                    <th>@lang('vote.user')</th>
+                    <th>@lang('vote.content')</th>
+                    <th class="collapsing">@lang('vote.votes')</th>
+                    <th class="collapsing">@lang('vote.action')</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -41,17 +41,16 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public function published($user_id)
     {
-        $ideas = $this->model($user_id)->projects()
-            ->join('ideas', 'projects.id', '=', 'ideas.project_id')->where('ideas.active', '=', true);
-
-        $synapses = $this->model($user_id)->projects()
-            ->join('synapses', 'projects.id', '=', 'synapses.project_id')->where('synapses.active', '=', true);
-
         return $this->model($user_id)->projects()
-            ->join('scripts', 'projects.id', '=', 'scripts.project_id')->where('scripts.active', '=', true)
-            ->union($ideas)
-            ->union($synapses)
+            ->orWhereHas('idea', function ($query) {
+                $query->where('active', '=', true);
+            })->orWhereHas('synapse', function ($query) {
+                $query->where('active', '=', true);
+            })->orWhereHas('script', function ($query) {
+                $query->where('active', '=', true);
+            })
             ->get();
+
     }
 
     /**
@@ -62,16 +61,14 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public function failed($user_id)
     {
-        $ideas = $this->model($user_id)->projects()
-            ->join('ideas', 'projects.id', '=', 'ideas.project_id')->where('ideas.active', '=', 0);
-
-        $synapses = $this->model($user_id)->projects()
-            ->join('synapses', 'projects.id', '=', 'synapses.project_id')->where('synapses.active', '=', 0);
-
         return $this->model($user_id)->projects()
-            ->join('scripts', 'projects.id', '=', 'scripts.project_id')->where('scripts.active', '=', 0)
-            ->union($ideas)
-            ->union($synapses)
+            ->orWhereHas('idea', function ($query) {
+                $query->where('active', '=', false);
+            })->orWhereHas('synapse', function ($query) {
+                $query->where('active', '=', false);
+            })->orWhereHas('script', function ($query) {
+                $query->where('active', '=', false);
+            })
             ->get();
 
     }

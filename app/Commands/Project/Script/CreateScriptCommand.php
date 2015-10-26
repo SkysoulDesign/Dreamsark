@@ -55,21 +55,6 @@ class CreateScriptCommand extends Command implements SelfHandling
         $script = $repository->create($this->project_id, $this->fields->all());
 
         /**
-         * Deduct Coins from the user
-         */
-        $command = new ChargeUserCommand($script->project->user, $this->fields->get('reward'));
-        $this->dispatch($command);
-
-        /**
-         * Create Voting
-         */
-        /** @var Carbon $vote_open_date */
-        $vote_open_date = $carbon->parse($this->fields->get('vote_date'));
-        $vote_close_date = $vote_open_date->copy()->addMinutes(5);
-
-        $this->dispatch(new CreateVotingCommand($script, $vote_open_date, $vote_close_date));
-
-        /**
          * Announce IdeaWasCreated
          */
         $event->fire(new ScriptWasCreated($script));

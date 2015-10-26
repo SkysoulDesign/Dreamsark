@@ -99,8 +99,8 @@ Route::get('vote/show/{vote}', ['as' => 'vote.show', 'uses' => 'Project\VoteCont
 /**
  * Idea Controller
  */
-Route::get('ideas', ['as' => 'project.ideas', 'uses' => 'Project\Idea\IdeaController@index']);
-Route::get('idea/show/{idea}', ['as' => 'project.idea.show', 'uses' => 'Project\Idea\IdeaController@show']);
+//Route::get('ideas', ['as' => 'project.ideas', 'uses' => 'Project\Idea\IdeaController@index']);
+//Route::get('idea/show/{idea}', ['as' => 'project.idea.show', 'uses' => 'Project\Idea\IdeaController@show']);
 
 /**
  * Submission Controller
@@ -116,6 +116,8 @@ Route::get('project/create', ['as' => 'project.create', 'uses' => 'Project\Proje
 Route::get('project/show/{project}', ['as' => 'project.show', 'uses' => 'Project\ProjectController@show']);
 Route::post('project/store', ['as' => 'project.store', 'uses' => 'Project\ProjectController@store']);
 Route::get('project/next/create/{project}', ['as' => 'project.next.create', 'uses' => 'Project\ProjectController@next']);
+
+Route::post('project/{project}/store', ['as' => 'project.project.store', 'uses' => 'Project\ProjectController@projectStore']);
 
 /**
  * Project Synapse Controller

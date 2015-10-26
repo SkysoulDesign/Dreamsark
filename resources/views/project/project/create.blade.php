@@ -5,7 +5,7 @@
     <div class="column">
 
         <div class="ui segment">
-            @include('forms.project-start', $user)
+            @include('forms.project-creation', $project)
         </div>
 
     </div>

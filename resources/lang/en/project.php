@@ -51,4 +51,7 @@ return array (
   'view' => 'View',
   'start-project' => 'Start a new Project',
   'start-next-stage' => 'Start Next Stage',
+    'voting' => 'Voting',
+    'finished' => 'Finished',
+    'status' => 'Status'
 );

@@ -110,7 +110,7 @@ class Script extends Model
      */
     public function next()
     {
-        return app()->make(Idea::class);
+        return app()->make(Project::class);
     }
 
 }

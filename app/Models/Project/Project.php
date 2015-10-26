@@ -24,13 +24,6 @@ class Project extends Model
     protected $table = 'projects';
 
     /**
-     * Define The Order which a project must to follow
-     *
-     * @var array
-     */
-    protected $stages = ['idea', 'synapse', 'script'];
-
-    /**
      * Define this model Repository.
      *
      * @var string
@@ -118,9 +111,7 @@ class Project extends Model
      */
     public function nextStageName()
     {
-        $next = collect($this->stages);
-        $intersection = $next->intersect($this->type);
-        return $next->slice($intersection->keys()->first() + 1, 1)->first();
+        return strtolower(class_basename($this->stage->next()));
     }
 
 }

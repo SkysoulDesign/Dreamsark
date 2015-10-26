@@ -44,7 +44,7 @@ class OpenVotingCommand extends Command implements SelfHandling
         /**
          * If there are no submission then project failed, or less than the minimum submissions
          */
-        if ($this->vote->votable->submissions->count() < 10) {
+        if ($this->vote->votable->submissions->count() < 1) {
 
             /**
              * Fail this project
