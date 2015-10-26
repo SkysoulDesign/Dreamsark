@@ -41,7 +41,17 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public function published($user_id)
     {
-        return $this->model($user_id)->projects()->active()->get();
+        $ideas = $this->model($user_id)->projects()
+            ->join('ideas', 'projects.id', '=', 'ideas.project_id')->where('ideas.active', '=', true);
+
+        $synapses = $this->model($user_id)->projects()
+            ->join('synapses', 'projects.id', '=', 'synapses.project_id')->where('synapses.active', '=', true);
+
+        return $this->model($user_id)->projects()
+            ->join('scripts', 'projects.id', '=', 'scripts.project_id')->where('scripts.active', '=', true)
+            ->union($ideas)
+            ->union($synapses)
+            ->get();
     }
 
     /**
@@ -52,7 +62,18 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public function failed($user_id)
     {
-        return $this->model($user_id)->projects()->failed()->get();
+        $ideas = $this->model($user_id)->projects()
+            ->join('ideas', 'projects.id', '=', 'ideas.project_id')->where('ideas.active', '=', 0);
+
+        $synapses = $this->model($user_id)->projects()
+            ->join('synapses', 'projects.id', '=', 'synapses.project_id')->where('synapses.active', '=', 0);
+
+        return $this->model($user_id)->projects()
+            ->join('scripts', 'projects.id', '=', 'scripts.project_id')->where('scripts.active', '=', 0)
+            ->union($ideas)
+            ->union($synapses)
+            ->get();
+
     }
 
     /**

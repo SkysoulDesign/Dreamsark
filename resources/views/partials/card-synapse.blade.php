@@ -28,6 +28,15 @@
 
         @endif
 
+        @if(!$project->stage->active)
+
+            <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui red label">
+                <i class="x icon"></i>
+                Failed
+            </a>
+
+        @endif
+
         <a href="{{ route('project.show', $project->id) }}">{{ $project->name }}</a>
 
     </div>

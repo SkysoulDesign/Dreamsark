@@ -19,18 +19,21 @@ use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TestCase;
 
 class CreateIdeaCommandTest extends TestCase
 {
 
-    use DispatchesJobs;
+    use DispatchesJobs, DatabaseTransactions;
 
     /**
      * @test
      */
     public function it_creates_a_new_idea()
     {
+
+        $this->dispatch(new CreateIdeaCommand(1, []));
 
 //        $command = new CreateIdeaCommand(1, [['user' => 'hello world']]);
 

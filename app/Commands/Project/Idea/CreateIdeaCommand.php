@@ -45,10 +45,9 @@ class CreateIdeaCommand extends Command implements SelfHandling
      *
      * @param IdeaRepositoryInterface $repository
      * @param Dispatcher $event
-     * @param Carbon $carbon
      * @return Idea
      */
-    public function handle(IdeaRepositoryInterface $repository, Dispatcher $event, Carbon $carbon)
+    public function handle(IdeaRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * Create Idea

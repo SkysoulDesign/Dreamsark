@@ -42,7 +42,7 @@ class CreateVote
          * Create Voting
          */
         $vote_open_date = $this->carbon->parse();
-        $vote_close_date = $vote_open_date->copy()->addMinutes(5);
+        $vote_close_date = $vote_open_date->copy()->addMinutes(1);
 
         $this->dispatch(new CreateVotingCommand($event->model, $vote_open_date, $vote_close_date));
 
