@@ -54,4 +54,5 @@ return array (
   'seeking-synapse' => 'Seeking for Synapse',
   'seeking-script' => 'Seeking for Script',
   'publish' => 'Publish',
+  'content' => 'Content',
 );

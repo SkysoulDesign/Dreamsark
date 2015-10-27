@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectDraftTable extends Migration
+class CreateUserRoleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,12 @@ class CreateProjectDraftTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_draft', function (Blueprint $table) {
+        Schema::create('user_role', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('reward');
-            $table->string('name');
-            $table->string('type');
-            $table->longText('content');
-            $table->dateTime('vote_date');
-            $table->timestamps();
+            $table->integer('role_id')->unsigned()->index();
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -32,6 +28,6 @@ class CreateProjectDraftTable extends Migration
      */
     public function down()
     {
-        Schema::drop('project_draft');
+        Schema::drop('user_role');
     }
 }

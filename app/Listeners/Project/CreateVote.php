@@ -6,7 +6,6 @@ namespace DreamsArk\Listeners\Project;
 use Carbon\Carbon;
 use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Events\Event;
-use DreamsArk\Events\Project\ProjectWasCreated;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class CreateVote

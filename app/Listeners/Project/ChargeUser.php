@@ -4,10 +4,7 @@ namespace DreamsArk\Listeners\Project;
 
 use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Events\Event;
-use DreamsArk\Events\Project\ProjectWasCreated;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ChargeUser
 {

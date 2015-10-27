@@ -15,8 +15,8 @@ return array (
   'logout' => '退出登录',
   'purchase-coins' => '购买影币',
   'coins' => '影币: :amount',
-  'vote' => 'Vote',
-  'discover-idea' => 'Discover Ideas',
-  'discover-project' => 'Projects',
-  'create-project' => 'Create Project',
+  'vote' => '决策',
+  'discover-idea' => '探索创意',
+  'discover-project' => '探索发现',
+  'create-project' => '创建项目',
 );

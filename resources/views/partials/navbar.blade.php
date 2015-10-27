@@ -58,7 +58,7 @@
 
                                 <div class="left menu">
                                     <a class="item" href="{{ route('artisan', 'queue') }}">Default</a>
-                                    <a class="item" href="{{ route('artisan', ['queue', 'vote']) }}">Vote</a>
+                                    <a class="item" href="{{ route('artisan', ['queue', 'voting']) }}">Voting</a>
                                 </div>
 
                             </div>
