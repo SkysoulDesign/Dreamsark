@@ -62,7 +62,7 @@ class Vote extends Model
      */
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->votable->project();
     }
 
 }

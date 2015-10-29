@@ -5,12 +5,15 @@ namespace DreamsArk\Models\Project\Script;
 use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\VotableTrait;
 use DreamsArk\Models\Project\Vote;
 use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Script extends Model
 {
+    use VotableTrait;
+
     /**
      * The database table used by the model.
      *
@@ -33,12 +36,9 @@ class Script extends Model
     protected $fillable = ['content', 'reward'];
 
     /**
-     * Get all of the product's photos.
+     * Define Which is the next Model
      */
-    public function vote()
-    {
-        return $this->morphOne(Vote::class, 'votable');
-    }
+    protected $next = Project::class;
 
     /**
      * Scope a query to only show visible entries.
@@ -101,16 +101,6 @@ class Script extends Model
     public function user()
     {
         return $this->project->user();
-    }
-
-    /**
-     * Define which model is the Next on its creation order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function next()
-    {
-        return app()->make(Project::class);
     }
 
 }

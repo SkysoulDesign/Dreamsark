@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Listeners;
+namespace DreamsArk\Listeners\Project\Vote;
 
 use DreamsArk\Events\Event;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;

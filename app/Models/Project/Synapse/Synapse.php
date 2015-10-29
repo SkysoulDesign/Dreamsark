@@ -5,12 +5,16 @@ namespace DreamsArk\Models\Project\Synapse;
 use DreamsArk\Models\Project\Script\Script;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\VotableTrait;
 use DreamsArk\Models\Project\Vote;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Synapse extends Model
 {
+
+    use VotableTrait;
+
     /**
      * The database table used by the model.
      *
@@ -33,12 +37,9 @@ class Synapse extends Model
     protected $fillable = ['content', 'reward'];
 
     /**
-     * Get all of the product's photos.
+     * Define Which is the next Model
      */
-    public function vote()
-    {
-        return $this->morphOne(Vote::class, 'votable');
-    }
+    protected $next = Script::class;
 
     /**
      * Scope a query to only show visible entries.
@@ -101,16 +102,6 @@ class Synapse extends Model
     public function submissions()
     {
         return $this->morphMany(Submission::class, 'submissible');
-    }
-
-    /**
-     * Define which model is the Next on its creation order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function next()
-    {
-        return app()->make(Script::class);
     }
 
 }

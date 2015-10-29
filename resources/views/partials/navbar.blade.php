@@ -37,7 +37,7 @@
                     <a class="item" href="{{ route('user.projects') }}">@lang('navbar.my-projects')</a>
 
                     @can('see-dashboard', auth()->user())
-                        <a class="item" href="{{ route('dashboard') }}">@lang('navbar.control-panel')</a>
+                        <a class="item" href="{{ route('dashboard') }}">@lang('navbar.dashboard')</a>
                     @endcan
 
                     @can('execute-artisan-commands', auth()->user())

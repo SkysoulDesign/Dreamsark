@@ -22,7 +22,8 @@ use DreamsArk\Events\Project\UserHasEnrolledToCast;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
 use DreamsArk\Events\Translation\TranslationsWasCreated;
-use DreamsArk\Listeners\DeactivateVoting;
+use DreamsArk\Listeners\Project\Vote\CheckIfIsTheLastStage;
+use DreamsArk\Listeners\Project\Vote\DeactivateVoting;
 use DreamsArk\Listeners\Project\ChargeUser;
 use DreamsArk\Listeners\Project\CreateProjectStage;
 use DreamsArk\Listeners\Project\CreateVote;
@@ -95,6 +96,7 @@ class EventServiceProvider extends ServiceProvider
             DeactivateVoting::class,
             RefundUsers::class,
             RegisterVotingWinner::class,
+            CheckIfIsTheLastStage::class,
         ],
 
         UserWasCreated::class => [

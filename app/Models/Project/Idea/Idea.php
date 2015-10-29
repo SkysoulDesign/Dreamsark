@@ -5,6 +5,7 @@ namespace DreamsArk\Models\Project\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\VotableTrait;
 use DreamsArk\Models\Project\Vote;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class Idea extends Model
 {
 
-    use PresentableTrait;
+    use PresentableTrait, VotableTrait;
 
     /**
      * The database table used by the model.
@@ -46,12 +47,9 @@ class Idea extends Model
     protected $presenter = IdeaPresenter::class;
 
     /**
-     * Get all of the product's photos.
+     * Define Which is the next Model
      */
-    public function vote()
-    {
-        return $this->morphOne(Vote::class, 'votable');
-    }
+    protected $next = Synapse::class;
 
     /**
      * Project Relationship
@@ -101,17 +99,7 @@ class Idea extends Model
      */
     public function user()
     {
-            return $this->project->user();
-    }
-
-    /**
-     * Define which model is the Next on its creation order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function next()
-    {
-        return app()->make(Synapse::class);
+        return $this->project->user();
     }
 
 }
