@@ -3,7 +3,7 @@
 return array (
   'group' => '组',
   'language' => '语言',
-  'key' => 'Key',
+  'key' => '键名',
   'value' => '值',
   'translation' => '翻译',
   'import' => '输入',

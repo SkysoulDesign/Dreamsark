@@ -42,7 +42,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function published($user_id)
     {
         return $this->model($user_id)->projects()
-            ->orWhereHas('idea', function ($query) {
+            ->whereHas('idea', function ($query) {
                 $query->where('active', '=', true);
             })->orWhereHas('synapse', function ($query) {
                 $query->where('active', '=', true);
@@ -62,7 +62,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function failed($user_id)
     {
         return $this->model($user_id)->projects()
-            ->orWhereHas('idea', function ($query) {
+            ->whereHas('idea', function ($query) {
                 $query->where('active', '=', false);
             })->orWhereHas('synapse', function ($query) {
                 $query->where('active', '=', false);

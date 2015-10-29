@@ -3,6 +3,7 @@
 namespace DreamsArk\Events\Session;
 
 use DreamsArk\Events\Event;
+use DreamsArk\Models\User\Role;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
@@ -16,13 +17,20 @@ class UserWasCreated extends Event
     public $user;
 
     /**
+     * @var
+     */
+    public $role;
+
+    /**
      * Create a new event instance.
      *
      * @param User $user
+     * @param string $role
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $role)
     {
         $this->user = $user;
+        $this->role = $role;
     }
 
     /**

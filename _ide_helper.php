@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.1.20 (LTS) on 2015-10-25.
+ * Generated for Laravel 5.1.22 (LTS) on 2015-10-29.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -4447,7 +4447,7 @@ namespace {
         /**
          * Determine if any rows exist for the current query.
          *
-         * @return bool 
+         * @return bool|null 
          * @static 
          */
         public static function exists(){
@@ -5493,8 +5493,8 @@ namespace {
          * Get a segment from the URI (1 based index).
          *
          * @param int $index
-         * @param mixed $default
-         * @return string 
+         * @param string|null $default
+         * @return string|null 
          * @static 
          */
         public static function segment($index, $default = null){
@@ -5608,7 +5608,7 @@ namespace {
          * Retrieve an input item from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -5642,7 +5642,7 @@ namespace {
          * Retrieve a query string item from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -5665,7 +5665,7 @@ namespace {
          * Retrieve a cookie from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -5678,7 +5678,7 @@ namespace {
          *
          * @param string $key
          * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array 
+         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array|null 
          * @static 
          */
         public static function file($key = null, $default = null){
@@ -5700,7 +5700,7 @@ namespace {
          * Retrieve a header from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -5712,7 +5712,7 @@ namespace {
          * Retrieve a server variable from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -5724,8 +5724,8 @@ namespace {
          * Retrieve an old input item.
          *
          * @param string $key
-         * @param mixed $default
-         * @return mixed 
+         * @param string|array|null $default
+         * @return string|array 
          * @static 
          */
         public static function old($key = null, $default = null){
@@ -5916,7 +5916,6 @@ namespace {
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @return \Symfony\Component\HttpFoundation\Request The duplicated request
-         * @api 
          * @static 
          */
         public static function duplicate($query = null, $request = null, $attributes = null, $cookies = null, $files = null, $server = null){
@@ -5948,7 +5947,7 @@ namespace {
          * Get the route handling the request.
          *
          * @param string|null $param
-         * @return object|string 
+         * @return \Illuminate\Routing\Route|object|string 
          * @static 
          */
         public static function route($param = null){
@@ -6054,7 +6053,6 @@ namespace {
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @param string|resource $content The raw body data
-         * @api 
          * @static 
          */
         public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -6066,7 +6064,6 @@ namespace {
          * Creates a new request with values from PHP's super globals.
          *
          * @return \Symfony\Component\HttpFoundation\Request A new request
-         * @api 
          * @static 
          */
         public static function createFromGlobals(){
@@ -6088,7 +6085,6 @@ namespace {
          * @param array $server The server parameters ($_SERVER)
          * @param string $content The raw body data
          * @return \Symfony\Component\HttpFoundation\Request A Request instance
-         * @api 
          * @static 
          */
         public static function create($uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -6117,7 +6113,6 @@ namespace {
          * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
          * $_FILES is never overridden, see rfc1867
          *
-         * @api 
          * @static 
          */
         public static function overrideGlobals(){
@@ -6131,7 +6126,6 @@ namespace {
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies
-         * @api 
          * @static 
          */
         public static function setTrustedProxies($proxies){
@@ -6283,7 +6277,6 @@ namespace {
          * Gets the Session.
          *
          * @return \Symfony\Component\HttpFoundation\SessionInterface|null The session
-         * @api 
          * @static 
          */
         public static function getSession(){
@@ -6296,7 +6289,6 @@ namespace {
          * previous requests.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function hasPreviousSession(){
@@ -6312,7 +6304,6 @@ namespace {
          * is associated with a Session instance.
          *
          * @return bool true when the Request contains a Session object, false otherwise
-         * @api 
          * @static 
          */
         public static function hasSession(){
@@ -6324,7 +6315,6 @@ namespace {
          * Sets the Session.
          *
          * @param \Symfony\Component\HttpFoundation\SessionInterface $session The Session
-         * @api 
          * @static 
          */
         public static function setSession($session){
@@ -6366,7 +6356,6 @@ namespace {
          * @return string The client IP address
          * @see getClientIps()
          * @see http://en.wikipedia.org/wiki/X-Forwarded-For
-         * @api 
          * @static 
          */
         public static function getClientIp(){
@@ -6378,7 +6367,6 @@ namespace {
          * Returns current script name.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getScriptName(){
@@ -6399,7 +6387,6 @@ namespace {
          *  * http://localhost/mysite/about?var=1  returns '/about'
          *
          * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getPathInfo(){
@@ -6418,7 +6405,6 @@ namespace {
          *  * http://localhost/we%20b/index.php  returns '/we%20b'
          *
          * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBasePath(){
@@ -6435,7 +6421,6 @@ namespace {
          * script filename (e.g. index.php) if one exists.
          *
          * @return string The raw URL (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBaseUrl(){
@@ -6447,7 +6432,6 @@ namespace {
          * Gets the request's scheme.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getScheme(){
@@ -6467,7 +6451,6 @@ namespace {
          * configure it via "setTrustedHeaderName()" with the "client-port" key.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getPort(){
@@ -6514,7 +6497,6 @@ namespace {
          * The port name will be appended to the host if it's non-standard.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getHttpHost(){
@@ -6526,7 +6508,6 @@ namespace {
          * Returns the requested URI (path and query string).
          *
          * @return string The raw URI (i.e. not URI decoded)
-         * @api 
          * @static 
          */
         public static function getRequestUri(){
@@ -6553,7 +6534,6 @@ namespace {
          *
          * @return string A normalized URI (URL) for the Request
          * @see getQueryString()
-         * @api 
          * @static 
          */
         public static function getUri(){
@@ -6566,7 +6546,6 @@ namespace {
          *
          * @param string $path A path to use instead of the current one
          * @return string The normalized URI for the path
-         * @api 
          * @static 
          */
         public static function getUriForPath($path){
@@ -6605,7 +6584,6 @@ namespace {
          * and have consistent escaping.
          *
          * @return string|null A normalized query string for the Request
-         * @api 
          * @static 
          */
         public static function getQueryString(){
@@ -6616,7 +6594,7 @@ namespace {
         /**
          * Checks whether the request is secure or not.
          * 
-         * This method can read the client port from the "X-Forwarded-Proto" header
+         * This method can read the client protocol from the "X-Forwarded-Proto" header
          * when trusted proxies were set via "setTrustedProxies()".
          * 
          * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
@@ -6626,7 +6604,6 @@ namespace {
          * the "client-proto" key.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function isSecure(){
@@ -6637,7 +6614,7 @@ namespace {
         /**
          * Returns the host name.
          * 
-         * This method can read the client port from the "X-Forwarded-Host" header
+         * This method can read the client host name from the "X-Forwarded-Host" header
          * when trusted proxies were set via "setTrustedProxies()".
          * 
          * The "X-Forwarded-Host" header must contain the client host name.
@@ -6647,7 +6624,6 @@ namespace {
          *
          * @return string 
          * @throws \UnexpectedValueException when the host name is invalid
-         * @api 
          * @static 
          */
         public static function getHost(){
@@ -6659,7 +6635,6 @@ namespace {
          * Sets the request method.
          *
          * @param string $method
-         * @api 
          * @static 
          */
         public static function setMethod($method){
@@ -6679,7 +6654,6 @@ namespace {
          * The method is always an uppercased string.
          *
          * @return string The request method
-         * @api 
          * @see getRealMethod()
          * @static 
          */
@@ -6705,7 +6679,6 @@ namespace {
          *
          * @param string $format The format
          * @return string The associated mime type (null if not found)
-         * @api 
          * @static 
          */
         public static function getMimeType($format){
@@ -6718,7 +6691,6 @@ namespace {
          *
          * @param string $mimeType The associated mime type
          * @return string|null The format (null if not found)
-         * @api 
          * @static 
          */
         public static function getFormat($mimeType){
@@ -6731,7 +6703,6 @@ namespace {
          *
          * @param string $format The format
          * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-         * @api 
          * @static 
          */
         public static function setFormat($format, $mimeTypes){
@@ -6750,7 +6721,6 @@ namespace {
          *
          * @param string $default The default format
          * @return string The request format
-         * @api 
          * @static 
          */
         public static function getRequestFormat($default = 'html'){
@@ -6762,7 +6732,6 @@ namespace {
          * Sets the request format.
          *
          * @param string $format The request format.
-         * @api 
          * @static 
          */
         public static function setRequestFormat($format){
@@ -6774,7 +6743,6 @@ namespace {
          * Gets the format associated with the request.
          *
          * @return string|null The format (null if no content type is present)
-         * @api 
          * @static 
          */
         public static function getContentType(){
@@ -6786,7 +6754,6 @@ namespace {
          * Sets the default locale.
          *
          * @param string $locale
-         * @api 
          * @static 
          */
         public static function setDefaultLocale($locale){
@@ -6809,7 +6776,6 @@ namespace {
          * Sets the locale.
          *
          * @param string $locale
-         * @api 
          * @static 
          */
         public static function setLocale($locale){
@@ -6844,7 +6810,6 @@ namespace {
          * Checks whether the method is safe or not.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function isMethodSafe(){
@@ -6892,7 +6857,6 @@ namespace {
          *
          * @param array $locales An array of ordered available locales
          * @return string|null The preferred locale
-         * @api 
          * @static 
          */
         public static function getPreferredLanguage($locales = null){
@@ -6904,7 +6868,6 @@ namespace {
          * Gets a list of languages acceptable by the client browser.
          *
          * @return array Languages ordered in the user browser preferences
-         * @api 
          * @static 
          */
         public static function getLanguages(){
@@ -6916,7 +6879,6 @@ namespace {
          * Gets a list of charsets acceptable by the client browser.
          *
          * @return array List of charsets in preferable order
-         * @api 
          * @static 
          */
         public static function getCharsets(){
@@ -6939,7 +6901,6 @@ namespace {
          * Gets a list of content types acceptable by the client browser.
          *
          * @return array List of content types in preferable order
-         * @api 
          * @static 
          */
         public static function getAcceptableContentTypes(){
@@ -6955,7 +6916,6 @@ namespace {
          *
          * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
          * @return bool true if the request is an XMLHttpRequest, false otherwise
-         * @api 
          * @static 
          */
         public static function isXmlHttpRequest(){
@@ -7330,11 +7290,11 @@ namespace {
          *
          * @param string $name
          * @param string $level
-         * @return void 
+         * @return \Psr\Log\LoggerInterface 
          * @static 
          */
         public static function useSyslog($name = 'laravel', $level = 'debug'){
-            \Illuminate\Log\Writer::useSyslog($name, $level);
+            return \Illuminate\Log\Writer::useSyslog($name, $level);
         }
         
         /**
@@ -7452,11 +7412,11 @@ namespace {
          * @param string|array $view
          * @param array $data
          * @param \Closure|string $callback
-         * @return mixed 
+         * @return void 
          * @static 
          */
         public static function send($view, $data, $callback){
-            return \Illuminate\Mail\Mailer::send($view, $data, $callback);
+            \Illuminate\Mail\Mailer::send($view, $data, $callback);
         }
         
         /**
@@ -7859,11 +7819,11 @@ namespace {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return void 
+         * @return mixed 
          * @static 
          */
         public static function push($job, $data = '', $queue = null){
-            \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
         }
         
         /**
@@ -7912,11 +7872,11 @@ namespace {
          * @param string $queue
          * @param \StdClass $job
          * @param int $delay
-         * @return void 
+         * @return mixed 
          * @static 
          */
         public static function release($queue, $job, $delay){
-            \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
+            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
         }
         
         /**
@@ -8284,8 +8244,8 @@ namespace {
          * Get a segment from the URI (1 based index).
          *
          * @param int $index
-         * @param mixed $default
-         * @return string 
+         * @param string|null $default
+         * @return string|null 
          * @static 
          */
         public static function segment($index, $default = null){
@@ -8399,7 +8359,7 @@ namespace {
          * Retrieve an input item from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -8433,7 +8393,7 @@ namespace {
          * Retrieve a query string item from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -8456,7 +8416,7 @@ namespace {
          * Retrieve a cookie from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -8469,7 +8429,7 @@ namespace {
          *
          * @param string $key
          * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array 
+         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array|null 
          * @static 
          */
         public static function file($key = null, $default = null){
@@ -8491,7 +8451,7 @@ namespace {
          * Retrieve a header from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -8503,7 +8463,7 @@ namespace {
          * Retrieve a server variable from the request.
          *
          * @param string $key
-         * @param mixed $default
+         * @param string|array|null $default
          * @return string|array 
          * @static 
          */
@@ -8515,8 +8475,8 @@ namespace {
          * Retrieve an old input item.
          *
          * @param string $key
-         * @param mixed $default
-         * @return mixed 
+         * @param string|array|null $default
+         * @return string|array 
          * @static 
          */
         public static function old($key = null, $default = null){
@@ -8707,7 +8667,6 @@ namespace {
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @return \Symfony\Component\HttpFoundation\Request The duplicated request
-         * @api 
          * @static 
          */
         public static function duplicate($query = null, $request = null, $attributes = null, $cookies = null, $files = null, $server = null){
@@ -8739,7 +8698,7 @@ namespace {
          * Get the route handling the request.
          *
          * @param string|null $param
-         * @return object|string 
+         * @return \Illuminate\Routing\Route|object|string 
          * @static 
          */
         public static function route($param = null){
@@ -8845,7 +8804,6 @@ namespace {
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @param string|resource $content The raw body data
-         * @api 
          * @static 
          */
         public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -8857,7 +8815,6 @@ namespace {
          * Creates a new request with values from PHP's super globals.
          *
          * @return \Symfony\Component\HttpFoundation\Request A new request
-         * @api 
          * @static 
          */
         public static function createFromGlobals(){
@@ -8879,7 +8836,6 @@ namespace {
          * @param array $server The server parameters ($_SERVER)
          * @param string $content The raw body data
          * @return \Symfony\Component\HttpFoundation\Request A Request instance
-         * @api 
          * @static 
          */
         public static function create($uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -8908,7 +8864,6 @@ namespace {
          * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
          * $_FILES is never overridden, see rfc1867
          *
-         * @api 
          * @static 
          */
         public static function overrideGlobals(){
@@ -8922,7 +8877,6 @@ namespace {
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies
-         * @api 
          * @static 
          */
         public static function setTrustedProxies($proxies){
@@ -9074,7 +9028,6 @@ namespace {
          * Gets the Session.
          *
          * @return \Symfony\Component\HttpFoundation\SessionInterface|null The session
-         * @api 
          * @static 
          */
         public static function getSession(){
@@ -9087,7 +9040,6 @@ namespace {
          * previous requests.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function hasPreviousSession(){
@@ -9103,7 +9055,6 @@ namespace {
          * is associated with a Session instance.
          *
          * @return bool true when the Request contains a Session object, false otherwise
-         * @api 
          * @static 
          */
         public static function hasSession(){
@@ -9115,7 +9066,6 @@ namespace {
          * Sets the Session.
          *
          * @param \Symfony\Component\HttpFoundation\SessionInterface $session The Session
-         * @api 
          * @static 
          */
         public static function setSession($session){
@@ -9157,7 +9107,6 @@ namespace {
          * @return string The client IP address
          * @see getClientIps()
          * @see http://en.wikipedia.org/wiki/X-Forwarded-For
-         * @api 
          * @static 
          */
         public static function getClientIp(){
@@ -9169,7 +9118,6 @@ namespace {
          * Returns current script name.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getScriptName(){
@@ -9190,7 +9138,6 @@ namespace {
          *  * http://localhost/mysite/about?var=1  returns '/about'
          *
          * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getPathInfo(){
@@ -9209,7 +9156,6 @@ namespace {
          *  * http://localhost/we%20b/index.php  returns '/we%20b'
          *
          * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBasePath(){
@@ -9226,7 +9172,6 @@ namespace {
          * script filename (e.g. index.php) if one exists.
          *
          * @return string The raw URL (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBaseUrl(){
@@ -9238,7 +9183,6 @@ namespace {
          * Gets the request's scheme.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getScheme(){
@@ -9258,7 +9202,6 @@ namespace {
          * configure it via "setTrustedHeaderName()" with the "client-port" key.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getPort(){
@@ -9305,7 +9248,6 @@ namespace {
          * The port name will be appended to the host if it's non-standard.
          *
          * @return string 
-         * @api 
          * @static 
          */
         public static function getHttpHost(){
@@ -9317,7 +9259,6 @@ namespace {
          * Returns the requested URI (path and query string).
          *
          * @return string The raw URI (i.e. not URI decoded)
-         * @api 
          * @static 
          */
         public static function getRequestUri(){
@@ -9344,7 +9285,6 @@ namespace {
          *
          * @return string A normalized URI (URL) for the Request
          * @see getQueryString()
-         * @api 
          * @static 
          */
         public static function getUri(){
@@ -9357,7 +9297,6 @@ namespace {
          *
          * @param string $path A path to use instead of the current one
          * @return string The normalized URI for the path
-         * @api 
          * @static 
          */
         public static function getUriForPath($path){
@@ -9396,7 +9335,6 @@ namespace {
          * and have consistent escaping.
          *
          * @return string|null A normalized query string for the Request
-         * @api 
          * @static 
          */
         public static function getQueryString(){
@@ -9407,7 +9345,7 @@ namespace {
         /**
          * Checks whether the request is secure or not.
          * 
-         * This method can read the client port from the "X-Forwarded-Proto" header
+         * This method can read the client protocol from the "X-Forwarded-Proto" header
          * when trusted proxies were set via "setTrustedProxies()".
          * 
          * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
@@ -9417,7 +9355,6 @@ namespace {
          * the "client-proto" key.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function isSecure(){
@@ -9428,7 +9365,7 @@ namespace {
         /**
          * Returns the host name.
          * 
-         * This method can read the client port from the "X-Forwarded-Host" header
+         * This method can read the client host name from the "X-Forwarded-Host" header
          * when trusted proxies were set via "setTrustedProxies()".
          * 
          * The "X-Forwarded-Host" header must contain the client host name.
@@ -9438,7 +9375,6 @@ namespace {
          *
          * @return string 
          * @throws \UnexpectedValueException when the host name is invalid
-         * @api 
          * @static 
          */
         public static function getHost(){
@@ -9450,7 +9386,6 @@ namespace {
          * Sets the request method.
          *
          * @param string $method
-         * @api 
          * @static 
          */
         public static function setMethod($method){
@@ -9470,7 +9405,6 @@ namespace {
          * The method is always an uppercased string.
          *
          * @return string The request method
-         * @api 
          * @see getRealMethod()
          * @static 
          */
@@ -9496,7 +9430,6 @@ namespace {
          *
          * @param string $format The format
          * @return string The associated mime type (null if not found)
-         * @api 
          * @static 
          */
         public static function getMimeType($format){
@@ -9509,7 +9442,6 @@ namespace {
          *
          * @param string $mimeType The associated mime type
          * @return string|null The format (null if not found)
-         * @api 
          * @static 
          */
         public static function getFormat($mimeType){
@@ -9522,7 +9454,6 @@ namespace {
          *
          * @param string $format The format
          * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-         * @api 
          * @static 
          */
         public static function setFormat($format, $mimeTypes){
@@ -9541,7 +9472,6 @@ namespace {
          *
          * @param string $default The default format
          * @return string The request format
-         * @api 
          * @static 
          */
         public static function getRequestFormat($default = 'html'){
@@ -9553,7 +9483,6 @@ namespace {
          * Sets the request format.
          *
          * @param string $format The request format.
-         * @api 
          * @static 
          */
         public static function setRequestFormat($format){
@@ -9565,7 +9494,6 @@ namespace {
          * Gets the format associated with the request.
          *
          * @return string|null The format (null if no content type is present)
-         * @api 
          * @static 
          */
         public static function getContentType(){
@@ -9577,7 +9505,6 @@ namespace {
          * Sets the default locale.
          *
          * @param string $locale
-         * @api 
          * @static 
          */
         public static function setDefaultLocale($locale){
@@ -9600,7 +9527,6 @@ namespace {
          * Sets the locale.
          *
          * @param string $locale
-         * @api 
          * @static 
          */
         public static function setLocale($locale){
@@ -9635,7 +9561,6 @@ namespace {
          * Checks whether the method is safe or not.
          *
          * @return bool 
-         * @api 
          * @static 
          */
         public static function isMethodSafe(){
@@ -9683,7 +9608,6 @@ namespace {
          *
          * @param array $locales An array of ordered available locales
          * @return string|null The preferred locale
-         * @api 
          * @static 
          */
         public static function getPreferredLanguage($locales = null){
@@ -9695,7 +9619,6 @@ namespace {
          * Gets a list of languages acceptable by the client browser.
          *
          * @return array Languages ordered in the user browser preferences
-         * @api 
          * @static 
          */
         public static function getLanguages(){
@@ -9707,7 +9630,6 @@ namespace {
          * Gets a list of charsets acceptable by the client browser.
          *
          * @return array List of charsets in preferable order
-         * @api 
          * @static 
          */
         public static function getCharsets(){
@@ -9730,7 +9652,6 @@ namespace {
          * Gets a list of content types acceptable by the client browser.
          *
          * @return array List of content types in preferable order
-         * @api 
          * @static 
          */
         public static function getAcceptableContentTypes(){
@@ -9746,7 +9667,6 @@ namespace {
          *
          * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
          * @return bool true if the request is an XMLHttpRequest, false otherwise
-         * @api 
          * @static 
          */
         public static function isXmlHttpRequest(){
@@ -10817,7 +10737,6 @@ namespace {
          *
          * @return bool True if session started.
          * @throws \RuntimeException If session fails to start.
-         * @api 
          * @static 
          */
         public static function start(){
@@ -10828,7 +10747,6 @@ namespace {
          * Returns the session ID.
          *
          * @return string The session ID.
-         * @api 
          * @static 
          */
         public static function getId(){
@@ -10839,7 +10757,6 @@ namespace {
          * Sets the session ID.
          *
          * @param string $id
-         * @api 
          * @static 
          */
         public static function setId($id){
@@ -10861,7 +10778,6 @@ namespace {
          * Returns the session name.
          *
          * @return mixed The session name.
-         * @api 
          * @static 
          */
         public static function getName(){
@@ -10872,7 +10788,6 @@ namespace {
          * Sets the session name.
          *
          * @param string $name
-         * @api 
          * @static 
          */
         public static function setName($name){
@@ -10890,7 +10805,6 @@ namespace {
          *                      to expire with browser session. Time is in seconds, and is
          *                      not a Unix timestamp.
          * @return bool True if session invalidated, false if error.
-         * @api 
          * @static 
          */
         public static function invalidate($lifetime = null){
@@ -10907,7 +10821,6 @@ namespace {
          *                       to expire with browser session. Time is in seconds, and is
          *                       not a Unix timestamp.
          * @return bool True if session migrated, false if error.
-         * @api 
          * @static 
          */
         public static function migrate($destroy = false, $lifetime = null){
@@ -10953,7 +10866,6 @@ namespace {
          *
          * @param string $name The attribute name
          * @return bool true if the attribute is defined, false otherwise
-         * @api 
          * @static 
          */
         public static function has($name){
@@ -10966,7 +10878,6 @@ namespace {
          * @param string $name The attribute name
          * @param mixed $default The default value if not found.
          * @return mixed 
-         * @api 
          * @static 
          */
         public static function get($name, $default = null){
@@ -11013,7 +10924,6 @@ namespace {
          *
          * @param string $name
          * @param mixed $value
-         * @api 
          * @static 
          */
         public static function set($name, $value){
@@ -11024,7 +10934,7 @@ namespace {
          * Put a key / value pair or array of key / value pairs in the session.
          *
          * @param string|array $key
-         * @param mixed|null $value
+         * @param mixed $value
          * @return void 
          * @static 
          */
@@ -11092,7 +11002,6 @@ namespace {
          * Returns attributes.
          *
          * @return array Attributes
-         * @api 
          * @static 
          */
         public static function all(){
@@ -11114,7 +11023,6 @@ namespace {
          *
          * @param string $name
          * @return mixed The removed value or null when it does not exist
-         * @api 
          * @static 
          */
         public static function remove($name){
@@ -11135,7 +11043,6 @@ namespace {
         /**
          * Clears all attributes.
          *
-         * @api 
          * @static 
          */
         public static function clear(){
@@ -11550,7 +11457,7 @@ namespace {
         /**
          * Get the request instance.
          *
-         * @return \Symfony\Component\HttpFoundation\Request 
+         * @return \Illuminate\Http\Request 
          * @static 
          */
         public static function getRequest(){

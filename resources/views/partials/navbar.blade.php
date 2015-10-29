@@ -36,6 +36,10 @@
                     <a class="item" href="{{ route('coin.create') }}">@lang('navbar.purchase-coins')</a>
                     <a class="item" href="{{ route('user.projects') }}">@lang('navbar.my-projects')</a>
 
+                    @can('see-dashboard', auth()->user())
+                        <a class="item" href="{{ route('dashboard') }}">@lang('navbar.control-panel')</a>
+                    @endcan
+
                     @can('execute-artisan-commands', auth()->user())
                     <div class="item">
                         Admin Tools
@@ -58,7 +62,7 @@
 
                                 <div class="left menu">
                                     <a class="item" href="{{ route('artisan', 'queue') }}">Default</a>
-                                    <a class="item" href="{{ route('artisan', ['queue', 'vote']) }}">Vote</a>
+                                    <a class="item" href="{{ route('artisan', ['queue', 'voting']) }}">Voting</a>
                                 </div>
 
                             </div>

@@ -27,8 +27,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \DreamsArk\Http\Middleware\Authenticate::class,
+        'auth'       => \DreamsArk\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \DreamsArk\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest'      => \DreamsArk\Http\Middleware\RedirectIfAuthenticated::class
     ];
 }

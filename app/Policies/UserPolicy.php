@@ -15,7 +15,16 @@ class UserPolicy
      */
     public function executeArtisanCommands(User $user)
     {
-        return ($user->id == 1 || $user->id == 3);
+        return $user->hasRole('admin');
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function seeDashboard(User $user)
+    {
+        return $user->hasRole('committee', 'admin');
     }
 
 }

@@ -19,20 +19,20 @@
 
         @endif
 
-        @if(!$project->stage->active)
-
-            <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui red label">
-                <i class="x icon"></i>
-                @lang('project.failed')
-            </a>
-
-        @endif
-
         @if($project->stage->submission)
 
             <a class="ui green label">
                 <i class="check icon"></i>
                 @lang('project.finished')
+            </a>
+
+        @endif
+
+        @if(!$project->stage->active)
+
+            <a href="{{ route('vote.show', $project->stage->vote->id) }}" class="ui red label">
+                <i class="x icon"></i>
+                @lang('project.failed')
             </a>
 
         @endif

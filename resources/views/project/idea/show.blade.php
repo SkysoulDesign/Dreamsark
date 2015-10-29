@@ -2,7 +2,9 @@
 
     <div class="ui top attached tabular menu">
         <a class="item active" data-tab="request">@lang('idea.request')</a>
-        <a class="item" data-tab="submissions">@lang('idea.submissions')</a>
+        @if($project->stage->active)
+            <a class="item" data-tab="submissions">@lang('idea.submissions')</a>
+        @endif
     </div>
 
     <div class="ui bottom attached tab segment active" data-tab="request">

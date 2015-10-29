@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Models\User;
 
-use DreamsArk\Models\Idea\Idea;
 use DreamsArk\Models\Project\Draft;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\RolesAndPermissionTrait;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\UserPresenter;
@@ -19,7 +19,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
 
-    use Authenticatable, Authorizable, CanResetPassword, PresentableTrait;
+    use Authenticatable, Authorizable, CanResetPassword, PresentableTrait, RolesAndPermissionTrait;
 
     /**
      * The database table used by the model.

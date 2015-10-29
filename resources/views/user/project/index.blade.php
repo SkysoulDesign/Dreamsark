@@ -73,7 +73,7 @@
 
                     <tr>
                         <td class="collapsing">{{ $project->name }}</td>
-                        <td>{{ $project->type }}</td>
+                        <td>@lang('project.' . $project->type)</td>
                         <td>{{ $project->stage->content }}</td>
                         <td>${{ $project->stage->reward }}</td>
                         <td>{{ $project->stage->vote->open_date }}</td>
@@ -109,7 +109,7 @@
                 @foreach($failedProjects as $project)
                     <tr>
                         <td>{{ $project->name }}</td>
-                        <td>{{ $project->type }}</td>
+                        <td>@lang('project.'.$project->type)</td>
                         <td class="right aligned">
                             <a href="{{ route('project.show', $project->id) }}" class="ui primary button">
                                 @lang('project.view')

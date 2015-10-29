@@ -12,7 +12,7 @@
             </div>
 
             <div class="ui  segment">
-                @lang('vote.reward') {{ $vote->votable->reward }}
+                @lang('vote.reward'): {{ $vote->votable->reward }}
             </div>
 
             <div class="ui center aligned segment">
@@ -53,7 +53,7 @@
                                   action="{{ route('project.idea.submission.vote.store', $submission->id) }}">
                                 {{ csrf_field() }}
                                 <div class="inline fields">
-                                    @include('partials.field', ['name' => 'amount'])
+                                    @include('partials.field', ['name' => 'amount', 'label' => trans('forms.amount')])
                                     <button class="olive circular ui icon button">
                                         <i class="icon thumbs up"></i>
                                     </button>

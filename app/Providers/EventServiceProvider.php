@@ -32,6 +32,9 @@ use DreamsArk\Listeners\Project\RegisterVotingWinner;
 use DreamsArk\Listeners\Project\UpdateProjectStage;
 use DreamsArk\Listeners\Project\Vote\QueueCloseVotingCommand;
 use DreamsArk\Listeners\Project\Vote\QueueOpenVotingCommand;
+use DreamsArk\Listeners\User\AppendDefaultSettings;
+use DreamsArk\Listeners\User\GiveUserAnEmptyBag;
+use DreamsArk\Listeners\User\AttachUserRole;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -91,10 +94,15 @@ class EventServiceProvider extends ServiceProvider
         VotingHasFinished::class => [
             DeactivateVoting::class,
             RefundUsers::class,
-            RegisterVotingWinner::class
+            RegisterVotingWinner::class,
         ],
 
-        UserWasCreated::class => [],
+        UserWasCreated::class => [
+            AppendDefaultSettings::class,
+            GiveUserAnEmptyBag::class,
+            AttachUserRole::class
+        ],
+
         UserWasUpdated::class => [],
 
         IdeaWasSubmitted::class => [],

@@ -23,11 +23,10 @@ class UserTableSeeder extends Seeder
             'gender' => 'male',
             'birthday' => '1992-12-31',
             'password' => "478135",
-            'email' => 'rafael.milewski@gmail.com'
+            'email' => 'rafael.milewski@gmail.com',
         ];
 
-        $user = $this->dispatch(new CreateUserCommand($rafael));
-        $this->dispatch(new PurchaseCoinCommand($user, 50 ));
+        $this->dispatch(new CreateUserCommand($rafael, 'admin'));
 
         $dreamsark = [
             'first_name' => 'Dreams',
@@ -38,7 +37,7 @@ class UserTableSeeder extends Seeder
             'email' => 'dreamsark@dreamsark.com'
         ];
 
-        $this->dispatch(new CreateUserCommand($dreamsark));
+        $this->dispatch(new CreateUserCommand($dreamsark, 'committee'));
 
         $justin = [
             'first_name' => 'Justin',
@@ -49,7 +48,7 @@ class UserTableSeeder extends Seeder
             'email' => 'skysoul@skysoul.com.au'
         ];
 
-        $this->dispatch(new CreateUserCommand($justin));
+        $this->dispatch(new CreateUserCommand($justin, 'admin'));
 
     }
 

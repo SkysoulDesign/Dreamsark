@@ -4,8 +4,6 @@ namespace DreamsArk\Listeners\Project;
 
 use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Events\Event;
-use DreamsArk\Events\Project\ProjectHasFailed;
-use DreamsArk\Events\Project\Vote\VotingHasFinished;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class RefundUsers

@@ -58,6 +58,12 @@ Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 //app()->setLocale('cn');
 
 /**
+ * Dashboard Controller
+ */
+Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'Dashboard\DashboardController@index']);
+
+
+/**
  * Auth Controller
  */
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@login']);
