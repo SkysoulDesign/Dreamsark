@@ -6,7 +6,7 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\FailStageCommand;
 use DreamsArk\Events\Project\Vote\VoteHasFailed;
 use DreamsArk\Events\Project\Vote\VotingHasFinished;
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -27,7 +27,7 @@ class CloseVotingCommand extends Command implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @param Vote $vote
+     * @param \DreamsArk\Models\Project\Stages\Vote $vote
      */
     public function __construct(Vote $vote)
     {

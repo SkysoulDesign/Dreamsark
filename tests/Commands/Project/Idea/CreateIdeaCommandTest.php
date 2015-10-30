@@ -13,7 +13,7 @@ use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
 use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Events\Project\IdeaWasCreated;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;

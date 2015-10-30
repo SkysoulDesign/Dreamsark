@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\Project\Idea;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -14,7 +14,7 @@ class SubmitIdeaCommand extends Command implements SelfHandling
 {
 
     /**
-     * @var Idea
+     * @var \DreamsArk\Models\Project\Stages\Idea
      */
     private $idea;
 
@@ -35,7 +35,7 @@ class SubmitIdeaCommand extends Command implements SelfHandling
      * @param User $user
      * @param array $fields
      */
-    public function __construct(Idea $idea, User $user, array $fields)
+    public function __construct(\DreamsArk\Models\Project\Stages\Idea $idea, User $user, array $fields)
     {
         $this->idea = $idea;
         $this->user = $user;

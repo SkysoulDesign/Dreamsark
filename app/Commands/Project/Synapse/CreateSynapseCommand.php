@@ -7,7 +7,7 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
-use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Stages\Synapse;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;

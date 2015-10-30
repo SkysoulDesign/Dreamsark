@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models;
+namespace DreamsArk\Models\Traits;
 
 use DreamsArk\Models\User\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

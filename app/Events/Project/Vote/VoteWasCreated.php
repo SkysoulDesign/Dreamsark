@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project\Vote;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 

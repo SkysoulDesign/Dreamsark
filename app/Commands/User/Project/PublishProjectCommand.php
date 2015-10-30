@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\User\Project;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\CreateProjectCommand;
-use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\User\User;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;

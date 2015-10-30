@@ -3,7 +3,7 @@
 namespace DreamsArk\Commands\User\Project;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -17,7 +17,7 @@ class DeleteDraftCommand extends Command implements SelfHandling
     /**
      * Create a new command instance.
      *
-     * @param Draft $draft
+     * @param \DreamsArk\Models\Project\Stages\Draft $draft
      */
     public function __construct(Draft $draft)
     {

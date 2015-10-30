@@ -18,15 +18,15 @@
             </div>
         @endif
 
-        @if($project->stage instanceof \DreamsArk\Models\Project\Idea\Idea)
+        @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Idea)
             @include('project.idea.show', $project)
         @endif
 
-        @if($project->stage instanceof \DreamsArk\Models\Project\Synapse\Synapse)
+        @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Synapse)
             @include('project.synapse.show', $project)
         @endif
 
-        @if($project->stage instanceof \DreamsArk\Models\Project\Script\Script)
+        @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Script)
             @include('project.script.show', $project)
         @endif
 

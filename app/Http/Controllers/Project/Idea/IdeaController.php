@@ -5,7 +5,7 @@ namespace DreamsArk\Http\Controllers\Project\Idea;
 use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
 use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 
@@ -38,7 +38,7 @@ class IdeaController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param IdeaRepositoryInterface $IdeaRepository
      */
-    public function show(Idea $idea, SubmissionRepositoryInterface $repository)
+    public function show(\DreamsArk\Models\Project\Stages\Idea $idea, SubmissionRepositoryInterface $repository)
     {
 //        dd($idea->submissions->winner);
         $submissions = $repository->idea($idea)->allPublic();

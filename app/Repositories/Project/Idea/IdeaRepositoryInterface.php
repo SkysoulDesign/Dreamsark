@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Repositories\Project\Idea;
 
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
 
 interface IdeaRepositoryInterface
@@ -21,7 +21,7 @@ interface IdeaRepositoryInterface
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return \DreamsArk\Models\Project\Stages\Idea
      */
     public function create($project_id, array $fields);
 

@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\User\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Stages\Draft;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -21,7 +21,7 @@ class ProjectDraftWasCreated extends Event
      *
      * @param Draft $draft
      */
-    public function __construct(Draft $draft)
+    public function __construct(\DreamsArk\Models\Project\Stages\Draft $draft)
     {
         $this->draft = $draft;
     }

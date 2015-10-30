@@ -7,7 +7,7 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Events\Project\IdeaWasCreated;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -45,7 +45,7 @@ class CreateIdeaCommand extends Command implements SelfHandling
      *
      * @param IdeaRepositoryInterface $repository
      * @param Dispatcher $event
-     * @return Idea
+     * @return \DreamsArk\Models\Project\Stages\Idea
      */
     public function handle(IdeaRepositoryInterface $repository, Dispatcher $event)
     {

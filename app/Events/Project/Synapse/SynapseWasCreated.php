@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project\Synapse;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Stages\Synapse;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -12,7 +12,7 @@ class SynapseWasCreated extends Event
     use SerializesModels;
 
     /**
-     * @var Synapse
+     * @var \DreamsArk\Models\Project\Stages\Synapse
      */
     public $model;
 
@@ -24,10 +24,10 @@ class SynapseWasCreated extends Event
     /**
      * Create a new event instance.
      *
-     * @param Synapse $synapse
+     * @param \DreamsArk\Models\Project\Stages\Synapse $synapse
      * @param $voting_date
      */
-    public function __construct(Synapse $synapse, $voting_date)
+    public function __construct(\DreamsArk\Models\Project\Stages\Synapse $synapse, $voting_date)
     {
         $this->model = $synapse;
         $this->voting_date = $voting_date;

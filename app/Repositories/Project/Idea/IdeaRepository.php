@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Repositories\Project\Idea;
 
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -48,7 +48,7 @@ class IdeaRepository implements IdeaRepositoryInterface
      *
      * @param int $project_id
      * @param array $fields
-     * @return Idea
+     * @return \DreamsArk\Models\Project\Stages\Idea
      */
     public function create($project_id, array $fields)
     {

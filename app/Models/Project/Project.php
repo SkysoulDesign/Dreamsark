@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Models\Project;
 
-use DreamsArk\Models\Project\Idea\Idea;
-use DreamsArk\Models\Project\Script\Script;
-use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Stages\Idea;
+use DreamsArk\Models\Project\Stages\Script;
+use DreamsArk\Models\Project\Stages\Synapse;
 use DreamsArk\Models\User\User;
 use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;

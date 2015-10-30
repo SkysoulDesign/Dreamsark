@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Models\Project;
 
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 

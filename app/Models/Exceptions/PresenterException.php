@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models\Project;
+namespace DreamsArk\Models;
 
 use Exception;
 

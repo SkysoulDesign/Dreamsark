@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Support\Collection;
 
@@ -23,7 +23,7 @@ interface ProjectRepositoryInterface
      * @param int $user_id
      * @param string $type
      * @param array $fields
-     * @return Project|Draft
+     * @return Project|\DreamsArk\Models\Project\Stages\Draft
      */
     public function create($user_id, $type, array $fields);
 

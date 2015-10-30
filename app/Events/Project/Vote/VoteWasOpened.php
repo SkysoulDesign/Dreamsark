@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project\Vote;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 use Illuminate\Queue\SerializesModels;
 
 class VoteWasOpened extends Event
@@ -11,14 +11,14 @@ class VoteWasOpened extends Event
     use SerializesModels;
 
     /**
-     * @var Vote
+     * @var \DreamsArk\Models\Project\Stages\Vote
      */
     public $vote;
 
     /**
      * Create a new event instance.
      *
-     * @param Vote $vote
+     * @param \DreamsArk\Models\Project\Stages\Vote $vote
      */
     public function __construct(Vote $vote)
     {

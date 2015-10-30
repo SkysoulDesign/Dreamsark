@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Repositories\Project\Synapse;
 
-use DreamsArk\Models\Project\Draft;
+use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Stages\Synapse;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -113,7 +113,7 @@ class SynapseRepository implements SynapseRepositoryInterface
     /**
      * Set Model to Draft
      *
-     * @param null|Draft $draft_id
+     * @param null|\DreamsArk\Models\Project\Stages\Draft $draft_id
      * @return $this
      */
     public function draft($draft_id = null)

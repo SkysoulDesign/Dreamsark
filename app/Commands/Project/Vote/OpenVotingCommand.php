@@ -5,7 +5,7 @@ namespace DreamsArk\Commands\Project\Vote;
 use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\FailStageCommand;
 use DreamsArk\Events\Project\Vote\VoteWasOpened;
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -17,14 +17,14 @@ class OpenVotingCommand extends Command implements SelfHandling
     use SerializesModels, DispatchesJobs;
 
     /**
-     * @var Vote
+     * @var \DreamsArk\Models\Project\Stages\Vote
      */
     private $vote;
 
     /**
      * Create a new command instance.
      *
-     * @param Vote $vote
+     * @param \DreamsArk\Models\Project\Stages\Vote $vote
      */
     public function __construct(Vote $vote)
     {

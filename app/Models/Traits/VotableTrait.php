@@ -1,7 +1,9 @@
 <?php
 
-namespace DreamsArk\Models\Project;
+namespace DreamsArk\Models\Traits;
 
+use DreamsArk\Models\Project\Stages\Vote;
+use DreamsArk\Models\VotingException;
 
 trait VotableTrait
 {

@@ -2,8 +2,8 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project\Draft;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Draft;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;

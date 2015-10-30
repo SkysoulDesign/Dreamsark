@@ -1,17 +1,16 @@
 <?php
 
-namespace DreamsArk\Models\Project\Script;
+namespace DreamsArk\Models\Project\Stages;
 
-use DreamsArk\Models\Project\Idea\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\Project\VotableTrait;
-use DreamsArk\Models\Project\Vote;
-use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
+use DreamsArk\Models\Traits\VotableTrait;
+use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Script extends Model
+class Synapse extends Model
 {
+
     use VotableTrait;
 
     /**
@@ -19,14 +18,14 @@ class Script extends Model
      *
      * @var string
      */
-    protected $table = 'scripts';
+    protected $table = 'synapses';
 
     /**
      * Define this model Repository.
      *
      * @var string
      */
-    public $repository = ScriptRepositoryInterface::class;
+    public $repository = SynapseRepositoryInterface::class;
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +37,7 @@ class Script extends Model
     /**
      * Define Which is the next Model
      */
-    protected $next = Project::class;
+    protected $next = Script::class;
 
     /**
      * Scope a query to only show visible entries.
@@ -73,6 +72,16 @@ class Script extends Model
     }
 
     /**
+     * User Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user()
+    {
+        return $this->project->user();
+    }
+
+    /**
      * Submission Relationship
      * Only Available once there is a winner for this project
      *
@@ -91,16 +100,6 @@ class Script extends Model
     public function submissions()
     {
         return $this->morphMany(Submission::class, 'submissible');
-    }
-
-    /**
-     * User Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user()
-    {
-        return $this->project->user();
     }
 
 }

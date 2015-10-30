@@ -7,7 +7,7 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\ChargeUserCommand;
 use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
 use DreamsArk\Events\Project\Script\ScriptWasCreated;
-use DreamsArk\Models\Project\Script\Script;
+use DreamsArk\Models\Project\Stages\Script;
 use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -45,7 +45,7 @@ class CreateScriptCommand extends Command implements SelfHandling
      * @param ScriptRepositoryInterface $repository
      * @param Dispatcher $event
      * @param Carbon $carbon
-     * @return Script
+     * @return \DreamsArk\Models\Project\Stages\Script
      */
     public function handle(ScriptRepositoryInterface $repository, Dispatcher $event, Carbon $carbon)
     {

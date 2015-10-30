@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models\Project;
+namespace DreamsArk\Models\Project\Stages;
 
 use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;

@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project\Idea;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -21,7 +21,7 @@ class IdeaWinnerWasSelected extends Event
      *
      * @param Idea $idea
      */
-    public function __construct(Idea $idea)
+    public function __construct(\DreamsArk\Models\Project\Stages\Idea $idea)
     {
         $this->idea = $idea;
     }

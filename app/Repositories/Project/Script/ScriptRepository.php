@@ -3,7 +3,7 @@
 namespace DreamsArk\Repositories\Project\Script;
 
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Script\Script;
+use DreamsArk\Models\Project\Stages\Script;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -13,7 +13,7 @@ class ScriptRepository implements ScriptRepositoryInterface
     use RepositoryHelperTrait;
 
     /**
-     * @var Script
+     * @var \DreamsArk\Models\Project\Stages\Script
      */
     public $model;
 
@@ -26,7 +26,7 @@ class ScriptRepository implements ScriptRepositoryInterface
      * @param Script $script
      * @param Submission $submission
      */
-    function __construct(Script $script, Submission $submission)
+    function __construct(\DreamsArk\Models\Project\Stages\Script $script, Submission $submission)
     {
         $this->model = $script;
         $this->submission = $submission;
@@ -48,7 +48,7 @@ class ScriptRepository implements ScriptRepositoryInterface
      *
      * @param int $project_id
      * @param array $fields
-     * @return Script
+     * @return \DreamsArk\Models\Project\Stages\Script
      */
     public function create($project_id, array $fields)
     {

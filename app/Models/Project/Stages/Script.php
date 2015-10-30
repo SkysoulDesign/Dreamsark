@@ -1,36 +1,30 @@
 <?php
 
-namespace DreamsArk\Models\Project\Idea;
+namespace DreamsArk\Models\Project\Stages;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Synapse\Synapse;
-use DreamsArk\Models\Project\VotableTrait;
-use DreamsArk\Models\Project\Vote;
-use DreamsArk\Presenters\PresentableTrait;
-use DreamsArk\Presenters\Presenter;
-use DreamsArk\Presenters\Presenter\IdeaPresenter;
-use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
+use DreamsArk\Models\Traits\VotableTrait;
+use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Idea extends Model
+class Script extends Model
 {
-
-    use PresentableTrait, VotableTrait;
+    use VotableTrait;
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'ideas';
+    protected $table = 'scripts';
 
     /**
      * Define this model Repository.
      *
      * @var string
      */
-    public $repository = IdeaRepositoryInterface::class;
+    public $repository = ScriptRepositoryInterface::class;
 
     /**
      * The attributes that are mass assignable.
@@ -40,16 +34,31 @@ class Idea extends Model
     protected $fillable = ['content', 'reward'];
 
     /**
-     * Presenter for this class
-     *
-     * @var Presenter
-     */
-    protected $presenter = IdeaPresenter::class;
-
-    /**
      * Define Which is the next Model
      */
-    protected $next = Synapse::class;
+    protected $next = Project::class;
+
+    /**
+     * Scope a query to only show visible entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('visibility', true);
+    }
+
+    /**
+     * Scope a query to only show private entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrivate($query)
+    {
+        return $query->where('visibility', false);
+    }
 
     /**
      * Project Relationship
@@ -80,16 +89,6 @@ class Idea extends Model
     public function submissions()
     {
         return $this->morphMany(Submission::class, 'submissible');
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function winners()
-    {
-        return $this->belongsToMany(Submission::class);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace DreamsArk\Repositories\Project\Submission;
 
 
-use DreamsArk\Models\Project\Idea\Idea;
+use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;

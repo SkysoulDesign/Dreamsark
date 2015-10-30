@@ -3,7 +3,7 @@
 namespace DreamsArk\Repositories\Project\Script;
 
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Script\Script;
+use DreamsArk\Models\Project\Stages\Script;
 
 interface ScriptRepositoryInterface
 {

@@ -3,7 +3,7 @@
 namespace DreamsArk\Repositories\Project\Vote;
 
 
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 
 interface VoteRepositoryInterface
 {

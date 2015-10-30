@@ -12,15 +12,15 @@
 
             @foreach($projects as $project)
 
-                @if($project->stage instanceof \DreamsArk\Models\Project\Idea\Idea)
+                @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Idea)
                     @include('partials.card-idea')
                 @endif
 
-                @if($project->stage instanceof \DreamsArk\Models\Project\Synapse\Synapse)
+                @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Synapse)
                     @include('partials.card-synapse')
                 @endif
 
-                @if($project->stage instanceof \DreamsArk\Models\Project\Script\Script)
+                @if($project->stage instanceof \DreamsArk\Models\Project\Stages\Script)
                     @include('partials.card-script')
                 @endif
 

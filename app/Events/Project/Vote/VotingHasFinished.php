@@ -4,7 +4,7 @@ namespace DreamsArk\Events\Project\Vote;
 
 use DreamsArk\Events\Event;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Vote;
+use DreamsArk\Models\Project\Stages\Vote;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Collection;
@@ -14,7 +14,7 @@ class VotingHasFinished extends Event
     use SerializesModels;
 
     /**
-     * @var Vote
+     * @var \DreamsArk\Models\Project\Stages\Vote
      */
     public $vote;
 

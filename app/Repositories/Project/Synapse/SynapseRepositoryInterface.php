@@ -3,7 +3,7 @@
 namespace DreamsArk\Repositories\Project\Synapse;
 
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Synapse\Synapse;
+use DreamsArk\Models\Project\Stages\Synapse;
 
 interface SynapseRepositoryInterface
 {
@@ -21,7 +21,7 @@ interface SynapseRepositoryInterface
      *
      * @param int $project_id
      * @param array $fields
-     * @return Synapse
+     * @return \DreamsArk\Models\Project\Stages\Synapse
      */
     public function create($project_id, array $fields);
 
