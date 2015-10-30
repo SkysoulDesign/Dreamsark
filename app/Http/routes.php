@@ -11,7 +11,6 @@
 |
 */
 
-use DreamsArk\Models\User\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -130,6 +129,15 @@ Route::post('project/{project}/store', ['as' => 'project.project.store', 'uses' 
  */
 Route::post('project/synapse/store/{project}', ['as' => 'project.synapse.store', 'uses' => 'Project\Synapse\SynapseController@store']);
 Route::get('project/synapse/show/{project}', ['as' => 'project.synapse.show', 'uses' => 'Project\Synapse\SynapseController@show']);
+
+/**
+ * Committee Staff Controller
+ */
+Route::get('committee/create/staff/{project}', ['as' => 'committee.project.staff.create', 'uses' => 'Committee\Project\StaffController@create']);
+Route::post('committee/create/staff/{project}', ['as' => 'committee.project.staff.store', 'uses' => 'Committee\Project\StaffController@store']);
+
+Route::post('committee/project/cast/store/{project}', ['as' => 'committee.project.cast.store', 'uses' => 'Committee\Project\CastController@store']);
+
 
 /**
  * Project Script Controller

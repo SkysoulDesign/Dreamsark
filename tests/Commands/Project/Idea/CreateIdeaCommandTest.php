@@ -10,8 +10,8 @@ namespace Commands\Project\Idea;
 
 use Carbon\Carbon;
 use DreamsArk\Commands\Project\ChargeUserCommand;
-use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
-use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
+use DreamsArk\Commands\Project\Stages\Idea\CreateIdeaCommand;
+use DreamsArk\Commands\Project\Stages\Voting\CreateVotingCommand;
 use DreamsArk\Events\Project\IdeaWasCreated;
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Project;

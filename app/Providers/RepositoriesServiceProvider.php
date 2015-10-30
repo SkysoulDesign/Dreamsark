@@ -4,18 +4,24 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
-use DreamsArk\Repositories\Project\Vote\VoteRepository;
-use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
+use DreamsArk\Repositories\Position\PositionRepository;
+use DreamsArk\Repositories\Position\PositionRepositoryInterface;
 use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
+use DreamsArk\Repositories\Project\Review\ReviewRepository;
+use DreamsArk\Repositories\Project\Review\ReviewRepositoryInterface;
 use DreamsArk\Repositories\Project\Script\ScriptRepository;
 use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepository;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepository;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
+use DreamsArk\Repositories\Project\Vote\VoteRepository;
+use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
+use DreamsArk\Repositories\Report\ReportRepository;
+use DreamsArk\Repositories\Report\ReportRepositoryInterface;
 use DreamsArk\Repositories\Setting\SettingRepository;
 use DreamsArk\Repositories\Setting\SettingRepositoryInterface;
 use DreamsArk\Repositories\Translation\TranslationRepository;
@@ -24,8 +30,6 @@ use DreamsArk\Repositories\User\Role\RoleRepository;
 use DreamsArk\Repositories\User\Role\RoleRepositoryInterface;
 use DreamsArk\Repositories\User\UserRepository;
 use DreamsArk\Repositories\User\UserRepositoryInterface;
-use DreamsArk\Repositories\Report\ReportRepository;
-use DreamsArk\Repositories\Report\ReportRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesServiceProvider extends ServiceProvider
@@ -120,6 +124,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         );
 
         /**
+         * Review Repository
+         */
+        $this->app->bind(
+            ReviewRepositoryInterface::class,
+            ReviewRepository::class
+        );
+
+        /**
          * Project Repository
          */
         $this->app->bind(
@@ -141,6 +153,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             SubmissionRepositoryInterface::class,
             SubmissionRepository::class
+        );
+
+        /**
+         * Submission Repository
+         */
+        $this->app->bind(
+            PositionRepositoryInterface::class,
+            PositionRepository::class
         );
 
     }

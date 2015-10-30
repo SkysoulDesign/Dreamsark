@@ -3,7 +3,7 @@
 namespace DreamsArk\Http\Controllers\Project\Script;
 
 use DreamsArk\Commands\Project\CreateProjectCommand;
-use DreamsArk\Commands\Project\Script\CreateScriptCommand;
+use DreamsArk\Commands\Project\Stages\Script\CreateScriptCommand;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;

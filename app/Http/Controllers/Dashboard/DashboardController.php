@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Http\Controllers\Dashboard;
 
-use Illuminate\Http\Request;
-use DreamsArk\Http\Requests;
 use DreamsArk\Http\Controllers\Controller;
+use DreamsArk\Http\Requests;
+use DreamsArk\Repositories\Project\Review\ReviewRepositoryInterface;
 
 class DashboardController extends Controller
 {
@@ -12,11 +12,12 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param ReviewRepositoryInterface $repository
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ReviewRepositoryInterface $repository)
     {
-        return view('dashboard.index');
+        return view('dashboard.index')->with('reviews', $repository->all()->load('project'));
     }
 
 }

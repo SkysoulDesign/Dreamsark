@@ -3,7 +3,7 @@
 namespace DreamsArk\Listeners\Project\Vote;
 
 use Carbon\Carbon;
-use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
+use DreamsArk\Commands\Project\Stages\Voting\OpenVotingCommand;
 use DreamsArk\Events\Project\Vote\VoteWasCreated;
 use Illuminate\Queue\DatabaseQueue;
 use Illuminate\Queue\QueueManager;

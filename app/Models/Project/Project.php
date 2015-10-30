@@ -3,6 +3,7 @@
 namespace DreamsArk\Models\Project;
 
 use DreamsArk\Models\Project\Stages\Idea;
+use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Models\Project\Stages\Script;
 use DreamsArk\Models\Project\Stages\Synapse;
 use DreamsArk\Models\User\User;
@@ -17,18 +18,18 @@ class Project extends Model
     use PresentableTrait;
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'projects';
-
-    /**
      * Define this model Repository.
      *
      * @var string
      */
     public $repository = ProjectRepositoryInterface::class;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'projects';
 
     /**
      * The attributes that are mass assignable.
@@ -96,6 +97,22 @@ class Project extends Model
     public function script()
     {
         return $this->hasOne(Script::class);
+    }
+
+    /**
+     * Script Relationship
+     */
+    public function review()
+    {
+        return $this->hasOne(Review::class);
+    }
+
+    /**
+     * Expenditure Relationship
+     */
+    public function expenditures()
+    {
+        return $this->hasMany(Expenditure::class);
     }
 
     /**

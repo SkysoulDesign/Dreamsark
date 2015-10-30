@@ -98,15 +98,6 @@ class ScriptRepository implements ScriptRepositoryInterface
         return $this->model($script_id)->setAttribute('active', false)->save();
     }
 
-    /**
-     * Submit Script
-     *
-     * @param int $script_id
-     * @param int $submission_id
-     */
-    public function createWinner($script_id, $submission_id)
-    {
-        return $this->model($script_id)->winners()->attach($submission_id);
-    }
+
 
 }

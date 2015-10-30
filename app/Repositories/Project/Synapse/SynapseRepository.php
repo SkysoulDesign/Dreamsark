@@ -100,17 +100,6 @@ class SynapseRepository implements SynapseRepositoryInterface
     }
 
     /**
-     * Submit Synapse
-     *
-     * @param int $synapse_id
-     * @param int $submission_id
-     */
-    public function createWinner($synapse_id, $submission_id)
-    {
-        return $this->model($synapse_id)->winners()->attach($submission_id);
-    }
-
-    /**
      * Set Model to Draft
      *
      * @param null|\DreamsArk\Models\Project\Stages\Draft $draft_id

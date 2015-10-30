@@ -2,10 +2,9 @@
 
 namespace DreamsArk\Models\Project\Stages;
 
-use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Traits\ProjectableTrait;
+use DreamsArk\Models\Traits\SubmissibleTrait;
 use DreamsArk\Models\Traits\VotableTrait;
-use DreamsArk\Presenters\PresentableTrait;
 use DreamsArk\Presenters\Presenter;
 use DreamsArk\Presenters\Presenter\IdeaPresenter;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
@@ -13,15 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Idea extends Model
 {
+    use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
-    use PresentableTrait, VotableTrait;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'ideas';
 
     /**
      * Define this model Repository.
@@ -29,6 +21,13 @@ class Idea extends Model
      * @var string
      */
     public $repository = IdeaRepositoryInterface::class;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'ideas';
 
     /**
      * The attributes that are mass assignable.
@@ -48,56 +47,5 @@ class Idea extends Model
      * Define Which is the next Model
      */
     protected $next = Synapse::class;
-
-    /**
-     * Project Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
-    /**
-     * Submission Relationship
-     * Only Available once there is a winner for this project
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submission()
-    {
-        return $this->belongsto(Submission::class);
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submissions()
-    {
-        return $this->morphMany(Submission::class, 'submissible');
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function winners()
-    {
-        return $this->belongsToMany(Submission::class);
-    }
-
-    /**
-     * User Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user()
-    {
-        return $this->project->user();
-    }
 
 }

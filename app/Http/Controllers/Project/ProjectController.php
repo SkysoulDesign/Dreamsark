@@ -2,8 +2,8 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\StartProjectCommand;
-use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
+use DreamsArk\Commands\Project\Stages\Review\CreateReviewCommand;
+use DreamsArk\Commands\Project\Stages\Voting\OpenVotingCommand;
 use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;
@@ -67,7 +67,7 @@ class ProjectController extends Controller
     public function projectStore(Project $project, Request $request)
     {
 
-        $command = new StartProjectCommand($project, $request->all());
+        $command = new CreateReviewCommand($project, $request->all());
         $this->dispatch($command);
 
         return redirect()->route('projects');

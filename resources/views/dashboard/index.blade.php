@@ -16,53 +16,57 @@
 
         <div class="ui segments">
             <div class="ui segment">
-                <p>Top</p>
+                <p>Pending Projects To Review</p>
             </div>
             <div class="ui secondary segment">
                 <table class="ui celled striped table">
                     <thead>
                     <tr>
-                        <th colspan="3">
-                            Git Repository
+                        <th colspan="5">
+                            Projects
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="collapsing">
-                            <i class="folder icon"></i> node_modules
-                        </td>
-                        <td>Initial commit</td>
-                        <td class="right aligned collapsing">10 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="folder icon"></i> test
-                        </td>
-                        <td>Initial commit</td>
-                        <td class="right aligned">10 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="folder icon"></i> build
-                        </td>
-                        <td>Initial commit</td>
-                        <td class="right aligned">10 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="file outline icon"></i> package.json
-                        </td>
-                        <td>Initial commit</td>
-                        <td class="right aligned">10 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="file outline icon"></i> Gruntfile.js
-                        </td>
-                        <td>Initial commit</td>
-                        <td class="right aligned">10 hours ago</td>
-                    </tr>
+                    @foreach($reviews as $review)
+                        <tr>
+                            <td class="collapsing">
+                                <i class="folder icon"></i> {{ $review->project->name }}
+                            </td>
+                            <td>
+                                <div class="ui three fluid small steps">
+                                    <div class="@if(!$review->project->idea) disabled @endif step">
+
+                                        <div class="content">
+                                            <div class="title">Idea</div>
+                                        </div>
+                                    </div>
+                                    <div class="@if(!$review->project->synapse) disabled @endif step">
+
+                                        <a href="" class="content">
+                                            <div class="title">Synapse</div>
+                                        </a>
+
+                                    </div>
+                                    <div class="@if(!$review->project->script) disabled @endif step">
+
+                                        <a href="#" class="content">
+                                            <div class="title">Script</div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="right aligned collapsing">
+                                <a href="{{ route('committee.project.staff.create', $review->project->id) }}" class="ui primary button">
+                                    Add Cast
+                                </a>
+                                <button class="ui olive button">
+                                    Publish
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

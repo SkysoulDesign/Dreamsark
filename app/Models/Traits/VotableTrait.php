@@ -13,7 +13,7 @@ trait VotableTrait
      *
      * @var array
      */
-    private $order = array('idea', 'synapse', 'script');
+    private $order = array('idea', 'synapse', 'script', 'review', 'fund');
 
     /**
      * Define which model is the Next on its creation order
@@ -43,6 +43,16 @@ trait VotableTrait
     public function isLastStage()
     {
         return strtolower(class_basename($this)) === last($this->order);
+    }
+
+    /**
+     * Check if is the last Stage
+     *
+     * @return bool
+     */
+    public function getStageName()
+    {
+        return strtolower(class_basename($this));
     }
 
 }

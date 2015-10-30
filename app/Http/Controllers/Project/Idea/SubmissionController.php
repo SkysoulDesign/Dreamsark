@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Http\Controllers\Project\Idea;
 
-use DreamsArk\Commands\Project\Idea\SubmitIdeaCommand;
+use DreamsArk\Commands\Project\Stages\Idea\SubmitIdeaCommand;
 use DreamsArk\Commands\Project\Submission\VoteOnSubmissionCommand;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests\Idea\IdeaSubmission;

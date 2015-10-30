@@ -2,13 +2,11 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\Vote\CloseVotingCommand;
-use DreamsArk\Commands\Project\Vote\OpenVotingCommand;
+use DreamsArk\Commands\Project\Stages\Voting\CloseVotingCommand;
+use DreamsArk\Http\Controllers\Controller;
+use DreamsArk\Http\Requests;
 use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
-use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
-use DreamsArk\Http\Requests;
-use DreamsArk\Http\Controllers\Controller;
 
 class VoteController extends Controller
 {
@@ -34,10 +32,10 @@ class VoteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \DreamsArk\Models\Project\Stages\Vote $vote
+     * @param Vote $vote
      * @return \Illuminate\Http\Response
      */
-    public function show(\DreamsArk\Models\Project\Stages\Vote $vote)
+    public function show(Vote $vote)
     {
         $this->dispatch(new CloseVotingCommand($vote));
 

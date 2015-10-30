@@ -4,7 +4,7 @@ namespace DreamsArk\Listeners\Project;
 
 
 use Carbon\Carbon;
-use DreamsArk\Commands\Project\Vote\CreateVotingCommand;
+use DreamsArk\Commands\Project\Stages\Voting\CreateVotingCommand;
 use DreamsArk\Events\Event;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 

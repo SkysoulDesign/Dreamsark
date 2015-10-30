@@ -3,7 +3,7 @@
 namespace DreamsArk\Listeners\Project\Vote;
 
 use Carbon\Carbon;
-use DreamsArk\Commands\Project\Vote\CloseVotingCommand;
+use DreamsArk\Commands\Project\Stages\Voting\CloseVotingCommand;
 use DreamsArk\Events\Project\Vote\VoteWasOpened;
 use Illuminate\Queue\DatabaseQueue;
 use Illuminate\Queue\QueueManager;
@@ -44,7 +44,7 @@ class QueueCloseVotingCommand
         /**
          * Queue OpenVoteCommand
          */
-        $command = new CloseVotingCommand($event->vote);
+        $command = new \DreamsArk\Commands\Project\Stages\Voting\CloseVotingCommand($event->vote);
 
         $delay = $event->vote->close_date->timestamp - $this->carbon->now()->timestamp;
 

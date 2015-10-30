@@ -2,22 +2,16 @@
 
 namespace DreamsArk\Models\Project\Stages;
 
-use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\Project\Submission;
+use DreamsArk\Models\Traits\ProjectableTrait;
+use DreamsArk\Models\Traits\SubmissibleTrait;
 use DreamsArk\Models\Traits\VotableTrait;
 use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Script extends Model
 {
-    use VotableTrait;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'scripts';
+    use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
     /**
      * Define this model Repository.
@@ -25,6 +19,13 @@ class Script extends Model
      * @var string
      */
     public $repository = ScriptRepositoryInterface::class;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'scripts';
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +37,7 @@ class Script extends Model
     /**
      * Define Which is the next Model
      */
-    protected $next = Project::class;
+    protected $next = Review::class;
 
     /**
      * Scope a query to only show visible entries.
@@ -58,47 +59,6 @@ class Script extends Model
     public function scopePrivate($query)
     {
         return $query->where('visibility', false);
-    }
-
-    /**
-     * Project Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
-    /**
-     * Submission Relationship
-     * Only Available once there is a winner for this project
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submission()
-    {
-        return $this->belongsto(Submission::class);
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submissions()
-    {
-        return $this->morphMany(Submission::class, 'submissible');
-    }
-
-    /**
-     * User Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user()
-    {
-        return $this->project->user();
     }
 
 }

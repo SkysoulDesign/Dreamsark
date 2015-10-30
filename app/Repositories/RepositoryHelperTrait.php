@@ -3,6 +3,7 @@
 namespace DreamsArk\Repositories;
 
 
+use DreamsArk\Repositories\Exceptions\RepositoryException;
 use DreamsArk\Repositories\Project\ProjectRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -35,9 +36,17 @@ trait RepositoryHelperTrait
      * @param Model|int $model
      * @param string $baseClass
      * @return $this
+     * @throws RepositoryException
      */
     public function newInstance($model = null, $baseClass = null)
     {
+        /**
+         * If There is no Interface Set
+         */
+        if (class_exists(get_class($this) . 'Interface')) {
+            throw new RepositoryException('Please interface not set for your Repository, please create one first.');
+        }
+
         $instance = app()->make(get_class($this) . 'Interface');
 
         /**
@@ -51,15 +60,20 @@ trait RepositoryHelperTrait
          * If Model is a Model then set this model
          */
         if ($model instanceof Model) {
-
             $instance->model = $model;
+        }
+
+        /**
+         * if it`s a full Qualified Class then initialize it
+         */
+        if (is_string($model) && class_exists($model)) {
+            $instance->model = app()->make($model);
         }
 
         /**
          * if an id is sent though $model then set to the $baseclass
          */
         if (is_numeric($model) && class_exists($baseClass)) {
-
             $instance->model = app($baseClass)->findOrFail(($model instanceof Model) ? $model->id : $model)->first();
         }
 

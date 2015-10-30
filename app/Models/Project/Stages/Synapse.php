@@ -2,8 +2,8 @@
 
 namespace DreamsArk\Models\Project\Stages;
 
-use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Traits\ProjectableTrait;
+use DreamsArk\Models\Traits\SubmissibleTrait;
 use DreamsArk\Models\Traits\VotableTrait;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -11,14 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Synapse extends Model
 {
 
-    use VotableTrait;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'synapses';
+    use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
     /**
      * Define this model Repository.
@@ -26,7 +19,12 @@ class Synapse extends Model
      * @var string
      */
     public $repository = SynapseRepositoryInterface::class;
-
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'synapses';
     /**
      * The attributes that are mass assignable.
      *
@@ -59,47 +57,6 @@ class Synapse extends Model
     public function scopePrivate($query)
     {
         return $query->where('visibility', false);
-    }
-
-    /**
-     * Project Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
-    /**
-     * User Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user()
-    {
-        return $this->project->user();
-    }
-
-    /**
-     * Submission Relationship
-     * Only Available once there is a winner for this project
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submission()
-    {
-        return $this->belongsto(Submission::class);
-    }
-
-    /**
-     * Submission Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function submissions()
-    {
-        return $this->morphMany(Submission::class, 'submissible');
     }
 
 }

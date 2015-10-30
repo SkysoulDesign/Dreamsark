@@ -3,7 +3,7 @@
 namespace DreamsArk\Http\Controllers\Project\Synapse;
 
 use DreamsArk\Commands\Project\CreateProjectCommand;
-use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;
+use DreamsArk\Commands\Project\Stages\Synapse\CreateSynapseCommand;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;

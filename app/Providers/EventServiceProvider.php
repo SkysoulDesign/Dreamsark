@@ -5,25 +5,24 @@ namespace DreamsArk\Providers;
 use DreamsArk\Events\Bag\UserCoinsWasDeducted;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
 use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
-use DreamsArk\Events\Project\StageHasFailed;
-use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
-use DreamsArk\Events\Project\Vote\VoteHasFailed;
-use DreamsArk\Events\Project\Vote\VotingHasFinished;
-use DreamsArk\Events\Project\Vote\VoteWasCreated;
-use DreamsArk\Events\Project\Vote\VoteWasOpened;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
 use DreamsArk\Events\Project\IdeaWasCreated;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Events\Project\Script\ScriptWasCreated;
+use DreamsArk\Events\Project\StageHasFailed;
+use DreamsArk\Events\Project\Stages\ReviewWasCreated;
+use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
 use DreamsArk\Events\Project\TakeWasCreated;
 use DreamsArk\Events\Project\UserHasEnrolledToCast;
+use DreamsArk\Events\Project\Vote\VoteWasCreated;
+use DreamsArk\Events\Project\Vote\VoteWasOpened;
+use DreamsArk\Events\Project\Vote\VotingHasFailed;
+use DreamsArk\Events\Project\Vote\VotingHasFinished;
 use DreamsArk\Events\Session\UserWasCreated;
 use DreamsArk\Events\Session\UserWasUpdated;
 use DreamsArk\Events\Translation\TranslationsWasCreated;
-use DreamsArk\Listeners\Project\Vote\CheckIfIsTheLastStage;
-use DreamsArk\Listeners\Project\Vote\DeactivateVoting;
 use DreamsArk\Listeners\Project\ChargeUser;
 use DreamsArk\Listeners\Project\CreateProjectStage;
 use DreamsArk\Listeners\Project\CreateVote;
@@ -31,11 +30,13 @@ use DreamsArk\Listeners\Project\RefundUser;
 use DreamsArk\Listeners\Project\RefundUsers;
 use DreamsArk\Listeners\Project\RegisterVotingWinner;
 use DreamsArk\Listeners\Project\UpdateProjectStage;
+use DreamsArk\Listeners\Project\Vote\AutomaticallySendReviewToCommittee;
+use DreamsArk\Listeners\Project\Vote\DeactivateVoting;
 use DreamsArk\Listeners\Project\Vote\QueueCloseVotingCommand;
 use DreamsArk\Listeners\Project\Vote\QueueOpenVotingCommand;
 use DreamsArk\Listeners\User\AppendDefaultSettings;
-use DreamsArk\Listeners\User\GiveUserAnEmptyBag;
 use DreamsArk\Listeners\User\AttachUserRole;
+use DreamsArk\Listeners\User\GiveUserAnEmptyBag;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -88,7 +89,7 @@ class EventServiceProvider extends ServiceProvider
             QueueCloseVotingCommand::class
         ],
 
-        VoteHasFailed::class => [
+        VotingHasFailed::class => [
             DeactivateVoting::class,
         ],
 
@@ -96,13 +97,17 @@ class EventServiceProvider extends ServiceProvider
             DeactivateVoting::class,
             RefundUsers::class,
             RegisterVotingWinner::class,
-            CheckIfIsTheLastStage::class,
+            AutomaticallySendReviewToCommittee::class,
         ],
 
         UserWasCreated::class => [
             AppendDefaultSettings::class,
             GiveUserAnEmptyBag::class,
             AttachUserRole::class
+        ],
+
+        ReviewWasCreated::class => [
+            UpdateProjectStage::class
         ],
 
         UserWasUpdated::class => [],

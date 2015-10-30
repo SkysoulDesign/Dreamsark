@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Listeners\Project;
 
-use DreamsArk\Commands\Project\Idea\CreateIdeaCommand;
-use DreamsArk\Commands\Project\Script\CreateScriptCommand;
-use DreamsArk\Commands\Project\Synapse\CreateSynapseCommand;
+use DreamsArk\Commands\Project\Stages\Idea\CreateIdeaCommand;
+use DreamsArk\Commands\Project\Stages\Script\CreateScriptCommand;
+use DreamsArk\Commands\Project\Stages\Synapse\CreateSynapseCommand;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
