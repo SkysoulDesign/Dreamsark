@@ -58,7 +58,7 @@
                                 </div>
                             </td>
                             <td class="right aligned collapsing">
-                                <a href="{{ route('committee.project.staff.create', $review->project->id) }}" class="ui primary button">
+                                <a href="{{ route('committee.project.staff.create', $review->id) }}" class="ui primary button">
                                     Add Cast
                                 </a>
                                 <button class="ui olive button">

@@ -3,6 +3,7 @@
 namespace DreamsArk\Models\Project;
 
 use DreamsArk\Models\Project\Expenditures\Expenditure;
+use DreamsArk\Models\Project\Stages\Fund;
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Models\Project\Stages\Script;
@@ -77,6 +78,16 @@ class Project extends Model
     }
 
     /**
+     * Alias to User Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->user();
+    }
+
+    /**
      * Idea Relationship
      */
     public function idea()
@@ -114,6 +125,14 @@ class Project extends Model
     public function expenditures()
     {
         return $this->hasMany(Expenditure::class);
+    }
+
+    /**
+     * fund Relationship
+     */
+    public function fund()
+    {
+        return $this->hasOne(Fund::class);
     }
 
     /**

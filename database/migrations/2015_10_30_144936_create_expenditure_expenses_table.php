@@ -19,8 +19,8 @@ class CreateExpenditureExpensesTable extends Migration
             $table->string('cost');
             $table->string('description');
 
-            $table->integer('expenditure_type_id')->unsigned()->index();
-            $table->foreign('expenditure_type_id')->references('id')->on('expenditure_types')->onDelete('cascade');
+            $table->integer('expenditure_position_id')->unsigned()->index();
+            $table->foreign('expenditure_position_id')->references('id')->on('expenditure_positions')->onDelete('cascade');
 
             $table->timestamps();
 

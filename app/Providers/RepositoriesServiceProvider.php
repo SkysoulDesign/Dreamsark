@@ -6,6 +6,8 @@ use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
 use DreamsArk\Repositories\Project\Expenditure\ExpenditureRepository;
 use DreamsArk\Repositories\Project\Expenditure\ExpenditureRepositoryInterface;
+use DreamsArk\Repositories\Project\Fund\FundRepository;
+use DreamsArk\Repositories\Project\Fund\FundRepositoryInterface;
 use DreamsArk\Repositories\Project\Idea\IdeaRepository;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use DreamsArk\Repositories\Project\ProjectRepository;
@@ -161,6 +163,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             ExpenditureRepositoryInterface::class,
             ExpenditureRepository::class
+        );
+
+        /**
+         * Fund Repository
+         */
+        $this->app->bind(
+            FundRepositoryInterface::class,
+            FundRepository::class
         );
 
     }

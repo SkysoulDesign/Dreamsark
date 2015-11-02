@@ -31,7 +31,7 @@ class Position extends Model
     }
 
     /**
-     * Type Relationship
+     * Cast Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,12 +41,22 @@ class Position extends Model
     }
 
     /**
-     * Type Relationship
+     * Crew Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function crew()
     {
         return $this->hasMany(Crew::class, 'expenditure_position_id');
+    }
+
+    /**
+     * Expense Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function expense()
+    {
+        return $this->hasMany(Expense::class, 'expenditure_position_id');
     }
 }

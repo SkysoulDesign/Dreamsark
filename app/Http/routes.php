@@ -125,6 +125,13 @@ Route::get('project/next/create/{project}', ['as' => 'project.next.create', 'use
 Route::post('project/{project}/store', ['as' => 'project.project.store', 'uses' => 'Project\ProjectController@projectStore']);
 
 /**
+ * Fund Controller
+ */
+Route::get('project/fund/create/{project}', ['as' => 'project.fund.create', 'uses' => 'Project\FundController@create']);
+
+
+
+/**
  * Project Synapse Controller
  */
 Route::post('project/synapse/store/{project}', ['as' => 'project.synapse.store', 'uses' => 'Project\Synapse\SynapseController@store']);
@@ -133,12 +140,16 @@ Route::get('project/synapse/show/{project}', ['as' => 'project.synapse.show', 'u
 /**
  * Committee Staff Controller
  */
-Route::get('committee/create/staff/{project}', ['as' => 'committee.project.staff.create', 'uses' => 'Committee\Project\StaffController@create']);
+Route::get('committee/create/staff/{review}', ['as' => 'committee.project.staff.create', 'uses' => 'Committee\Project\StaffController@create']);
 Route::post('committee/create/staff/{project}', ['as' => 'committee.project.staff.store', 'uses' => 'Committee\Project\StaffController@store']);
 
 Route::post('committee/project/cast/store/{project}', ['as' => 'committee.project.cast.store', 'uses' => 'Committee\Project\CastController@store']);
 Route::post('committee/project/crew/store/{project}', ['as' => 'committee.project.crew.store', 'uses' => 'Committee\Project\CrewController@store']);
 Route::post('committee/project/expense/store/{project}', ['as' => 'committee.project.expense.store', 'uses' => 'Committee\Project\ExpenseController@store']);
+
+Route::post('committee/project/publish/{review}', ['as' => 'committee.project.publish', 'uses' => 'Committee\Project\StaffController@publish']);
+
+
 
 
 /**

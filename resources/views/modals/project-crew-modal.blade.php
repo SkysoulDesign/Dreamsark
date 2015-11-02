@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <form id="project-crew-form" class="ui form" method="post"
-              action="{{ route('committee.project.crew.store', $project->id) }}">
+              action="{{ route('committee.project.crew.store', $review->project->id) }}">
 
             {{ csrf_field() }}
 

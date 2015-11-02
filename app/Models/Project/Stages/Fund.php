@@ -6,9 +6,8 @@ use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Traits\ProjectableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class Fund extends Model
 {
-
     use ProjectableTrait;
 
     /**
@@ -16,12 +15,12 @@ class Review extends Model
      *
      * @var string
      */
-    protected $table = 'reviews';
+    protected $table = 'funds';
 
     /**
      * Define Which is the next Model
      */
-    protected $next = Fund::class;
+    protected $next = Synapse::class;
 
     /**
      * Project Relationship

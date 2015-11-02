@@ -7,6 +7,7 @@ use DreamsArk\Commands\Project\Stages\Voting\OpenVotingCommand;
 use DreamsArk\Commands\Project\CreateProjectCommand;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Stages\Fund;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use Illuminate\Http\Request;
@@ -83,8 +84,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project, ProjectRepositoryInterface $repository)
     {
-        $submissions = $repository->submissions($project->id)->load('user');
-        return view('project.show', compact('project'))->with('submissions', $submissions);
+        if (!$project->stage instanceof Fund) {
+            $submissions = $repository->submissions($project->id)->load('user');
+            return view('project.show', compact('project'))->with('submissions', $submissions);
+        }
+
+        return view('project.show')->with('project', $project->load('expenditures.expenditurable'));
+
     }
 
     /**

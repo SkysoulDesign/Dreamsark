@@ -14,7 +14,6 @@ class Idea extends Model
 {
     use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
-
     /**
      * Define this model Repository.
      *

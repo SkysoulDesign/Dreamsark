@@ -2,8 +2,8 @@
 
 namespace DreamsArk\Models\Project\Expenditures;
 
-use DreamsArk\Models\Project\Expenditures\Cast;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Expenditure extends Model
@@ -38,6 +38,16 @@ class Expenditure extends Model
     public function expenditurable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Backers Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function backers()
+    {
+        return $this->belongsToMany(User::class, 'expenditure_backer')->withPivot('amount');
     }
 
 }

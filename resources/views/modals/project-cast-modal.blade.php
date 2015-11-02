@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <form id="project-cast-form" class="ui form" method="post"
-              action="{{ route('committee.project.cast.store', $project->id) }}">
+              action="{{ route('committee.project.cast.store', $review->project->id) }}">
 
             {{ csrf_field() }}
 

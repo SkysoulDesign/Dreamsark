@@ -3,6 +3,7 @@
 namespace DreamsArk\Providers;
 
 use DreamsArk\Events\Bag\UserCoinsWasDeducted;
+use DreamsArk\Events\Committee\Project\FundWasCreated;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
 use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
 use DreamsArk\Events\Position\ExpenditurePositionWasCreated;
@@ -78,6 +79,10 @@ class EventServiceProvider extends ServiceProvider
         ScriptWasCreated::class => [
             ChargeUser::class,
             CreateVote::class,
+            UpdateProjectStage::class
+        ],
+
+        FundWasCreated::class => [
             UpdateProjectStage::class
         ],
 

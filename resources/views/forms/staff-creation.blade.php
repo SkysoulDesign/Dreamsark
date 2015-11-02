@@ -6,6 +6,16 @@
     <a id="project-add-cast" class="item"> Add Cast </a>
     <a id="project-add-crew" class="item"> Add Crew </a>
     <a id="project-add-expense" class="item"> Add Expansive </a>
+
+    <div class="right menu">
+        <div class="item">
+            <form method="post" action="{{ route('committee.project.publish', $review->id) }}" class="ui form">
+                {{ csrf_field() }}
+                <button class="ui olive button">Publish</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 <table class="ui celled table">
@@ -13,12 +23,13 @@
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Amount</th>
+        <th>Cost</th>
         <th>Description</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($project->expenditures as $expenditure)
+
+    @foreach($review->project->expenditures as $expenditure)
 
         <tr>
             <td>
@@ -37,7 +48,7 @@
             </td>
 
             <td>
-                {{ $expenditure->expenditurable->amount }}
+                {{ $expenditure->expenditurable->cost }}
             </td>
             <td>
                 {{ $expenditure->expenditurable->description }}
@@ -50,14 +61,9 @@
         <th></th>
         <th></th>
         <th colspan="1">
-            @if($expenditures)
-
+            @if($review->project->expenditures)
                 <div class="ui header">
-                    {{
-                        collect($expenditures)->pluck('expenditurable')->sum(function($hi){
-                            return isset($hi['amount']) ? $hi['amount'] : $hi['salary'];
-                        })
-                    }}
+                    {{ collect($review->project->expenditures)->pluck('expenditurable')->sum('cost') }}
                 </div>
             @endif
         </th>

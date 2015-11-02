@@ -7,6 +7,7 @@ use DreamsArk\Models\Project\Expenditures\Crew;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Stages\Idea;
+use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\User\Setting;
@@ -48,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('vote', Vote::class);
         $router->model('cast', Cast::class);
         $router->model('crew', Crew::class);
+        $router->model('review', Review::class);
 
     }
 

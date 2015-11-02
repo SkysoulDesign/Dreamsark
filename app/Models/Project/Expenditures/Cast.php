@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Models\Project\Expenditures;
 
+use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Cast extends Model
@@ -36,4 +37,5 @@ class Cast extends Model
     {
         return $this->belongsTo(Position::class, 'expenditure_position_id');
     }
+
 }
