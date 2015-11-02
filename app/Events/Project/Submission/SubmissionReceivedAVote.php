@@ -13,6 +13,11 @@ class SubmissionReceivedAVote extends Event
     use SerializesModels;
 
     /**
+     * @var int
+     */
+    public $amount;
+
+    /**
      * @var Submission
      */
     public $submission;
@@ -25,11 +30,13 @@ class SubmissionReceivedAVote extends Event
     /**
      * Create a new event instance.
      *
+     * @param int $amount
      * @param Submission $submission
      * @param User $user
      */
-    public function __construct(Submission $submission, User $user)
+    public function __construct($amount, Submission $submission, User $user)
     {
+        $this->amount = $amount;
         $this->submission = $submission;
         $this->user = $user;
     }

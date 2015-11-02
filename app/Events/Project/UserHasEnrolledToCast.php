@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\Project\Expenditures\Cast;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,7 +12,7 @@ class UserHasEnrolledToCast extends Event
     use SerializesModels;
 
     /**
-     * @var Cast
+     * @var \DreamsArk\Models\Project\Expenditures\Cast
      */
     public $cast;
 
@@ -25,9 +25,9 @@ class UserHasEnrolledToCast extends Event
      * Create a new event instance.
      *
      * @param User $user
-     * @param Cast $cast
+     * @param \DreamsArk\Models\Project\Expenditures\Cast $cast
      */
-    public function __construct(User $user, Cast $cast)
+    public function __construct(User $user, \DreamsArk\Models\Project\Expenditures\Cast $cast)
     {
         $this->cast = $cast;
         $this->user = $user;

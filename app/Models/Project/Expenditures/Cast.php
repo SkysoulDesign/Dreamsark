@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Models\Project;
+namespace DreamsArk\Models\Project\Expenditures;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,14 +12,14 @@ class Cast extends Model
      *
      * @var string
      */
-    protected $table = 'casts';
+    protected $table = 'expenditure_casts';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'salary', 'description'];
+    protected $fillable = ['name', 'cost', 'description'];
 
     /**
      * Expenditure Relationship
@@ -34,6 +34,6 @@ class Cast extends Model
      */
     public function position()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class, 'expenditure_position_id');
     }
 }

@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\Project\Expenditures\Cast;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -25,7 +25,7 @@ class CastWasAdded extends Event
     /**
      * Create a new event instance.
      *
-     * @param Cast $cast
+     * @param \DreamsArk\Models\Project\Expenditures\Cast $cast
      * @param Project $project
      */
     public function __construct(Cast $cast, Project $project)

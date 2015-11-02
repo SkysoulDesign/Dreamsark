@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Models\Project;
 
+use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Models\Project\Stages\Script;

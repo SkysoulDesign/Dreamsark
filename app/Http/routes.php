@@ -137,6 +137,8 @@ Route::get('committee/create/staff/{project}', ['as' => 'committee.project.staff
 Route::post('committee/create/staff/{project}', ['as' => 'committee.project.staff.store', 'uses' => 'Committee\Project\StaffController@store']);
 
 Route::post('committee/project/cast/store/{project}', ['as' => 'committee.project.cast.store', 'uses' => 'Committee\Project\CastController@store']);
+Route::post('committee/project/crew/store/{project}', ['as' => 'committee.project.crew.store', 'uses' => 'Committee\Project\CrewController@store']);
+Route::post('committee/project/expense/store/{project}', ['as' => 'committee.project.expense.store', 'uses' => 'Committee\Project\ExpenseController@store']);
 
 
 /**

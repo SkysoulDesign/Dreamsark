@@ -1,23 +1,22 @@
-<div id="project-cast-modal" class="ui modal">
+<div id="project-expense-modal" class="ui modal">
     <div class="header">
-        @lang('project.add-cast')
+        @lang('project.add-expense')
     </div>
     <div class="content">
-        <form id="project-cast-form" class="ui form" method="post"
-              action="{{ route('committee.project.cast.store', $project->id) }}">
+        <form id="project-expense-form" class="ui form" method="post"
+              action="{{ route('committee.project.expense.store', $project->id) }}">
 
             {{ csrf_field() }}
-
-            @include('partials.field', ['name' => 'name', 'label'=> trans('forms.name'), 'placeholder'=> trans('forms.optional'), 'type' => 'text'])
-            @include('partials.field', ['name' => 'cost', 'label'=> trans('forms.amount'), 'placeholder'=> trans('forms.amount'), 'type' => 'text'])
 
             @include('partials.select',
             [
                 'name' => 'position',
                 'placeholder' => trans('forms.position'),
-                'collection' => $positions->where('type.name', 'cast')->lists('name', 'id')
+                'collection' => $positions->where('type.name', 'expense')->lists('name', 'id')
 
             ])
+
+            @include('partials.field', ['name' => 'cost', 'label'=> trans('forms.amount'), 'placeholder'=> trans('forms.amount'), 'type' => 'text'])
 
             @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
 

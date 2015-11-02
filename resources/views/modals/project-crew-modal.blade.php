@@ -3,13 +3,20 @@
         @lang('project.add-crew')
     </div>
     <div class="content">
-        <form id="project-crew-form" class="ui error form" method="post"
-              action="{{ route('project.crew.store', $project->id) }}">
+        <form id="project-crew-form" class="ui form" method="post"
+              action="{{ route('committee.project.crew.store', $project->id) }}">
 
             {{ csrf_field() }}
 
-            @include('partials.field', ['name' => 'role', 'label'=> trans('forms.role'), 'placeholder'=> trans('forms.role')])
-            @include('partials.field', ['name' => 'salary', 'label'=> trans('forms.salary'), 'placeholder'=> trans('forms.salary')])
+            @include('partials.select',
+            [
+                'name' => 'position',
+                'placeholder' => trans('forms.position'),
+                'collection' => $positions->where('type.name', 'crew')->lists('name', 'id')
+
+            ])
+
+            @include('partials.field', ['name' => 'cost', 'label'=> trans('forms.amount'), 'placeholder'=> trans('forms.amount'), 'type' => 'text'])
 
             @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
 

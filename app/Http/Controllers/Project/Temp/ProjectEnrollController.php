@@ -5,8 +5,8 @@ namespace DreamsArk\Http\Controllers\Project;
 use DreamsArk\Commands\Project\EnrollCastCommand;
 use DreamsArk\Commands\Project\EnrollCrewCommand;
 use DreamsArk\Http\Requests\Project\EnrollCastCreation;
-use DreamsArk\Models\Project\Cast;
-use DreamsArk\Models\Project\Crew;
+use DreamsArk\Models\Project\Expenditures\Cast;
+use DreamsArk\Models\Project\Expenditures\Crew;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Http\Request;
 use DreamsArk\Http\Requests;
@@ -47,7 +47,7 @@ class ProjectEnrollController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Crew $crew
+     * @param \DreamsArk\Models\Project\Expenditures\Crew $crew
      * @param EnrollCastCreation $request
      * @return \Illuminate\Http\Response
      * @internal param Cast $cast

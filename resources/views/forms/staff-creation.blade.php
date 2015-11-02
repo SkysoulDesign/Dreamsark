@@ -1,30 +1,11 @@
 @include('modals.project-cast-modal')
+@include('modals.project-crew-modal')
+@include('modals.project-expense-modal')
 
 <div class="ui menu">
     <a id="project-add-cast" class="item"> Add Cast </a>
-    <a class="item"> Add Crew </a>
-    <a class="item"> Add Expansive </a>
-    <a class="ui dropdown item">
-        Messages
-        <i class="dropdown icon"></i>
-
-        <div class="menu">
-            <div class="item">
-                <i class="dropdown icon"></i>
-                <span class="text">Categories</span>
-
-                <div class="menu">
-                    <div class="item">Unread</div>
-                    <div class="item">Promotions</div>
-                    <div class="item">Updates</div>
-                </div>
-            </div>
-            <div class="item">Archive</div>
-        </div>
-    </a>
-    <a class="item">
-        Browse
-    </a>
+    <a id="project-add-crew" class="item"> Add Crew </a>
+    <a id="project-add-expense" class="item"> Add Expansive </a>
 </div>
 
 <table class="ui celled table">
@@ -32,12 +13,11 @@
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Salary</th>
+        <th>Amount</th>
         <th>Description</th>
     </tr>
     </thead>
     <tbody>
-
     @foreach($project->expenditures as $expenditure)
 
         <tr>
@@ -57,7 +37,7 @@
             </td>
 
             <td>
-                {{ $expenditure->expenditurable->salary }}
+                {{ $expenditure->expenditurable->amount }}
             </td>
             <td>
                 {{ $expenditure->expenditurable->description }}
@@ -68,10 +48,19 @@
     <tfoot class="full-width">
     <tr>
         <th></th>
-        <th colspan="1">
-            <div class="ui header">{{ $expenditure->expenditurable->sum('salary') }}</div>
-        </th>
         <th></th>
+        <th colspan="1">
+            @if($expenditures)
+
+                <div class="ui header">
+                    {{
+                        collect($expenditures)->pluck('expenditurable')->sum(function($hi){
+                            return isset($hi['amount']) ? $hi['amount'] : $hi['salary'];
+                        })
+                    }}
+                </div>
+            @endif
+        </th>
         <th></th>
     </tr>
     </tfoot>

@@ -37,7 +37,7 @@ class VoteController extends Controller
      */
     public function show(Vote $vote)
     {
-        $this->dispatch(new CloseVotingCommand($vote));
+//        $this->dispatch(new CloseVotingCommand($vote));
 
         $submissions = $vote->votable->submissions->load('user', 'votes');
         return view('project.vote.show')->with('vote', $vote)->with('submissions', $submissions);

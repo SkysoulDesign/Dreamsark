@@ -47,12 +47,19 @@ trait RepositoryHelperTrait
             throw new RepositoryException('Please interface not set for your Repository, please create one first.');
         }
 
+        /**
+         * If the $baseClass does not exist
+         */
+        if ($baseClass !== null && !class_exists($baseClass)) {
+            throw new RepositoryException('Please Insert a valid baseClass');
+        }
+
         $instance = app()->make(get_class($this) . 'Interface');
 
         /**
          * if it's an ID then find it
          */
-        if (is_numeric($model) && ($baseClass === null xor !class_exists($baseClass))) {
+        if (is_numeric($model) && $baseClass === null) {
             $instance->model = $instance->model->findOrFail($model);
         }
 
@@ -74,7 +81,7 @@ trait RepositoryHelperTrait
          * if an id is sent though $model then set to the $baseclass
          */
         if (is_numeric($model) && class_exists($baseClass)) {
-            $instance->model = app($baseClass)->findOrFail(($model instanceof Model) ? $model->id : $model)->first();
+            $instance->model = app($baseClass)->findOrFail($model);
         }
 
         /**

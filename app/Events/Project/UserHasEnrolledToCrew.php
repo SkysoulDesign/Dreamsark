@@ -3,7 +3,7 @@
 namespace DreamsArk\Events\Project;
 
 use DreamsArk\Events\Event;
-use DreamsArk\Models\Project\Crew;
+use DreamsArk\Models\Project\Expenditures\Crew;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,7 +12,7 @@ class UserHasEnrolledToCrew extends Event
     use SerializesModels;
 
     /**
-     * @var Crew
+     * @var \DreamsArk\Models\Project\Expenditures\Crew
      */
     public $crew;
 
@@ -25,7 +25,7 @@ class UserHasEnrolledToCrew extends Event
      * Create a new event instance.
      *
      * @param User $user
-     * @param Crew $crew
+     * @param \DreamsArk\Models\Project\Expenditures\Crew $crew
      */
     public function __construct(User $user, Crew $crew)
     {

@@ -5,6 +5,7 @@ namespace DreamsArk\Providers;
 use DreamsArk\Events\Bag\UserCoinsWasDeducted;
 use DreamsArk\Events\Idea\IdeaWasSubmitted;
 use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
+use DreamsArk\Events\Position\ExpenditurePositionWasCreated;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
 use DreamsArk\Events\Project\IdeaWasCreated;
@@ -13,6 +14,7 @@ use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Events\Project\Script\ScriptWasCreated;
 use DreamsArk\Events\Project\StageHasFailed;
 use DreamsArk\Events\Project\Stages\ReviewWasCreated;
+use DreamsArk\Events\Project\Submission\SubmissionReceivedAVote;
 use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
 use DreamsArk\Events\Project\TakeWasCreated;
 use DreamsArk\Events\Project\UserHasEnrolledToCast;
@@ -26,6 +28,7 @@ use DreamsArk\Events\Translation\TranslationsWasCreated;
 use DreamsArk\Listeners\Project\ChargeUser;
 use DreamsArk\Listeners\Project\CreateProjectStage;
 use DreamsArk\Listeners\Project\CreateVote;
+use DreamsArk\Listeners\Project\DeductUserCoins;
 use DreamsArk\Listeners\Project\RefundUser;
 use DreamsArk\Listeners\Project\RefundUsers;
 use DreamsArk\Listeners\Project\RegisterVotingWinner;
@@ -110,6 +113,10 @@ class EventServiceProvider extends ServiceProvider
             UpdateProjectStage::class
         ],
 
+        SubmissionReceivedAVote::class => [
+            DeductUserCoins::class
+        ],
+
         UserWasUpdated::class => [],
 
         IdeaWasSubmitted::class => [],
@@ -122,7 +129,10 @@ class EventServiceProvider extends ServiceProvider
         UserHasEnrolledToCast::class => [],
         TakeWasCreated::class => [],
         TranslationsWasCreated::class => [],
-        UserCoinsWasDeducted::class => []
+        UserCoinsWasDeducted::class => [],
+        ExpenditurePositionWasCreated::class => [],
+
+
     ];
 
     /**

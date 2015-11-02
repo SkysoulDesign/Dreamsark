@@ -132,6 +132,16 @@ $(document).ready(function () {
         })
         .modal('attach events', '#project-add-crew', 'show');
 
+    $('#project-expense-modal')
+        .modal({
+            blurring: true,
+            closable: false,
+            onApprove:function () {
+                $('#project-expense-form').submit();
+            }
+        })
+        .modal('attach events', '#project-add-expense', 'show');
+
     $('#translation-translation-modal')
         .modal({
             blurring: true,

@@ -60,14 +60,8 @@ class VoteOnSubmissionCommand extends Command implements SelfHandling
         $repository->vote($this->amount, $this->submission->id, $this->user->id);
 
         /**
-         * Deduct User Credit
-         */
-        $command = new DeductCoinCommand($this->user->id, $this->amount);
-        $this->dispatch($command);
-
-        /**
          * Announce a SubmissionReceivedAVote
          */
-        $event->fire(new SubmissionReceivedAVote($this->submission, $this->user));
+        $event->fire(new SubmissionReceivedAVote($this->amount, $this->submission, $this->user));
     }
 }

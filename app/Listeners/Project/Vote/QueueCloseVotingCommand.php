@@ -44,7 +44,7 @@ class QueueCloseVotingCommand
         /**
          * Queue OpenVoteCommand
          */
-        $command = new \DreamsArk\Commands\Project\Stages\Voting\CloseVotingCommand($event->vote);
+        $command = new CloseVotingCommand($event->vote);
 
         $delay = $event->vote->close_date->timestamp - $this->carbon->now()->timestamp;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace DreamsArk\Repositories\Position;
+namespace DreamsArk\Repositories\Project\Expenditure;
 
-interface PositionRepositoryInterface
+interface ExpenditureRepositoryInterface
 {
 
     /**
@@ -12,5 +12,6 @@ interface PositionRepositoryInterface
      * @return mixed
      */
     public function all(array $columns = ['*']);
+
 
 }

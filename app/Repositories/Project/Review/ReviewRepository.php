@@ -2,9 +2,13 @@
 
 namespace DreamsArk\Repositories\Project\Review;
 
-use DreamsArk\Models\Project\Cast;
-use DreamsArk\Models\Project\Expenditure;
+use DreamsArk\Models\Project\Expenditures\Cast;
+use DreamsArk\Models\Project\Expenditures\Crew;
+use DreamsArk\Models\Project\Expenditures\Expenditure;
+use DreamsArk\Models\Project\Expenditures\Expense;
+use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Stages\Review;
+use DreamsArk\Repositories\Exceptions\RepositoryException;
 use DreamsArk\Repositories\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -54,15 +58,14 @@ class ReviewRepository implements ReviewRepositoryInterface
      * Create a Review
      *
      * @param int $project_id
-     * @param $position_id
+     * @param int $expenditure_position_id
      * @param array $fields
      * @return Expenditure
-     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
+     * @throws RepositoryException
      */
-    public function createCast($project_id, $position_id, array $fields)
+    public function createCast($project_id, $expenditure_position_id, array $fields)
     {
-        $cast = $this->newInstance(Cast::class)->model->setAttribute('position_id', $position_id)->fill($fields);
-        $cast->save();
+        $cast = $this->newInstance($expenditure_position_id, Position::class)->model->cast()->create($fields);
         return $this->createExpenditure($cast, $project_id);
     }
 
@@ -76,6 +79,36 @@ class ReviewRepository implements ReviewRepositoryInterface
     public function createExpenditure(Model $model, $project_id)
     {
         return $model->expenditure()->create(compact('project_id'));
+    }
+
+    /**
+     * Create a Review
+     *
+     * @param int $project_id
+     * @param int $expenditure_position_id
+     * @param array $fields
+     * @return Expenditure
+     * @throws RepositoryException
+     */
+    public function createCrew($project_id, $expenditure_position_id, array $fields)
+    {
+        $crew = $this->newInstance($expenditure_position_id, Position::class)->model->crew()->create($fields);
+        return $this->createExpenditure($crew, $project_id);
+    }
+
+    /**
+     * Create a Review
+     *
+     * @param int $project_id
+     * @param int $expenditure_position_id
+     * @param array $fields
+     * @return Expenditure
+     * @throws RepositoryException
+     */
+    public function createExpense($project_id, $expenditure_position_id, array $fields)
+    {
+        $expense = $this->newInstance($expenditure_position_id, Position::class)->model->expense()->create($fields);
+        return $this->createExpenditure($expense, $project_id);
     }
 
 }

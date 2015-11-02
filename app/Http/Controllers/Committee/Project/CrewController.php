@@ -2,15 +2,13 @@
 
 namespace DreamsArk\Http\Controllers\Committee\Project;
 
-use DreamsArk\Commands\Project\Review\ReviewCreateCast;
+use DreamsArk\Commands\Project\Review\ReviewCreateCrew;
+use DreamsArk\Http\Controllers\Controller;
+use DreamsArk\Http\Requests;
 use DreamsArk\Models\Project\Project;
-use DreamsArk\Repositories\Project\Review\ReviewRepositoryInterface;
 use Illuminate\Http\Request;
 
-use DreamsArk\Http\Requests;
-use DreamsArk\Http\Controllers\Controller;
-
-class CastController extends Controller
+class CrewController extends Controller
 {
 
     /**
@@ -22,7 +20,7 @@ class CastController extends Controller
      */
     public function store(Project $project, Request $request)
     {
-        $this->dispatch(new ReviewCreateCast($project, $request->all()));
+        $this->dispatch(new ReviewCreateCrew($project, $request->all()));
         return redirect()->back();
     }
 

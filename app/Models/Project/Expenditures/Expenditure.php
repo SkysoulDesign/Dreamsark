@@ -1,7 +1,9 @@
 <?php
 
-namespace DreamsArk\Models\Project;
+namespace DreamsArk\Models\Project\Expenditures;
 
+use DreamsArk\Models\Project\Expenditures\Cast;
+use DreamsArk\Models\Project\Project;
 use Illuminate\Database\Eloquent\Model;
 
 class Expenditure extends Model
@@ -36,16 +38,6 @@ class Expenditure extends Model
     public function expenditurable()
     {
         return $this->morphTo();
-    }
-
-    /**
-     * Polymorphic Relations
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function cast()
-    {
-        return $this->belongsTo(Cast::class);
     }
 
 }

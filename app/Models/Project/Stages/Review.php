@@ -2,7 +2,7 @@
 
 namespace DreamsArk\Models\Project\Stages;
 
-use DreamsArk\Models\Project\Cast;
+use DreamsArk\Models\Project\Expenditures\Cast;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Traits\ProjectableTrait;
 use Illuminate\Database\Eloquent\Model;

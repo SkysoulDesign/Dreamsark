@@ -2,19 +2,17 @@
 
 namespace DreamsArk\Providers;
 
-use DreamsArk\Models\Project\Stages\Vote;
-use DreamsArk\Models\Project\Cast;
-use DreamsArk\Models\Project\Crew;
+use DreamsArk\Models\Project\Expenditures\Cast;
+use DreamsArk\Models\Project\Expenditures\Crew;
+use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Stages\Idea;
+use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Project;
-use DreamsArk\Models\Project\Script;
-use DreamsArk\Models\Project\Take;
 use DreamsArk\Models\User\Setting;
 use DreamsArk\Models\User\User;
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+
         parent::boot($router);
 
         /**
@@ -47,8 +46,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('project', Project::class);
         $router->model('draft', Draft::class);
         $router->model('vote', Vote::class);
-        $router->model('script', Script::class);
-        $router->model('take', Take::class);
         $router->model('cast', Cast::class);
         $router->model('crew', Crew::class);
 

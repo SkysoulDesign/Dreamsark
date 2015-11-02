@@ -17,14 +17,14 @@ class OpenVotingCommand extends Command implements SelfHandling
     use SerializesModels, DispatchesJobs;
 
     /**
-     * @var \DreamsArk\Models\Project\Stages\Vote
+     * @var Vote
      */
     private $vote;
 
     /**
      * Create a new command instance.
      *
-     * @param \DreamsArk\Models\Project\Stages\Vote $vote
+     * @param Vote $vote
      */
     public function __construct(Vote $vote)
     {
