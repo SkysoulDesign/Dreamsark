@@ -4,13 +4,14 @@ namespace DreamsArk\Repositories\Project\Idea;
 
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\FallibleTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class IdeaRepository implements IdeaRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
 
     /**
      * @var Idea
@@ -85,17 +86,6 @@ class IdeaRepository implements IdeaRepositoryInterface
     public function vote($submission_id, $user_id)
     {
         $this->submission->find($submission_id)->attach($user_id);
-    }
-
-    /**
-     * Fail an Idea
-     *
-     * @param int $idea_id
-     * @return bool
-     */
-    public function fail($idea_id)
-    {
-        return $this->model($idea_id)->setAttribute('active', false)->save();
     }
 
     /**

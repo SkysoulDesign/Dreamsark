@@ -4,13 +4,14 @@ namespace DreamsArk\Repositories\Project\Script;
 
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Stages\Script;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\FallibleTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class ScriptRepository implements ScriptRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
 
     /**
      * @var \DreamsArk\Models\Project\Stages\Script
@@ -86,18 +87,5 @@ class ScriptRepository implements ScriptRepositoryInterface
     {
         $this->submission->find($submission_id)->attach($user_id);
     }
-
-    /**
-     * Fail an Script
-     *
-     * @param int $script_id
-     * @return bool
-     */
-    public function fail($script_id)
-    {
-        return $this->model($script_id)->setAttribute('active', false)->save();
-    }
-
-
 
 }

@@ -6,7 +6,7 @@ use DreamsArk\Commands\Bag\RefundUserCommand;
 use DreamsArk\Events\Event;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-class RefundUser
+class RefundCreator
 {
 
     use DispatchesJobs;

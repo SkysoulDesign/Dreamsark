@@ -31,7 +31,7 @@ use DreamsArk\Listeners\Project\ChargeUser;
 use DreamsArk\Listeners\Project\CreateProjectStage;
 use DreamsArk\Listeners\Project\CreateVote;
 use DreamsArk\Listeners\Project\DeductUserCoins;
-use DreamsArk\Listeners\Project\RefundUser;
+use DreamsArk\Listeners\Project\RefundCreator;
 use DreamsArk\Listeners\Project\RefundUsers;
 use DreamsArk\Listeners\Project\RegisterVotingWinner;
 use DreamsArk\Listeners\Project\UpdateProjectStage;
@@ -62,7 +62,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         StageHasFailed::class => [
-            RefundUser::class
+            RefundCreator::class
         ],
 
         IdeaWasCreated::class => [

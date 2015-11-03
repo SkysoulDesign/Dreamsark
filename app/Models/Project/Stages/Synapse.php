@@ -14,11 +14,18 @@ class Synapse extends Model
     use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
     /**
+     * Defines the minimum of submission this model
+     * should have to be considered not failed
+     */
+    const MINIMUM_OF_SUBMISSIONS = 5;
+
+    /**
      * Define this model Repository.
      *
      * @var string
      */
     public $repository = SynapseRepositoryInterface::class;
+
     /**
      * The database table used by the model.
      *

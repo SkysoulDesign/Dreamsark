@@ -3,12 +3,12 @@
 namespace DreamsArk\Repositories\User\Role;
 
 use DreamsArk\Models\User\Role;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
 class RoleRepository implements RoleRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
     /**
      * @var Role

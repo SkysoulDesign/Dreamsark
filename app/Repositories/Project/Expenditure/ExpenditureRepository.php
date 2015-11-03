@@ -5,13 +5,13 @@ namespace DreamsArk\Repositories\Project\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Expenditures\Type;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ExpenditureRepository implements ExpenditureRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
     /**
      * @var Expenditure $expenditure

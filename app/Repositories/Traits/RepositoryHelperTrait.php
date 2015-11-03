@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamsArk\Repositories;
+namespace DreamsArk\Repositories\Traits;
 
 
 use DreamsArk\Repositories\Exceptions\RepositoryException;

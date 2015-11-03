@@ -9,13 +9,13 @@ use DreamsArk\Models\Project\Expenditures\Expense;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Repositories\Exceptions\RepositoryException;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ReviewRepository implements ReviewRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
     /**
      * @var Review

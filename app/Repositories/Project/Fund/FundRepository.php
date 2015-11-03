@@ -4,12 +4,13 @@ namespace DreamsArk\Repositories\Project\Fund;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Fund;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\FallibleTrait;
 
 class FundRepository implements FundRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
 
     /**
      * @var Fund

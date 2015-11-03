@@ -3,14 +3,18 @@
 namespace DreamsArk\Commands\Project\Stages\Voting;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\FailStageCommand;
+use DreamsArk\Commands\Project\FailFundingStageCommand;
+use DreamsArk\Commands\Project\FailIdeaSynapseScriptStageCommand;
 use DreamsArk\Events\Project\Vote\VoteWasOpened;
 use DreamsArk\Models\Project\Stages\Vote;
+use DreamsArk\Models\Traits\EnrollableTrait;
+use DreamsArk\Models\Traits\SubmissibleTrait;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class OpenVotingCommand extends Command implements SelfHandling
 {
@@ -41,19 +45,55 @@ class OpenVotingCommand extends Command implements SelfHandling
     public function handle(VoteRepositoryInterface $repository, Dispatcher $event)
     {
 
-        dd($this->vote->votable);
+        /**
+         * Check if Class uses SubmissibleTrait
+         */
+        $isSubmissible = array_has(class_uses($this->vote->votable), SubmissibleTrait::class);
 
         /**
          * If there are no submission then project failed, or less than the minimum submissions
          */
-        if ($this->vote->votable->submissions->count() < 5) {
+        if ($isSubmissible && $this->vote->votable->submissions->count() < constant(get_class($this->vote->votable) . '::MINIMUM_OF_SUBMISSIONS')) {
 
             /**
              * Fail this project
              */
-            $this->dispatch(new FailStageCommand($this->vote->votable));
+            $this->dispatch(new FailIdeaSynapseScriptStageCommand($this->vote->votable));
 
             return;
+        }
+
+        /**
+         * Check if Class uses EnrollableTrait
+         */
+        $isEnrollable = array_has(class_uses($this->vote->votable), EnrollableTrait::class);
+
+        if ($isEnrollable) {
+
+            /**
+             * If there are no users applied to any available
+             * Expenditure/Position then the project has Failed
+             */
+            $this->vote->votable->enrollable->load('enrollers')->pluck('enrollers')->each(function ($item) {
+
+                /**
+                 * Check if there is no enrollers to this position
+                 * Potentially can make different things for each empty item
+                 *
+                 * @var $item Collection
+                 */
+                if ($item->isEmpty()) {
+
+                    /**
+                     * Fail this project
+                     */
+                    $this->dispatch(new FailFundingStageCommand($this->vote->votable));
+
+                    return;
+                }
+
+            });
+
         }
 
         /**

@@ -3,14 +3,15 @@
 namespace DreamsArk\Models\Project\Stages;
 
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Traits\EnrollableTrait;
 use DreamsArk\Models\Traits\ProjectableTrait;
-use DreamsArk\Models\Traits\SubmissibleTrait;
 use DreamsArk\Models\Traits\VotableTrait;
+use DreamsArk\Repositories\Project\Fund\FundRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Fund extends Model
 {
-    use ProjectableTrait, VotableTrait, SubmissibleTrait;
+    use ProjectableTrait, VotableTrait, EnrollableTrait;
 
     /**
      * The database table used by the model.
@@ -23,6 +24,13 @@ class Fund extends Model
      * Define Which is the next Model
      */
     protected $next = Synapse::class;
+
+    /**
+     * Define this model Repository.
+     *
+     * @var string
+     */
+    public $repository = FundRepositoryInterface::class;
 
     /**
      * Project Relationship

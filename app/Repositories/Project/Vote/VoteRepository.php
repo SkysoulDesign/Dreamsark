@@ -3,14 +3,14 @@
 namespace DreamsArk\Repositories\Project\Vote;
 
 use DreamsArk\Models\Project\Stages\Vote;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class VoteRepository implements VoteRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
     /**
      * @var Vote

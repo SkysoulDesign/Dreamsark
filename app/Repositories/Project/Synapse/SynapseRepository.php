@@ -5,13 +5,14 @@ namespace DreamsArk\Repositories\Project\Synapse;
 use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Stages\Synapse;
-use DreamsArk\Repositories\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\FallibleTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class SynapseRepository implements SynapseRepositoryInterface
 {
 
-    use RepositoryHelperTrait;
+    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
 
     /**
      * @var Synapse
@@ -86,17 +87,6 @@ class SynapseRepository implements SynapseRepositoryInterface
     public function vote($submission_id, $user_id)
     {
         $this->submission->find($submission_id)->attach($user_id);
-    }
-
-    /**
-     * Fail an Synapse
-     *
-     * @param int $synapse_id
-     * @return bool
-     */
-    public function fail($synapse_id)
-    {
-        return $this->model($synapse_id)->setAttribute('active', false)->save();
     }
 
     /**

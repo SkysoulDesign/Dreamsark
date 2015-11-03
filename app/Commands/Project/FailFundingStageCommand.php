@@ -3,27 +3,28 @@
 namespace DreamsArk\Commands\Project;
 
 use DreamsArk\Commands\Command;
-use DreamsArk\Events\Project\StageHasFailed;
+use DreamsArk\Events\Project\FundingStageHasFailed;
+use DreamsArk\Models\Project\Stages\Fund;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
 
-class FailStageCommand extends Command implements SelfHandling
+class FailFundingStageCommand extends Command implements SelfHandling
 {
     /**
      * @var Model
      */
-    private $model;
+    private $fund;
 
     /**
      * Create a new command instance.
      *
-     * @param Model $model
+     * @param Model $fund
      */
-    public function __construct(Model $model)
+    public function __construct(Fund $fund)
     {
-        $this->model = $model;
+        $this->fund = $fund;
     }
 
     /**
@@ -34,16 +35,14 @@ class FailStageCommand extends Command implements SelfHandling
      */
     public function handle(Dispatcher $event, Application $app)
     {
-
         /**
          * Initialize its repository and fail it
          */
-        $app->make($this->model->repository)->fail($this->model->id);
+        $app->make($this->fund->repository)->fail($this->fund->id);
 
         /**
          * Announce StageHasFailed
          */
-        $event->fire(new StageHasFailed($this->model, $this->model->user, $this->model->reward));
-
+        $event->fire(new FundingStageHasFailed($this->fund));
     }
 }
