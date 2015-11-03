@@ -14,7 +14,22 @@ class ProjectPresenter extends Presenter
      */
     public function progress()
     {
-        return round(($this->backers->sum('pivot.amount') * 100) / $this->budget);
+        $cost = $this->expenditures->pluck('expenditurable')->sum('cost');
+        $pledged = $this->expenditures->pluck('backers')->collapse()->sum('pivot.amount');
+        return round(($pledged * 100) / $cost);
+    }
+
+    /**
+     * Returns a HTML progress bar
+     * @return string
+     */
+    public function progressBar()
+    {
+        $progress = $this->progress();
+        return '<div class="ui indicating progress active" data-percent="' . ($progress > 100 ? 100 : $progress) . '">' .
+        '<div class="bar" style="transition-duration: 300ms; width: ' . ($progress > 100 ? 100 : $progress) . '%;"></div>' .
+        '<div class="label">' . $progress . '% Funded</div>' .
+        '</div>';
     }
 
 }

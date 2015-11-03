@@ -42,8 +42,17 @@
                             {{ $expenditure->expenditurable->description }}
                         </td>
 
-                        <td>
-                            Pledge
+                        <td class="collapsing">
+                            <form class="ui form" method="post"
+                                  action="{{ route('project.fund.store', $expenditure->id) }}">
+                                {{ csrf_field() }}
+                                <div class="inline fields">
+                                    @include('partials.field', ['name' => 'amount', 'label' => trans('forms.amount')])
+                                    <button class="olive circular ui icon button">
+                                        <i class="icon thumbs up"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

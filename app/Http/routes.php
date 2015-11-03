@@ -11,9 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
-
 /**
  * Artisan Commands
  */
@@ -60,7 +57,6 @@ Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
  * Dashboard Controller
  */
 Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'Dashboard\DashboardController@index']);
-
 
 /**
  * Auth Controller
@@ -128,8 +124,14 @@ Route::post('project/{project}/store', ['as' => 'project.project.store', 'uses' 
  * Fund Controller
  */
 Route::get('project/fund/create/{project}', ['as' => 'project.fund.create', 'uses' => 'Project\FundController@create']);
+Route::post('project/fund/store/{expenditure}', ['as' => 'project.fund.store', 'uses' => 'Project\FundController@store']);
 
-
+/**
+ * Fund Controller
+ */
+Route::get('project/enroll/create/{project}', ['as' => 'project.enroll.create', 'uses' => 'Project\EnrollController@create']);
+Route::post('project/enroll/store/{expenditure}', ['as' => 'project.enroll.store', 'uses' => 'Project\EnrollController@store']);
+Route::post('project/unroll/store/{expenditure}', ['as' => 'project.unroll.store', 'uses' => 'Project\EnrollController@unroll']);
 
 /**
  * Project Synapse Controller
@@ -148,8 +150,6 @@ Route::post('committee/project/crew/store/{project}', ['as' => 'committee.projec
 Route::post('committee/project/expense/store/{project}', ['as' => 'committee.project.expense.store', 'uses' => 'Committee\Project\ExpenseController@store']);
 
 Route::post('committee/project/publish/{review}', ['as' => 'committee.project.publish', 'uses' => 'Committee\Project\StaffController@publish']);
-
-
 
 
 /**
@@ -178,13 +178,6 @@ Route::post('project/crew/store/{project}', ['as' => 'project.crew.store', 'uses
  */
 Route::get('project/pledge/create/{project}', ['as' => 'project.pledge.create', 'uses' => 'Project\ProjectPledgeController@create']);
 Route::post('project/pledge/store/{project}', ['as' => 'project.pledge.store', 'uses' => 'Project\ProjectPledgeController@store']);
-
-/**
- * Project Enroll Controller
- */
-Route::get('project/enroll/create/{project}', ['as' => 'project.enroll.create', 'uses' => 'Project\ProjectEnrollController@create']);
-Route::post('project/enroll/cast/store/{cast}', ['as' => 'project.enroll.cast.store', 'uses' => 'Project\ProjectEnrollController@castStore']);
-Route::post('project/enroll/crew/store/{crew}', ['as' => 'project.enroll.crew.store', 'uses' => 'Project\ProjectEnrollController@crewStore']);
 
 /**
  * Coin Controller

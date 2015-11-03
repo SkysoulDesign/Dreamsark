@@ -23,6 +23,17 @@ class Expenditure extends Model
     protected $guarded = [];
 
     /**
+     * Scope a query to only show active entries.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEnrollable($query)
+    {
+        return $query->whereIn('expenditurable_type', array(Cast::class, Crew::class));
+    }
+
+    /**
      * Project Relationship
      */
     public function project()
@@ -47,7 +58,17 @@ class Expenditure extends Model
      */
     public function backers()
     {
-        return $this->belongsToMany(User::class, 'expenditure_backer')->withPivot('amount');
+        return $this->belongsToMany(User::class, 'expenditure_backer')->withPivot('amount')->withTimestamps();
+    }
+
+    /**
+     * Backers Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function enrollers()
+    {
+        return $this->belongsToMany(User::class, 'expenditure_enroller')->withTimestamps();
     }
 
 }

@@ -9,6 +9,7 @@ use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
 use DreamsArk\Events\Position\ExpenditurePositionWasCreated;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
+use DreamsArk\Events\Project\Expenditure\ExpenditureWasBacked;
 use DreamsArk\Events\Project\IdeaWasCreated;
 use DreamsArk\Events\Project\ProjectWasCreated;
 use DreamsArk\Events\Project\ProjectWasPledged;
@@ -83,7 +84,12 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         FundWasCreated::class => [
-            UpdateProjectStage::class
+            UpdateProjectStage::class,
+            CreateVote::class,
+        ],
+
+        ExpenditureWasBacked::class => [
+            DeductUserCoins::class
         ],
 
         /**

@@ -2,14 +2,15 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\Expenditure\BackProjectExpenditureCommand;
+use DreamsArk\Commands\Project\Expenditure\EnrollProjectCommand;
+use DreamsArk\Commands\Project\Expenditure\UnrollProjectCommand;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Http\Request;
 
-class FundController extends Controller
+class EnrollController extends Controller
 {
 
     /**
@@ -20,7 +21,7 @@ class FundController extends Controller
      */
     public function create(Project $project)
     {
-        return view('project.fund.create')->with('project', $project);
+        return view('project.enroll.create')->with('expenditures', $project->enrollable);
     }
 
     /**
@@ -32,7 +33,20 @@ class FundController extends Controller
      */
     public function store(Expenditure $expenditure, Request $request)
     {
-        $this->dispatch(new BackProjectExpenditureCommand($expenditure, $request->user(), $request->get('amount')));
+        $this->dispatch(new EnrollProjectCommand($expenditure, $request->user()));
+        return redirect()->back();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Expenditure $expenditure
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unroll(Expenditure $expenditure, Request $request)
+    {
+        $this->dispatch(new UnrollProjectCommand($expenditure, $request->user()));
         return redirect()->back();
     }
 

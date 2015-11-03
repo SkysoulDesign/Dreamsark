@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        @include('project.' . strtolower(class_basename($project->stage)) . '.show', $project)
+        @include('project.' . strtolower(class_basename($project->stage)) . '.show')
 
     </div>
 

@@ -89,7 +89,7 @@ class ProjectController extends Controller
             return view('project.show', compact('project'))->with('submissions', $submissions);
         }
 
-        return view('project.show')->with('project', $project->load('expenditures.expenditurable'));
+        return view('project.show')->with('project', $project->load('expenditures.expenditurable', 'expenditures.backers'));
 
     }
 

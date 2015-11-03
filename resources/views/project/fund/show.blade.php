@@ -31,6 +31,22 @@
                         </div>
                     </div>
                     <div class="ui segment">
+                        <div class="ui horizontal list">
+                            <div class="item">
+                                <i class="circular large olive inverted trophy icon"></i>
+
+                                <div class="content">
+                                    <h2 class="value">
+                                        <b>
+                                            <i class="yen icon"></i>{{ $project->expenditures->pluck('expenditurable')->sum('cost') }}
+                                        </b>
+                                    </h2>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment">
                         <div class="ui three item menu">
                             <a class="item @if(!$project->idea) disabled @endif">
                                 <i class="icon mail"></i> Idea
@@ -47,7 +63,7 @@
 
                 <div class="ui two inverted green item menu">
                     <a href="{{ route('project.fund.create', $project->id) }}" class="item">Back this Project</a>
-                    <a class="item">Enroll</a>
+                    <a href="{{ route('project.enroll.create', $project->id) }}" class="item">Enroll</a>
                 </div>
 
             </div>
@@ -59,15 +75,15 @@
                 <div class="ui four wide column statistics">
                     <div class="olive statistic">
                         <div class="value">
-                            <i class="yen icon"></i> {{ $project->expenditures->pluck('expenditurable')->sum('cost') }}
+                            <i class="yen icon"></i> {{ $project->expenditures->pluck('backers')->collapse()->sum('pivot.amount') }}
                         </div>
                         <div class="label">
-                            {{ trans('project.pledged') }}
+                            {{ trans('project.needs') }}
                         </div>
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            321
+                            {{ $project->expenditures->pluck('backers')->collapse()->unique()->count() }}
                         </div>
                         <div class="label">
                             {{ trans('project.backers') }}
@@ -84,11 +100,11 @@
 
                     <div class="statistic">
                         <div class="value">
-                            <img src="{{ asset('img/03.png') }}" class="ui circular inline image">
-                            42
+                            <img src="{{ asset('img/avatar/male.png') }}" class="ui circular inline image">
+                            {{ $project->enrollable()->count() }}
                         </div>
                         <div class="label">
-                            {{ trans('project.crew-members') }}
+                            {{ trans('project.staff') }}
                         </div>
                     </div>
                 </div>
@@ -96,12 +112,7 @@
             </div>
 
             <div class="ui segment">
-
-                <div class="ui indicating progress active" data-percent="20">
-                    <div class="bar" style="transition-duration: 300ms; width: 20%;"></div>
-                    <div class="label">{{ trans('project.amount-funded') }}</div>
-                </div>
-
+                {!! $project->present()->progressBar() !!}
             </div>
         </div>
 

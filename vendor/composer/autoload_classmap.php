@@ -11,6 +11,7 @@ return array(
     'CreateExpenditureBackerTable' => $baseDir . '/database/migrations/2015_10_30_154118_create_expenditure_backer_table.php',
     'CreateExpenditureCastsTable' => $baseDir . '/database/migrations/2015_10_30_144934_create_expenditure_casts_table.php',
     'CreateExpenditureCrewsTable' => $baseDir . '/database/migrations/2015_10_30_144935_create_expenditure_crews_table.php',
+    'CreateExpenditureEnrollerTable' => $baseDir . '/database/migrations/2015_10_30_154119_create_expenditure_enroller_table.php',
     'CreateExpenditureExpensesTable' => $baseDir . '/database/migrations/2015_10_30_144936_create_expenditure_expenses_table.php',
     'CreateExpenditurePositionsTable' => $baseDir . '/database/migrations/2015_10_30_144933_create_expenditure_positions_table.php',
     'CreateExpenditureTypesTable' => $baseDir . '/database/migrations/2015_10_30_144932_create_expenditure_types_table.php',

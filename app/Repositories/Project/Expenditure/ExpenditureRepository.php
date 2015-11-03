@@ -6,6 +6,7 @@ use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Expenditures\Type;
 use DreamsArk\Repositories\RepositoryHelperTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ExpenditureRepository implements ExpenditureRepositoryInterface
 {
@@ -68,6 +69,46 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
     public function positions()
     {
         return $this->newInstance(Position::class)->model->all()->load('type');
+    }
+
+    /**
+     * Back a Expenditure
+     *
+     * @param int $expenditure_id
+     * @param int $user_id
+     * @param int $amount
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
+     */
+    public function back($expenditure_id, $user_id, $amount)
+    {
+        return $this->model($expenditure_id)->backers()->attach($user_id, compact('amount'));
+    }
+
+    /**
+     * Enroll into a Expenditure
+     *
+     * @param int $expenditure_id
+     * @param int $user_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
+     */
+    public function enroll($expenditure_id, $user_id)
+    {
+        return $this->model($expenditure_id)->enrollers()->attach(array($user_id));
+    }
+
+    /**
+     * Unroll from a Expenditure
+     *
+     * @param int $expenditure_id\
+     * @param int $user_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
+     */
+    public function unroll($expenditure_id, $user_id)
+    {
+        return $this->model($expenditure_id)->enrollers()->detach($user_id);
     }
 
 

@@ -34,7 +34,6 @@ class PublishProjectCommand extends Command implements SelfHandling
      */
     public function handle(FundRepositoryInterface $repository, Dispatcher $event)
     {
-
         /**
          * Create Fund
          */

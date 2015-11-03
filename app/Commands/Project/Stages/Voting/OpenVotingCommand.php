@@ -41,6 +41,8 @@ class OpenVotingCommand extends Command implements SelfHandling
     public function handle(VoteRepositoryInterface $repository, Dispatcher $event)
     {
 
+        dd($this->vote->votable);
+
         /**
          * If there are no submission then project failed, or less than the minimum submissions
          */

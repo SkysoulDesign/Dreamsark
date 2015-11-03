@@ -4,11 +4,13 @@ namespace DreamsArk\Models\Project\Stages;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Traits\ProjectableTrait;
+use DreamsArk\Models\Traits\SubmissibleTrait;
+use DreamsArk\Models\Traits\VotableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Fund extends Model
 {
-    use ProjectableTrait;
+    use ProjectableTrait, VotableTrait, SubmissibleTrait;
 
     /**
      * The database table used by the model.

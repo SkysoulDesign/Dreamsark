@@ -2,72 +2,66 @@
 
 @section('content')
 
-
     <div class="column">
 
-        <h3 class="ui dividing header">
-            @lang('project.cast')
-        </h3>
-        <table class="ui unstackable table">
-            <thead>
-            <tr>
-                <th>@lang('forms.role')</th>
-                <th>@lang('project.description')</th>
-                <th>@lang('project.number-of-candidates')</th>
-                <th>@lang('project.expected-salary')</th>
-                <th class="right aligned">@lang('forms.action')</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($project->cast as $cast)
+        <div class="ui segment">
+            <table class="ui celled table">
+                <thead>
                 <tr>
-                    <td>{{ $cast->name }}</td>
-                    <td>{{ $cast->description }}</td>
-                    <td>{{ $cast->candidates->count() }}</td>
-                    <td>${{ $cast->salary }}</td>
-                    <td class="right aligned">
-                        <form method="post" action="{{ route('project.enroll.cast.store', $cast->id) }}">
-                            {{ csrf_field() }}
-                            <button class="ui primary button" type="submit">@lang('forms.apply')</button>
-                        </form>
-                    </td>
+                    <th>Name</th>
+                    <th>Expected Salary</th>
+                    <th>Description</th>
+                    <th>Number of Candidates</th>
+                    <th>Enroll</th>
                 </tr>
-            @endforeach
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
+                @foreach($expenditures as $expenditure)
 
-        <h3 class="ui dividing header">
-            @lang('project.crew')
-        </h3>
-        <table class="ui unstackable table">
-            <thead>
-            <tr>
-                <th>@lang('forms.role')</th>
-                <th>@lang('project.description')</th>
-                <th>@lang('project.number-of-candidates')</th>
-                <th>@lang('project.expected-salary')</th>
-                <th class="right aligned">@lang('forms.action')</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($project->crew as $crew)
-                <tr>
-                    <td>{{ $crew->role }}</td>
-                    <td>{{ $crew->description }}</td>
-                    <td>{{ $crew->candidates->count() }}</td>
-                    <td>{{ $crew->salary }}</td>
-                    <td class="right aligned">
-                        <form method="post" action="{{ route('project.enroll.crew.store', $crew->id) }}">
-                            {{ csrf_field() }}
-                            <button class="ui primary button" type="submit">@lang('forms.apply')</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+                    <tr>
+                        <td>
+                            <h4 class="ui image header">
+                                <img src="{{ asset('img/avatar/male.png') }}" class="ui mini rounded image">
 
-            </tbody>
-        </table>
+                                <div class="content">
+                                    {{ $expenditure->expenditurable->name }}
+                                    <div class="sub header">{{ $expenditure->expenditurable->position->name }}</div>
+                                </div>
+                            </h4>
+                        </td>
+
+                        <td>
+                            {{ $expenditure->expenditurable->cost }}
+                        </td>
+
+                        <td>
+                            {{ $expenditure->expenditurable->description }}
+                        </td>
+
+                        <td>
+                            {{ $expenditure->enrollers->count() }}
+                        </td>
+
+                        <td class="collapsing">
+                            @if($expenditure->enrollers->contains('id', auth()->user()->id))
+                                <form method="post" action="{{ route('project.unroll.store', $expenditure->id) }}">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="red ui icon button"> Unroll</button>
+                                </form>
+                            @else
+                                <form method="post" action="{{ route('project.enroll.store', $expenditure->id) }}">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="olive ui icon button"> Enroll</button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+
+            </table>
+        </div>
 
     </div>
 

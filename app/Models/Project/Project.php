@@ -151,4 +151,14 @@ class Project extends Model
         return strtolower(class_basename($this->stage->next()));
     }
 
+    /**
+     * Alias - Returns all Enrollable Expenditures
+     *
+     * @return mixed
+     */
+    public function enrollable()
+    {
+        return $this->expenditures()->enrollable();
+    }
+
 }
