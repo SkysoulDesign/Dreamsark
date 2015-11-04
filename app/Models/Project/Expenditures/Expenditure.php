@@ -56,16 +56,6 @@ class Expenditure extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function backers()
-    {
-        return $this->belongsToMany(User::class, 'expenditure_backer')->withPivot('amount')->withTimestamps();
-    }
-
-    /**
-     * Backers Relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
     public function enrollers()
     {
         return $this->belongsToMany(User::class, 'expenditure_enroller')->withTimestamps();

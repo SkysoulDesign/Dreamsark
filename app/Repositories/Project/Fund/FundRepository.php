@@ -4,13 +4,14 @@ namespace DreamsArk\Repositories\Project\Fund;
 
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Fund;
-use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\FallibleTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 
 class FundRepository implements FundRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
+    use RepositoryHelperTrait, FallibleTrait, CRUDTrait;
 
     /**
      * @var Fund
@@ -23,17 +24,6 @@ class FundRepository implements FundRepositoryInterface
     function __construct(Fund $fund)
     {
         $this->model = $fund;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**

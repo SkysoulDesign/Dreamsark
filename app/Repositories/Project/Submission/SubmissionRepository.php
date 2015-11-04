@@ -5,8 +5,7 @@ namespace DreamsArk\Repositories\Project\Submission;
 
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Models\Project\Project;
-use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -14,7 +13,7 @@ use Illuminate\Support\Collection;
 class SubmissionRepository implements SubmissionRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+    use RepositoryHelperTrait, CRUDTrait;
 
     /**
      * @var Submission

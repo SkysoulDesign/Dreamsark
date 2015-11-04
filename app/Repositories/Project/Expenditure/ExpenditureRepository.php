@@ -5,13 +5,13 @@ namespace DreamsArk\Repositories\Project\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Expenditures\Type;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ExpenditureRepository implements ExpenditureRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+    use RepositoryHelperTrait, CRUDTrait;
 
     /**
      * @var Expenditure $expenditure
@@ -24,17 +24,6 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
     function __construct(Expenditure $expenditure)
     {
         $this->model = $expenditure;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**
@@ -72,20 +61,6 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
     }
 
     /**
-     * Back a Expenditure
-     *
-     * @param int $expenditure_id
-     * @param int $user_id
-     * @param int $amount
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
-     */
-    public function back($expenditure_id, $user_id, $amount)
-    {
-        return $this->model($expenditure_id)->backers()->attach($user_id, compact('amount'));
-    }
-
-    /**
      * Enroll into a Expenditure
      *
      * @param int $expenditure_id
@@ -101,7 +76,7 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
     /**
      * Unroll from a Expenditure
      *
-     * @param int $expenditure_id\
+     * @param int $expenditure_id \
      * @param int $user_id
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * @throws \DreamsArk\Repositories\Exceptions\RepositoryException

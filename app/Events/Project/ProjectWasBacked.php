@@ -7,7 +7,7 @@ use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectWasPledged extends Event
+class ProjectWasBacked extends Event
 {
     use SerializesModels;
 
@@ -27,11 +27,11 @@ class ProjectWasPledged extends Event
     public $amount;
 
     /**
-     * Create a new event instance.
+     * Create a new command instance.
      *
      * @param Project $project
      * @param User $user
-     * @param int $amount
+     * @param $amount
      */
     public function __construct(Project $project, User $user, $amount)
     {

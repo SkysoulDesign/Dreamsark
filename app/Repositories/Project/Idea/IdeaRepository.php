@@ -4,14 +4,15 @@ namespace DreamsArk\Repositories\Project\Idea;
 
 use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Submission;
-use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\FallibleTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class IdeaRepository implements IdeaRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
+    use RepositoryHelperTrait, FallibleTrait, CRUDTrait;
 
     /**
      * @var Idea
@@ -31,17 +32,6 @@ class IdeaRepository implements IdeaRepositoryInterface
     {
         $this->model = $idea;
         $this->submission = $submission;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**

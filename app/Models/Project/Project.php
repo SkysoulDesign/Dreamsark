@@ -70,14 +70,6 @@ class Project extends Model
     }
 
     /**
-     * User Relationship
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * Alias to User Relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -85,6 +77,14 @@ class Project extends Model
     public function creator()
     {
         return $this->user();
+    }
+
+    /**
+     * User Relationship
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -120,14 +120,6 @@ class Project extends Model
     }
 
     /**
-     * Expenditure Relationship
-     */
-    public function expenditures()
-    {
-        return $this->hasMany(Expenditure::class);
-    }
-
-    /**
      * fund Relationship
      */
     public function fund()
@@ -159,6 +151,24 @@ class Project extends Model
     public function enrollable()
     {
         return $this->expenditures()->enrollable();
+    }
+
+    /**
+     * Expenditure Relationship
+     */
+    public function expenditures()
+    {
+        return $this->hasMany(Expenditure::class);
+    }
+
+    /**
+     * Backers Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function backers()
+    {
+        return $this->belongsToMany(User::class, 'project_backer')->withPivot('amount')->withTimestamps();
     }
 
 }

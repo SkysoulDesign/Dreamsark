@@ -3,16 +3,17 @@
 namespace DreamsArk\Repositories\Project\Synapse;
 
 use DreamsArk\Models\Project\Stages\Draft;
-use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Stages\Synapse;
-use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Models\Project\Submission;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\FallibleTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class SynapseRepository implements SynapseRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
+    use RepositoryHelperTrait, FallibleTrait, CRUDTrait;
 
     /**
      * @var Synapse
@@ -32,17 +33,6 @@ class SynapseRepository implements SynapseRepositoryInterface
     {
         $this->model = $synapse;
         $this->submission = $submission;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**

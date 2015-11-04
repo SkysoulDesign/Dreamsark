@@ -9,16 +9,14 @@ use DreamsArk\Events\Idea\UserHasBiddenAnIdea;
 use DreamsArk\Events\Position\ExpenditurePositionWasCreated;
 use DreamsArk\Events\Project\CastWasAdded;
 use DreamsArk\Events\Project\CrewWasAdded;
-use DreamsArk\Events\Project\Expenditure\ExpenditureWasBacked;
 use DreamsArk\Events\Project\IdeaWasCreated;
+use DreamsArk\Events\Project\ProjectWasBacked;
 use DreamsArk\Events\Project\ProjectWasCreated;
-use DreamsArk\Events\Project\ProjectWasPledged;
 use DreamsArk\Events\Project\Script\ScriptWasCreated;
 use DreamsArk\Events\Project\StageHasFailed;
 use DreamsArk\Events\Project\Stages\ReviewWasCreated;
 use DreamsArk\Events\Project\Submission\SubmissionReceivedAVote;
 use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
-use DreamsArk\Events\Project\TakeWasCreated;
 use DreamsArk\Events\Project\UserHasEnrolledToCast;
 use DreamsArk\Events\Project\Vote\VoteWasCreated;
 use DreamsArk\Events\Project\Vote\VoteWasOpened;
@@ -88,14 +86,14 @@ class EventServiceProvider extends ServiceProvider
             CreateVote::class,
         ],
 
-        ExpenditureWasBacked::class => [
+        ProjectWasBacked::class => [
             DeductUserCoins::class
         ],
 
         /**
          * Vote
          */
-        VoteWasCreated::class => [
+        VoteWasCreated::class   => [
             QueueOpenVotingCommand::class
         ],
 
@@ -130,17 +128,14 @@ class EventServiceProvider extends ServiceProvider
 
         UserWasUpdated::class => [],
 
-        IdeaWasSubmitted::class => [],
+        IdeaWasSubmitted::class    => [],
         UserHasBiddenAnIdea::class => [],
 
-        ProjectWasPledged::class => [],
-
-        CastWasAdded::class => [],
-        CrewWasAdded::class => [],
-        UserHasEnrolledToCast::class => [],
-        TakeWasCreated::class => [],
-        TranslationsWasCreated::class => [],
-        UserCoinsWasDeducted::class => [],
+        CastWasAdded::class                  => [],
+        CrewWasAdded::class                  => [],
+        UserHasEnrolledToCast::class         => [],
+        TranslationsWasCreated::class        => [],
+        UserCoinsWasDeducted::class          => [],
         ExpenditurePositionWasCreated::class => [],
 
 

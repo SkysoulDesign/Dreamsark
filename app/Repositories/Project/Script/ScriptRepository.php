@@ -2,19 +2,20 @@
 
 namespace DreamsArk\Repositories\Project\Script;
 
-use DreamsArk\Models\Project\Submission;
 use DreamsArk\Models\Project\Stages\Script;
-use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+use DreamsArk\Models\Project\Submission;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\FallibleTrait;
+use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class ScriptRepository implements ScriptRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait, FallibleTrait;
+    use RepositoryHelperTrait, FallibleTrait, CRUDTrait;
 
     /**
-     * @var \DreamsArk\Models\Project\Stages\Script
+     * @var Script
      */
     public $model;
 
@@ -27,21 +28,10 @@ class ScriptRepository implements ScriptRepositoryInterface
      * @param Script $script
      * @param Submission $submission
      */
-    function __construct(\DreamsArk\Models\Project\Stages\Script $script, Submission $submission)
+    function __construct(Script $script, Submission $submission)
     {
         $this->model = $script;
         $this->submission = $submission;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**
@@ -49,7 +39,7 @@ class ScriptRepository implements ScriptRepositoryInterface
      *
      * @param int $project_id
      * @param array $fields
-     * @return \DreamsArk\Models\Project\Stages\Script
+     * @return Script
      */
     public function create($project_id, array $fields)
     {

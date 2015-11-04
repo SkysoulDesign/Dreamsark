@@ -2,10 +2,9 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\Expenditure\BackProjectExpenditureCommand;
+use DreamsArk\Commands\Project\Expenditure\BackProjectCommand;
 use DreamsArk\Http\Controllers\Controller;
 use DreamsArk\Http\Requests;
-use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Http\Request;
 
@@ -26,14 +25,14 @@ class FundController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Expenditure $expenditure
+     * @param Project $project
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Expenditure $expenditure, Request $request)
+    public function store(Project $project, Request $request)
     {
-        $this->dispatch(new BackProjectExpenditureCommand($expenditure, $request->user(), $request->get('amount')));
-        return redirect()->back();
+        $this->dispatch(new BackProjectCommand($project, $request->user(), $request->get('amount')));
+        return redirect()->route('project.show', $project->id);
     }
 
 }

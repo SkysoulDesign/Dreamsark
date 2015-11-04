@@ -3,6 +3,7 @@
 namespace DreamsArk\Repositories\Project\Vote;
 
 use DreamsArk\Models\Project\Stages\Vote;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -10,7 +11,7 @@ use Illuminate\Support\Collection;
 class VoteRepository implements VoteRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+    use RepositoryHelperTrait, CRUDTrait;
 
     /**
      * @var Vote
@@ -23,17 +24,6 @@ class VoteRepository implements VoteRepositoryInterface
     function __construct(Vote $vote)
     {
         $this->model = $vote;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**
@@ -59,17 +49,6 @@ class VoteRepository implements VoteRepositoryInterface
         /** Todo: Find a way to not massassign the open_date and close_date */
 
         return $model->vote()->create(compact('open_date', 'close_date'));
-    }
-
-    /**
-     * Delete Vote
-     *
-     * @param int $vote_id
-     * @return bool
-     */
-    public function delete($vote_id)
-    {
-        return $this->model($vote_id)->delete();
     }
 
     /**

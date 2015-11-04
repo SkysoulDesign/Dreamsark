@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class CreateExpenditureBackerTable extends Migration
+class CreateProjectBackerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateExpenditureBackerTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenditure_backer', function (Blueprint $table) {
+        Schema::create('project_backer', function (Blueprint $table) {
 
             $table->increments('id');
 
@@ -21,8 +21,8 @@ class CreateExpenditureBackerTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('expenditure_id')->unsigned()->index();
-            $table->foreign('expenditure_id')->references('id')->on('expenditures')->onDelete('cascade');
+            $table->integer('project_id')->unsigned()->index();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 
             $table->timestamps();
 
@@ -36,6 +36,6 @@ class CreateExpenditureBackerTable extends Migration
      */
     public function down()
     {
-        Schema::drop('expenditure_backer');
+        Schema::drop('project_backer');
     }
 }

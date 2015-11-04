@@ -75,7 +75,7 @@
                 <div class="ui four wide column statistics">
                     <div class="olive statistic">
                         <div class="value">
-                            <i class="yen icon"></i> {{ $project->expenditures->pluck('backers')->collapse()->sum('pivot.amount') }}
+                            <i class="yen icon"></i> {{ $project->backers->sum('pivot.amount') }}
                         </div>
                         <div class="label">
                             {{ trans('project.needs') }}
@@ -83,7 +83,7 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            {{ $project->expenditures->pluck('backers')->collapse()->unique()->count() }}
+                            {{ $project->backers->unique()->count() }}
                         </div>
                         <div class="label">
                             {{ trans('project.backers') }}

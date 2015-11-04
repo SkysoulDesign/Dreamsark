@@ -2,8 +2,9 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project\Stages\Draft;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Stages\Draft;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 interface ProjectRepositoryInterface
@@ -15,15 +16,15 @@ interface ProjectRepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function all(array $columns = ['*']);
+    public function actives(array $columns = ['*']);
 
     /**
-     * Create a Project
+     * Create a Idea
      *
      * @param int $user_id
-     * @param string $type
+     * @param int $type
      * @param array $fields
-     * @return Project|\DreamsArk\Models\Project\Stages\Draft
+     * @return Project|Draft
      */
     public function create($user_id, $type, array $fields);
 
@@ -38,24 +39,65 @@ interface ProjectRepositoryInterface
     /**
      * Set Model to Draft
      *
-     * @param null $user_id
+     * @param null|Draft $draft_id
      * @return ProjectRepository
      */
-    public function draft($user_id = null);
+    public function draft($draft_id = null);
 
     /**
-     * Delete Model
+     * Set The Project to the next Stage
      *
-     * @return bool|null
-     * @throws \Exception
+     * @param int $project_id
+     * @param string $type
+     * @return ProjectRepository
      */
-    public function delete();
+    public function nextStage($project_id, $type);
 
     /**
-     * Returns This Model
+     * Fail a project
      *
-     * @return Project
+     * @param int $project_id
+     * @return bool
      */
-    public function get();
+    public function fail($project_id);
 
+    /**
+     * Returns all failed Projects
+     *
+     * @return ProjectRepository
+     */
+    public function failed();
+
+    /**
+     * Returns all submissions for this project stage
+     *
+     * @param Model $model
+     * @param $user_id
+     * @param array $fields
+     * @return Collection
+     * @internal param Model $stage
+     * @internal param Model $model
+     */
+    public function submit(Model $model, $user_id, array $fields);
+
+    /**
+     * Returns all submissions for this project stage
+     *
+     * @param int $project_id
+     * @param bool $public Returns Public Submissions
+     * @param bool $force Force return all submissions
+     * @return Collection
+     */
+    public function submissions($project_id, $public = true, $force = false);
+
+    /**
+     * Back a Expenditure
+     *
+     * @param int $project_id
+     * @param int $user_id
+     * @param int $amount
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
+     */
+    public function back($project_id, $user_id, $amount);
 }

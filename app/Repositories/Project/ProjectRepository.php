@@ -2,9 +2,9 @@
 
 namespace DreamsArk\Repositories\Project;
 
-use DreamsArk\Models\Project\Stages\Draft;
-use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Models\Project\Project;
+use DreamsArk\Models\Project\Stages\Draft;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 class ProjectRepository implements ProjectRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+    use RepositoryHelperTrait, CRUDTrait;
 
     /**
      * @var Project
@@ -25,17 +25,6 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function __construct(Project $project)
     {
         $this->model = $project;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**
@@ -76,17 +65,6 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function publishedBy($user_id)
     {
         return $this->model->where(compact('user_id'))->get();
-    }
-
-    /**
-     * Delete Model
-     *
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function delete()
-    {
-        return $this->model->delete();
     }
 
     /**
@@ -170,13 +148,17 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     /**
-     * Returns This Model
+     * Back a Expenditure
      *
-     * @return Project
+     * @param int $project_id
+     * @param int $user_id
+     * @param int $amount
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @throws \DreamsArk\Repositories\Exceptions\RepositoryException
      */
-    public function get()
+    public function back($project_id, $user_id, $amount)
     {
-        return $this->model;
+        return $this->model($project_id)->backers()->attach($user_id, compact('amount'));
     }
 
 }

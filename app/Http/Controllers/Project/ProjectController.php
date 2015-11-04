@@ -2,17 +2,15 @@
 
 namespace DreamsArk\Http\Controllers\Project;
 
-use DreamsArk\Commands\Project\Stages\Review\CreateReviewCommand;
-use DreamsArk\Commands\Project\Stages\Voting\OpenVotingCommand;
 use DreamsArk\Commands\Project\CreateProjectCommand;
+use DreamsArk\Commands\Project\Stages\Review\CreateReviewCommand;
+use DreamsArk\Http\Controllers\Controller;
+use DreamsArk\Http\Requests;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Fund;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
-use DreamsArk\Repositories\Project\Submission\SubmissionRepositoryInterface;
 use Illuminate\Http\Request;
-use DreamsArk\Http\Requests;
-use DreamsArk\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -62,10 +60,11 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param Project $projec
      * @param ProjectCreation|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function projectStore(Project $project, Request $request)
+    public function projectStore(Project $projec, Request $request)
     {
 
         $command = new CreateReviewCommand($project, $request->all());
@@ -84,12 +83,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project, ProjectRepositoryInterface $repository)
     {
+
         if (!$project->stage instanceof Fund) {
             $submissions = $repository->submissions($project->id)->load('user');
             return view('project.show', compact('project'))->with('submissions', $submissions);
         }
 
-        return view('project.show')->with('project', $project->load('expenditures.expenditurable', 'expenditures.backers'));
+        return view('project.show')->with('project', $project->load('expenditures.expenditurable', 'backers'));
 
     }
 

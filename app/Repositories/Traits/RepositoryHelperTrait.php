@@ -4,9 +4,7 @@ namespace DreamsArk\Repositories\Traits;
 
 
 use DreamsArk\Repositories\Exceptions\RepositoryException;
-use DreamsArk\Repositories\Project\ProjectRepository;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 trait RepositoryHelperTrait
 {
@@ -93,6 +91,16 @@ trait RepositoryHelperTrait
 
         return $instance;
 
+    }
+
+    /**
+     * Returns This Model
+     *
+     * @inheritdoc
+     */
+    public function get()
+    {
+        return $this->model;
     }
 
 }

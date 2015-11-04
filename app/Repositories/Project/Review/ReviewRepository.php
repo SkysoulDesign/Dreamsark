@@ -2,20 +2,18 @@
 
 namespace DreamsArk\Repositories\Project\Review;
 
-use DreamsArk\Models\Project\Expenditures\Cast;
-use DreamsArk\Models\Project\Expenditures\Crew;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
-use DreamsArk\Models\Project\Expenditures\Expense;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Repositories\Exceptions\RepositoryException;
+use DreamsArk\Repositories\Traits\CRUDTrait;
 use DreamsArk\Repositories\Traits\RepositoryHelperTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ReviewRepository implements ReviewRepositoryInterface
 {
 
-    use \DreamsArk\Repositories\Traits\RepositoryHelperTrait;
+    use RepositoryHelperTrait, CRUDTrait;
 
     /**
      * @var Review
@@ -28,17 +26,6 @@ class ReviewRepository implements ReviewRepositoryInterface
     function __construct(Review $review)
     {
         $this->model = $review;
-    }
-
-    /**
-     * Get all Model from the DB
-     *
-     * @param array $columns
-     * @return mixed
-     */
-    public function all(array $columns = ['*'])
-    {
-        return $this->model->all($columns);
     }
 
     /**

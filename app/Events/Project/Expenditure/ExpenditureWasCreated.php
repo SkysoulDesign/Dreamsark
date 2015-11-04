@@ -3,21 +3,26 @@
 namespace DreamsArk\Events\Project\Expenditure;
 
 use DreamsArk\Events\Event;
+use DreamsArk\Models\Project\Expenditures\Expenditure;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ExpenditureWasCreated extends Event
 {
     use SerializesModels;
 
     /**
+     * @var Expenditure
+     */
+    public $expenditure;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Expenditure $expenditure
      */
-    public function __construct()
+    public function __construct(Expenditure $expenditure)
     {
-        //
+        $this->expenditure = $expenditure;
     }
 
     /**
