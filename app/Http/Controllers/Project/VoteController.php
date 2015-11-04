@@ -44,7 +44,7 @@ class VoteController extends Controller
         }
 
         $submissions = $vote->votable->submissions->load('user', 'votes');
-        return view('project.vote.show')->with('vote', $vote)->with('submissions', $submissions);
+        return view('project.vote.show')->with('model', $vote->votable)->with('submissions', $submissions);
     }
 
 }
