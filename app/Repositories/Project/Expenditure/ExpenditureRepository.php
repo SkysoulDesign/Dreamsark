@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Repositories\Project\Expenditure;
 
+use DreamsArk\Models\Project\Expenditures\Enroller;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Expenditures\Position;
 use DreamsArk\Models\Project\Expenditures\Type;
@@ -70,7 +71,7 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
      */
     public function enroll($expenditure_id, $user_id)
     {
-        return $this->model($expenditure_id)->enrollers()->attach(array($user_id));
+        return $this->model($expenditure_id)->users()->attach($user_id);
     }
 
     /**
@@ -83,8 +84,19 @@ class ExpenditureRepository implements ExpenditureRepositoryInterface
      */
     public function unroll($expenditure_id, $user_id)
     {
-        return $this->model($expenditure_id)->enrollers()->detach($user_id);
+        return $this->model($expenditure_id)->users()->detach($user_id);
     }
 
+    /**
+     * Create a new command instance.
+     *
+     * @param int $enroller_id
+     * @param int $user_id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function vote($enroller_id, $user_id)
+    {
+        return $this->newInstance($enroller_id, Enroller::class)->model->votes()->attach($user_id);
+    }
 
 }

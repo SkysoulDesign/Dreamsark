@@ -48,16 +48,20 @@
                     </div>
                     <div class="ui segment">
                         <div class="ui three item menu">
-                            <a class="item @if(!$project->idea) disabled @endif">
+                            <a id="project-idea-show" class="item @if(!$project->idea) disabled @endif">
                                 <i class="icon mail"></i> Idea
                             </a>
-                            <a class="item @if(!$project->synapse) disabled @endif">
+                            <a id="project-synapse-show" class="item @if(!$project->synapse) disabled @endif">
                                 <i class="icon users"></i> Synapse
                             </a>
-                            <a class="item @if(!$project->script) disabled @endif">
+                            <a id="project-script-show" class="item @if(!$project->script) disabled @endif">
                                 <i class="icon users"></i> Script
                             </a>
                         </div>
+                        @if($project->idea) @include('modals.project-idea-show-modal') @endif
+                        @if($project->synapse) @include('modals.project-synapse-show-modal') @endif
+                        @if($project->script) @include('modals.project-script-show-modal') @endif
+
                     </div>
                 </div>
 

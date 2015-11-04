@@ -44,7 +44,7 @@
                         </td>
 
                         <td class="collapsing">
-                            @if($expenditure->enrollers->contains('id', auth()->user()->id))
+                            @if($expenditure->users->contains('id', auth()->user()->id))
                                 <form method="post" action="{{ route('project.unroll.store', $expenditure->id) }}">
                                     {{ csrf_field() }}
                                     <button type="submit" class="red ui icon button"> Unroll</button>

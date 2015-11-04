@@ -125,6 +125,7 @@ Route::post('project/{project}/store', ['as' => 'project.project.store', 'uses' 
  */
 Route::get('project/fund/create/{project}', ['as' => 'project.fund.create', 'uses' => 'Project\FundController@create']);
 Route::post('project/fund/store/{project}', ['as' => 'project.fund.store', 'uses' => 'Project\FundController@store']);
+Route::post('project/fund/vote/store/{enroller}', ['as' => 'project.fund.vote.store', 'uses' => 'Project\FundController@vote']);
 
 /**
  * Fund Controller

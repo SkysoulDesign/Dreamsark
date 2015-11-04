@@ -142,6 +142,24 @@ $(document).ready(function () {
         })
         .modal('attach events', '#project-add-expense', 'show');
 
+    $('#project-idea-show-modal')
+        .modal({
+            blurring: true,
+        })
+        .modal('attach events', '#project-idea-show', 'show');
+
+    $('#project-synapse-show-modal')
+        .modal({
+            blurring: true,
+        })
+        .modal('attach events', '#project-synapse-show', 'show');
+
+    $('#project-script-show-modal')
+        .modal({
+            blurring: true,
+        })
+        .modal('attach events', '#project-script-show', 'show');
+
     $('#translation-translation-modal')
         .modal({
             blurring: true,

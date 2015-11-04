@@ -4,7 +4,7 @@ namespace DreamsArk\Commands\User\Project;
 
 use DreamsArk\Commands\Command;
 use DreamsArk\Models\Project\Stages\Draft;
-use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
+use DreamsArk\Repositories\Project\Draft\DraftRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 class DeleteDraftCommand extends Command implements SelfHandling
@@ -27,13 +27,13 @@ class DeleteDraftCommand extends Command implements SelfHandling
     /**
      * Execute the command.
      *
-     * @param ProjectRepositoryInterface $repository
+     * @param DraftRepositoryInterface $repository
      */
-    public function handle(ProjectRepositoryInterface $repository)
+    public function handle(DraftRepositoryInterface $repository)
     {
         /**
          * Delete Draft
          */
-        $repository->draft($this->draft->id)->delete();
+        $repository->delete($this->draft->id);
     }
 }

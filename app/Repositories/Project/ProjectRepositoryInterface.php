@@ -37,14 +37,6 @@ interface ProjectRepositoryInterface
     public function publishedBy($user_id);
 
     /**
-     * Set Model to Draft
-     *
-     * @param null|Draft $draft_id
-     * @return ProjectRepository
-     */
-    public function draft($draft_id = null);
-
-    /**
      * Set The Project to the next Stage
      *
      * @param int $project_id

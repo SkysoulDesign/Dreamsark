@@ -68,17 +68,6 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     /**
-     * Set Model to Draft
-     *
-     * @param null|Draft $draft_id
-     * @return ProjectRepository
-     */
-    public function draft($draft_id = null)
-    {
-        return $this->newInstance($draft_id, Draft::class);
-    }
-
-    /**
      * Set The Project to the next Stage
      *
      * @param int $project_id

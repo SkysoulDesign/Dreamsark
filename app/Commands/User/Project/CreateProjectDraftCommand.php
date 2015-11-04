@@ -5,8 +5,7 @@ namespace DreamsArk\Commands\User\Project;
 use DreamsArk\Commands\Command;
 use DreamsArk\Events\User\Project\ProjectDraftWasCreated;
 use DreamsArk\Models\User\User;
-use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
-use DreamsArk\Repositories\User\UserRepositoryInterface;
+use DreamsArk\Repositories\Project\Draft\DraftRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -37,15 +36,15 @@ class CreateProjectDraftCommand extends Command implements SelfHandling
     /**
      * Execute the command.
      *
-     * @param ProjectRepositoryInterface $repository
+     * @param DraftRepositoryInterface $repository
      * @param Dispatcher $event
      */
-    public function handle(ProjectRepositoryInterface $repository, Dispatcher $event)
+    public function handle(DraftRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * Create Project Draft
          */
-        $draft = $repository->draft()->create($this->user->id, $this->fields->get('type'), $this->fields->toArray());
+        $draft = $repository->create($this->user->id, $this->fields->get('type'), $this->fields->toArray());
 
         /**
          * Announce ProjectDraftWasCreated

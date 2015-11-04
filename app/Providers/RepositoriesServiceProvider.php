@@ -4,6 +4,8 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Repositories\Bag\BagRepository;
 use DreamsArk\Repositories\Bag\BagRepositoryInterface;
+use DreamsArk\Repositories\Project\Draft\DraftRepository;
+use DreamsArk\Repositories\Project\Draft\DraftRepositoryInterface;
 use DreamsArk\Repositories\Project\Expenditure\ExpenditureRepository;
 use DreamsArk\Repositories\Project\Expenditure\ExpenditureRepositoryInterface;
 use DreamsArk\Repositories\Project\Fund\FundRepository;
@@ -139,6 +141,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             ProjectRepositoryInterface::class,
             ProjectRepository::class
+        );
+
+        /**
+         * Draft Repository
+         */
+        $this->app->bind(
+            DraftRepositoryInterface::class,
+            DraftRepository::class
         );
 
         /**

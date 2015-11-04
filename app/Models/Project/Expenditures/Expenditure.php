@@ -52,13 +52,33 @@ class Expenditure extends Model
     }
 
     /**
-     * Backers Relationship
+     * Enrollers Relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function enrollers()
     {
-        return $this->belongsToMany(User::class, 'expenditure_enroller')->withTimestamps();
+        return $this->hasMany(Enroller::class);
+    }
+
+    /**
+     * Alias to Enrollers inverted
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'expenditure_enrollers');
+    }
+
+    /**
+     * Vote Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function votes()
+    {
+        return $this->hasManyThrough(Vote::class, Enroller::class);
     }
 
 }

@@ -4,6 +4,7 @@ namespace DreamsArk\Providers;
 
 use DreamsArk\Models\Project\Expenditures\Cast;
 use DreamsArk\Models\Project\Expenditures\Crew;
+use DreamsArk\Models\Project\Expenditures\Enroller;
 use DreamsArk\Models\Project\Expenditures\Expenditure;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Draft;
@@ -47,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('submission', Submission::class);
         $router->model('project', Project::class);
         $router->model('expenditure', Expenditure::class);
+        $router->model('enroller', Enroller::class);
         $router->model('draft', Draft::class);
         $router->model('vote', Vote::class);
         $router->model('cast', Cast::class);
