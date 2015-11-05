@@ -6,8 +6,8 @@
 
         <div class="ui fluid vertical menu">
             <a class="item"> Home </a>
-            <a class="item"> Project Review </a>
-            <a class="item"> Help </a>
+            <a class="item"> Pending Projects </a>
+            <a class="item"> All Projects </a>
         </div>
 
     </div>
@@ -16,14 +16,14 @@
 
         <div class="ui segments">
             <div class="ui segment">
-                <p>Pending Projects To Review</p>
+                <p>@lang('dashboard.pending-projects')</p>
             </div>
             <div class="ui secondary segment">
                 <table class="ui celled striped table">
                     <thead>
                     <tr>
                         <th colspan="5">
-                            Projects
+                            @lang('dashboard.projects')
                         </th>
                     </tr>
                     </thead>
@@ -38,21 +38,21 @@
                                     <div class="@if(!$review->project->idea) disabled @endif step">
 
                                         <a id="project-idea-show" class="content">
-                                            <div class="title">Idea</div>
+                                            <div class="title">@lang('project.idea')</div>
                                         </a>
 
                                     </div>
                                     <div class="@if(!$review->project->synapse) disabled @endif step">
 
                                         <a id="project-synapse-show" href="" class="content">
-                                            <div class="title">Synapse</div>
+                                            <div class="title">@lang('project.synapse')</div>
                                         </a>
 
                                     </div>
                                     <div class="@if(!$review->project->script) disabled @endif step">
 
                                         <a id="project-script-show" href="#" class="content">
-                                            <div class="title">Script</div>
+                                            <div class="title">@lang('project.script')</div>
                                         </a>
 
                                     </div>
@@ -69,12 +69,12 @@
 
                                     <a href="{{ route('committee.project.staff.create', $review->id) }}"
                                        class="ui primary button">
-                                        Review
+                                        @lang('project.review')
                                     </a>
 
                                     {{ csrf_field() }}
 
-                                    <button class="ui olive button">Publish</button>
+                                    <button class="ui olive button">@lang('forms.publish')</button>
 
                                 </form>
                             </td>

@@ -25,6 +25,7 @@
         <th>@lang('project.type')</th>
         <th>@lang('project.cost')</th>
         <th>@lang('project.description')</th>
+        <th>@lang('forms.action')</th>
     </tr>
     </thead>
     <tbody>
@@ -53,6 +54,13 @@
             <td>
                 {{ $expenditure->expenditurable->description }}
             </td>
+
+            <td class="collapsing">
+                <form action="{{ route('committee.project.expenditure.destroy', $expenditure->id) }}" method="post">
+                    {{ csrf_field() }}
+                    <button class="ui button red"><i class="ui icon x"></i>@lang('project.remove')</button>
+                </form>
+            </td>
         </tr>
     @endforeach
     </tbody>
@@ -69,6 +77,7 @@
                 </div>
             @endif
         </th>
+        <th></th>
         <th></th>
     </tr>
     </tfoot>

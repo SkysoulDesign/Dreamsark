@@ -13,9 +13,9 @@
             <div class="ui form">
                 <div class="three fields">
 
-                    @include('partials.select', ['name' => 'language', 'placeholder' => trans('translation.language'), 'label'=> trans('translation.language'), 'collection' => $languages->lists('name', 'id'), 'id'=>'translation-language', 'class' => 'no-default'])
+                    @include('partials.select', ['name' => 'language', 'translation' => 'translation', 'collection' => $languages->lists('name', 'id'), 'id'=>'translation-language', 'class' => 'no-default'])
 
-                    @include('partials.select', ['name' => 'group', 'placeholder' => trans('translation.group'), 'label'=> trans('translation.group'), 'collection' => $groups->lists('name', 'id'), 'id'=>'translation-group', 'class' => 'no-default'])
+                    @include('partials.select', ['name' => 'group', 'translation' => 'translation', 'collection' => $groups->lists('name', 'id'), 'id' => 'translation-group', 'class' => 'no-default'])
 
                     <div class="nine wide field">
                         <div class="ui right floated basic buttons">
@@ -77,8 +77,8 @@
 
             @foreach($translations as $translation)
                 <tr>
-                    <td>{{ $translation->language->name }}</td>
-                    <td>{{ $translation->groups->implode('name', ', ') }}</td>
+                    <td>@lang('translation.'.$translation->language->name)</td>
+                    <td>@lang('translation.'.$translation->groups->implode('name', ', '))</td>
                     <td>
 
                         <div class="ui transparent icon input translation-value">

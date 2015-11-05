@@ -150,6 +150,8 @@ Route::post('committee/project/cast/store/{project}', ['as' => 'committee.projec
 Route::post('committee/project/crew/store/{project}', ['as' => 'committee.project.crew.store', 'uses' => 'Committee\Project\CrewController@store']);
 Route::post('committee/project/expense/store/{project}', ['as' => 'committee.project.expense.store', 'uses' => 'Committee\Project\ExpenseController@store']);
 
+Route::post('committee/project/expense/destroy/{expenditure}', ['as' => 'committee.project.expenditure.destroy', 'uses' => 'Committee\Project\ExpenditureController@destroy']);
+
 Route::post('committee/project/publish/{review}', ['as' => 'committee.project.publish', 'uses' => 'Committee\Project\StaffController@publish']);
 
 
