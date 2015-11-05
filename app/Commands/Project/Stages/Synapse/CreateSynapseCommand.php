@@ -2,10 +2,7 @@
 
 namespace DreamsArk\Commands\Project\Stages\Synapse;
 
-use Carbon\Carbon;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\ChargeUserCommand;
-use DreamsArk\Commands\Project\Stages\Voting\CreateVotingCommand;
 use DreamsArk\Events\Project\Synapse\SynapseWasCreated;
 use DreamsArk\Models\Project\Stages\Synapse;
 use DreamsArk\Repositories\Project\Synapse\SynapseRepositoryInterface;
@@ -56,7 +53,7 @@ class CreateSynapseCommand extends Command implements SelfHandling
         /**
          * Announce SynapseWasCreated
          */
-        $event->fire(new SynapseWasCreated($synapse, $this->fields->get('vote_date')));
+        $event->fire(new SynapseWasCreated($synapse, $this->fields->get('voting_date')));
 
     }
 }

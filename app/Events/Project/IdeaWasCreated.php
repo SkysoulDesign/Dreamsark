@@ -16,13 +16,20 @@ class IdeaWasCreated extends Event
     public $model;
 
     /**
+     * @var string
+     */
+    public $voting_date;
+
+    /**
      * Create a new event instance.
      *
      * @param Idea $idea
+     * @param string $voting_date
      */
-    public function __construct(Idea $idea)
+    public function __construct(Idea $idea, $voting_date)
     {
         $this->model = $idea;
+        $this->voting_date = $voting_date;
     }
 
     /**

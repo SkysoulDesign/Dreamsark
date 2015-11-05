@@ -1,7 +1,8 @@
 <?php
 
 return array(
-    'actor'      => 'Actor',
-    'actress'    => 'Actress',
-    'camera-man' => 'Camera Man',
+    'actor'      => '男演员',
+    'actress'    => '女演员',
+    'camera-man' => '摄影师',
+    'director'   => 'Director',
 );

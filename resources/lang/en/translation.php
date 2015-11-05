@@ -29,5 +29,6 @@ return array(
     'passwords'          => 'Passwords',
     'vote'               => 'Vote',
     'audition'           => 'Audition',
-    'payment'            => 'Payment'
+    'payment'            => 'Payment',
+    'dashboard'          => 'Dashboard',
 );

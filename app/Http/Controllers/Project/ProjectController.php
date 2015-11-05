@@ -9,6 +9,7 @@ use DreamsArk\Http\Requests;
 use DreamsArk\Http\Requests\Project\ProjectCreation;
 use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\Project\Stages\Fund;
+use DreamsArk\Models\Project\Stages\Review;
 use DreamsArk\Repositories\Project\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -83,6 +84,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project, ProjectRepositoryInterface $repository)
     {
+
+        if ($project->stage instanceof Review) {
+            return view('project.show', compact('project'));
+        }
 
         if (!$project->stage instanceof Fund) {
             $submissions = $repository->submissions($project->id)->load('user');

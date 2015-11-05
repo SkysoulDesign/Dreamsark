@@ -15,7 +15,7 @@ class ExpenditurePresenter extends Presenter
      */
     public function position()
     {
-        return trans('position.' . str_replace(' ', '-', strtolower($this->model->position->name)));
+        return trans('positions.' . str_replace(' ', '-', strtolower($this->model->position->name)));
     }
 
 }

@@ -4,14 +4,14 @@
 
     @include('partials.field', ['name' => 'name', 'label' => trans('forms.project-name')])
 
-    @include('partials.select', ['name' => 'type', 'collection' => ['idea' => trans('forms.seeking-idea'), 'synapse' => trans('forms.seeking-synapse'), 'script' => trans('forms.seeking-script')]])
+    @include('partials.select', ['name' => 'type', 'collection' => ['idea' => 'seeking-idea', 'synapse' => 'seeking-synapse', 'script' => 'seeking-script']])
 
     @include('partials.textarea', ['name' => 'content', 'label' => trans('forms.description')])
 
     <div class="ui segments">
 
         <div class="ui segment">
-            @include('partials.field', ['name' => 'reward', 'label' => trans('forms.reward'), 'type' => 'text'])
+            @include('partials.field', ['name' => 'reward', 'type' => 'text'])
         </div>
 
     </div>
@@ -21,7 +21,8 @@
             <label>{{ trans('forms.due-date') }}</label>
 
             <div class="field">
-                <input id="datetime" name="vote_date" type="text" data-lang="{{ auth()->user()->settings->language == 'cn' ? 'ch' : 'en' }}" >
+                <input id="datetime" name="voting_date" type="text"
+                       data-lang="{{ auth()->user()->settings->language == 'cn' ? 'ch' : 'en' }}">
             </div>
 
         </div>

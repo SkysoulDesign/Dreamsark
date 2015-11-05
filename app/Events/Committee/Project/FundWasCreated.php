@@ -2,6 +2,7 @@
 
 namespace DreamsArk\Events\Committee\Project;
 
+use Carbon\Carbon;
 use DreamsArk\Events\Event;
 use DreamsArk\Models\Project\Stages\Fund;
 use DreamsArk\Models\Project\Stages\Review;
@@ -17,13 +18,20 @@ class FundWasCreated extends Event
     public $model;
 
     /**
+     * @var Carbon|string
+     */
+    public $voting_date;
+
+    /**
      * Create a new event instance.
      *
      * @param Fund $fund
+     * @param null $voting_date
      */
-    public function __construct(Fund $fund)
+    public function __construct(Fund $fund, $voting_date = null)
     {
         $this->model = $fund;
+        $this->voting_date = $voting_date ?: $fund->created_at->addMinutes(500);
     }
 
     /**

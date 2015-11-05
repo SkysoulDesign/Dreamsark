@@ -2,12 +2,8 @@
 
 namespace DreamsArk\Commands\Project\Stages\Script;
 
-use Carbon\Carbon;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\ChargeUserCommand;
-use DreamsArk\Commands\Project\Stages\Voting\CreateVotingCommand;
 use DreamsArk\Events\Project\Script\ScriptWasCreated;
-use DreamsArk\Models\Project\Stages\Script;
 use DreamsArk\Repositories\Project\Script\ScriptRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -44,10 +40,8 @@ class CreateScriptCommand extends Command implements SelfHandling
      *
      * @param ScriptRepositoryInterface $repository
      * @param Dispatcher $event
-     * @param Carbon $carbon
-     * @return \DreamsArk\Models\Project\Stages\Script
      */
-    public function handle(ScriptRepositoryInterface $repository, Dispatcher $event, Carbon $carbon)
+    public function handle(ScriptRepositoryInterface $repository, Dispatcher $event)
     {
         /**
          * Create Idea
@@ -55,9 +49,9 @@ class CreateScriptCommand extends Command implements SelfHandling
         $script = $repository->create($this->project_id, $this->fields->all());
 
         /**
-         * Announce IdeaWasCreated
+         * Announce ScriptWasCreated
          */
-        $event->fire(new ScriptWasCreated($script));
+        $event->fire(new ScriptWasCreated($script, $this->fields->get('voting_date')));
 
     }
 }

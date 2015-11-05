@@ -8,14 +8,14 @@
 
             {{ csrf_field() }}
 
-            @include('partials.field', ['name' => 'name', 'label'=> trans('forms.name'), 'placeholder'=> trans('forms.optional'), 'type' => 'text'])
-            @include('partials.field', ['name' => 'cost', 'label'=> trans('forms.amount'), 'placeholder'=> trans('forms.amount'), 'type' => 'text'])
+            @include('partials.field', ['name' => 'name', 'type' => 'text'])
+            @include('partials.field', ['name' => 'cost', 'type' => 'text'])
 
             @include('partials.select',
             [
                 'name' => 'position',
                 'placeholder' => trans('forms.position'),
-                'translation' => 'position',
+                'translation' => 'positions',
                 'collection' => $positions->where('type.name', 'cast')->lists('name', 'id')
 
             ])

@@ -6,6 +6,7 @@ use DreamsArk\Commands\Command;
 use DreamsArk\Commands\Project\FailIdeaSynapseScriptStageCommand;
 use DreamsArk\Events\Project\Vote\VotingHasFailed;
 use DreamsArk\Events\Project\Vote\VotingHasFinished;
+use DreamsArk\Models\Project\Stages\Fund;
 use DreamsArk\Models\Project\Stages\Vote;
 use DreamsArk\Models\Project\Submission;
 use DreamsArk\Repositories\Project\Vote\VoteRepositoryInterface;
@@ -43,6 +44,10 @@ class CloseVotingCommand extends Command implements SelfHandling
      */
     public function handle(Submission $submission, VoteRepositoryInterface $repository, Dispatcher $event)
     {
+
+        if ($this->vote->votable instanceof Fund) {
+            dd('wait it`s a fund function on CloseVotingCommand');
+        }
 
         /**
          * Get which Submission had more Votes

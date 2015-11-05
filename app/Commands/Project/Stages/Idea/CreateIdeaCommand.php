@@ -2,12 +2,8 @@
 
 namespace DreamsArk\Commands\Project\Stages\Idea;
 
-use Carbon\Carbon;
 use DreamsArk\Commands\Command;
-use DreamsArk\Commands\Project\ChargeUserCommand;
-use DreamsArk\Commands\Project\Stages\Voting\CreateVotingCommand;
 use DreamsArk\Events\Project\IdeaWasCreated;
-use DreamsArk\Models\Project\Stages\Idea;
 use DreamsArk\Repositories\Project\Idea\IdeaRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -57,7 +53,7 @@ class CreateIdeaCommand extends Command implements SelfHandling
         /**
          * Announce IdeaWasCreated
          */
-        $event->fire(new IdeaWasCreated($idea));
+        $event->fire(new IdeaWasCreated($idea, $this->fields->get('voting_date')));
 
     }
 }

@@ -74,9 +74,9 @@
                     <tr>
                         <td class="collapsing">{{ $project->name }}</td>
                         <td>@lang('project.' . $project->type)</td>
-                        <td>{{ $project->stage->content }}</td>
-                        <td>${{ $project->stage->reward }}</td>
-                        <td>{{ $project->stage->vote->open_date }}</td>
+                        <td>{{ $project->stage->content or '-' }}</td>
+                        <td>{{ $project->stage->reward or '-'}}</td>
+                        <td>{{ $project->stage->vote->open_date or '-' }}</td>
                         <td>{{ $project->stage->submission ? 'Finished' : 'Waiting' }}</td>
 
                         <td class="right aligned">

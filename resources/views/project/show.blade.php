@@ -4,13 +4,13 @@
 
     <div class="column">
 
-        @if(!($project->stage instanceof \DreamsArk\Models\Project\Stages\Fund) && !$project->stage->active)
+        @if(!($project->stage instanceof \DreamsArk\Models\Project\Stages\Review) && ! ($project->stage instanceof \DreamsArk\Models\Project\Stages\Fund)&& !$project->stage->active)
             <div class="ui inverted red segment">
                 @lang('project.project-failed')
             </div>
         @endif
 
-        @if(!($project->stage instanceof \DreamsArk\Models\Project\Stages\Fund) && $project->stage->vote->active)
+        @if(!($project->stage instanceof \DreamsArk\Models\Project\Stages\Review) && !($project->stage instanceof \DreamsArk\Models\Project\Stages\Fund) && $project->stage->vote->active)
             <div class="ui inverted olive segment">
                 <a class="ui header" href="{{ route('vote.show', $project->stage->vote->id) }}">
                     @lang('vote.is-open')

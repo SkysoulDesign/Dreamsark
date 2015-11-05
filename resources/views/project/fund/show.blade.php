@@ -65,12 +65,19 @@
                     </div>
                 </div>
 
-                <div class="ui two inverted green item menu">
-                    <a href="{{ route('project.fund.create', $project->id) }}"
-                       class="item">@lang('project.back-this-project')</a>
-                    <a href="{{ route('project.enroll.create', $project->id) }}"
-                       class="item">@lang('project.enroll')</a>
-                </div>
+                @if(!$project->stage->vote->active)
+                    <div class="ui two inverted green item menu">
+                        <a href="{{ route('project.fund.create', $project->id) }}"
+                           class="item">@lang('project.back-this-project')</a>
+                        <a href="{{ route('project.enroll.create', $project->id) }}"
+                           class="item">@lang('project.enroll')</a>
+                    </div>
+                @else
+                    <div class="ui one inverted blue item menu">
+                        <a href="{{ route('vote.show', $project->stage->vote->id) }}"
+                           class="item">@lang('vote.is-open')</a>
+                    </div>
+                @endif
 
             </div>
         </div>
@@ -97,7 +104,7 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            69
+                            {{ $project->stage->vote->open_date->diffInHours(\Carbon\Carbon::now()) }}
                         </div>
                         <div class="label">
                             {{ trans('project.hours-to-go') }}
