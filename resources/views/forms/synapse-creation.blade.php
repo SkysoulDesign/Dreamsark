@@ -10,6 +10,7 @@
 
     <div class="ui segment">
         <div class="field">
+
             <label>{{ trans('forms.due-date') }}</label>
 
             <div class="field">

@@ -27,14 +27,16 @@ class DraftRepository implements DraftRepositoryInterface
     /**
      * Create a Draft
      *
+     * @param int|null $project_id
      * @param int $user_id
      * @param int $type
      * @param array $fields
      * @return Draft
      */
-    public function create($user_id, $type, array $fields)
+    public function create($project_id, $user_id, $type, array $fields)
     {
         $project = $this->model
+            ->setAttribute('project_id', $project_id)
             ->setAttribute('user_id', $user_id)
             ->setAttribute('type', $type)
             ->fill($fields);

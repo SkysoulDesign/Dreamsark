@@ -18,7 +18,7 @@ class Idea extends Model
      * Defines the minimum of submission this model
      * should have to be considered not failed
      */
-    const MINIMUM_OF_SUBMISSIONS = 5;
+    const MINIMUM_OF_SUBMISSIONS = 0;
 
     /**
      * Define this model Repository.

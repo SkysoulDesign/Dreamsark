@@ -194,8 +194,8 @@ Route::get('user/project/publish/{draft}', ['as' => 'user.project.publish', 'use
 Route::get('user/project/edit/{draft}', ['as' => 'user.project.edit', 'uses' => 'User\ProjectController@edit']);
 Route::post('user/project/store', ['as' => 'user.project.store', 'uses' => 'User\ProjectController@store']);
 
-Route::post('user/project/synapse/store', ['as' => 'user.project.synapse.store', 'uses' => 'User\Project\SynapseController@store']);
-Route::post('user/project/script/store', ['as' => 'user.project.script.store', 'uses' => 'User\Project\ScriptController@store']);
+Route::post('user/project/synapse/store/{project}', ['as' => 'user.project.synapse.store', 'uses' => 'User\Project\SynapseController@store']);
+Route::post('user/project/script/store/{project}', ['as' => 'user.project.script.store', 'uses' => 'User\Project\ScriptController@store']);
 
 
 /**

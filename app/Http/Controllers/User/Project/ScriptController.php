@@ -8,7 +8,7 @@ use DreamsArk\Http\Requests;
 use DreamsArk\Models\Project\Project;
 use Illuminate\Http\Request;
 
-class SynapseController extends Controller
+class ScriptController extends Controller
 {
 
     /**
@@ -20,7 +20,7 @@ class SynapseController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        $command = new CreateDraftCommand($project->id, $request->user(), $request->all(), 'synapse');
+        $command = new CreateDraftCommand($project->id, $request->user(), $request->all(), 'script');
         $this->dispatch($command);
 
         return redirect()->route('user.projects')->with('message', trans('response.save-to-draft-s'));

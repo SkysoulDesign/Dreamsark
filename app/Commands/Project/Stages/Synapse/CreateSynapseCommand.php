@@ -49,12 +49,12 @@ class CreateSynapseCommand extends Command implements SelfHandling
     public function handle(SynapseRepositoryInterface $repository, Dispatcher $event)
     {
         /**
-         * Create Idea
+         * Create Synapse
          */
         $synapse = $repository->create($this->project_id, $this->fields->all());
 
         /**
-         * Announce IdeaWasCreated
+         * Announce SynapseWasCreated
          */
         $event->fire(new SynapseWasCreated($synapse, $this->fields->get('vote_date')));
 

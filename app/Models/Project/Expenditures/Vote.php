@@ -1,26 +1,25 @@
 <?php
 
-namespace DreamsArk\Models\Project\Stages;
+namespace DreamsArk\Models\Project\Expenditures;
 
-use DreamsArk\Models\Project\Project;
 use DreamsArk\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Draft extends Model
+class Vote extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'project_draft';
+    protected $table = 'expenditure_enroller_vote';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'reward', 'content', 'vote_date'];
+    protected $fillable = [];
 
     /**
      * User Relationship
@@ -31,10 +30,10 @@ class Draft extends Model
     }
 
     /**
-     * Project Relationship
+     * Enroller Relationship
      */
-    public function project()
+    public function enroller()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Enroller::class);
     }
 }

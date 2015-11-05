@@ -1,23 +1,29 @@
 <?php
 
-namespace DreamsArk\Events\User\Project\Synapse;
+namespace DreamsArk\Events\User\Project;
 
 use DreamsArk\Events\Event;
+use DreamsArk\Models\Project\Stages\Draft;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SynapseDraftWasCreated extends Event
+class DraftWasCreated extends Event
 {
     use SerializesModels;
 
     /**
+     * @var Draft
+     */
+    public $draft;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Draft $draft
      */
-    public function __construct()
+    public function __construct(\DreamsArk\Models\Project\Stages\Draft $draft)
     {
-        //
+        $this->draft = $draft;
     }
 
     /**

@@ -3,7 +3,7 @@
         @lang('forms.client-feed-back-form')
     </div>
     <div class="content">
-        <form class="ui form" method="post" action="{{ route('report.store') }}">
+        <form id="reportForm" class="ui form" method="post" action="{{ route('report.store') }}">
 
             <h4 class="ui dividing header">@lang('forms.give-us-your-feed-back')</h4>
 
