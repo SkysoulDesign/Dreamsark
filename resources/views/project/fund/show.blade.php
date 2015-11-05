@@ -49,13 +49,13 @@
                     <div class="ui segment">
                         <div class="ui three item menu">
                             <a id="project-idea-show" class="item @if(!$project->idea) disabled @endif">
-                                <i class="icon mail"></i> Idea
+                                <i class="icon mail"></i> @lang('project.idea')
                             </a>
                             <a id="project-synapse-show" class="item @if(!$project->synapse) disabled @endif">
-                                <i class="icon users"></i> Synapse
+                                <i class="icon users"></i> @lang('project.synapse')
                             </a>
                             <a id="project-script-show" class="item @if(!$project->script) disabled @endif">
-                                <i class="icon users"></i> Script
+                                <i class="icon users"></i> @lang('project.script')
                             </a>
                         </div>
                         @if($project->idea) @include('modals.project-idea-show-modal') @endif
@@ -66,8 +66,10 @@
                 </div>
 
                 <div class="ui two inverted green item menu">
-                    <a href="{{ route('project.fund.create', $project->id) }}" class="item">Back this Project</a>
-                    <a href="{{ route('project.enroll.create', $project->id) }}" class="item">Enroll</a>
+                    <a href="{{ route('project.fund.create', $project->id) }}"
+                       class="item">@lang('project.back-this-project')</a>
+                    <a href="{{ route('project.enroll.create', $project->id) }}"
+                       class="item">@lang('project.enroll')</a>
                 </div>
 
             </div>
@@ -82,7 +84,7 @@
                             <i class="yen icon"></i> {{ $project->backers->sum('pivot.amount') }}
                         </div>
                         <div class="label">
-                            {{ trans('project.needs') }}
+                            {{ trans('project.collected') }}
                         </div>
                     </div>
                     <div class="statistic">

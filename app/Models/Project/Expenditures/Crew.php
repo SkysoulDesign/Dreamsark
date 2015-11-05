@@ -2,10 +2,16 @@
 
 namespace DreamsArk\Models\Project\Expenditures;
 
+use DreamsArk\Presenters\PresentableTrait;
+use DreamsArk\Presenters\Presenter;
+use DreamsArk\Presenters\Presenter\ExpenditurePresenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Crew extends Model
 {
+
+    use PresentableTrait;
+
     /**
      * The database table used by the model.
      *
@@ -19,6 +25,13 @@ class Crew extends Model
      * @var array
      */
     protected $fillable = ['name', 'cost', 'description'];
+
+    /**
+     * Presenter for this class
+     *
+     * @var Presenter
+     */
+    protected $presenter = ExpenditurePresenter::class;
 
     /**
      * Expenditure Relationship

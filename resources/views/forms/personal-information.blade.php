@@ -5,16 +5,15 @@
     @include('partials.field-multiple', array(
     'label' => trans('forms.full-name'),
     'fields' => [
-            ['name' => 'first_name', 'placeholder' => trans('forms.first-name')],
-            ['name' => 'last_name', 'placeholder' => trans('forms.last-name')]
+            ['name' => 'first_name'],
+            ['name' => 'last_name']
         ],
     'class' => 'two'
     ))
 
-    @include('partials.field', ['name' => 'birthday', 'label' => trans('forms.birthday'), 'placeholder'=> trans('forms.birthday'), 'type' => 'date'])
+    @include('partials.field', ['name' => 'birthday', 'type' => 'date'])
 
-
-    @include('partials.select', ['name' => 'gender', 'collection' => ['male' => trans('forms.male'), 'female' => trans('forms.female')]])
+    @include('partials.select', ['name' => 'gender', 'collection' => ['male' => 'male', 'female' => 'female']])
 
     <button class="ui button" type="submit">@lang('forms.save')</button>
 

@@ -8,11 +8,11 @@
             <table class="ui celled table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Expected Salary</th>
-                    <th>Description</th>
-                    <th>Number of Candidates</th>
-                    <th>Enroll</th>
+                    <th>@lang('forms.name')</th>
+                    <th>@lang('forms.expected-salary')</th>
+                    <th>@lang('forms.description')</th>
+                    <th>@lang('forms.candidates-number')</th>
+                    <th>@lang('project.enroll')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,12 +47,12 @@
                             @if($expenditure->users->contains('id', auth()->user()->id))
                                 <form method="post" action="{{ route('project.unroll.store', $expenditure->id) }}">
                                     {{ csrf_field() }}
-                                    <button type="submit" class="red ui icon button"> Unroll</button>
+                                    <button type="submit" class="red ui icon button">@lang('project.unroll')</button>
                                 </form>
                             @else
                                 <form method="post" action="{{ route('project.enroll.store', $expenditure->id) }}">
                                     {{ csrf_field() }}
-                                    <button type="submit" class="olive ui icon button"> Enroll</button>
+                                    <button type="submit" class="olive ui icon button">@lang('project.enroll')</button>
                                 </form>
                             @endif
                         </td>

@@ -12,18 +12,18 @@
 
                         <div class="title">
                             <i class="dropdown icon"></i>
-                            {{ $expenditure->expenditurable->name or $expenditure->expenditurable->position->name }}
+                            {{ $expenditure->expenditurable->name or $expenditure->expenditurable->present()->position }}
                             @if($expenditure->expenditurable->name)
-                                - {{ $expenditure->expenditurable->position->name }}
+                                - {{ $expenditure->expenditurable->present()->position }}
                             @endif
                         </div>
                         <div class="content">
                             <table class="ui compact celled table">
                                 <thead>
                                 <tr>
-                                    <th>Candidates</th>
-                                    <th>Votes</th>
-                                    <th>Vote</th>
+                                    <th>@lang('project.candidates')</th>
+                                    <th>@lang('project.votes')</th>
+                                    <th>@lang('project.vote')</th>
                                 </tr>
                                 </thead>
                                 <tbody>

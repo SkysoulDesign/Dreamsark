@@ -27,4 +27,13 @@ class UserPolicy
         return $user->hasRole('committee', 'admin');
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function seeReports(User $user)
+    {
+        return $user->hasRole('admin');
+    }
+
 }

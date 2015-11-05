@@ -15,6 +15,7 @@
             [
                 'name' => 'position',
                 'placeholder' => trans('forms.position'),
+                'translation' => 'position',
                 'collection' => $positions->where('type.name', 'cast')->lists('name', 'id')
 
             ])

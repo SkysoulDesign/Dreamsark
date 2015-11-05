@@ -9,10 +9,10 @@
             <form class="ui form" method="post" action="{{ route('project.fund.store', $project->id) }}">
                 {{ csrf_field() }}
                 <div class="field">
-                    <label>Amount</label>
-                    <input type="text" name="amount" placeholder="Amount">
+                    <label>@lang('forms.amount')</label>
+                    <input type="text" name="amount" placeholder="@lang('forms.amount')">
                 </div>
-                <button class="ui button" type="submit">Back this Project</button>
+                <button class="ui button" type="submit">@lang('back-this-project')</button>
             </form>
 
         </div>

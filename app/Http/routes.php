@@ -201,6 +201,7 @@ Route::post('user/project/script/store/{project}', ['as' => 'user.project.script
 /**
  * Report Controller
  */
+Route::get('reports', ['as' => 'reports', 'uses' => 'Report\ReportController@index']);
 Route::post('report/store', ['as' => 'report.store', 'uses' => 'Report\ReportController@store']);
 
 Route::get('intro', ['as' => 'intro', 'uses' => function () {

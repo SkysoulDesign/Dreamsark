@@ -2,11 +2,15 @@
 
 namespace DreamsArk\Models\Project\Expenditures;
 
-use DreamsArk\Models\User\User;
+use DreamsArk\Presenters\PresentableTrait;
+use DreamsArk\Presenters\Presenter;
+use DreamsArk\Presenters\Presenter\ExpenditurePresenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Cast extends Model
 {
+
+    use PresentableTrait;
 
     /**
      * The database table used by the model.
@@ -21,6 +25,13 @@ class Cast extends Model
      * @var array
      */
     protected $fillable = ['name', 'cost', 'description'];
+
+    /**
+     * Presenter for this class
+     *
+     * @var Presenter
+     */
+    protected $presenter = ExpenditurePresenter::class;
 
     /**
      * Expenditure Relationship

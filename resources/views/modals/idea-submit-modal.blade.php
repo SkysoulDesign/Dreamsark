@@ -8,7 +8,7 @@
 
             {{ csrf_field() }}
 
-            @include('partials.select', ['name' => 'visibility', 'collection' => [0=>'Private', 1=>'Public']])
+            @include('partials.select', ['name' => 'visibility', 'collection' => [0=>trans('forms.private'), 1=>trans('forms.public')]])
             @include('partials.textarea', ['name' => 'content', 'label' => trans('forms.description')])
 
         </form>

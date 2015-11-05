@@ -3,15 +3,15 @@
 @include('modals.project-expense-modal')
 
 <div class="ui menu">
-    <a id="project-add-cast" class="item"> Add Cast </a>
-    <a id="project-add-crew" class="item"> Add Crew </a>
-    <a id="project-add-expense" class="item"> Add Expansive </a>
+    <a id="project-add-cast" class="item"> @lang('project.add-cast') </a>
+    <a id="project-add-crew" class="item"> @lang('project.add-crew') </a>
+    <a id="project-add-expense" class="item"> @lang('project.add-expense') </a>
 
     <div class="right menu">
         <div class="item">
             <form method="post" action="{{ route('committee.project.publish', $review->id) }}" class="ui form">
                 {{ csrf_field() }}
-                <button class="ui olive button">Publish</button>
+                <button class="ui olive button">@lang('project.publish')</button>
             </form>
         </div>
     </div>
@@ -21,10 +21,10 @@
 <table class="ui celled table">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Cost</th>
-        <th>Description</th>
+        <th>@lang('project.name')</th>
+        <th>@lang('project.type')</th>
+        <th>@lang('project.cost')</th>
+        <th>@lang('project.description')</th>
     </tr>
     </thead>
     <tbody>
@@ -59,7 +59,9 @@
     <tfoot class="full-width">
     <tr>
         <th></th>
-        <th></th>
+        <th>
+            <div class="ui header">@lang('project.total')</div>
+        </th>
         <th colspan="1">
             @if($review->project->expenditures)
                 <div class="ui header">
