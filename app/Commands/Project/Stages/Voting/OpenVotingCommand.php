@@ -53,7 +53,8 @@ class OpenVotingCommand extends Command implements SelfHandling
         /**
          * If there are no submission then project failed, or less than the minimum submissions
          */
-        if ($isSubmissible && $this->vote->votable->submissions->count() < constant(get_class($this->vote->votable) . '::MINIMUM_OF_SUBMISSIONS')) {
+        $class = snake_case(class_basename($this->vote->votable));
+        if ($isSubmissible && $this->vote->votable->submissions->count() < config('defaults.project.' . $class . '.minimum_of_submissions')) {
 
             /**
              * Fail this project

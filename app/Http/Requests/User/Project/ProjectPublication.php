@@ -35,11 +35,11 @@ class ProjectPublication extends Req
     {
 
         return [
-            'name' => 'required',
-            'reward' => 'required|integer|between:1,' . $this->user()->bag->coins,
-            'content' => 'required',
-            'type' => 'required|in:idea,synapse,script',
-            'vote_date' => 'required|date',
+            'name'        => 'required',
+            'reward'      => 'required|integer|between:1,' . $this->user()->bag->coins,
+            'content'     => 'required',
+            'type'        => 'required|in:idea,synapse,script',
+            'voting_date' => 'required|date',
         ];
     }
 }

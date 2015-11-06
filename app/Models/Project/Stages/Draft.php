@@ -20,7 +20,7 @@ class Draft extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'reward', 'content', 'vote_date'];
+    protected $fillable = ['name', 'reward', 'content', 'voting_date'];
 
     /**
      * User Relationship

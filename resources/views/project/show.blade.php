@@ -20,6 +20,8 @@
 
         @include('project.' . strtolower(class_basename($project->stage)) . '.show')
 
+            @include('partials.comments')
+
     </div>
 
 @endsection

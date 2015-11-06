@@ -24,11 +24,11 @@ class ProjectCreation extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
-            'reward' => 'required|integer|min:1',
-            'content' => 'required',
-            'type' => 'required|in:idea,synapse,script',
-            'vote_date' => 'required|date',
+            'name'        => 'required',
+            'reward'      => 'required|integer|min:1',
+            'content'     => 'required',
+            'type'        => 'required|in:idea,synapse,script',
+            'voting_date' => 'required|date',
         ];
     }
 }

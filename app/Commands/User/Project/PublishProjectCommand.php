@@ -44,7 +44,7 @@ class PublishProjectCommand extends Command implements SelfHandling
         /**
          * Check if Draft already have a project
          */
-        if (!$project = $this->draft->project) {
+        if ($project = $this->draft->project) {
 
             /**
              * Create Next Stage

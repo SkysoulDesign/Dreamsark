@@ -20,7 +20,7 @@
         @include('partials.field-multiple', array(
         'label' => trans('forms.due-date'),
         'fields' => [
-                ['name' => 'vote_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
+                ['name' => 'voting_date', 'placeholder' => trans('forms.first-name'), 'type' => 'date'],
                 ['name' => 'vote_time', 'placeholder' => trans('forms.last-name'), 'type' => 'time']
             ],
         'class' => 'two'

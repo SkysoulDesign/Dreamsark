@@ -33,9 +33,9 @@
                 @foreach($projects as $project)
                     <tr>
                         <td class="collapsing">{{ $project->name }}</td>
-                        <td>{{ $project->content }}</td>
-                        <td>${{ $project->reward }}</td>
-                        <td>{{ $project->vote_date }}</td>
+                        <td>{{ $project->content or '-' }}</td>
+                        <td>${{ $project->reward or '-' }}</td>
+                        <td>{{ $project->voting_date or '-' }}</td>
 
                         <td class="right aligned">
                             <form action="{{ route('user.project.publish', $project->id) }}">

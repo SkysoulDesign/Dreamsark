@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateProjectDraftTable extends Migration
 {
@@ -22,7 +22,7 @@ class CreateProjectDraftTable extends Migration
             $table->string('name')->nullable();
             $table->string('type');
             $table->longText('content');
-            $table->dateTime('vote_date');
+            $table->dateTime('voting_date');
             $table->timestamps();
         });
     }

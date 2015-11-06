@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div class="ui container" style="margin-top: 20px">
+<div class="ui container" style="margin-top: 20px; padding-bottom: 10%">
 
     @include('modals.report-modal')
 
