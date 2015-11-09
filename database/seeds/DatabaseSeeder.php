@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PositionTableSeeder::class);
 
         Model::reguard();
+        $this->call(GiveCoinsToUsers::Class);
 //        $this->call(CreateDummyProject::class);
         $this->call(SetLanguageToEnglish::Class);
         Model::unguard();

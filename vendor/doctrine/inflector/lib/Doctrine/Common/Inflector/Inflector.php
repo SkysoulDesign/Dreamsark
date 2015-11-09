@@ -43,66 +43,90 @@ class Inflector
     private static $plural = array(
         'rules' => array(
             '/(s)tatus$/i' => '\1\2tatuses',
-            '/(quiz)$/i' => '\1zes',
-            '/^(ox)$/i' => '\1\2en',
-            '/([m|l])ouse$/i' => '\1ice',
-            '/(matr|vert|ind)(ix|ex)$/i' => '\1ices',
-            '/(x|ch|ss|sh)$/i' => '\1es',
-            '/([^aeiouy]|qu)y$/i' => '\1ies',
-            '/(hive)$/i' => '\1s',
-            '/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-            '/sis$/i' => 'ses',
-            '/([ti])um$/i' => '\1a',
-            '/(p)erson$/i' => '\1eople',
-            '/(m)an$/i' => '\1en',
-            '/(c)hild$/i' => '\1hildren',
-            '/(buffal|tomat)o$/i' => '\1\2oes',
+            '/(quiz)$/i'                                                             => '\1zes',
+            '/^(ox)$/i'                                                              => '\1\2en',
+            '/([m|l])ouse$/i'                                                        => '\1ice',
+            '/(matr|vert|ind)(ix|ex)$/i'                                             => '\1ices',
+            '/(x|ch|ss|sh)$/i'                                                       => '\1es',
+            '/([^aeiouy]|qu)y$/i'                                                    => '\1ies',
+            '/(hive)$/i'                                                             => '\1s',
+            '/(?:([^f])fe|([lr])f)$/i'                                               => '\1\2ves',
+            '/sis$/i'                                                                => 'ses',
+            '/([ti])um$/i'                                                           => '\1a',
+            '/(p)erson$/i'                                                           => '\1eople',
+            '/(m)an$/i'                                                              => '\1en',
+            '/(c)hild$/i'                                                            => '\1hildren',
+            '/(f)oot$/i'                                                             => '\1eet',
+            '/(buffal|her|potat|tomat|volcan)o$/i'                                   => '\1\2oes',
             '/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|vir)us$/i' => '\1i',
-            '/us$/i' => 'uses',
-            '/(alias)$/i' => '\1es',
-            '/(ax|cris|test)is$/i' => '\1es',
-            '/s$/' => 's',
-            '/^$/' => '',
-            '/$/' => 's',
+            '/us$/i'                                                                 => 'uses',
+            '/(alias)$/i'                                                            => '\1es',
+            '/(analys|ax|cris|test|thes)is$/i'                                       => '\1es',
+            '/s$/'                                                                   => 's',
+            '/^$/'                                                                   => '',
+            '/$/'                                                                    => 's',
         ),
         'uninflected' => array(
             '.*[nrlm]ese', '.*deer', '.*fish', '.*measles', '.*ois', '.*pox', '.*sheep', 'people', 'cookie'
         ),
         'irregular' => array(
-            'atlas' => 'atlases',
-            'beef' => 'beefs',
-            'brother' => 'brothers',
-            'cafe' => 'cafes',
-            'child' => 'children',
-            'cookie' => 'cookies',
-            'corpus' => 'corpuses',
-            'cow' => 'cows',
-            'criteria' => 'criterion',
-            'ganglion' => 'ganglions',
-            'genie' => 'genies',
-            'genus' => 'genera',
-            'graffito' => 'graffiti',
-            'hoof' => 'hoofs',
-            'human' => 'humans',
-            'loaf' => 'loaves',
-            'man' => 'men',
-            'money' => 'monies',
-            'mongoose' => 'mongooses',
-            'move' => 'moves',
-            'mythos' => 'mythoi',
-            'niche' => 'niches',
-            'numen' => 'numina',
-            'occiput' => 'occiputs',
-            'octopus' => 'octopuses',
-            'opus' => 'opuses',
-            'ox' => 'oxen',
-            'penis' => 'penises',
-            'person' => 'people',
-            'sex' => 'sexes',
-            'soliloquy' => 'soliloquies',
-            'testis' => 'testes',
-            'trilby' => 'trilbys',
-            'turf' => 'turfs',
+            'atlas'        => 'atlases',
+            'axe'          => 'axes',
+            'beef'         => 'beefs',
+            'brother'      => 'brothers',
+            'cafe'         => 'cafes',
+            'chateau'      => 'chateaux',
+            'child'        => 'children',
+            'cookie'       => 'cookies',
+            'corpus'       => 'corpuses',
+            'cow'          => 'cows',
+            'criterion'    => 'criteria',
+            'curriculum'   => 'curricula',
+            'demo'         => 'demos',
+            'domino'       => 'dominoes',
+            'echo'         => 'echoes',
+            'foot'         => 'feet',
+            'fungus'       => 'fungi',
+            'ganglion'     => 'ganglions',
+            'genie'        => 'genies',
+            'genus'        => 'genera',
+            'graffito'     => 'graffiti',
+            'hippopotamus' => 'hippopotami',
+            'hoof'         => 'hoofs',
+            'human'        => 'humans',
+            'iris'         => 'irises',
+            'leaf'         => 'leaves',
+            'loaf'         => 'loaves',
+            'man'          => 'men',
+            'medium'       => 'media',
+            'memorandum'   => 'memoranda',
+            'money'        => 'monies',
+            'mongoose'     => 'mongooses',
+            'motto'        => 'mottoes',
+            'move'         => 'moves',
+            'mythos'       => 'mythoi',
+            'niche'        => 'niches',
+            'nucleus'      => 'nuclei',
+            'numen'        => 'numina',
+            'occiput'      => 'occiputs',
+            'octopus'      => 'octopuses',
+            'opus'         => 'opuses',
+            'ox'           => 'oxen',
+            'penis'        => 'penises',
+            'person'       => 'people',
+            'plateau'      => 'plateaux',
+            'runner-up'    => 'runners-up',
+            'sex'          => 'sexes',
+            'soliloquy'    => 'soliloquies',
+            'son-in-law'   => 'sons-in-law',
+            'syllabus'     => 'syllabi',
+            'testis'       => 'testes',
+            'thief'        => 'thieves',
+            'tooth'        => 'teeth',
+            'tornado'      => 'tornadoes',
+            'trilby'       => 'trilbys',
+            'turf'         => 'turfs',
+            'volcano'      => 'volcanoes',
         )
     );
 
@@ -113,40 +137,42 @@ class Inflector
      */
     private static $singular = array(
         'rules' => array(
-            '/(s)tatuses$/i' => '\1\2tatus',
-            '/^(.*)(menu)s$/i' => '\1\2',
-            '/(quiz)zes$/i' => '\\1',
-            '/(matr)ices$/i' => '\1ix',
-            '/(vert|ind)ices$/i' => '\1ex',
-            '/^(ox)en/i' => '\1',
-            '/(alias)(es)*$/i' => '\1',
+            '/(s)tatuses$/i'                                                          => '\1\2tatus',
+            '/^(.*)(menu)s$/i'                                                        => '\1\2',
+            '/(quiz)zes$/i'                                                           => '\\1',
+            '/(matr)ices$/i'                                                          => '\1ix',
+            '/(vert|ind)ices$/i'                                                      => '\1ex',
+            '/^(ox)en/i'                                                              => '\1',
+            '/(alias)(es)*$/i'                                                        => '\1',
+            '/(buffal|her|potat|tomat|volcan)oes$/i'                                  => '\1o',
             '/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|viri?)i$/i' => '\1us',
-            '/([ftw]ax)es/i' => '\1',
-            '/(cris|ax|test)es$/i' => '\1is',
-            '/(shoe|slave)s$/i' => '\1',
-            '/(o)es$/i' => '\1',
-            '/ouses$/' => 'ouse',
-            '/([^a])uses$/' => '\1us',
-            '/([m|l])ice$/i' => '\1ouse',
-            '/(x|ch|ss|sh)es$/i' => '\1',
-            '/(m)ovies$/i' => '\1\2ovie',
-            '/(s)eries$/i' => '\1\2eries',
-            '/([^aeiouy]|qu)ies$/i' => '\1y',
-            '/([lr])ves$/i' => '\1f',
-            '/(tive)s$/i' => '\1',
-            '/(hive)s$/i' => '\1',
-            '/(drive)s$/i' => '\1',
-            '/([^fo])ves$/i' => '\1fe',
-            '/(^analy)ses$/i' => '\1sis',
-            '/(analy|diagno|^ba|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i' => '\1\2sis',
-            '/([ti])a$/i' => '\1um',
-            '/(p)eople$/i' => '\1\2erson',
-            '/(m)en$/i' => '\1an',
-            '/(c)hildren$/i' => '\1\2hild',
-            '/(n)ews$/i' => '\1\2ews',
-            '/eaus$/' => 'eau',
-            '/^(.*us)$/' => '\\1',
-            '/s$/i' => '',
+            '/([ftw]ax)es/i'                                                          => '\1',
+            '/(analys|ax|cris|test|thes)es$/i'                                        => '\1is',
+            '/(shoe|slave)s$/i'                                                       => '\1',
+            '/(o)es$/i'                                                               => '\1',
+            '/ouses$/'                                                                => 'ouse',
+            '/([^a])uses$/'                                                           => '\1us',
+            '/([m|l])ice$/i'                                                          => '\1ouse',
+            '/(x|ch|ss|sh)es$/i'                                                      => '\1',
+            '/(m)ovies$/i'                                                            => '\1\2ovie',
+            '/(s)eries$/i'                                                            => '\1\2eries',
+            '/([^aeiouy]|qu)ies$/i'                                                   => '\1y',
+            '/([lr])ves$/i'                                                           => '\1f',
+            '/(tive)s$/i'                                                             => '\1',
+            '/(hive)s$/i'                                                             => '\1',
+            '/(drive)s$/i'                                                            => '\1',
+            '/([^fo])ves$/i'                                                          => '\1fe',
+            '/(^analy)ses$/i'                                                         => '\1sis',
+            '/(analy|diagno|^ba|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i'             => '\1\2sis',
+            '/([ti])a$/i'                                                             => '\1um',
+            '/(p)eople$/i'                                                            => '\1\2erson',
+            '/(m)en$/i'                                                               => '\1an',
+            '/(c)hildren$/i'                                                          => '\1\2hild',
+            '/(f)eet$/i'                                                              => '\1oot',
+            '/(n)ews$/i'                                                              => '\1\2ews',
+            '/eaus$/'                                                                 => 'eau',
+            '/^(.*us)$/'                                                              => '\\1',
+            '/s$/i'                                                                   => '',
         ),
         'uninflected' => array(
             '.*[nrlm]ese',
@@ -159,10 +185,15 @@ class Inflector
             '.*ss',
         ),
         'irregular' => array(
-            'criterion' => 'criteria',
-            'curves' => 'curve',
-            'foes' => 'foe',
-            'waves' => 'wave',
+            'criteria' => 'criterion',
+            'curves'   => 'curve',
+            'emphases' => 'emphasis',
+            'foes'     => 'foe',
+            'hoaxes'   => 'hoax',
+            'media'    => 'medium',
+            'neuroses' => 'neurosis',
+            'waves'    => 'wave',
+            'oases'    => 'oasis',
         )
     );
 
@@ -213,6 +244,18 @@ class Inflector
     }
 
     /**
+     * Camelizes a word. This uses the classify() method and turns the first character to lowercase.
+     *
+     * @param string $word The word to camelize.
+     *
+     * @return string The camelized word.
+     */
+    public static function camelize($word)
+    {
+        return lcfirst(self::classify($word));
+    }
+
+    /**
      * Converts a word into the format for a Doctrine class name. Converts 'table_name' to 'TableName'.
      *
      * @param string $word The word to classify.
@@ -225,15 +268,39 @@ class Inflector
     }
 
     /**
-     * Camelizes a word. This uses the classify() method and turns the first character to lowercase.
+     * Uppercases words with configurable delimeters between words.
      *
-     * @param string $word The word to camelize.
+     * Takes a string and capitalizes all of the words, like PHP's built-in
+     * ucwords function.  This extends that behavior, however, by allowing the
+     * word delimeters to be configured, rather than only separating on
+     * whitespace.
      *
-     * @return string The camelized word.
+     * Here is an example:
+     * <code>
+     * <?php
+     * $string = 'top-o-the-morning to all_of_you!';
+     * echo \Doctrine\Common\Inflector\Inflector::ucwords($string);
+     * // Top-O-The-Morning To All_of_you!
+     *
+     * echo \Doctrine\Common\Inflector\Inflector::ucwords($string, '-_ ');
+     * // Top-O-The-Morning To All_Of_You!
+     * ?>
+     * </code>
+     *
+     * @param string $string The string to operate on.
+     * @param string $delimiters A list of word separators.
+     *
+     * @return string The string with all delimeter-separated words capitalized.
      */
-    public static function camelize($word)
+    public static function ucwords($string, $delimiters = " \n\t\r\0\x0B-")
     {
-        return lcfirst(self::classify($word));
+        return preg_replace_callback(
+            '/[^' . preg_quote($delimiters, '/') . ']+/',
+            function ($matches) {
+                return ucfirst($matches[0]);
+            },
+            $string
+        );
     }
 
     /**

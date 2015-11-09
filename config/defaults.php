@@ -10,12 +10,15 @@ return [
         'language' => 'cn'
     ],
 
-    /**
-     * Defines the minimum of submission this model
-     * should have to be considered not failed
-     */
     'project'  => [
+
+        'voting_span_time' => 1, /* Defined in Minutes */
+
         'idea'    => [
+            /**
+             * Defines the minimum of submission this model
+             * should have to be considered not failed
+             */
             'minimum_of_submissions' => 1
         ],
         'synapse' => [

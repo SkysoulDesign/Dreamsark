@@ -15,23 +15,13 @@ class DatabaseBackupHandler implements BackupHandlerInterface
     }
 
     /**
-     * Get database configuration.
+     * Returns an array of files which should be backed up.
      *
-     * @param string $database
-     *
-     * @return mixed
-     *
-     * @throws Exception
+     * @return array
      */
-    public function getDatabase($database = '')
+    public function getFilesToBeBackedUp()
     {
-        $database = $database ?: config('database.default');
-
-        if ($database != 'mysql') {
-            throw new Exception('laravel-backup can only backup mysql databases');
-        }
-
-        return $this->databaseBuilder->getDatabase(config('database.connections.'.$database));
+        return [$this->getDumpedDatabase()];
     }
 
     public function getDumpedDatabase()
@@ -48,12 +38,24 @@ class DatabaseBackupHandler implements BackupHandlerInterface
     }
 
     /**
-     * Returns an array of files which should be backed up.
+     * Get database configuration.
      *
-     * @return array
+     * @param string $connectionName
+     *
+     * @return mixed
+     *
+     * @throws Exception
      */
-    public function getFilesToBeBackedUp()
+    public function getDatabase($connectionName = '')
     {
-        return [$this->getDumpedDatabase()];
+        $connectionName = $connectionName ?: config('database.default');
+
+        $dbDriver = config("database.connections.{$connectionName}.driver");
+
+        if ($dbDriver != 'mysql') {
+            throw new Exception('laravel-backup can only backup mysql databases');
+        }
+
+        return $this->databaseBuilder->getDatabase(config("database.connections.{$connectionName}"));
     }
 }

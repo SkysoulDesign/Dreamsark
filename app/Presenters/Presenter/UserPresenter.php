@@ -2,7 +2,6 @@
 
 namespace DreamsArk\Presenters\Presenter;
 
-use Carbon\Carbon;
 use DreamsArk\Presenters\Presenter;
 
 class UserPresenter extends Presenter
@@ -15,7 +14,7 @@ class UserPresenter extends Presenter
      */
     public function name()
     {
-        return $this->model->first_name . " " . $this->model->last_name;
+        return $this->model->username;
     }
 
     /**
@@ -25,17 +24,7 @@ class UserPresenter extends Presenter
      */
     public function avatar()
     {
-        return asset('img/avatar/' . $this->model->gender . '.png');
-    }
-
-    /**
-     * Return User Age
-     *
-     * @return string
-     */
-    public function age()
-    {
-        return Carbon::parse($this->model->birthday)->age;
+        return asset('img/avatar/male.png');
     }
 
 }

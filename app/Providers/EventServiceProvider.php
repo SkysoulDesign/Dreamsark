@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 namespace DreamsArk\Providers;
 
@@ -40,6 +40,7 @@ use DreamsArk\Listeners\Project\Vote\QueueOpenVotingCommand;
 use DreamsArk\Listeners\User\AppendDefaultSettings;
 use DreamsArk\Listeners\User\AttachUserRole;
 use DreamsArk\Listeners\User\GiveUserAnEmptyBag;
+use DreamsArk\Listeners\User\LogUserIn;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -115,7 +116,8 @@ class EventServiceProvider extends ServiceProvider
         UserWasCreated::class => [
             AppendDefaultSettings::class,
             GiveUserAnEmptyBag::class,
-            AttachUserRole::class
+            AttachUserRole::class,
+            LogUserIn::class,
         ],
 
         ReviewWasCreated::class => [

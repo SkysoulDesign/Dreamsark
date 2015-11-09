@@ -2,18 +2,8 @@
 
     {!! csrf_field() !!}
 
-    @include('partials.field-multiple', array(
-    'label' => trans('forms.full-name'),
-    'fields' => [
-            ['name' => 'first_name'],
-            ['name' => 'last_name']
-        ],
-    'class' => 'two'
-    ))
-
-    @include('partials.field', ['name' => 'birthday', 'type' => 'date'])
-
-    @include('partials.select', ['name' => 'gender', 'collection' => ['male' => 'male', 'female' => 'female']])
+    @include('partials.field', ['name' => 'username', 'type' => 'text'])
+    @include('partials.field', ['name' => 'email', 'type' => 'email'])
 
     <button class="ui button" type="submit">@lang('forms.save')</button>
 

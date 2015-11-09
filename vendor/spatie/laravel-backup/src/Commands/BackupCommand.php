@@ -50,9 +50,21 @@ class BackupCommand extends Command
             $this->copyFileToFileSystem($backupZipFile, $fileSystem);
         }
 
+        unlink($backupZipFile);
+
         $this->info('Backup successfully completed');
 
         return true;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function guardAgainstInvalidOptions()
+    {
+        if ($this->option('only-db') && $this->option('only-files')) {
+            throw new \Exception('cannot use only-db and only-files together');
+        }
     }
 
     /**
@@ -79,6 +91,28 @@ class BackupCommand extends Command
         }
 
         return $files;
+    }
+
+    /**
+     * Get a dump of the db.
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    protected function getDatabaseDump()
+    {
+        $databaseBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler');
+
+        $filesToBeBackedUp = $databaseBackupHandler->getFilesToBeBackedUp();
+
+        if (count($filesToBeBackedUp) != 1) {
+            throw new \Exception('could not backup db');
+        }
+
+        $this->comment('Database dumped');
+
+        return $databaseBackupHandler->getFilesToBeBackedUp()[0];
     }
 
     /**
@@ -111,31 +145,6 @@ class BackupCommand extends Command
     }
 
     /**
-     * Copy the given file on the given disk to the given destination.
-     *
-     * @param string                                      $file
-     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string                                      $destination
-     * @param bool                                        $addIgnoreFile
-     */
-    protected function copyFile($file, $disk, $destination, $addIgnoreFile = false)
-    {
-        $destinationDirectory = dirname($destination);
-
-        $disk->makeDirectory($destinationDirectory);
-
-        if ($addIgnoreFile) {
-            $this->writeIgnoreFile($disk, $destinationDirectory);
-        }
-
-        /*
-         * The file could be quite large. Use a stream to copy it
-         * to the target disk to avoid memory problems
-         */
-        $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
-    }
-
-    /**
      * Get the filesystems to where the database should be dumped.
      *
      * @return array
@@ -152,15 +161,22 @@ class BackupCommand extends Command
     }
 
     /**
-     * Write an ignore-file on the given disk in the given directory.
+     * Copy the given file to given filesystem.
      *
-     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param string                                      $dumpDirectory
+     * @param string $file
+     * @param $fileSystem
      */
-    protected function writeIgnoreFile($disk, $dumpDirectory)
+    public function copyFileToFileSystem($file, $fileSystem)
     {
-        $gitIgnoreContents = '*'.PHP_EOL.'!.gitignore';
-        $disk->put($dumpDirectory.'/.gitignore', $gitIgnoreContents);
+        $this->comment('Start uploading backup to ' . $fileSystem . '-filesystem...');
+
+        $disk = Storage::disk($fileSystem);
+
+        $backupFilename = $this->getBackupDestinationFileName();
+
+        $this->copyFile($file, $disk, $backupFilename, $fileSystem == 'local');
+
+        $this->comment('Backup stored on ' . $fileSystem . '-filesystem in file "' . $backupFilename . '"');
     }
 
     /**
@@ -205,22 +221,40 @@ class BackupCommand extends Command
     }
 
     /**
-     * Copy the given file to given filesystem.
+     * Copy the given file on the given disk to the given destination.
      *
      * @param string $file
-     * @param $fileSystem
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param string $destination
+     * @param bool $addIgnoreFile
      */
-    public function copyFileToFileSystem($file, $fileSystem)
+    protected function copyFile($file, $disk, $destination, $addIgnoreFile = false)
     {
-        $this->comment('Start uploading backup to '.$fileSystem.'-filesystem...');
+        $destinationDirectory = dirname($destination);
 
-        $disk = Storage::disk($fileSystem);
+        $disk->makeDirectory($destinationDirectory);
 
-        $backupFilename = $this->getBackupDestinationFileName();
+        if ($addIgnoreFile) {
+            $this->writeIgnoreFile($disk, $destinationDirectory);
+        }
 
-        $this->copyFile($file, $disk, $backupFilename, $fileSystem == 'local');
+        /*
+         * The file could be quite large. Use a stream to copy it
+         * to the target disk to avoid memory problems
+         */
+        $disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
+    }
 
-        $this->comment('Backup stored on '.$fileSystem.'-filesystem in file "'.$backupFilename.'"');
+    /**
+     * Write an ignore-file on the given disk in the given directory.
+     *
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param string $dumpDirectory
+     */
+    protected function writeIgnoreFile($disk, $dumpDirectory)
+    {
+        $gitIgnoreContents = '*' . PHP_EOL . '!.gitignore';
+        $disk->put($dumpDirectory . '/.gitignore', $gitIgnoreContents);
     }
 
     /**
@@ -236,37 +270,5 @@ class BackupCommand extends Command
             ['prefix', null, InputOption::VALUE_REQUIRED, 'The name of the zip file will get prefixed with this string.'],
             ['suffix', null, InputOption::VALUE_REQUIRED, 'The name of the zip file will get suffixed with this string.'],
         ];
-    }
-
-    /**
-     * Get a dump of the db.
-     *
-     * @return string
-     *
-     * @throws \Exception
-     */
-    protected function getDatabaseDump()
-    {
-        $databaseBackupHandler = app()->make('Spatie\Backup\BackupHandlers\Database\DatabaseBackupHandler');
-
-        $filesToBeBackedUp = $databaseBackupHandler->getFilesToBeBackedUp();
-
-        if (count($filesToBeBackedUp) != 1) {
-            throw new \Exception('could not backup db');
-        }
-
-        $this->comment('Database dumped');
-
-        return $databaseBackupHandler->getFilesToBeBackedUp()[0];
-    }
-
-    /**
-     * @throws \Exception
-     */
-    protected function guardAgainstInvalidOptions()
-    {
-        if ($this->option('only-db') && $this->option('only-files')) {
-            throw new \Exception('cannot use only-db and only-files together');
-        }
     }
 }

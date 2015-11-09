@@ -24,10 +24,8 @@ class UserCreation extends Request
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required|in:male,female',
-            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users',
+            'email'    => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
         ];
     }

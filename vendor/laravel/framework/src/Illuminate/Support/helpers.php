@@ -1,10 +1,10 @@
 <?php
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Debug\Dumper;
-use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Str;
 
 if (! function_exists('append_config')) {
     /**
@@ -442,7 +442,7 @@ if (! function_exists('e')) {
     /**
      * Escape HTML entities in a string.
      *
-     * @param  \Illuminate\Support\Htmlable|string  $value
+     * @param  \Illuminate\Contracts\Support\Htmlable|string $value
      * @return string
      */
     function e($value)

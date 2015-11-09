@@ -4,30 +4,13 @@ namespace DreamsArk\Http\Controllers\Session;
 
 use DreamsArk\Commands\Session\CreateUserCommand;
 use DreamsArk\Commands\Session\UpdateUserCommand;
+use DreamsArk\Http\Controllers\Controller;
+use DreamsArk\Http\Requests;
 use DreamsArk\Http\Requests\Session\UserCreation;
 use DreamsArk\Http\Requests\Session\UserEdition;
-use DreamsArk\Repositories\User\UserRepositoryInterface;
-use DreamsArk\Http\Requests;
-use DreamsArk\Http\Controllers\Controller;
-use Illuminate\Auth\AuthManager;
 
 class SessionController extends Controller
 {
-
-    /**
-     * @var AuthManager
-     */
-    private $auth;
-
-    /**
-     * SessionController constructor.
-     * @param AuthManager $auth
-     */
-    public function __construct(AuthManager $auth)
-    {
-        $this->auth = $auth;
-    }
-
 
     /**
      * Display Profile Page.
@@ -58,9 +41,7 @@ class SessionController extends Controller
     public function store(UserCreation $request)
     {
         $command = new CreateUserCommand($request->all());
-        $user = $this->dispatch($command);
-        $this->auth->login($user);
-
+        $this->dispatch($command);
         return redirect()->route('home');
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Support\Str;
 
 if (! function_exists('abort')) {
     /**
@@ -549,7 +549,7 @@ if (! function_exists('resource')) {
      * @param  string  $name
      * @param  string  $controller
      * @param  array   $options
-     * @return void
+     * @return \Illuminate\Routing\Route
      */
     function resource($name, $controller, array $options = [])
     {

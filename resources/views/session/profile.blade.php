@@ -27,6 +27,12 @@
                 </div>
             </div>
             <div class="item">
+                <div class="header">Position</div>
+                <div class="menu">
+                    <a class="item" data-tab="position">Positions</a>
+                </div>
+            </div>
+            <div class="item">
                 <div class="header">@lang('profile.settings')</div>
                 <div class="menu">
                     <a class="item" data-tab="language">@lang('profile.language')</a>
@@ -42,6 +48,13 @@
             <div class="ui segment">
                 <div class="ui small header">@lang('profile.personal-information')</div>
                 @include('forms.personal-information')
+            </div>
+        </div>
+
+        <div class="ui tab" data-tab="position">
+            <div class="ui segment">
+                <div class="ui small header">@lang('profile.positions')</div>
+                @include('forms.human-positions')
             </div>
         </div>
 

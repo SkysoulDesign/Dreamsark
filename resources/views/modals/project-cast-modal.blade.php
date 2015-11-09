@@ -20,7 +20,7 @@
 
             ])
 
-            @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
+            @include('partials.textarea', ['name' => 'description'])
 
         </form>
     </div>

@@ -11,14 +11,14 @@
             @include('partials.select',
             [
                 'name' => 'position',
-                'placeholder' => trans('forms.position'),
+                'translation' => 'positions',
                 'collection' => $positions->where('type.name', 'expense')->lists('name', 'id')
 
             ])
 
-            @include('partials.field', ['name' => 'cost', 'label'=> trans('forms.amount'), 'placeholder'=> trans('forms.amount'), 'type' => 'text'])
+            @include('partials.field', ['name' => 'cost', 'type' => 'text'])
 
-            @include('partials.textarea', ['name' => 'description', 'label' => trans('project.description')])
+            @include('partials.textarea', ['name' => 'description'])
 
         </form>
     </div>

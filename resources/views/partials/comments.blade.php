@@ -32,7 +32,7 @@
                 <span class="date">Yesterday at 12:30AM</span>
             </div>
             <div class="text">
-                <p>This has been very useful for my research. Thanks as well!</p>
+                <p>I think this is a good one~!</p>
             </div>
             <div class="actions">
                 <a class="reply">Reply</a>

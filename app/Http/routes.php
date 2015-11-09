@@ -188,6 +188,12 @@ Route::post('project/pledge/store/{project}', ['as' => 'project.pledge.store', '
 Route::get('purchase/coins/create', ['as' => 'coin.create', 'uses' => 'Bag\CoinController@create']);
 Route::post('purchase/coins/store', ['as' => 'coin.store', 'uses' => 'Bag\CoinController@store']);
 
+
+/**
+ * User Applications
+ */
+Route::get('user/application', ['as' => 'user.application.actor', 'uses' => 'User\Application\ActorController@create']);
+
 /**
  * User Projects Controller
  */

@@ -2,17 +2,17 @@
 
 namespace Illuminate\Foundation\Console;
 
-use PhpParser\Lexer;
-use PhpParser\Parser;
-use Illuminate\Console\Command;
 use ClassPreloader\ClassPreloader;
-use Illuminate\Foundation\Composer;
+use ClassPreloader\Exceptions\SkipFileException;
 use ClassPreloader\Parser\DirVisitor;
 use ClassPreloader\Parser\FileVisitor;
 use ClassPreloader\Parser\NodeTraverser;
-use ClassPreloader\Exceptions\SkipFileException;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Console\Command;
+use Illuminate\Foundation\Composer;
+use PhpParser\Lexer;
+use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
+use Symfony\Component\Console\Input\InputOption;
 
 class OptimizeCommand extends Command
 {
@@ -128,7 +128,7 @@ class OptimizeCommand extends Command
             $files = array_merge($files, forward_static_call([$provider, 'compiles']));
         }
 
-        return $files;
+        return array_map('realpath', $files);
     }
 
     /**
