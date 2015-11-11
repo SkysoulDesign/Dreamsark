@@ -27,13 +27,8 @@ module.exports = function (gulp, plugins, options) {
             ))
 
             .pipe(gulp.dest(options.destination))
+            .pipe(plugins.livereload());
 
-            .pipe(plugins.rev())
-            .pipe(gulp.dest(options.buildDestination))
-
-            .pipe(plugins.rev.manifest())
-            .pipe(plugins.revDel({dest: options.buildDestination}))
-            .pipe(gulp.dest(options.buildDestination));
     };
 
 };

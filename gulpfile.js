@@ -27,3 +27,14 @@ gulp.watch('resources/assets/dev/**/*.js', ['dev']);
  **/
 gulp.task('sass', getTask('sass', {name: 'app'}));
 gulp.watch('resources/assets/sass/**/*.scss', ['sass']);
+
+/**
+ * Js Task
+ **/
+gulp.task('js', getTask('js', {name: 'app'}));
+gulp.watch('resources/assets/js/**/*.js', ['js']);
+
+gulp.task('live', function () {
+    plugins.livereload.listen();
+    gulp.watch('resources/views/**/*.php', ['sass', 'js']);
+});

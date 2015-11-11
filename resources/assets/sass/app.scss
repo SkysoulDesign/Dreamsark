@@ -1,9 +1,62 @@
 @import "node_modules/bootstrap-4.0.0-alpha/scss/bootstrap";
+@import 'node_modules/csstyle/csstyle';
+/**
+* App
+*/
+@import 'app/functions.scss';
+@import 'app/colors.scss';
 
-;
-;
-;
+$height: 90px;
 
-.hi {
-  background: #000000;;
+@include component(nav-bar) {
+
+  height: $height;
+  width: 100%;
+  background: rgba(0, 0, 0, .1);
+  position: absolute;
+
+  ul {
+    float: left;
+    line-height: $height;
+
+    li {
+      padding: 0 5%;
+      text-transform: uppercase;
+      font-weight: 200;
+      height: $height;
+      display: table-cell;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, .1);
+      }
+
+      a {
+        color: color(white);
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+    }
+
+  }
+
+  @include part(logo) {
+    padding-left: 2%;
+    line-height: $height;
+    float: left;
+  }
+
+  @include part(avatar) {
+    float: right;
+    line-height: $height;
+    padding-right: 2%;
+  }
+
+}
+
+@include component(header) {
+  height: 800px;
+  background: url('/dreamsark-assets/header-bg.jpg') center center;
 }
