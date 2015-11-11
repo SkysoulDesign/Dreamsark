@@ -1,5 +1,5 @@
 <div class="ui menu">
-
+    changed
     <div class="header item">@lang('navbar.dreamsark')</div>
 
     <a class="active item" href="{{ route('home') }}">@lang('navbar.home')</a>
