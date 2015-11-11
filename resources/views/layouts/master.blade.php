@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>DreamsArk</title>
 
-    <link rel="stylesheet" media="all" href="{{ asset('css/semantic.min.css') }}">
-    <link rel="stylesheet" media="all" href="{{ asset('css/jquery.datetimepicker.css') }}">
-    <link rel="stylesheet" media="all" href="{{ asset('css/flipclock.css') }}">
+    <link rel="stylesheet" media="all" href="{{ elixir('app.css') }}">
+    {{--<link rel="stylesheet" media="all" href="{{ asset('css/semantic.min.css') }}">--}}
+    {{--    <link rel="stylesheet" media="all" href="{{ asset('css/jquery.datetimepicker.css') }}">--}}
+    {{--<link rel="stylesheet" media="all" href="{{ asset('css/flipclock.css') }}">--}}
 
 </head>
 <body>
