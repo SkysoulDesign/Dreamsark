@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid nav-bar">
 
-    <div class="row">
-        <div class="col-md-* nav-bar">
+    <div class="container">
+        <div class="col-md-* ">
             <div class="nav-bar__logo">
                 <img src="{{ asset('dreamsark-assets/logo.png') }}" alt="logo">
             </div>
