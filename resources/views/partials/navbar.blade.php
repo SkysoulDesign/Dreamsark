@@ -1,19 +1,58 @@
-<div class="container-fluid nav-bar">
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
 
-    <div class="container">
-        <div class="col-md-* ">
-            <div class="nav-bar__logo">
-                <img src="{{ asset('dreamsark-assets/logo.png') }}" alt="logo">
-            </div>
-            <ul>
-                <li><a href="#">Discover</a></li>
-                <li><a href="#">Start a Project</a></li>
-                <li><a href="#">Resources</a></li>
-            </ul>
-            <div class="nav-bar__avatar">
-                <img src="{{ asset('dreamsark-assets/avatar.png') }}" alt="avatar">
-            </div>
-        </div>
-    </div>
+        <li class="name">
+            <h1>
+                <a href="#">
+                    Top Bar Title
+                </a>
+            </h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+    <section class="top-bar-section">
 
-</div>
+        <ul class="right">
+            <li class="divider"></li>
+            <li class="has-dropdown">
+                <a href="#">Main Item 1</a>
+                <ul class="dropdown">
+                    <li><label>Section Name</label></li>
+                    <li class="has-dropdown">
+                        <a href="#" class="">Has Dropdown, Level 1</a>
+                        <ul class="dropdown">
+                            <li><a href="#">Dropdown Options</a></li>
+                            <li><a href="#">Dropdown Options</a></li>
+                            <li><a href="#">Level 2</a></li>
+                            <li><a href="#">Subdropdown Option</a></li>
+                            <li><a href="#">Subdropdown Option</a></li>
+                            <li><a href="#">Subdropdown Option</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li class="divider"></li>
+                    <li><label>Section Name</label></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">See all &rarr;</a></li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+            <li><a href="#">Main Item 2</a></li>
+            <li class="divider"></li>
+            <li class="has-dropdown">
+                <a href="#">Main Item 3</a>
+                <ul class="dropdown">
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li><a href="#">Dropdown Option</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">See all &rarr;</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</nav>

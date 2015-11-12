@@ -1,8 +1,9 @@
 global.jQuery = require("jquery");
 global.$ = global.jQuery;
 
-var bootstrap = require("../../../node_modules/bootstrap-4.0.0-alpha/dist/js/bootstrap.min.js");
+var modernizr = require('"../../../bower_components/foundation/js/vendor/modernizr.js'),
+    foundation = require("../../../bower_components/foundation/js/foundation/foundation.js");
 
-$(document).ready(function () {
+$(document).foundation();
 
-});
+

@@ -11,16 +11,6 @@
 
 @include('partials.navbar')
 
-<div class="container-fluid">
-
-    <div class="row">
-        <div class="col-md-* header">
-
-        </div>
-    </div>
-
-</div>
-
 <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
