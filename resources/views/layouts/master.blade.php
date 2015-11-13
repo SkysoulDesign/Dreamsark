@@ -9,7 +9,8 @@
 </head>
 <body>
 
-@include('partials.navbar')
+@include('layouts.top-bar')
+@include('layouts.header')
 
 <script src="{{ asset('js/app.js') }}"></script>
 
