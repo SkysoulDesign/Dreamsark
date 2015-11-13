@@ -7,13 +7,19 @@ module.exports = function (gulp, plugins, options) {
         versionalize: true,
         source: 'resources/assets/sass/app.scss',
         buildDestination: 'public/build/',
-        destination: 'public/css/'
+        destination: 'public/css/',
+        live: true
     };
 
     /**
      * Extend Defaults
      */
     options = require('../gulp-tasks/utilities/extend.js')(defaults, options);
+
+    /**
+     * Listen To Live Reload if True
+     */
+    if (options.live) plugins.livereload.listen();
 
     return function () {
 

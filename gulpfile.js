@@ -34,7 +34,18 @@ gulp.watch('resources/assets/sass/**/*.scss', ['sass']);
 gulp.task('js', getTask('js', {name: 'app'}));
 gulp.watch('resources/assets/js/**/*.js', ['js']);
 
+gulp.task('view', function () {
+    plugins.livereload.listen();
+    gulp.watch('resources/views/**/*.php');
+});
+
+gulp.task('view', function () {
+    plugins.livereload.listen();
+    gulp.watch('resources/views/**/*.php');
+});
+
 gulp.task('live', function () {
     plugins.livereload.listen();
-    gulp.watch('resources/views/**/*.php', ['sass', 'js']);
+    gulp.watch(['public/js/**/*.js', 'public/css/**/*.css']);
 });
+
