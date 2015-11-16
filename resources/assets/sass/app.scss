@@ -1,2 +1,22 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@charset "UTF-8";
 
+//@import "node_modules/bootstrap-4.0.0-alpha/scss/bootstrap";
+
+/**
+* App
+*/
+@import "bower_components/foundation/scss/foundation/components/grid";
+@import "bower_components/foundation/scss/normalize";
+@import 'node_modules/csstyle/csstyle';
+
+@import 'app/functions';
+@import 'app/colors';
+@import 'app/variables';
+@import 'app/fonts';
+
+/**
+* Layout
+*/
+@import 'layout/global';
+@import 'layout/top-bar';
+@import 'layout/header';

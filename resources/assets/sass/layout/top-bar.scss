@@ -1,0 +1,109 @@
+/**
+* Settings
+*/
+
+@include component(top-bar) {
+
+  height: $top-menu-height;
+  line-height: $top-menu-height;
+  background: color(black, x-dark, 10);
+
+  position: relative;
+  z-index: 10;
+
+  section.logo {
+    text-align: center;
+  }
+
+  section.menu {
+
+    margin: 0;
+    padding: 0;
+
+    ul {
+      padding: inherit;
+      margin: inherit;
+    }
+
+    li {
+      float: left;
+      list-style: none;
+
+      a {
+        width: 100%;
+        display: block;
+        color: color(white);
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: nowrap;
+
+        font-weight: 300;
+        padding: 0 15%;
+
+        &:hover {
+          color: color(white, dark);
+          background: color(black, dark, 50);
+        }
+
+      }
+
+    }
+
+  }
+
+  section.settings {
+    text-align: right;
+
+    nav.menu {
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      color: color(white);
+      background: color(blue, base, 80);
+      position: absolute;
+      right: 0;
+      line-height: normal;
+      text-align: left;
+      //padding: 5% 10% 10% 10%;
+      height: auto;
+
+      .bottom {
+        display: block;
+        margin-top: 20%;
+      }
+
+      .categories {
+        background: color(blue, dark);
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        list-style: none;
+        font-size: rem-calc(13);
+
+        a {
+          font-family: "Roboto", sans-serif;
+          font-weight: normal;
+          color: color(white);
+          text-decoration: none;
+          &:hover {
+            color: color(white, dark);
+          }
+        }
+
+        &.title {
+          text-transform: uppercase;
+          padding-bottom: 10%;
+          padding-top: 10%;
+        }
+
+      }
+
+    }
+
+  }
+
+}

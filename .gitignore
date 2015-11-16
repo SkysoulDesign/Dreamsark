@@ -1,7 +1,5 @@
 /.idea
-/resources/assets/three/three.js-dev
 /storage
-/node_modules
 
 npm-debug.log
 
