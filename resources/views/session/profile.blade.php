@@ -1,6 +1,46 @@
 @extends('layouts.master')
 
+@section('header')
+    @include('layouts.mini-header')
+@endsection
+
 @section('content')
+
+    <div class="row">
+        <section class="medium-6 segment">
+
+            <div class="title">
+                General Information
+            </div>
+
+            <div class="content">
+                <div class="head">
+                   <h1>{{ auth()->user()->username }}</h1>
+                </div>
+                <div class="description">
+                    <i class="fa fa-map-marker"></i> Sao Paulo, Brasil
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="title">
+                Backed projects
+            </div>
+
+            <div class="content">
+
+                <div class="description">
+                    There is nothing here at the moment
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+@endsection
+
+@section('contenta')
 
     <div class="sixteen wide column" style="margin-bottom: 20px">
 

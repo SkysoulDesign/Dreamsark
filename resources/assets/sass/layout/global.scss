@@ -3,7 +3,7 @@
   max-width: 100%;
 }
 
-body{
+body {
   font-family: 'Roboto', sans-serif;
   background: color(gray);
 }
@@ -25,4 +25,11 @@ a {
     color: color(white, dark);
   }
 
+}
+
+hr {
+  border: none;
+  border-top: 1px solid color(black, x-light);
+  border-bottom: 1px solid color(gray);
+  width: 100%;
 }

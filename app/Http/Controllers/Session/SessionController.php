@@ -11,6 +11,13 @@ use DreamsArk\Http\Requests\Session\UserEdition;
 
 class SessionController extends Controller
 {
+    /**
+     * SessionController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display Profile Page.

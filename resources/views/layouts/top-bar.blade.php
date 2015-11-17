@@ -5,7 +5,7 @@
         </section>
         <section class="medium-5 column menu">
             <ul>
-                <li class="hi"><a href="#">Home</a></li>
+                <li class="hi"><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="#">Discover</a></li>
                 <li><a href="#">Start Project</a></li>
             </ul>
@@ -18,7 +18,7 @@
                         <nav class="menu">
                             <ul>
                                 <li class="title">My Stuff</li>
-                                <li><a href="#">Profile</a></li>
+                                <li><a href="{{ route('profile') }}">Profile</a></li>
                                 <li><a href="#">Messages</a></li>
                                 <li><a href="#">Activity</a></li>
                                 <li class="title">Backed Projects</li>

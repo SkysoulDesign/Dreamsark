@@ -1,0 +1,74 @@
+/**
+* Mini Header
+*/
+
+@include component(mini-header) {
+
+  $header-height: rem-calc(280);
+  $bar-height: rem-calc(50);
+
+  margin-top: -$top-menu-height;
+  height: $header-height;
+  background: url('/dreamsark-assets/mini-header-bg.jpg') center center;
+  background-size: cover;
+  position: relative;
+
+  /** Default Space after Header **/
+  margin-bottom: $bar-height + 3;
+
+  section.bar {
+
+
+    background: color(white);
+    position: absolute;
+    bottom: -$bar-height;
+    line-height: $bar-height;
+    border-bottom: 1px solid color(gray, mid-dark);
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-transform: uppercase;
+      font-size: rem-calc(14);
+
+      li {
+        display: inline-block;
+        height: $bar-height;
+
+        a {
+          color: color(black);
+          display: block;
+          padding: 0 20%;
+
+          &:hover {
+            color: color(blue, dark);;
+            border-bottom: 2px solid color(blue, dark);
+          }
+
+        }
+
+      }
+
+    }
+
+    div.avatar {
+
+      img {
+        position: absolute;
+        margin-top: -50%;
+      }
+
+    }
+
+    div.cash {
+      position: absolute;
+      top: -$bar-height*1.2;
+      font-size: rem-calc(25);
+      color: color(golden);
+      margin-left: 1%;
+    }
+
+  }
+
+}

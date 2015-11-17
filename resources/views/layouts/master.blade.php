@@ -10,9 +10,12 @@
 <body>
 
 @include('layouts.top-bar')
-@include('layouts.header')
 
-@include('layouts.content-grid')
+@yield('header')
+
+<div class="container-fluid">
+    @yield('content')
+</div>
 
 <script src="{{ asset('js/app.js') }}"></script>
 

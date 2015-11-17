@@ -1,0 +1,34 @@
+@include component(segment) {
+  border: 1px solid color(gray, mid-dark);
+  padding: 2%;
+  background: color(white, mid-light);
+  border-radius: $border-radius;
+
+  div.title {
+    text-transform: uppercase;
+    color: color(black, x-light);
+    font-size: rem-calc(12);
+    padding: 2% 0;
+    margin-bottom: 2%;
+  }
+
+  div.content {
+
+    text-transform: uppercase;
+    color: color(black);
+    padding-bottom: 5%;
+
+    div.head {
+      h1 {
+        margin: 0;
+      }
+    }
+
+    div.description {
+      font-size: rem-calc(12);
+      font-weight: bolder;
+    }
+
+  }
+
+}

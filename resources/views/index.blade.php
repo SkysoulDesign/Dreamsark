@@ -1,28 +1,11 @@
 @extends('layouts.master')
 
+@section('header')
+    @include('layouts.header')
+@endsection
+
 @section('content')
 
-    <div class="column">
-
-        <div class="ui segment">
-
-            <div class="ui list">
-                <div class="ui item header">Credentials</div>
-                <div class="item">Default Email: dreamsark@dreamsark.com</div>
-                <div class="item">Default Password: dreamsark</div>
-            </div>
-
-        </div>
-
-        <div class="ui segment">
-
-            <div class="ui list">
-                <div class="ui item header">Last Updated</div>
-                <div class="item">October 24, 6:10</div>
-            </div>
-
-        </div>
-
-    </div>
+    @include('layouts.content-grid')
 
 @endsection

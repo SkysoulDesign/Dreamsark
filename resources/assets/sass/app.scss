@@ -19,6 +19,7 @@
 */
 @import 'components/button';
 @import 'components/card';
+@import 'components/segment';
 
 /**
 * Layout
@@ -26,4 +27,5 @@
 @import 'layout/global';
 @import 'layout/top-bar';
 @import 'layout/header';
+@import 'layout/mini-header';
 @import 'layout/content';

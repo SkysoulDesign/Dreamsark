@@ -5,6 +5,7 @@
     <div class="row">
         <section class="medium-8 medium-centered column slider-title">
             <h1>PROJECT DEMO</h1>
+
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit maecenas elementum, lacus.</p>
         </section>
 
