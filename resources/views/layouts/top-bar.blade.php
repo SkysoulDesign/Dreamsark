@@ -11,34 +11,68 @@
             </ul>
         </section>
         <section class="medium-4 column settings">
-            <div class="avatar">
-                <img src="{{ asset('dreamsark-assets/avatar.png') }}" alt="Avatar">
-            </div>
-            <div class="row">
-                <nav class="menu">
-                    <div class="medium-10 column">
-                        <ul>
-                            <li class="title">My Stuff</li>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Messages</a></li>
-                            <li><a href="#">Activity</a></li>
-                            <li class="title">Backed Projects</li>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Notifications</a></li>
-                        </ul>
-                        <small class="bottom">You're logged in as <b>Rafael Milewski</b></small>
+            <ul>
+                <li>
+                    <div class="avatar">
+                        <img src="{{ asset('dreamsark-assets/avatar.png') }}" alt="Avatar">
+                        <nav class="menu">
+                            <ul>
+                                <li class="title">My Stuff</li>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Messages</a></li>
+                                <li><a href="#">Activity</a></li>
+                                <li class="title">Backed Projects</li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="#">Account</a></li>
+                                <li><a href="#">Notifications</a></li>
+                            </ul>
+
+                            <div class="side-menu">
+                                <ul>
+                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="#">Settings</a></li>
+                                    <li><a href="#">Account</a></li>
+                                    <li><a href="#">Notifications</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="footer">
+                                <div class="left">
+                                    You're logged in as <b>Rafael Milewski</b>
+                                </div>
+                                <div class="right">
+                                    <a href="#">Logout</a>
+                                </div>
+                            </div>
+
+                        </nav>
                     </div>
-                    <div class="medium-2 column categories">
-                        <ul>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Notifications</a></li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+
+                    {{--<nav class="medium-8 column menu">--}}
+                    {{--<ul>--}}
+                    {{--<li class="title">My Stuff</li>--}}
+                    {{--<li><a href="#">Profile</a></li>--}}
+                    {{--<li><a href="#">Messages</a></li>--}}
+                    {{--<li><a href="#">Activity</a></li>--}}
+                    {{--<li class="title">Backed Projects</li>--}}
+                    {{--<li><a href="#">Settings</a></li>--}}
+                    {{--<li><a href="#">Account</a></li>--}}
+                    {{--<li><a href="#">Notifications</a></li>--}}
+                    {{--</ul>--}}
+                    {{--<small class="bottom">You're logged in as <br><b>Rafael Milewski</b></small>--}}
+                    {{--<div class="medium-4 column categories">--}}
+                    {{--<ul>--}}
+                    {{--<li><a href="#">Profile</a></li>--}}
+                    {{--<li><a href="#">Settings</a></li>--}}
+                    {{--<li><a href="#">Account</a></li>--}}
+                    {{--<li><a href="#">Notifications</a></li>--}}
+                    {{--</ul>--}}
+                    {{--</div>--}}
+                    {{--</nav>--}}
+                </li>
+            </ul>
+
+
         </section>
 
     </div>

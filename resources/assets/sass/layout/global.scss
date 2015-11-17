@@ -5,6 +5,7 @@
 
 body{
   font-family: 'Roboto', sans-serif;
+  background: color(gray);
 }
 
 section, .sections {
@@ -14,4 +15,14 @@ section, .sections {
   .left {
     float: left !important;
   }
+}
+
+a {
+  color: color(white);
+  text-decoration: none;
+
+  &:hover {
+    color: color(white, dark);
+  }
+
 }

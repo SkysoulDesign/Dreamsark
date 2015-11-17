@@ -52,53 +52,103 @@
   }
 
   section.settings {
-    text-align: right;
 
-    nav.menu {
-      font-family: "Roboto", sans-serif;
-      font-weight: 300;
-      color: color(white);
-      background: color(blue, base, 80);
-      position: absolute;
-      right: 0;
-      line-height: normal;
-      text-align: left;
-      //padding: 5% 10% 10% 10%;
-      height: auto;
+    $right-bar-width: 100px;
 
-      .bottom {
-        display: block;
-        margin-top: 20%;
-      }
+    padding: 0;
+    display: table;
 
-      .categories {
-        background: color(blue, dark);
-      }
+    font-family: "Roboto", sans-serif;
 
-      ul {
-        padding: 0;
-        margin: 0;
-      }
+    ul {
+
+      padding: 0;
+      margin: 0;
 
       li {
+        display: table-cell;
+        float: right;
+        width: auto;
         list-style: none;
-        font-size: rem-calc(13);
+      }
 
-        a {
-          font-family: "Roboto", sans-serif;
-          font-weight: normal;
-          color: color(white);
-          text-decoration: none;
-          &:hover {
-            color: color(white, dark);
-          }
+    }
+
+    div.avatar {
+
+      text-align: center;
+      width: $right-bar-width;
+
+      &:hover {
+        background: color(blue, x-dark);
+        cursor: pointer;
+
+        & nav.menu {
+          display: block;
         }
 
-        &.title {
+      }
+
+    }
+
+    nav.menu {
+
+      text-align: left;
+      display: none;
+      position: absolute;
+      right: 0;
+      width: 100%;
+      background: color(blue, dark);
+
+      ul {
+
+        padding-bottom: 5% ;
+        font-size: rem-calc(12);
+        line-height: rem-calc(20);
+        color: color(white);
+
+        li {
+          list-style: none;
+          float: none;
+          display: block;
+          padding: 0 5%;
+        }
+
+        li.title {
           text-transform: uppercase;
-          padding-bottom: 10%;
-          padding-top: 10%;
+          padding: 5%;
         }
+
+      }
+
+      .side-menu {
+
+        width: $right-bar-width;
+        height: 100%;
+        background: color(blue, x-dark);
+        float: right;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        ul {
+          padding: 10%;
+        }
+
+      }
+
+      .footer {
+        background: color(blue, x-dark);
+        border-top: 1px solid color(blue, mid-dark);
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+
+        line-height: normal;
+
+        color: color(white);
+        font-size: rem-calc(11);
+        padding: 5%;
 
       }
 

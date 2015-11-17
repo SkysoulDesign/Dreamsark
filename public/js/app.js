@@ -10049,7 +10049,6 @@ var pJS = function(tag_id, params){
 
 
       if(pJS.tmp.bubble_clicking){
-        dd(pJS.tmp)
         var dx_mouse = p.x - pJS.interactivity.mouse.click_pos_x,
             dy_mouse = p.y - pJS.interactivity.mouse.click_pos_y,
             dist_mouse = Math.sqrt(dx_mouse*dx_mouse + dy_mouse*dy_mouse),

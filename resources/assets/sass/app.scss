@@ -15,8 +15,15 @@
 @import 'app/fonts';
 
 /**
+* Components
+*/
+@import 'components/button';
+@import 'components/card';
+
+/**
 * Layout
 */
 @import 'layout/global';
 @import 'layout/top-bar';
 @import 'layout/header';
+@import 'layout/content';

@@ -12,6 +12,8 @@
 @include('layouts.top-bar')
 @include('layouts.header')
 
+@include('layouts.content-grid')
+
 <script src="{{ asset('js/app.js') }}"></script>
 
 </body>

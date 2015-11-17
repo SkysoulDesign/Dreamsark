@@ -1,0 +1,32 @@
+/**
+* Button
+*/
+
+button {
+
+  border: none;
+  border-radius: $border-radius;
+  width: 100%;
+  padding: 3%;
+  color: color(white);
+
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:active {
+    outline: 0;
+  }
+
+}
+
+button.primary {
+
+  background: color(blue);
+
+  &:hover {
+    background: color(blue, dark);
+  }
+
+}
