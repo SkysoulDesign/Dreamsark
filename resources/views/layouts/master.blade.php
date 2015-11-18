@@ -9,7 +9,9 @@
 </head>
 <body>
 
-@include('layouts.top-bar')
+@if(isset($topBar) ? $topBar : true)
+    @include('layouts.top-bar')
+@endif
 
 @yield('header')
 
@@ -17,7 +19,11 @@
     @yield('content')
 </div>
 
+@yield('scripts')
+
 <script src="{{ asset('js/app.js') }}"></script>
+
+@yield('pos-scripts')
 
 </body>
 </html>

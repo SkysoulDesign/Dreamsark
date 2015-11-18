@@ -1,15 +1,30 @@
 @include component(segment) {
+
   border: 1px solid color(gray, mid-dark);
   padding: 2%;
   background: color(white, mid-light);
   border-radius: $border-radius;
 
   div.title {
+
     text-transform: uppercase;
     color: color(black, x-light);
     font-size: rem-calc(12);
     padding: 2% 0;
     margin-bottom: 2%;
+
+    &.modern {
+      text-transform: none;
+      font-size: rem-calc(20);
+      font-weight: 300;
+    }
+
+    &.simple {
+      text-transform: none;
+      font-size: rem-calc(15);
+      font-weight: 300;
+    }
+
   }
 
   div.content {
@@ -29,6 +44,29 @@
       font-weight: bolder;
     }
 
+  }
+
+  div.push-up {
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    margin-top: -30%;
+    margin-bottom: 5%;
+  }
+
+  div.social {
+
+    ul {
+
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: inline-block;
+      }
+
+    }
   }
 
 }

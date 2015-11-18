@@ -34,6 +34,12 @@ gulp.watch('resources/assets/sass/**/*.scss', ['sass']);
 gulp.task('js', getTask('js', {name: 'app'}));
 gulp.watch('resources/assets/js/**/*.js', ['js']);
 
+/**
+ * Particle
+ **/
+gulp.task('particle', getTask('particle', {name: 'particle'}));
+gulp.watch('resources/assets/js/Particle.js', ['particle']);
+
 gulp.task('view', function () {
     plugins.livereload.listen();
     gulp.watch('resources/views/**/*.php');

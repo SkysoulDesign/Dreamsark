@@ -17,6 +17,8 @@
 /**
 * Components
 */
+@import 'components/form';
+@import 'components/input';
 @import 'components/button';
 @import 'components/card';
 @import 'components/segment';
@@ -26,6 +28,8 @@
 */
 @import 'layout/global';
 @import 'layout/top-bar';
-@import 'layout/header';
-@import 'layout/mini-header';
+@import 'layout/header/header';
+@import 'layout/header/mini-header';
+@import 'layout/header/small-header';
+@import 'layout/header/huge-header';
 @import 'layout/content';

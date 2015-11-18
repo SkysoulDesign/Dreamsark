@@ -12,7 +12,7 @@
 
                 <div class="cash">
                     <img src="{{ asset('dreamsark-assets/coin.png') }}">
-                    7.500
+                    {{ auth()->user()->bag->coins }}
                 </div>
 
                 <ul>

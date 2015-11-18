@@ -81,7 +81,7 @@ Route::get('translation/{language?}/{group?}', ['as' => 'translation', 'uses' =>
  * Session Controller
  */
 Route::get('profile', ['as' => 'profile', 'uses' => 'Session\SessionController@index']);
-Route::get('register', ['as' => 'register.create', 'uses' => 'Session\SessionController@create']);
+Route::get('register', ['as' => 'register', 'uses' => 'Session\SessionController@create']);
 Route::post('register/update', ['as' => 'register.update', 'uses' => 'Session\SessionController@update']);
 Route::post('register', ['as' => 'register.store', 'uses' => 'Session\SessionController@store']);
 

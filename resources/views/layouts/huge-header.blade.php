@@ -1,4 +1,4 @@
-<div class="container-fluid header">
+<div class="container-fluid huge-header">
 
     <section id="particles-js" class="particles"></section>
 
