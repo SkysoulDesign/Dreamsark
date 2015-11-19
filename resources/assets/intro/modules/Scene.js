@@ -7,5 +7,14 @@ module.exports = (function () {
         scene[key] = config[key];
     });
 
-    return scene;
+    return {
+        get: function () {
+            scene.scope = this;
+            return scene;
+        },
+        set: function ($closure) {
+            $closure.call(scene);
+        }
+    };
+
 })();

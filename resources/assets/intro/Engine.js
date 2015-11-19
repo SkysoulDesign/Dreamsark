@@ -3,34 +3,54 @@ module.exports = (function () {
     /**
      * Init
      */
-    var camera = require('./modules/Camera');
-    var scene = require('./modules/Scene');
-    var renderer = require('./modules/Renderer');
-    var elements = require('./Elements');
+    var camera = require('./modules/Camera').get(),
+        scene = require('./modules/Scene').get(),
+        renderer = require('./modules/Renderer').get(),
+        elements = require('./Elements'),
+        plugins = require('./Plugins').init(camera, scene, renderer);
 
     /**
-     * Plugins
+     * Set Renderer Sizes
      */
-    var controls = require('./plugins/TrackBallControls')(camera);
+    renderer.scope.set(function () {
+        this.setClearColor(scene.fog.color);
+        this.setPixelRatio(window.devicePixelRatio);
+        this.setSize(window.innerWidth, window.innerHeight);
+    });
 
     /**
-     * Append to body
+     * Append to container
      */
-    document.body.appendChild(renderer.domElement);
+    renderer.scope.appendTo('container');
 
-    var cube = elements('Cube').scene(scene).get();
+    /**
+     * Controls
+     */
+    var controls = plugins.TrackballControls.get();
 
-    elements('Skybox').scene(scene);
+    /**
+     * Objects
+     */
+    var cube = elements('Cube').get(),
+        skybox = elements('Skybox').get();
 
-    //    scene.add(cube);
-    camera.position.z = 5;
+    /**
+     * Scene Settings
+     */
+    scene.scope.set(function () {
+        this.add(cube, skybox)
+    });
+
+    /**
+     * Camera Settings
+     */
+    camera.scope.set(function () {
+        this.position.z = 5;
+    });
 
     var render = {
-        render:function () {
+        render: function () {
             requestAnimationFrame(render.render);
-
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
 
             /**
              * Update Controls

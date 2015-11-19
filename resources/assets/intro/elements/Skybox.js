@@ -2,11 +2,12 @@ module.exports = (function () {
 
     return {
         name: 'Skybox',
-        object:function () {
+        object: function () {
 
-            var map = THREE.ImageUtils.loadTexture('lib/simplexSphereMap.jpg');
-            var geo = new THREE.SphereGeometry(5000, 50, 50);
-            var mat = new THREE.MeshBasicMaterial({map: map, side: THREE.BackSide});
+            var map = (new THREE.TextureLoader()).load('lib/universe.jpg');
+            var geo = new THREE.SphereGeometry(500, 50, 50);
+            geo.scale(-1, 1, 1);
+            var mat = new THREE.MeshBasicMaterial({map: map});
             return new THREE.Mesh(geo, mat);
 
         }
