@@ -7,35 +7,118 @@
 @section('content')
 
     <div class="row">
-        <section class="medium-6 segment">
 
-            <div class="title">
-                General Information
-            </div>
+        <section class="medium-6 column">
 
-            <div class="content">
-                <div class="head">
-                   <h1>{{ auth()->user()->username }}</h1>
+            {{-- Segment Start --}}
+            <div class="segment">
+
+                <div class="title">General Information</div>
+
+                <div class="menu">
+                    <button class="outlined small">edit</button>
                 </div>
-                <div class="description">
-                    <i class="fa fa-map-marker"></i> Sao Paulo, Brasil
+
+                <div class="content">
+                    <div class="head">
+                        <h1>{{ auth()->user()->username }}</h1>
+                    </div>
+                    <div class="description">
+                        <i class="fa fa-map-marker"></i> Sao Paulo, Brasil
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="title">
+                    Backed projects
+                </div>
+
+                <div class="content">
+
+                    <div class="description">
+                        There is nothing here at the moment
+                    </div>
                 </div>
             </div>
+            {{-- Segment End --}}
 
-            <hr>
+        </section>
 
-            <div class="title">
-                Backed projects
-            </div>
+        <section class="medium-6 column">
 
-            <div class="content">
+            <div class="segment">
 
-                <div class="description">
-                    There is nothing here at the moment
-                </div>
+                <div class="title modern">Account Settings</div>
+
+                <form action="{{ route('register.store') }}" method="post">
+
+                    {{ csrf_field() }}
+
+                    <div class="form-item">
+                        <input disabled type="text" value="{{ auth()->user()->username }}">
+                    </div>
+
+                    <div class="form-item">
+                        <input name="email" type="email" placeholder="e-mail">
+                    </div>
+
+                    <div class="title">Linked Accounts</div>
+
+                    <ul class="list">
+                        <li class="split">
+                            <div><img src="{{ asset('dreamsark-assets/wechat.png') }}" alt=""></div>
+                            <div class="switch small">
+                                <input id="wechat" type="checkbox">
+                                <label for="wechat"></label>
+                            </div>
+                        </li>
+                        <li class="split">
+                            <div><img src="{{ asset('dreamsark-assets/qq.png') }}" alt=""></div>
+                            <div class="switch small">
+                                <input id="qq" type="checkbox">
+                                <label for="qq"></label>
+                            </div>
+                        </li>
+                        <li class="split">
+                            <div><img src="{{ asset('dreamsark-assets/weibo.png') }}" alt=""></div>
+                            <div class="switch small">
+                                <input id="weibo" type="checkbox">
+                                <label for="weibo"></label>
+                            </div>
+                        </li>
+                        <li class="split">
+                            <div><img src="{{ asset('dreamsark-assets/facebook.png') }}" alt=""></div>
+                            <div class="switch small">
+                                <input id="facebook" type="checkbox">
+                                <label for="facebook"></label>
+                            </div>
+                        </li>
+                    </ul>
+
+                    @include('partials.form-errors')
+
+                    <div class="form-item">
+
+                        <button type="submit" class="primary rippable">
+                            Save
+
+                            <svg>
+                                <use width="4" height="4" xlink:href="#dreamsark-polygon" class="js-ripple"></use>
+                            </svg>
+
+                            @include('partials.button-ripple')
+
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
 
         </section>
+
     </div>
 
 @endsection

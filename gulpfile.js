@@ -13,8 +13,8 @@ function getTask(task, options) {
 /**
  * Three Js Task
  **/
-gulp.task('three', getTask('three', {name: 'three'}));
-gulp.watch('resources/assets/three/**/*.js', ['three']);
+gulp.task('intro', getTask('intro', {name: 'intro'}));
+gulp.watch('resources/assets/intro/**/*.js', ['intro']);
 
 /**
  * Dev JS Task

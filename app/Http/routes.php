@@ -213,5 +213,5 @@ Route::get('reports', ['as' => 'reports', 'uses' => 'Report\ReportController@ind
 Route::post('report/store', ['as' => 'report.store', 'uses' => 'Report\ReportController@store']);
 
 Route::get('intro', ['as' => 'intro', 'uses' => function () {
-    return view('intro');
+    return view('intro-new');
 }]);

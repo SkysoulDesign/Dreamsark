@@ -4,8 +4,8 @@ module.exports = function (gulp, plugins, options) {
      * Set Defaults
      */
     var defaults = {
-        source:     'resources/assets/three/App.js',
-        destination:'public/js'
+        source: 'resources/assets/intro/App.js',
+        destination: 'public/js'
     };
 
     /**

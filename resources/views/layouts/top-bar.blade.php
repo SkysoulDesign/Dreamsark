@@ -9,6 +9,7 @@
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="#">Discover</a></li>
+                <li><a href="{{ route('intro') }}">Intro</a></li>
                 <li><a href="#">Start Project</a></li>
             </ul>
         </section>

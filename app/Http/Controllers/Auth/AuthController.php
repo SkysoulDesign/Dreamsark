@@ -3,9 +3,9 @@
 namespace DreamsArk\Http\Controllers\Auth;
 
 use DreamsArk\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -43,16 +43,23 @@ class AuthController extends Controller
     public function store(Request $request)
     {
 
+        /**
+         * Determines if it`s an email otherwise consider being a username
+         */
+        $field = filter_var($request->get('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $request->merge([$field => $request->get('login')]);
+
         $this->validate($request, [
-            'email' => 'required|email',
+            'login'    => 'required',
             'password' => 'required'
         ]);
 
-        if ($this->auth->attempt(['email' => $request->get('email'), 'password' => $request->get('password')], $request->has('remember'))) {
+        if ($this->auth->attempt($request->only($field, 'password'))) {
             return redirect()->intended(route('home'));
         }
 
-        return redirect()->route('login')->withInput();
+        return redirect()->route('login')->withInput()->withErrors('These credentials do not match our records.');
 
     }
 
