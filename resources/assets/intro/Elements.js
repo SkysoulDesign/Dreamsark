@@ -6,10 +6,10 @@ module.exports = function (name) {
 
     return {
         element: element,
-        get: function(){
+        get: function () {
             return this.element;
         },
-        scene: function(scene){
+        scene: function (scene) {
             scene.add(this.element);
             return this;
         }

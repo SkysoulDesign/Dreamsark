@@ -9,7 +9,7 @@ global.THREE = require('THREE');
 global.Configs = require('./Config');
 
 /**
- * Set up Camera
+ * Get Engine
  */
 var Engine = require('./Engine').render();
 

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Debug\Dumper;
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Support\Htmlable;
 
 if (! function_exists('append_config')) {
     /**
@@ -243,6 +243,21 @@ if (! function_exists('array_pluck')) {
     }
 }
 
+if (! function_exists('array_prepend')) {
+    /**
+     * Push an item onto the beginning of an array.
+     *
+     * @param  array  $array
+     * @param  mixed  $value
+     * @param  mixed  $key
+     * @return array
+     */
+    function array_prepend($array, $value, $key = null)
+    {
+        return Arr::prepend($array, $value, $key);
+    }
+}
+
 if (! function_exists('array_pull')) {
     /**
      * Get a value from the array, and remove it.
@@ -442,7 +457,7 @@ if (! function_exists('e')) {
     /**
      * Escape HTML entities in a string.
      *
-     * @param  \Illuminate\Contracts\Support\Htmlable|string $value
+     * @param  \Illuminate\Contracts\Support\Htmlable|string  $value
      * @return string
      */
     function e($value)

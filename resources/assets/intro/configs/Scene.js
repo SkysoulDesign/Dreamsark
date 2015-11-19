@@ -1,4 +1,4 @@
-module.exports = (function(){
+module.exports = (function () {
     return {
         fog: new THREE.Fog("#000111")
     }

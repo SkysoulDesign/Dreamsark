@@ -2,8 +2,8 @@
 
 namespace Illuminate\Database\Schema\Grammars;
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
+use Illuminate\Database\Schema\Blueprint;
 
 class PostgresGrammar extends Grammar
 {
@@ -55,7 +55,7 @@ class PostgresGrammar extends Grammar
 
         $sql = $blueprint->temporary ? 'create temporary' : 'create';
 
-        $sql .= ' table ' . $this->wrapTable($blueprint) . " ($columns)";
+        $sql .= ' table '.$this->wrapTable($blueprint)." ($columns)";
 
         return $sql;
     }

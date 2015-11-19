@@ -1,4 +1,4 @@
-module.exports = (function(){
+module.exports = (function () {
     return {
         fov: 60,
         aspect: window.innerWidth / window.innerHeight,

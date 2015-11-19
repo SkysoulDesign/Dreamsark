@@ -18,4 +18,5 @@ module.exports = (function(){
     configs.renderer = require('./configs/Renderer');
 
     return configs;
+
 })();
