@@ -11,7 +11,12 @@ global.Configs = require('./Config');
 /**
  * Get Engine
  */
-var Engine = require('./Engine').render();
+global.Engine = {
+    status: {
+        loading: true
+    }
+};
+global.Engine.core = require('./Engine').render();
 
 //
 //var scene = new THREE.Scene();

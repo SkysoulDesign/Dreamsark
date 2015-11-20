@@ -1,20 +1,33 @@
-module.exports = (function () {
+module.exports = (function (e, c) {
 
-    var config = Configs.scene;
-    var scene = new THREE.Scene();
+    /**
+     * Append Scene to Engine
+     */
+    return e.scene = {
 
-    Object.keys(config).map(function (key) {
-        scene[key] = config[key];
-    });
+        /**
+         * Active
+         */
+        a: null,
 
-    return {
-        get: function () {
-            scene.scope = this;
-            return scene;
-        },
-        set: function ($closure) {
-            $closure.call(scene);
+        init: function (config) {
+
+            config = config ? config : c.scene;
+
+            /**
+             * Scene
+             * @type {THREE.Scene}
+             */
+            var scene = new THREE.Scene();
+
+            Object.keys(c.scene).map(function (key) {
+                scene[key] = config[key];
+            });
+
+            return this.a = scene;
+
         }
+
     };
 
-})();
+})(Engine, Configs);

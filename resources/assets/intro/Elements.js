@@ -1,18 +1,5 @@
-module.exports = function (name) {
+module.exports = (function (e) {
 
-    // Require all of the scripts in the elements directory
-    var elements = require('bulk-require')(__dirname, ['elements/**/*.js']).elements;
-    var element = elements[name].object();
+    return e.elements = {};
 
-    return {
-        element: element,
-        get: function () {
-            return this.element;
-        },
-        scene: function (scene) {
-            scene.add(this.element);
-            return this;
-        }
-    };
-
-};
+})(Engine);

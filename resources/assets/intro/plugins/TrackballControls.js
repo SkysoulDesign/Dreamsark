@@ -4,7 +4,7 @@
  * @author Simone Manini / http://daron1337.github.io
  * @author Luca Antiga    / http://lantiga.github.io
  */
-module.exports = (function () {
+module.exports = (function (e) {
 
     return {
 
@@ -13,26 +13,8 @@ module.exports = (function () {
          */
         instance: null,
 
-        /**
-         * Define if the plugin should be Auto Loaded
-         */
-        autoload: true,
-
-        init: function (components, domElement) {
-
-            if (!this.autoload) return;
-
-            return this.plugin(components.camera, domElement);
-
-        },
-
-        get: function () {
-            return this.instance;
-        },
-
-        set: function ($closure) {
-            $closure.call(this.instance);
-            return this;
+        init: function (camera, domElement) {
+            return this.plugin(camera ? camera : e.camera.a, domElement);
         },
 
         plugin: function (object, domElement) {
@@ -666,8 +648,9 @@ module.exports = (function () {
             TrackballControls.prototype.constructor = THREE.TrackballControls;
 
             return this.instance = new TrackballControls(object, domElement);
+
         }
 
     }
 
-})();
+})(Engine);

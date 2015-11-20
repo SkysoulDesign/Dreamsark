@@ -1,15 +1,27 @@
-module.exports = (function () {
-    var config = Configs.camera;
-    var camera = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
+module.exports = (function (e, c) {
 
-    return {
-        get: function () {
-            camera.scope = this;
-            return camera;
-        },
-        set: function ($closure) {
-            $closure.call(camera);
+    /**
+     * Append Camera to Engine
+     */
+    return e.camera = {
+
+        /**
+         * Active
+         */
+        a: null,
+
+        init: function (config) {
+
+            config = config ? config : c.camera;
+
+            /**
+             * Camera
+             * @type {THREE.PerspectiveCamera}
+             */
+            return this.a = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
+
         }
+
     };
 
-})();
+})(Engine, Configs);

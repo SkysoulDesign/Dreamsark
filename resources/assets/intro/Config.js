@@ -17,6 +17,11 @@ module.exports = (function(){
      */
     configs.renderer = require('./configs/Renderer');
 
+    /**
+     * Get Elements
+     */
+    configs.elements = require('./configs/Elements');
+
     return configs;
 
 })();

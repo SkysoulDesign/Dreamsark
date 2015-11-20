@@ -36188,6 +36188,59 @@ if (typeof exports !== 'undefined') {
 }
 
 },{}],2:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Require all of the scripts in the compositions directory
+     */
+    var compositions = ({"compositions":({"comp-1":require("./compositions/comp-1.js"),"comp-2":require("./compositions/comp-2.js")})}).compositions;
+
+    /**
+     * Attach Compositions to Engine
+     */
+    return e.compositions = compositions;
+
+})(Engine);
+},{"./compositions/comp-1.js":10,"./compositions/comp-2.js":11}],3:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return e.compositor = {
+
+        active: null,
+        comp:   0,
+
+        init: function () {
+
+            var compName = Object.keys(e.compositions)[this.comp];
+
+            /**
+             * Load Assets
+             */
+            e.loader.compositionLoader(compName);
+
+            this.active = e.compositions[compName];
+            this.active.setup(e.elements);
+
+        },
+
+        animate: function () {
+            this.active.animation(e.elements);
+        },
+
+        next: function () {
+            this.comp++;
+            this.init();
+        },
+
+        previous: function () {
+            this.comp--;
+            this.init();
+        }
+
+    }
+
+})(Engine);
+},{}],4:[function(require,module,exports){
 module.exports = (function(){
 
     var configs = {};
@@ -36207,45 +36260,47 @@ module.exports = (function(){
      */
     configs.renderer = require('./configs/Renderer');
 
+    /**
+     * Get Elements
+     */
+    configs.elements = require('./configs/Elements');
+
     return configs;
 
 })();
-},{"./configs/Camera":6,"./configs/Renderer":7,"./configs/Scene":8}],3:[function(require,module,exports){
-module.exports = function (name) {
+},{"./configs/Camera":12,"./configs/Elements":13,"./configs/Renderer":14,"./configs/Scene":15}],5:[function(require,module,exports){
+module.exports = (function (e) {
 
-    // Require all of the scripts in the elements directory
-    var elements = ({"elements":({"Ball":require("./elements/Ball.js"),"Cube":require("./elements/Cube.js"),"Skybox":require("./elements/Skybox.js")})}).elements;
-    var element = elements[name].object();
+    return e.elements = {};
 
-    return {
-        element: element,
-        get: function () {
-            return this.element;
-        },
-        scene: function (scene) {
-            scene.add(this.element);
-            return this;
-        }
-    };
-
-};
-},{"./elements/Ball.js":9,"./elements/Cube.js":10,"./elements/Skybox.js":11}],4:[function(require,module,exports){
-module.exports = (function () {
+})(Engine);
+},{}],6:[function(require,module,exports){
+module.exports = (function (e) {
 
     /**
-     * Init
+     * Init Core
      */
-    var camera = require('./modules/Camera').get(),
-        scene = require('./modules/Scene').get(),
-        renderer = require('./modules/Renderer').get(),
-        elements = require('./Elements'),
-        plugins = require('./Plugins').init(camera, scene, renderer);
+    var helpers      = require('./Helpers'),
+        manager      = require('./modules/Manager'),
+        elements     = require('./Elements'),
+        compositions = require('./Compositions'),
+        compositor   = require('./Compositor'),
+        camera       = require('./modules/Camera'),
+        scene        = require('./modules/Scene'),
+        renderer     = require('./modules/Renderer'),
+        plugins      = require('./Plugins'),
+        loader       = require('./Loader');
+
+    /**
+     * Init Stuff
+     */
+    helpers.init(loader, scene, camera, compositor);
 
     /**
      * Set Renderer Sizes
      */
-    renderer.scope.set(function () {
-        this.setClearColor(scene.fog.color);
+    helpers.set(renderer, function () {
+        this.setClearColor(scene.a.fog.color);
         this.setPixelRatio(window.devicePixelRatio);
         this.setSize(window.innerWidth, window.innerHeight);
     });
@@ -36253,61 +36308,126 @@ module.exports = (function () {
     /**
      * Append to container
      */
-    renderer.scope.appendTo('container');
-
-    /**
-     * Controls
-     */
-    var controls = plugins.TrackballControls.get();
-
-    /**
-     * Objects
-     */
-    var cube = elements('Cube').get(),
-        skybox = elements('Skybox').get();
-
-    /**
-     * Scene Settings
-     */
-    scene.scope.set(function () {
-        this.add(cube, skybox)
-    });
-
-    /**
-     * Camera Settings
-     */
-    camera.scope.set(function () {
-        this.position.z = 5;
-    });
+    helpers.appendTo('container', renderer.domElement);
 
     var render = {
         render: function () {
+
             requestAnimationFrame(render.render);
 
             /**
-             * Update Controls
+             * Return if it`s loading
              */
-            controls.update();
+            if (loader.loading) {
+                console.log('loading');
+            }
 
-            renderer.render(scene, camera);
+            /**
+             * Render Composition
+             */
+            compositor.animate();
+
+            /**
+             * Render
+             */
+            renderer.render(scene.a, camera.a);
+
         }
     };
 
     return render;
 
-})();
-},{"./Elements":3,"./Plugins":5,"./modules/Camera":13,"./modules/Renderer":14,"./modules/Scene":15}],5:[function(require,module,exports){
-module.exports = (function () {
+})(Engine);
+},{"./Compositions":2,"./Compositor":3,"./Elements":5,"./Helpers":7,"./Loader":8,"./Plugins":9,"./modules/Camera":20,"./modules/Manager":21,"./modules/Renderer":22,"./modules/Scene":23}],7:[function(require,module,exports){
+module.exports = function (e) {
+
+    return e.helpers = {
+        init: function () {
+
+            for (var i = 0; i < arguments.length; i++) {
+                arguments[i].init();
+            }
+
+        },
+
+        set: function (object, closure) {
+            closure.call(object, closure);
+        },
+
+        appendTo: function (element, domElement) {
+            document.getElementById(element).appendChild(domElement)
+        },
+
+        timeout: function (time, closure) {
+            setTimeout(function () {
+                closure.call()
+            }, time);
+        }
+    }
+
+}(Engine);
+},{}],8:[function(require,module,exports){
+module.exports = (function (e, c) {
+
+    return e.loader = {
+
+        loading: false,
+
+        init: function () {
+
+            /**
+             * Load Global Items
+             */
+            this.load(c.elements['global']);
+
+        },
+
+        load: function (elements) {
+            this.loading = true;
+            elements.forEach(function (el) {
+                e.elements[el.name]      = el.create(e);
+                e.elements[el.name].name = el.name;
+            });
+            this.loading = false;
+        },
+
+        compositionLoader: function (name) {
+            this.load(c.elements[name]);
+        },
+
+        /**
+         * Remove Object from Scene and Dispose it
+         */
+        destruct: function () {
+            for (var i = 0; i < arguments.length; i++) {
+                e.scene.a.remove(arguments[i]);
+                delete e.elements[arguments[i].name];
+                this.dispose(arguments[i]);
+            }
+        },
+
+        /**
+         * Dispose the object from memory
+         */
+        dispose: function (object) {
+            object.geometry.dispose();
+            object.material.dispose();
+        }
+
+    };
+
+})(Engine, Configs);
+},{}],9:[function(require,module,exports){
+module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
     var plugins = ({"plugins":({"TrackballControls":require("./plugins/TrackballControls.js")})}).plugins;
 
-    return {
-        init: function (camera, scene, renderer) {
+    return e.plugins = plugins;
 
-            var components = {
-                camera: camera, scene: scene, renderer: renderer
-            };
+    return e.plugins = {
+
+        init: function (components) {
 
             Object.keys(plugins).map(function (plugin) {
                 plugins[plugin].init(components);
@@ -36316,10 +36436,102 @@ module.exports = (function () {
             return plugins;
 
         }
+
     }
 
-})();
-},{"./plugins/TrackballControls.js":16}],6:[function(require,module,exports){
+})(Engine);
+},{"./plugins/TrackballControls.js":24}],10:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        setup: function (objs) {
+
+            /**
+             * Test Zone
+             */
+
+            /**
+             * End Test Zone
+             */
+
+            /**
+             * Scene Settings
+             */
+            e.scene.a.add(objs.particles, objs.skybox);
+
+            /**
+             * Camera Settings
+             */
+            e.camera.a.position.z = 5;
+
+            /**
+             * Plugin Init
+             */
+            e.helpers.set(e.plugins.TrackballControls.init(), function () {
+                //this.noRotate = true
+            });
+
+            //e.helpers.timeout(5000, function () {
+            //    e.compositor.next();
+            //});
+
+        },
+
+        animation: function (objs) {
+
+            e.plugins.TrackballControls.instance.update();
+
+        }
+
+    };
+
+})(Engine);
+},{}],11:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        setup: function (objs) {
+
+            e.helpers.set(objs.ball, function () {
+                this.material.color = new THREE.Color('yellow');
+            });
+
+            /**
+             * Scene Settings
+             */
+            e.scene.a.add(objs.ball);
+
+            /**
+             * Camera Settings
+             */
+            //e.camera.a.position.z = 5;
+
+            /**
+             * Plugin Init
+             */
+            e.helpers.set(e.plugins.TrackballControls.init(), function () {
+                //this.noRotate = true
+            });
+
+
+        },
+
+        animation: function (objs) {
+
+            objs.ball.position.x += .003
+            objs.ball.position.y += .001
+            objs.ball.position.z += .002;
+
+            e.plugins.TrackballControls.instance.update();
+
+        }
+
+    };
+
+})(Engine);
+},{}],12:[function(require,module,exports){
 module.exports = (function () {
     return {
         fov: 60,
@@ -36328,7 +36540,22 @@ module.exports = (function () {
         far: 20000
     }
 })();
-},{}],7:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+        'global': [
+        ],
+        'comp-1': [
+            require('../elements/Particles'),
+            require('../elements/Skybox')
+        ],
+        'comp-2': [
+            require('../elements/Ball')
+        ]
+    }
+})();
+},{"../elements/Ball":16,"../elements/Particles":17,"../elements/Skybox":18}],14:[function(require,module,exports){
 module.exports = (function () {
     return {
         //        canvas : A Canvas where the renderer draws its output.
@@ -36343,46 +36570,95 @@ module.exports = (function () {
         //        logarithmicDepthBuffer : Boolean, default is false.
     }
 })();
-},{}],8:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = (function () {
     return {
         fog: new THREE.Fog(0x000111)
     }
 })();
-},{}],9:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = (function () {
 
     return {
-        name: 'Ball',
-        object:function () {
+        name: 'ball',
+        create: function (e) {
             var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({ color:0x00ff00 });
+            var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
             return new THREE.Mesh(geometry, material);
         }
     }
 
 })();
-},{}],10:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = (function () {
 
+    var PARTICLE_SIZE = 20;
+    var particles, uniforms;
+
     return {
-        name: 'Cube',
-        object:function () {
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({ color:0x00ff00 });
-            return new THREE.Mesh(geometry, material);
+        name:   'particles',
+        create: function (e) {
+
+            var geometry1 = new THREE.BoxGeometry(200, 200, 200, 16, 16, 16);
+            var vertices  = geometry1.vertices;
+
+            var positions = new Float32Array(vertices.length * 3);
+            var colors    = new Float32Array(vertices.length * 3);
+            var sizes     = new Float32Array(vertices.length);
+
+            var vertex;
+            var color = new THREE.Color();
+
+            for (var i = 0, l = vertices.length; i < l; i++) {
+
+                vertex = vertices[i];
+                vertex.toArray(positions, i * 3);
+
+                color.setHSL(0.01 + 0.1 * ( i / l ), 1.0, 0.5)
+                color.toArray(colors, i * 3);
+
+                sizes[i] = PARTICLE_SIZE * 0.5;
+
+            }
+
+            var geometry = new THREE.BufferGeometry();
+            geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+            geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            //
+
+            var loader   = new THREE.TextureLoader(e.manager);
+            var material = new THREE.ShaderMaterial({
+
+                uniforms:       {
+                    color:   {type: "c", value: new THREE.Color(0xffffff)},
+                    texture: {type: "t", value: loader.load("lib/disc.png")}
+                },
+
+                vertexShader:   document.getElementById('vertexshader').textContent,
+                fragmentShader: document.getElementById('fragmentshader').textContent,
+
+                alphaTest: 0.9,
+
+            });
+
+            //
+
+            return new THREE.Points(geometry, material);
+
         }
     }
 
 })();
-},{}],11:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = (function () {
 
     return {
-        name: 'Skybox',
-        object: function () {
+        name: 'skybox',
+        create: function (e) {
 
-            var map = (new THREE.TextureLoader()).load('lib/universe.jpg');
+            var map = (new THREE.TextureLoader(e.manager)).load('lib/universe.jpg');
             var geo = new THREE.SphereGeometry(500, 50, 50);
             geo.scale(-1, 1, 1);
             var mat = new THREE.MeshBasicMaterial({map: map});
@@ -36392,7 +36668,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],12:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (global){
 /**
  * Set Three Js
@@ -36407,7 +36683,12 @@ global.Configs = require('./Config');
 /**
  * Get Engine
  */
-var Engine = require('./Engine').render();
+global.Engine = {
+    status: {
+        loading: true
+    }
+};
+global.Engine.core = require('./Engine').render();
 
 //
 //var scene = new THREE.Scene();
@@ -36437,70 +36718,117 @@ var Engine = require('./Engine').render();
 
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Config":2,"./Engine":4,"THREE":1}],13:[function(require,module,exports){
-module.exports = (function () {
-    var config = Configs.camera;
-    var camera = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
+},{"./Config":4,"./Engine":6,"THREE":1}],20:[function(require,module,exports){
+module.exports = (function (e, c) {
 
-    return {
-        get: function () {
-            camera.scope = this;
-            return camera;
-        },
-        set: function ($closure) {
-            $closure.call(camera);
+    /**
+     * Append Camera to Engine
+     */
+    return e.camera = {
+
+        /**
+         * Active
+         */
+        a: null,
+
+        init: function (config) {
+
+            config = config ? config : c.camera;
+
+            /**
+             * Camera
+             * @type {THREE.PerspectiveCamera}
+             */
+            return this.a = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
+
         }
+
     };
 
-})();
-},{}],14:[function(require,module,exports){
-module.exports = (function () {
+})(Engine, Configs);
+},{}],21:[function(require,module,exports){
+module.exports = (function (e, c) {
 
-    var renderer = new THREE.WebGLRenderer(Configs.renderer);
+    /**
+     * Append Renderer to Engine
+     * @type {THREE.LoadingManager}
+     */
+    var manager = new THREE.LoadingManager();
 
-    return {
-        get: function () {
-            renderer.scope = this;
-            return renderer;
-        },
-        set: function ($closure) {
-            $closure.call(renderer);
-        },
-        appendTo: function ($element) {
-            document.getElementById($element).appendChild(renderer.domElement)
-        }
+    manager.onProgress = function (item, loaded, total) {
+        console.log(item, loaded, total);
     };
 
-})();
-},{}],15:[function(require,module,exports){
-module.exports = (function () {
+    return e.manager = manager;
 
-    var config = Configs.scene;
-    var scene = new THREE.Scene();
+})(Engine, Configs);
+},{}],22:[function(require,module,exports){
+module.exports = (function (e, c) {
 
-    Object.keys(config).map(function (key) {
-        scene[key] = config[key];
-    });
+    var renderer = new THREE.WebGLRenderer(c.renderer);
 
-    return {
-        get: function () {
-            scene.scope = this;
-            return scene;
-        },
-        set: function ($closure) {
-            $closure.call(scene);
+    /**
+     * Append Renderer to Engine
+     * @type {THREE.WebGLRenderer}
+     */
+    return e.renderer = renderer;
+
+    //return {
+    //    get: function () {
+    //        renderer.scope = this;
+    //        return renderer;
+    //    },
+    //    set: function ($closure) {
+    //        $closure.call(renderer);
+    //    },
+    //    appendTo: function ($element) {
+    //        document.getElementById($element).appendChild(renderer.domElement)
+    //    }
+    //};
+
+})(Engine, Configs);
+},{}],23:[function(require,module,exports){
+module.exports = (function (e, c) {
+
+    /**
+     * Append Scene to Engine
+     */
+    return e.scene = {
+
+        /**
+         * Active
+         */
+        a: null,
+
+        init: function (config) {
+
+            config = config ? config : c.scene;
+
+            /**
+             * Scene
+             * @type {THREE.Scene}
+             */
+            var scene = new THREE.Scene();
+
+            Object.keys(c.scene).map(function (key) {
+                scene[key] = config[key];
+            });
+
+            return this.a = scene;
+
         }
+
     };
 
-})();
-},{}],16:[function(require,module,exports){
+})(Engine, Configs);
+},{}],24:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
  * @author Simone Manini / http://daron1337.github.io
  * @author Luca Antiga    / http://lantiga.github.io
  */
-module.exports = (function () {
+module.exports = (function (e) {
 
     return {
 
@@ -36509,26 +36837,8 @@ module.exports = (function () {
          */
         instance: null,
 
-        /**
-         * Define if the plugin should be Auto Loaded
-         */
-        autoload: true,
-
-        init: function (components, domElement) {
-
-            if (!this.autoload) return;
-
-            return this.plugin(components.camera, domElement);
-
-        },
-
-        get: function () {
-            return this.instance;
-        },
-
-        set: function ($closure) {
-            $closure.call(this.instance);
-            return this;
+        init: function (camera, domElement) {
+            return this.plugin(camera ? camera : e.camera.a, domElement);
         },
 
         plugin: function (object, domElement) {
@@ -37162,9 +37472,10 @@ module.exports = (function () {
             TrackballControls.prototype.constructor = THREE.TrackballControls;
 
             return this.instance = new TrackballControls(object, domElement);
+
         }
 
     }
 
-})();
-},{}]},{},[12])
+})(Engine);
+},{}]},{},[19])

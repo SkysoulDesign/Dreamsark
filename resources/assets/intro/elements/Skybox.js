@@ -1,10 +1,10 @@
 module.exports = (function () {
 
     return {
-        name: 'Skybox',
-        object: function () {
+        name: 'skybox',
+        create: function (e) {
 
-            var map = (new THREE.TextureLoader()).load('lib/universe.jpg');
+            var map = (new THREE.TextureLoader(e.manager)).load('lib/universe.jpg');
             var geo = new THREE.SphereGeometry(500, 50, 50);
             geo.scale(-1, 1, 1);
             var mat = new THREE.MeshBasicMaterial({map: map});

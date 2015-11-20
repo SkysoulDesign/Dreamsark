@@ -1,19 +1,29 @@
-module.exports = (function () {
+module.exports = (function (e) {
 
     /**
-     * Init
+     * Init Core
      */
-    var camera = require('./modules/Camera').get(),
-        scene = require('./modules/Scene').get(),
-        renderer = require('./modules/Renderer').get(),
-        elements = require('./Elements'),
-        plugins = require('./Plugins').init(camera, scene, renderer);
+    var helpers      = require('./Helpers'),
+        manager      = require('./modules/Manager'),
+        elements     = require('./Elements'),
+        compositions = require('./Compositions'),
+        compositor   = require('./Compositor'),
+        camera       = require('./modules/Camera'),
+        scene        = require('./modules/Scene'),
+        renderer     = require('./modules/Renderer'),
+        plugins      = require('./Plugins'),
+        loader       = require('./Loader');
+
+    /**
+     * Init Stuff
+     */
+    helpers.init(loader, scene, camera, compositor);
 
     /**
      * Set Renderer Sizes
      */
-    renderer.scope.set(function () {
-        this.setClearColor(scene.fog.color);
+    helpers.set(renderer, function () {
+        this.setClearColor(scene.a.fog.color);
         this.setPixelRatio(window.devicePixelRatio);
         this.setSize(window.innerWidth, window.innerHeight);
     });
@@ -21,46 +31,33 @@ module.exports = (function () {
     /**
      * Append to container
      */
-    renderer.scope.appendTo('container');
-
-    /**
-     * Controls
-     */
-    var controls = plugins.TrackballControls.get();
-
-    /**
-     * Objects
-     */
-    var cube = elements('Cube').get(),
-        skybox = elements('Skybox').get();
-
-    /**
-     * Scene Settings
-     */
-    scene.scope.set(function () {
-        this.add(cube, skybox)
-    });
-
-    /**
-     * Camera Settings
-     */
-    camera.scope.set(function () {
-        this.position.z = 5;
-    });
+    helpers.appendTo('container', renderer.domElement);
 
     var render = {
         render: function () {
+
             requestAnimationFrame(render.render);
 
             /**
-             * Update Controls
+             * Return if it`s loading
              */
-            controls.update();
+            if (loader.loading) {
+                console.log('loading');
+            }
 
-            renderer.render(scene, camera);
+            /**
+             * Render Composition
+             */
+            compositor.animate();
+
+            /**
+             * Render
+             */
+            renderer.render(scene.a, camera.a);
+
         }
     };
 
     return render;
 
-})();
+})(Engine);
