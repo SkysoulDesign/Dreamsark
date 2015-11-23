@@ -17,21 +17,24 @@ module.exports = (function (e) {
     /**
      * Init Stuff
      */
-    helpers.init(loader, scene, camera, compositor);
+    helpers.init(loader, scene, camera, compositor, plugins.Stats);
 
     /**
      * Set Renderer Sizes
      */
     helpers.set(renderer, function () {
-        this.setClearColor(scene.a.fog.color);
+        //this.setClearColor(scene.a.fog.color);
         this.setPixelRatio(window.devicePixelRatio);
         this.setSize(window.innerWidth, window.innerHeight);
+        this.gammaInput  = true;
+        this.gammaOutput = true;
     });
 
     /**
      * Append to container
      */
     helpers.appendTo('container', renderer.domElement);
+    helpers.appendTo('container', plugins.Stats.instance.domElement);
 
     var render = {
         render: function () {
@@ -49,6 +52,11 @@ module.exports = (function (e) {
              * Render Composition
              */
             compositor.animate();
+
+            /**
+             * Stats
+             */
+            plugins.Stats.instance.update();
 
             /**
              * Render

@@ -2,8 +2,47 @@ module.exports = (function (e) {
 
     return e.compositor = {
 
+        /**
+         * Active Composition
+         */
         active: null,
-        comp:   0,
+        /**
+         * Composition Counter
+         */
+        comp: 0,
+        GUIData: {
+            dat: new dat.GUI,
+            controller: null,
+            data: {},
+            add: function (obj, name) {
+                this.data[name] = this.controller[name] = obj;
+            }
+        },
+        public: {},
+
+        construct: function () {
+
+            var object = this.active.constructor(e.elements);
+
+            /**
+             * Get Only those which has shared property
+             */
+            var shared = {};
+            Object.keys(e.elements).forEach(function (name) {
+
+                if (e.elements[name].public instanceof Object) {
+                    shared = e.helpers.extend(shared, e.elements[name].public);
+                }
+
+            });
+
+            /**
+             * Merge Shared From Composition and from Elements
+             */
+            var final    = e.helpers.extend(object, shared),
+                extended = e.helpers.extend(this.public, final);
+
+        },
 
         init: function () {
 
@@ -15,12 +54,28 @@ module.exports = (function (e) {
             e.loader.compositionLoader(compName);
 
             this.active = e.compositions[compName];
-            this.active.setup(e.elements);
+
+            /**
+             * Set All Public Variables which will be shared across all functions
+             */
+            this.construct();
+
+            this.active.setup(this.public, e.elements);
+
+            /**
+             * Init GUI
+             */
+            this.GUI();
 
         },
 
         animate: function () {
-            this.active.animation(e.elements);
+            this.active.animation(this.public, e.elements);
+        },
+
+        GUI: function () {
+            var controller = this.GUIData.controller = this.active.GUI.controller(this.public);
+            this.active.GUI.gui(controller, this.public, this.GUIData.dat);
         },
 
         next: function () {

@@ -1,7 +1,17 @@
 /**
+ * Caption
+ *
+ * a = {}.active
+ * e = Engine
+ * E = Engine.elements
+ * c = Configs
+ */
+
+/**
  * Set Three Js
  */
 global.THREE = require('THREE');
+global.dat = require('dat-gui');
 
 /**
  * Set Configs

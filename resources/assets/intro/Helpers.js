@@ -5,6 +5,14 @@ module.exports = function (e) {
 
             for (var i = 0; i < arguments.length; i++) {
                 arguments[i].init();
+
+                /**
+                 * Configure if necessary
+                 */
+                if(typeof arguments[i].configure === "function"){
+                    arguments[i].configure(arguments[i].instance);
+                }
+
             }
 
         },
@@ -21,6 +29,29 @@ module.exports = function (e) {
             setTimeout(function () {
                 closure.call()
             }, time);
+        },
+
+        extend: function (obj, src) {
+            Object.keys(src).forEach(function (key) {
+                obj[key] = src[key];
+            });
+            return obj;
+        },
+
+        /**
+         * Group objects
+         * @returns {THREE.Group}
+         */
+        group: function () {
+
+            var group = new THREE.Group();
+
+            for (var i = 0; i < arguments.length; i++) {
+                group.add(arguments[i]);
+            }
+
+            return group;
+
         }
     }
 

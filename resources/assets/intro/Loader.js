@@ -18,6 +18,14 @@ module.exports = (function (e, c) {
             elements.forEach(function (el) {
                 e.elements[el.name]      = el.create(e);
                 e.elements[el.name].name = el.name;
+
+                /**
+                 * Attach the Public Variables
+                 */
+                if (typeof el.share === 'function') {
+                    e.elements[el.name].public = el.share(e);
+                }
+
             });
             this.loading = false;
         },
