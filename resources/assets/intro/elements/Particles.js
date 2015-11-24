@@ -1,9 +1,8 @@
 module.exports = (function () {
 
-    var maxPoints     = 100;
+    var maxPoints     = 30;
     var radius        = 200;
     var particlesData = [];
-
 
     /**
      * Create Points
@@ -38,6 +37,7 @@ module.exports = (function () {
         create: function (e) {
 
             var group = e.helpers.group();
+            var maps  = e.loader.l(['lib/point-1.png', 'lib/point-2.png', 'lib/point-3.png', 'lib/point-4.png']);
 
             /**
              * Add Vertices to Points
@@ -51,6 +51,22 @@ module.exports = (function () {
                 points.vertices[i * 3]     = x;
                 points.vertices[i * 3 + 1] = y;
                 points.vertices[i * 3 + 2] = z;
+
+                var vertices        = new Float32Array(maxPoints * 3);
+                vertices[i * 3]     = x;
+                vertices[i * 3 + 1] = y;
+                vertices[i * 3 + 2] = z;
+
+                var material = new THREE.PointsMaterial({
+                    map: maps[e.helpers.random(0, maps.length - 1)],
+                    size: 50,
+                    transparent: true
+                });
+
+                var geometry  = new THREE.BufferGeometry();
+                var attribute = new THREE.BufferAttribute(vertices, 3).setDynamic(true);
+                geometry.addAttribute('position', attribute);
+                group.add(new THREE.Points(geometry, material));
 
                 particlesData.push({
                     velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),

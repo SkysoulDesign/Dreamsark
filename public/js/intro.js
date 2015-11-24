@@ -41229,6 +41229,9 @@ module.exports = function (e) {
 
             return group;
 
+        },
+        random: function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
     }
 
@@ -41262,6 +41265,18 @@ module.exports = (function (e, c) {
          * @returns {*}
          */
         l: function (path) {
+
+            if (path instanceof Array) {
+
+                var collection = [];
+
+                path.forEach(function (item) {
+                    collection.push(this.l(item));
+                }, this);
+
+                return collection;
+            }
+
             return this.loader.load(path);
         },
 
@@ -41437,12 +41452,12 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles);
+            e.scene.a.add(E.particles, E.skybox);
 
             /**
              * Camera Settings
              */
-            e.camera.a.position.z = 20;
+            e.camera.a.position.z = 250;
 
             /**
              * Plugin Init
@@ -41473,7 +41488,7 @@ module.exports = (function (e) {
         },
 
         animation: function (data, E) {
-
+            //return;
             var lines  = data.lines,
                 points = data.points;
 
@@ -41485,9 +41500,9 @@ module.exports = (function (e) {
 
                 var particleData = data.particlesData[i];
 
-                points.vertices[ i * 3     ] += particleData.velocity.x / 150;
-                points.vertices[ i * 3 + 1 ] += particleData.velocity.y / 150;
-                points.vertices[ i * 3 + 2 ] += particleData.velocity.z / 150;
+                //points.vertices[ i * 3     ] += particleData.velocity.x / 150;
+                //points.vertices[ i * 3 + 1 ] += particleData.velocity.y / 150;
+                //points.vertices[ i * 3 + 2 ] += particleData.velocity.z / 150;
 
                 if (data.limitConnections && particleData.connections >= data.maxConnections)
                     continue;
@@ -41649,10 +41664,9 @@ module.exports = (function () {
 },{}],24:[function(require,module,exports){
 module.exports = (function () {
 
-    var maxPoints     = 100;
+    var maxPoints     = 30;
     var radius        = 200;
     var particlesData = [];
-
 
     /**
      * Create Points
@@ -41687,6 +41701,7 @@ module.exports = (function () {
         create: function (e) {
 
             var group = e.helpers.group();
+            var maps  = e.loader.l(['lib/point-1.png', 'lib/point-2.png', 'lib/point-3.png', 'lib/point-4.png']);
 
             /**
              * Add Vertices to Points
@@ -41700,6 +41715,22 @@ module.exports = (function () {
                 points.vertices[i * 3]     = x;
                 points.vertices[i * 3 + 1] = y;
                 points.vertices[i * 3 + 2] = z;
+
+                var vertices        = new Float32Array(maxPoints * 3);
+                vertices[i * 3]     = x;
+                vertices[i * 3 + 1] = y;
+                vertices[i * 3 + 2] = z;
+
+                var material = new THREE.PointsMaterial({
+                    map: maps[e.helpers.random(0, maps.length - 1)],
+                    size: 50,
+                    transparent: true
+                });
+
+                var geometry  = new THREE.BufferGeometry();
+                var attribute = new THREE.BufferAttribute(vertices, 3).setDynamic(true);
+                geometry.addAttribute('position', attribute);
+                group.add(new THREE.Points(geometry, material));
 
                 particlesData.push({
                     velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),

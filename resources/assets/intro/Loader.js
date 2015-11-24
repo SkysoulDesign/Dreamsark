@@ -26,6 +26,18 @@ module.exports = (function (e, c) {
          * @returns {*}
          */
         l: function (path) {
+
+            if (path instanceof Array) {
+
+                var collection = [];
+
+                path.forEach(function (item) {
+                    collection.push(this.l(item));
+                }, this);
+
+                return collection;
+            }
+
             return this.loader.load(path);
         },
 

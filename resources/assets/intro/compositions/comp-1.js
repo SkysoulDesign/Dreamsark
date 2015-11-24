@@ -14,12 +14,12 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles);
+            e.scene.a.add(E.particles, E.skybox);
 
             /**
              * Camera Settings
              */
-            e.camera.a.position.z = 20;
+            e.camera.a.position.z = 250;
 
             /**
              * Plugin Init
@@ -50,7 +50,7 @@ module.exports = (function (e) {
         },
 
         animation: function (data, E) {
-
+            //return;
             var lines  = data.lines,
                 points = data.points;
 
@@ -62,9 +62,9 @@ module.exports = (function (e) {
 
                 var particleData = data.particlesData[i];
 
-                points.vertices[ i * 3     ] += particleData.velocity.x / 150;
-                points.vertices[ i * 3 + 1 ] += particleData.velocity.y / 150;
-                points.vertices[ i * 3 + 2 ] += particleData.velocity.z / 150;
+                //points.vertices[ i * 3     ] += particleData.velocity.x / 150;
+                //points.vertices[ i * 3 + 1 ] += particleData.velocity.y / 150;
+                //points.vertices[ i * 3 + 2 ] += particleData.velocity.z / 150;
 
                 if (data.limitConnections && particleData.connections >= data.maxConnections)
                     continue;
