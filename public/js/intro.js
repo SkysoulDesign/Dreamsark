@@ -40760,6 +40760,181 @@ if ( typeof module === 'object' ) {
 },{}],6:[function(require,module,exports){
 module.exports = (function (e) {
 
+    return {
+
+        /**
+         * Plugin Instance
+         */
+        instance: null,
+
+        init: function (renderTarget) {
+
+            /**
+             * Init Shaders
+             */
+            e.helpers.init(e.shaders, e.passer);
+
+            /**
+             * EffectComposer
+             * @param renderer
+             * @param renderTarget
+             * @constructor
+             */
+            THREE.EffectComposer = function (renderer, renderTarget) {
+
+                this.renderer = renderer;
+
+                if (renderTarget === undefined) {
+
+                    var pixelRatio = renderer.getPixelRatio();
+
+                    var width      = Math.floor(renderer.context.canvas.width / pixelRatio) || 1;
+                    var height     = Math.floor(renderer.context.canvas.height / pixelRatio) || 1;
+                    var parameters = {
+                        minFilter: THREE.LinearFilter,
+                        magFilter: THREE.LinearFilter,
+                        format: THREE.RGBFormat,
+                        stencilBuffer: false
+                    };
+
+                    renderTarget = new THREE.WebGLRenderTarget(width, height, parameters);
+
+                }
+
+                this.renderTarget1 = renderTarget;
+                this.renderTarget2 = renderTarget.clone();
+
+                this.writeBuffer = this.renderTarget1;
+                this.readBuffer  = this.renderTarget2;
+
+                this.passes = [];
+
+                if (THREE.CopyShader === undefined)
+                    console.error("THREE.EffectComposer relies on THREE.CopyShader");
+
+                this.copyPass = new THREE.ShaderPass(THREE.CopyShader);
+
+            };
+            THREE.EffectComposer.prototype = {
+
+                swapBuffers: function () {
+
+                    var tmp          = this.readBuffer;
+                    this.readBuffer  = this.writeBuffer;
+                    this.writeBuffer = tmp;
+
+                },
+
+                addPass: function (pass) {
+
+                    this.passes.push(pass);
+
+                },
+
+                insertPass: function (pass, index) {
+
+                    this.passes.splice(index, 0, pass);
+
+                },
+
+                render: function (delta) {
+
+                    this.writeBuffer = this.renderTarget1;
+                    this.readBuffer  = this.renderTarget2;
+
+                    var maskActive = false;
+
+                    var pass, i, il = this.passes.length;
+
+                    for (i = 0; i < il; i++) {
+
+                        pass = this.passes[i];
+
+                        if (!pass.enabled) continue;
+
+                        pass.render(this.renderer, this.writeBuffer, this.readBuffer, delta, maskActive);
+
+                        if (pass.needsSwap) {
+
+                            if (maskActive) {
+
+                                var context = this.renderer.context;
+
+                                context.stencilFunc(context.NOTEQUAL, 1, 0xffffffff);
+
+                                this.copyPass.render(this.renderer, this.writeBuffer, this.readBuffer, delta);
+
+                                context.stencilFunc(context.EQUAL, 1, 0xffffffff);
+
+                            }
+
+                            this.swapBuffers();
+
+                        }
+
+                        if (pass instanceof THREE.MaskPass) {
+
+                            maskActive = true;
+
+                        } else if (pass instanceof THREE.ClearMaskPass) {
+
+                            maskActive = false;
+
+                        }
+
+                    }
+
+                },
+
+                reset: function (renderTarget) {
+
+                    if (renderTarget === undefined) {
+
+                        renderTarget = this.renderTarget1.clone();
+
+                        var pixelRatio = this.renderer.getPixelRatio();
+
+                        renderTarget.width  = Math.floor(this.renderer.context.canvas.width / pixelRatio);
+                        renderTarget.height = Math.floor(this.renderer.context.canvas.height / pixelRatio);
+
+                    }
+
+                    this.renderTarget1.dispose();
+                    this.renderTarget1 = renderTarget;
+                    this.renderTarget2.dispose();
+                    this.renderTarget2 = renderTarget.clone();
+
+                    this.writeBuffer = this.renderTarget1;
+                    this.readBuffer  = this.renderTarget2;
+
+                },
+
+                setSize: function (width, height) {
+
+                    this.renderTarget1.setSize(width, height);
+                    this.renderTarget2.setSize(width, height);
+
+                }
+
+            };
+
+            return this.instance = new THREE.EffectComposer(e.renderer, renderTarget);
+        },
+
+        addPass: function (pass) {
+            this.instance.addPass(pass);
+        },
+
+        render: function () {
+            this.instance.render();
+        }
+
+    }
+
+})(Engine);
+},{}],7:[function(require,module,exports){
+module.exports = (function (e) {
+
     /**
      * Require all of the scripts in the compositions directory
      */
@@ -40771,7 +40946,7 @@ module.exports = (function (e) {
     return e.compositions = compositions;
 
 })(Engine);
-},{"./compositions/comp-1.js":14,"./compositions/comp-2.js":15}],7:[function(require,module,exports){
+},{"./compositions/comp-1.js":17,"./compositions/comp-2.js":18}],8:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.compositor = {
@@ -40874,7 +41049,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = (function(){
 
     var configs = {};
@@ -40902,13 +41077,13 @@ module.exports = (function(){
     return configs;
 
 })();
-},{"./configs/Camera":16,"./configs/Elements":17,"./configs/Renderer":18,"./configs/Scene":19}],9:[function(require,module,exports){
+},{"./configs/Camera":19,"./configs/Elements":20,"./configs/Renderer":21,"./configs/Scene":22}],10:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.elements = {};
 
 })(Engine);
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -40923,12 +41098,15 @@ module.exports = (function (e) {
         scene        = require('./modules/Scene'),
         renderer     = require('./modules/Renderer'),
         plugins      = require('./Plugins'),
-        loader       = require('./Loader');
+        loader       = require('./Loader'),
+        shaders      = require('./Shaders'),
+        passer       = require('./Passer'),
+        composer     = require('./Composer');
 
     /**
      * Init Stuff
      */
-    helpers.init(loader, scene, camera, compositor, plugins.Stats);
+    helpers.init(loader, scene, camera, compositor, plugins.Stats, composer);
 
     /**
      * Set Renderer Sizes
@@ -40980,19 +41158,35 @@ module.exports = (function (e) {
     return render;
 
 })(Engine);
-},{"./Compositions":6,"./Compositor":7,"./Elements":9,"./Helpers":11,"./Loader":12,"./Plugins":13,"./modules/Camera":24,"./modules/Manager":25,"./modules/Renderer":26,"./modules/Scene":27}],11:[function(require,module,exports){
+},{"./Composer":6,"./Compositions":7,"./Compositor":8,"./Elements":10,"./Helpers":12,"./Loader":13,"./Passer":14,"./Plugins":15,"./Shaders":16,"./modules/Camera":27,"./modules/Manager":28,"./modules/Renderer":29,"./modules/Scene":30}],12:[function(require,module,exports){
 module.exports = function (e) {
 
     return e.helpers = {
         init: function () {
 
             for (var i = 0; i < arguments.length; i++) {
+
+                /**
+                 * Recursively Init All
+                 */
+                if (typeof arguments[i].init === 'undefined') {
+
+                    var argument = arguments[i];
+
+                    Object.keys(arguments[i]).forEach(function (key) {
+                        this.init(argument[key]);
+                    }, this);
+
+                    return;
+
+                }
+
                 arguments[i].init();
 
                 /**
                  * Configure if necessary
                  */
-                if(typeof arguments[i].configure === "function"){
+                if (typeof arguments[i].configure === "function") {
                     arguments[i].configure(arguments[i].instance);
                 }
 
@@ -41039,7 +41233,7 @@ module.exports = function (e) {
     }
 
 }(Engine);
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     return e.loader = {
@@ -41073,7 +41267,6 @@ module.exports = (function (e, c) {
 
         load: function (elements) {
             this.loading = true;
-            console.log(elements)
             elements.forEach(function (el) {
                 e.elements[el.name]      = el.create(e);
                 e.elements[el.name].name = el.name;
@@ -41115,7 +41308,90 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
+module.exports = (function (e) {
+
+    // Require all of the scripts in the elements directory
+    var passes = ({"postprocessing":({"BloomPass":require("./postprocessing/BloomPass.js"),"MaskPass":require("./postprocessing/MaskPass.js"),"RenderPass":require("./postprocessing/RenderPass.js")})}).postprocessing;
+
+    return e.passer = {
+
+        instance: null,
+        passes: passes,
+
+        init: function () {
+
+            /**
+             * Init All Passes
+             */
+            e.helpers.init(passes);
+
+            /**
+             * Init ShaderPass
+             */
+            THREE.ShaderPass = function (shader, textureID) {
+
+                this.textureID = ( textureID !== undefined ) ? textureID : "tDiffuse";
+
+                this.uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+
+                this.material = new THREE.ShaderMaterial({
+
+                    defines: shader.defines || {},
+                    uniforms: this.uniforms,
+                    vertexShader: shader.vertexShader,
+                    fragmentShader: shader.fragmentShader
+
+                });
+
+                this.renderToScreen = false;
+
+                this.enabled   = true;
+                this.needsSwap = true;
+                this.clear     = false;
+
+
+                this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+                this.scene  = new THREE.Scene();
+
+                this.quad = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), null);
+                this.scene.add(this.quad);
+
+            };
+            THREE.ShaderPass.prototype = {
+
+                render: function (renderer, writeBuffer, readBuffer, delta) {
+
+                    if (this.uniforms[this.textureID]) {
+
+                        this.uniforms[this.textureID].value = readBuffer;
+
+                    }
+
+                    this.quad.material = this.material;
+
+                    if (this.renderToScreen) {
+
+                        renderer.render(this.scene, this.camera);
+
+                    } else {
+
+                        renderer.render(this.scene, this.camera, writeBuffer, this.clear);
+
+                    }
+
+                }
+
+            };
+
+            return this.instance = THREE.ShaderPass;
+
+        }
+
+    };
+
+})(Engine);
+},{"./postprocessing/BloomPass.js":34,"./postprocessing/MaskPass.js":35,"./postprocessing/RenderPass.js":36}],15:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -41123,28 +41399,37 @@ module.exports = (function (e) {
 
     return e.plugins = plugins;
 
-    return e.plugins = {
+})(Engine);
+},{"./plugins/OrbitControls.js":31,"./plugins/Stats.js":32,"./plugins/TrackballControls.js":33}],16:[function(require,module,exports){
+module.exports = (function (e) {
 
-        init: function (components) {
+    // Require all of the scripts in the elements directory
+    var shaders = ({"shaders":({"ConvolutionShader":require("./shaders/ConvolutionShader.js"),"CopyShader":require("./shaders/CopyShader.js"),"FXAAShader":require("./shaders/FXAAShader.js")})}).shaders;
 
-            Object.keys(plugins).map(function (plugin) {
-                plugins[plugin].init(components);
-            });
+    return e.shaders = {
 
-            return plugins;
+        init: function () {
+
+            /**
+             * Init All Shaders
+             */
+            e.helpers.init(shaders);
 
         }
 
-    }
+    };
 
 })(Engine);
-},{"./plugins/OrbitControls.js":28,"./plugins/Stats.js":29,"./plugins/TrackballControls.js":30}],14:[function(require,module,exports){
+},{"./shaders/ConvolutionShader.js":37,"./shaders/CopyShader.js":38,"./shaders/FXAAShader.js":39}],17:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
 
         constructor: function (E) {
-            return {}
+            return {
+                maxConnections: 100,
+                limitConnections: false,
+            }
         },
 
         setup: function (data, E) {
@@ -41152,7 +41437,7 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles, E.skybox);
+            e.scene.a.add(E.particles);
 
             /**
              * Camera Settings
@@ -41170,18 +41455,96 @@ module.exports = (function (e) {
 
         },
 
+        GUI: {
+            controller: function (data) {
+                return {
+                    maxPoints: data.maxPoints,
+                    minDistance: data.minDistance,
+                    maxConnections: data.maxConnections,
+                    limitConnections: data.limitConnections,
+                }
+            },
+            gui: function (controller, data, gui) {
+                gui.add(data, 'maxPoints', 0, 200);
+                gui.add(data, 'minDistance', 0, 50);
+                gui.add(data, 'maxConnections', 0, 30);
+                gui.add(data, 'limitConnections')
+            }
+        },
+
         animation: function (data, E) {
 
-            for (var i = 0; i < data.max; i++) {
+            var lines  = data.lines,
+                points = data.points;
 
+            var vertexPos   = 0,
+                colorPos    = 0,
+                connections = 0;
+
+            for (var i = 0; i < data.maxPoints; i++) {
+
+                var particleData = data.particlesData[i];
+
+                points.vertices[ i * 3     ] += particleData.velocity.x / 150;
+                points.vertices[ i * 3 + 1 ] += particleData.velocity.y / 150;
+                points.vertices[ i * 3 + 2 ] += particleData.velocity.z / 150;
+
+                if (data.limitConnections && particleData.connections >= data.maxConnections)
+                    continue;
+
+                for (var j = i + 1; j < data.maxPoints; j++) {
+
+                    var particleDataB = data.particlesData[j];
+
+                    if (data.limitConnections && particleDataB.connections >= data.maxConnections)
+                        continue;
+
+                    var dx   = points.vertices[i * 3] - points.vertices[j * 3];
+                    var dy   = points.vertices[i * 3 + 1] - points.vertices[j * 3 + 1];
+                    var dz   = points.vertices[i * 3 + 2] - points.vertices[j * 3 + 2];
+                    var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (dist < data.minDistance) {
+
+                        particleData.connections++;
+                        particleDataB.connections++;
+
+                        lines.vertices[vertexPos++] = points.vertices[i * 3];
+                        lines.vertices[vertexPos++] = points.vertices[i * 3 + 1];
+                        lines.vertices[vertexPos++] = points.vertices[i * 3 + 2];
+
+                        lines.vertices[vertexPos++] = points.vertices[j * 3];
+                        lines.vertices[vertexPos++] = points.vertices[j * 3 + 1];
+                        lines.vertices[vertexPos++] = points.vertices[j * 3 + 2];
+
+                        var alpha = 1.0 - dist / data.minDistance;
+
+                        lines.colors[colorPos++] = alpha;
+                        lines.colors[colorPos++] = alpha;
+                        lines.colors[colorPos++] = alpha;
+
+                        lines.colors[colorPos++] = alpha;
+                        lines.colors[colorPos++] = alpha;
+                        lines.colors[colorPos++] = alpha;
+
+                        connections++;
+
+                    }
+
+                }
             }
+
+            lines.geometry.setDrawRange( 0, connections * 2 );
+            lines.geometry.attributes.position.needsUpdate  = true;
+            lines.geometry.attributes.color.needsUpdate     = true;
+            points.geometry.attributes.position.needsUpdate = true;
 
         }
 
     };
 
 })(Engine);
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -41225,7 +41588,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = (function () {
     return {
         fov: 45,
@@ -41234,7 +41597,7 @@ module.exports = (function () {
         far: 40000
     }
 })();
-},{}],17:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -41249,7 +41612,7 @@ module.exports = (function () {
         ]
     }
 })();
-},{"../elements/Ball":20,"../elements/Particles":21,"../elements/Skybox":22}],18:[function(require,module,exports){
+},{"../elements/Ball":23,"../elements/Particles":24,"../elements/Skybox":25}],21:[function(require,module,exports){
 module.exports = (function () {
     return {
         //        canvas : A Canvas where the renderer draws its output.
@@ -41264,13 +41627,13 @@ module.exports = (function () {
         //        logarithmicDepthBuffer : Boolean, default is false.
     }
 })();
-},{}],19:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = (function () {
     return {
         //fog: new THREE.Fog(0x000111)
     }
 })();
-},{}],20:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -41283,67 +41646,102 @@ module.exports = (function () {
     }
 
 })();
-},{}],21:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function () {
 
-    var max    = 10;
-    var radius = 10;
+    var maxPoints     = 100;
+    var radius        = 200;
+    var particlesData = [];
+
+
+    /**
+     * Create Points
+     * @type {{max: number, geometry: THREE.BufferGeometry, vertices: Float32Array, create: points.create}}
+     */
+    var points = {
+        geometry: new THREE.BufferGeometry(),
+        vertices: new Float32Array(maxPoints * 3),
+        create: function () {
+            return new THREE.Points(this.geometry);
+        }
+    };
+
+    /**
+     * Create Connection Lines
+     * @type {{geometry: THREE.BufferGeometry, colors: Float32Array, vertices: Float32Array, create: lines.create}}
+     */
+    var lines = {
+        geometry: new THREE.BufferGeometry(),
+        colors: new Float32Array(maxPoints * 3),
+        vertices: new Float32Array((maxPoints * maxPoints) * 3),
+        material: function () {
+            return new THREE.LineBasicMaterial({color: 0xffffff, opacity: 1, linewidth: 3});
+        },
+        create: function () {
+            return new THREE.LineSegments(this.geometry, this.material());
+        }
+    };
 
     return {
         name: 'particles',
         create: function (e) {
 
-            var map = e.loader.l('lib/point-1.png');
+            var group = e.helpers.group();
 
-            var material = new THREE.PointsMaterial({
-                map: map,
-                size: 15
-            });
-
-            var segments = 6;
-
-            var circleGeometry = new THREE.CircleGeometry(radius, segments, 11);
-
-            var particles = new THREE.BufferGeometry();
-
-            var vertices = new Float32Array(max * 3);
-
-            for (var i = 0; i < max; i++) {
+            /**
+             * Add Vertices to Points
+             */
+            for (var i = 0; i < maxPoints; i++) {
 
                 var x = Math.random() * radius - radius / 2;
                 var y = Math.random() * radius - radius / 2;
                 var z = Math.random() * radius - radius / 2;
 
-                vertices[i * 3]     = x;
-                vertices[i * 3 + 1] = y;
-                vertices[i * 3 + 2] = z;
+                points.vertices[i * 3]     = x;
+                points.vertices[i * 3 + 1] = y;
+                points.vertices[i * 3 + 2] = z;
+
+                particlesData.push({
+                    velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),
+                    connections: 0
+                });
+
             }
 
-            particles.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
+            /**
+             * Add Position Attribute to the Geometry
+             */
+            var PointPositionAttribute = new THREE.BufferAttribute(points.vertices, 3).setDynamic(true);
+            points.geometry.addAttribute('position', PointPositionAttribute);
 
-            var pointsMesh = new THREE.Points(particles);
+            /**
+             * Add Position Attribute to the Geometry
+             */
+            var LinePositionAttribute = new THREE.BufferAttribute(lines.vertices, 3).setDynamic(true),
+                LineColorAttribute    = new THREE.BufferAttribute(lines.colors, 3).setDynamic(true);
 
-            var lineGeometry = new THREE.BufferGeometry();
-            lineGeometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
-            //lineGeometry.computeBoundingSphere();
+            lines.geometry.addAttribute('position', LinePositionAttribute);
+            lines.geometry.addAttribute('color', LineColorAttribute);
 
-            var linesMesh = new THREE.LineSegments(lineGeometry);
-
-            return e.helpers.group(pointsMesh, linesMesh);
+            return group.add(points.create(), lines.create());
 
         },
 
         share: function (e) {
             return {
-                max: max,
-                radius: radius
+                maxPoints: 100,
+                minDistance: 50,
+                radius: 10,
+                points: points,
+                lines: lines,
+                particlesData: particlesData
             }
         }
 
     }
 
 })();
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -41360,7 +41758,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],23:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (global){
 /**
  * Caption
@@ -41420,7 +41818,7 @@ global.Engine.core = require('./Engine').render();
 
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Config":8,"./Engine":10,"THREE":1,"dat-gui":2}],24:[function(require,module,exports){
+},{"./Config":9,"./Engine":11,"THREE":1,"dat-gui":2}],27:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -41448,7 +41846,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],25:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -41464,7 +41862,7 @@ module.exports = (function (e, c) {
     return e.manager = manager;
 
 })(Engine, Configs);
-},{}],26:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     var renderer = new THREE.WebGLRenderer(c.renderer);
@@ -41489,7 +41887,7 @@ module.exports = (function (e, c) {
     //};
 
 })(Engine, Configs);
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -41523,7 +41921,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -42653,7 +43051,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -42680,7 +43078,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{"stats.js":5}],30:[function(require,module,exports){
+},{"stats.js":5}],33:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -43337,4 +43735,563 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}]},{},[23])
+},{}],34:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        /**
+         * Pass Instance
+         */
+        instance: null,
+
+        init: function () {
+            return this.instance = this.pass();
+        },
+
+        pass: function () {
+
+            THREE.BloomPass = function (strength, kernelSize, sigma, resolution) {
+
+                strength   = ( strength !== undefined ) ? strength : 1;
+                kernelSize = ( kernelSize !== undefined ) ? kernelSize : 25;
+                sigma      = ( sigma !== undefined ) ? sigma : 4.0;
+                resolution = ( resolution !== undefined ) ? resolution : 256;
+
+                // render targets
+
+                var pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
+
+                this.renderTargetX = new THREE.WebGLRenderTarget(resolution, resolution, pars);
+                this.renderTargetY = new THREE.WebGLRenderTarget(resolution, resolution, pars);
+
+                // copy material
+
+                if (THREE.CopyShader === undefined)
+                    console.error("THREE.BloomPass relies on THREE.CopyShader");
+
+                var copyShader = THREE.CopyShader;
+
+                this.copyUniforms = THREE.UniformsUtils.clone(copyShader.uniforms);
+
+                this.copyUniforms["opacity"].value = strength;
+
+                this.materialCopy = new THREE.ShaderMaterial({
+
+                    uniforms: this.copyUniforms,
+                    vertexShader: copyShader.vertexShader,
+                    fragmentShader: copyShader.fragmentShader,
+                    blending: THREE.AdditiveBlending,
+                    transparent: true
+
+                });
+
+                // convolution material
+
+                if (THREE.ConvolutionShader === undefined)
+                    console.error("THREE.BloomPass relies on THREE.ConvolutionShader");
+
+                var convolutionShader = THREE.ConvolutionShader;
+
+                this.convolutionUniforms = THREE.UniformsUtils.clone(convolutionShader.uniforms);
+
+                this.convolutionUniforms["uImageIncrement"].value = THREE.BloomPass.blurX;
+                this.convolutionUniforms["cKernel"].value         = THREE.ConvolutionShader.buildKernel(sigma);
+
+                this.materialConvolution = new THREE.ShaderMaterial({
+
+                    uniforms: this.convolutionUniforms,
+                    vertexShader: convolutionShader.vertexShader,
+                    fragmentShader: convolutionShader.fragmentShader,
+                    defines: {
+                        "KERNEL_SIZE_FLOAT": kernelSize.toFixed(1),
+                        "KERNEL_SIZE_INT": kernelSize.toFixed(0)
+                    }
+
+                });
+
+                this.enabled   = true;
+                this.needsSwap = false;
+                this.clear     = false;
+
+
+                this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+                this.scene  = new THREE.Scene();
+
+                this.quad = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), null);
+                this.scene.add(this.quad);
+
+            };
+
+            THREE.BloomPass.prototype = {
+
+                render: function (renderer, writeBuffer, readBuffer, delta, maskActive) {
+
+                    if (maskActive) renderer.context.disable(renderer.context.STENCIL_TEST);
+
+                    // Render quad with blured scene into texture (convolution pass 1)
+
+                    this.quad.material = this.materialConvolution;
+
+                    this.convolutionUniforms["tDiffuse"].value        = readBuffer;
+                    this.convolutionUniforms["uImageIncrement"].value = THREE.BloomPass.blurX;
+
+                    renderer.render(this.scene, this.camera, this.renderTargetX, true);
+
+
+                    // Render quad with blured scene into texture (convolution pass 2)
+
+                    this.convolutionUniforms["tDiffuse"].value        = this.renderTargetX;
+                    this.convolutionUniforms["uImageIncrement"].value = THREE.BloomPass.blurY;
+
+                    renderer.render(this.scene, this.camera, this.renderTargetY, true);
+
+                    // Render original scene with superimposed blur to texture
+
+                    this.quad.material = this.materialCopy;
+
+                    this.copyUniforms["tDiffuse"].value = this.renderTargetY;
+
+                    if (maskActive) renderer.context.enable(renderer.context.STENCIL_TEST);
+
+                    renderer.render(this.scene, this.camera, readBuffer, this.clear);
+
+                }
+
+            };
+
+            THREE.BloomPass.blurX = new THREE.Vector2(0.001953125, 0.0);
+            THREE.BloomPass.blurY = new THREE.Vector2(0.0, 0.001953125);
+
+            return THREE.BloomPass;
+
+        }
+
+    }
+
+})(Engine);
+
+
+},{}],35:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        /**
+         * Pass Instance
+         */
+        instance: null,
+
+        init: function () {
+            return this.instance = this.pass();
+        },
+
+        pass: function () {
+            THREE.MaskPass                = function (scene, camera) {
+
+                this.scene  = scene;
+                this.camera = camera;
+
+                this.enabled   = true;
+                this.clear     = true;
+                this.needsSwap = false;
+
+                this.inverse = false;
+
+            };
+            THREE.MaskPass.prototype      = {
+
+                render: function (renderer, writeBuffer, readBuffer, delta) {
+
+                    var context = renderer.context;
+
+                    // don't update color or depth
+
+                    context.colorMask(false, false, false, false);
+                    context.depthMask(false);
+
+                    // set up stencil
+
+                    var writeValue, clearValue;
+
+                    if (this.inverse) {
+
+                        writeValue = 0;
+                        clearValue = 1;
+
+                    } else {
+
+                        writeValue = 1;
+                        clearValue = 0;
+
+                    }
+
+                    context.enable(context.STENCIL_TEST);
+                    context.stencilOp(context.REPLACE, context.REPLACE, context.REPLACE);
+                    context.stencilFunc(context.ALWAYS, writeValue, 0xffffffff);
+                    context.clearStencil(clearValue);
+
+                    // draw into the stencil buffer
+
+                    renderer.render(this.scene, this.camera, readBuffer, this.clear);
+                    renderer.render(this.scene, this.camera, writeBuffer, this.clear);
+
+                    // re-enable update of color and depth
+
+                    context.colorMask(true, true, true, true);
+                    context.depthMask(true);
+
+                    // only render where stencil is set to 1
+
+                    context.stencilFunc(context.EQUAL, 1, 0xffffffff);  // draw if == 1
+                    context.stencilOp(context.KEEP, context.KEEP, context.KEEP);
+
+                }
+
+            };
+            THREE.ClearMaskPass           = function () {
+
+                this.enabled = true;
+
+            };
+            THREE.ClearMaskPass.prototype = {
+
+                render: function (renderer, writeBuffer, readBuffer, delta) {
+
+                    var context = renderer.context;
+
+                    context.disable(context.STENCIL_TEST);
+
+                }
+
+            };
+            return THREE.MaskPass;
+        }
+
+    }
+
+})(Engine);
+},{}],36:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        /**
+         * Pass Instance
+         */
+        instance: null,
+
+        init: function () {
+            return this.instance = this.pass();
+        },
+
+        pass: function () {
+            THREE.RenderPass           = function (scene, camera, overrideMaterial, clearColor, clearAlpha) {
+
+                this.scene  = scene;
+                this.camera = camera;
+
+                this.overrideMaterial = overrideMaterial;
+
+                this.clearColor = clearColor;
+                this.clearAlpha = ( clearAlpha !== undefined ) ? clearAlpha : 1;
+
+                this.oldClearColor = new THREE.Color();
+                this.oldClearAlpha = 1;
+
+                this.enabled   = true;
+                this.clear     = true;
+                this.needsSwap = false;
+
+            };
+            THREE.RenderPass.prototype = {
+
+                render: function (renderer, writeBuffer, readBuffer, delta) {
+
+                    this.scene.overrideMaterial = this.overrideMaterial;
+
+                    if (this.clearColor) {
+
+                        this.oldClearColor.copy(renderer.getClearColor());
+                        this.oldClearAlpha = renderer.getClearAlpha();
+
+                        renderer.setClearColor(this.clearColor, this.clearAlpha);
+
+                    }
+
+                    renderer.render(this.scene, this.camera, readBuffer, this.clear);
+
+                    if (this.clearColor) {
+
+                        renderer.setClearColor(this.oldClearColor, this.oldClearAlpha);
+
+                    }
+
+                    this.scene.overrideMaterial = null;
+
+                }
+
+            };
+            return THREE.RenderPass;
+        }
+
+    }
+
+})(Engine);
+},{}],37:[function(require,module,exports){
+module.exports = (function (e) {
+
+	return {
+
+		init: function () {
+			return this.shader();
+		},
+
+		shader: function () {
+			return THREE.ConvolutionShader = {
+
+				defines: {
+
+					"KERNEL_SIZE_FLOAT": "25.0",
+					"KERNEL_SIZE_INT": "25",
+
+				},
+
+				uniforms: {
+
+					"tDiffuse":        { type: "t", value: null },
+					"uImageIncrement": { type: "v2", value: new THREE.Vector2( 0.001953125, 0.0 ) },
+					"cKernel":         { type: "fv1", value: [] }
+
+				},
+
+				vertexShader: [
+
+					"uniform vec2 uImageIncrement;",
+
+					"varying vec2 vUv;",
+
+					"void main() {",
+
+					"vUv = uv - ( ( KERNEL_SIZE_FLOAT - 1.0 ) / 2.0 ) * uImageIncrement;",
+					"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+					"}"
+
+				].join( "\n" ),
+
+				fragmentShader: [
+
+					"uniform float cKernel[ KERNEL_SIZE_INT ];",
+
+					"uniform sampler2D tDiffuse;",
+					"uniform vec2 uImageIncrement;",
+
+					"varying vec2 vUv;",
+
+					"void main() {",
+
+					"vec2 imageCoord = vUv;",
+					"vec4 sum = vec4( 0.0, 0.0, 0.0, 0.0 );",
+
+					"for( int i = 0; i < KERNEL_SIZE_INT; i ++ ) {",
+
+					"sum += texture2D( tDiffuse, imageCoord ) * cKernel[ i ];",
+					"imageCoord += uImageIncrement;",
+
+					"}",
+
+					"gl_FragColor = sum;",
+
+					"}"
+
+
+				].join( "\n" ),
+
+				buildKernel: function ( sigma ) {
+
+					// We lop off the sqrt(2 * pi) * sigma term, since we're going to normalize anyway.
+
+					function gauss( x, sigma ) {
+
+						return Math.exp( - ( x * x ) / ( 2.0 * sigma * sigma ) );
+
+					}
+
+					var i, values, sum, halfWidth, kMaxKernelSize = 25, kernelSize = 2 * Math.ceil( sigma * 3.0 ) + 1;
+
+					if ( kernelSize > kMaxKernelSize ) kernelSize = kMaxKernelSize;
+					halfWidth = ( kernelSize - 1 ) * 0.5;
+
+					values = new Array( kernelSize );
+					sum = 0.0;
+					for ( i = 0; i < kernelSize; ++ i ) {
+
+						values[ i ] = gauss( i - halfWidth, sigma );
+						sum += values[ i ];
+
+					}
+
+					// normalize the kernel
+
+					for ( i = 0; i < kernelSize; ++ i ) values[ i ] /= sum;
+
+					return values;
+
+				}
+
+			};
+		}
+
+	}
+
+})(Engine);
+},{}],38:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        init: function () {
+            return this.shader();
+        },
+
+        shader: function () {
+            return THREE.CopyShader = {
+
+                uniforms: {
+
+                    "tDiffuse": {type: "t", value: null},
+                    "opacity": {type: "f", value: 1.0}
+
+                },
+
+                vertexShader: [
+
+                    "varying vec2 vUv;",
+
+                    "void main() {",
+
+                    "vUv = uv;",
+                    "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+                    "}"
+
+                ].join("\n"),
+
+                fragmentShader: [
+
+                    "uniform float opacity;",
+
+                    "uniform sampler2D tDiffuse;",
+
+                    "varying vec2 vUv;",
+
+                    "void main() {",
+
+                    "vec4 texel = texture2D( tDiffuse, vUv );",
+                    "gl_FragColor = opacity * texel;",
+
+                    "}"
+
+                ].join("\n")
+
+            };
+        }
+
+    }
+
+})(Engine);
+},{}],39:[function(require,module,exports){
+module.exports = (function (e) {
+
+	return {
+
+		init: function () {
+			return this.shader();
+		},
+
+		shader: function () {
+			return THREE.FXAAShader = {
+
+				uniforms: {
+
+					"tDiffuse":   { type: "t", value: null },
+					"resolution": { type: "v2", value: new THREE.Vector2( 1 / 1024, 1 / 512 ) }
+
+				},
+
+				vertexShader: [
+
+					"void main() {",
+
+					"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+					"}"
+
+				].join( "\n" ),
+
+				fragmentShader: [
+
+					"uniform sampler2D tDiffuse;",
+					"uniform vec2 resolution;",
+
+					"#define FXAA_REDUCE_MIN   (1.0/128.0)",
+					"#define FXAA_REDUCE_MUL   (1.0/8.0)",
+					"#define FXAA_SPAN_MAX     8.0",
+
+					"void main() {",
+
+					"vec3 rgbNW = texture2D( tDiffuse, ( gl_FragCoord.xy + vec2( -1.0, -1.0 ) ) * resolution ).xyz;",
+					"vec3 rgbNE = texture2D( tDiffuse, ( gl_FragCoord.xy + vec2( 1.0, -1.0 ) ) * resolution ).xyz;",
+					"vec3 rgbSW = texture2D( tDiffuse, ( gl_FragCoord.xy + vec2( -1.0, 1.0 ) ) * resolution ).xyz;",
+					"vec3 rgbSE = texture2D( tDiffuse, ( gl_FragCoord.xy + vec2( 1.0, 1.0 ) ) * resolution ).xyz;",
+					"vec4 rgbaM  = texture2D( tDiffuse,  gl_FragCoord.xy  * resolution );",
+					"vec3 rgbM  = rgbaM.xyz;",
+					"vec3 luma = vec3( 0.299, 0.587, 0.114 );",
+
+					"float lumaNW = dot( rgbNW, luma );",
+					"float lumaNE = dot( rgbNE, luma );",
+					"float lumaSW = dot( rgbSW, luma );",
+					"float lumaSE = dot( rgbSE, luma );",
+					"float lumaM  = dot( rgbM,  luma );",
+					"float lumaMin = min( lumaM, min( min( lumaNW, lumaNE ), min( lumaSW, lumaSE ) ) );",
+					"float lumaMax = max( lumaM, max( max( lumaNW, lumaNE) , max( lumaSW, lumaSE ) ) );",
+
+					"vec2 dir;",
+					"dir.x = -((lumaNW + lumaNE) - (lumaSW + lumaSE));",
+					"dir.y =  ((lumaNW + lumaSW) - (lumaNE + lumaSE));",
+
+					"float dirReduce = max( ( lumaNW + lumaNE + lumaSW + lumaSE ) * ( 0.25 * FXAA_REDUCE_MUL ), FXAA_REDUCE_MIN );",
+
+					"float rcpDirMin = 1.0 / ( min( abs( dir.x ), abs( dir.y ) ) + dirReduce );",
+					"dir = min( vec2( FXAA_SPAN_MAX,  FXAA_SPAN_MAX),",
+					"max( vec2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX),",
+					"dir * rcpDirMin)) * resolution;",
+					"vec4 rgbA = (1.0/2.0) * (",
+					"texture2D(tDiffuse,  gl_FragCoord.xy  * resolution + dir * (1.0/3.0 - 0.5)) +",
+					"texture2D(tDiffuse,  gl_FragCoord.xy  * resolution + dir * (2.0/3.0 - 0.5)));",
+					"vec4 rgbB = rgbA * (1.0/2.0) + (1.0/4.0) * (",
+					"texture2D(tDiffuse,  gl_FragCoord.xy  * resolution + dir * (0.0/3.0 - 0.5)) +",
+					"texture2D(tDiffuse,  gl_FragCoord.xy  * resolution + dir * (3.0/3.0 - 0.5)));",
+					"float lumaB = dot(rgbB, vec4(luma, 0.0));",
+
+					"if ( ( lumaB < lumaMin ) || ( lumaB > lumaMax ) ) {",
+
+					"gl_FragColor = rgbA;",
+
+					"} else {",
+					"gl_FragColor = rgbB;",
+
+					"}",
+
+					"}"
+
+				].join( "\n" )
+
+			};
+		}
+
+	}
+
+})(Engine);
+},{}]},{},[26])

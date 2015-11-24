@@ -4,12 +4,28 @@ module.exports = function (e) {
         init: function () {
 
             for (var i = 0; i < arguments.length; i++) {
+
+                /**
+                 * Recursively Init All
+                 */
+                if (typeof arguments[i].init === 'undefined') {
+
+                    var argument = arguments[i];
+
+                    Object.keys(arguments[i]).forEach(function (key) {
+                        this.init(argument[key]);
+                    }, this);
+
+                    return;
+
+                }
+
                 arguments[i].init();
 
                 /**
                  * Configure if necessary
                  */
-                if(typeof arguments[i].configure === "function"){
+                if (typeof arguments[i].configure === "function") {
                     arguments[i].configure(arguments[i].instance);
                 }
 

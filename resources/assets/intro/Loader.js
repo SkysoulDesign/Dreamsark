@@ -31,7 +31,6 @@ module.exports = (function (e, c) {
 
         load: function (elements) {
             this.loading = true;
-            console.log(elements)
             elements.forEach(function (el) {
                 e.elements[el.name]      = el.create(e);
                 e.elements[el.name].name = el.name;

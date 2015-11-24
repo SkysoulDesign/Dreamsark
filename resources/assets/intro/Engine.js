@@ -12,12 +12,15 @@ module.exports = (function (e) {
         scene        = require('./modules/Scene'),
         renderer     = require('./modules/Renderer'),
         plugins      = require('./Plugins'),
-        loader       = require('./Loader');
+        loader       = require('./Loader'),
+        shaders      = require('./Shaders'),
+        passer       = require('./Passer'),
+        composer     = require('./Composer');
 
     /**
      * Init Stuff
      */
-    helpers.init(loader, scene, camera, compositor, plugins.Stats);
+    helpers.init(loader, scene, camera, compositor, plugins.Stats, composer);
 
     /**
      * Set Renderer Sizes

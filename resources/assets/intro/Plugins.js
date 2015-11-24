@@ -5,18 +5,4 @@ module.exports = (function (e) {
 
     return e.plugins = plugins;
 
-    return e.plugins = {
-
-        init: function (components) {
-
-            Object.keys(plugins).map(function (plugin) {
-                plugins[plugin].init(components);
-            });
-
-            return plugins;
-
-        }
-
-    }
-
 })(Engine);
