@@ -74,8 +74,17 @@ module.exports = (function (e) {
         },
 
         GUI: function () {
+
+            /**
+             * Only Initialize GUI if it`s set
+             */
+            if (!this.active.GUI instanceof Object || this.active.GUI === undefined) {
+                return;
+            }
+
             var controller = this.GUIData.controller = this.active.GUI.controller(this.public);
             this.active.GUI.gui(controller, this.public, this.GUIData.dat);
+
         },
 
         next: function () {

@@ -1,123 +1,59 @@
 module.exports = (function () {
 
-    var particlesData = [];
-    var positions, colors;
-    var particles;
-    var pointCloud;
-    var particlePositions;
-    var linesMesh;
-
-    var maxParticleCount = 500;
-    var particleCount    = 260;
-    var radius           = 800;
+    var max    = 10;
+    var radius = 10;
 
     return {
         name: 'particles',
         create: function (e) {
 
-            var helper = new THREE.BoxHelper(new THREE.Mesh(new THREE.BoxGeometry(radius, radius, radius)));
-            helper.material.color.setHex(0x080808);
-            helper.material.blending    = THREE.AdditiveBlending;
-            helper.material.transparent = true;
+            var map = e.loader.l('lib/point-1.png');
 
-            var segments = maxParticleCount * maxParticleCount;
-
-            positions = new Float32Array(segments * 3);
-            colors    = new Float32Array(segments * 3);
-
-            var sprite = (new THREE.TextureLoader(e.manager)).load("lib/disc.png");
-
-            var PointMaterial = new THREE.PointsMaterial({
-                color: 0xFFFFFF,
-                size: 35,
-                blending: THREE.AdditiveBlending,
-                transparent: true,
-                sizeAttenuation: false,
-                map: sprite,
-                alphaTest: 0.5
+            var material = new THREE.PointsMaterial({
+                map: map,
+                size: 15
             });
 
-            var group = e.helpers.group();
+            var segments = 6;
 
-            particles         = new THREE.BufferGeometry();
-            particlePositions = new Float32Array(maxParticleCount * 3);
+            var circleGeometry = new THREE.CircleGeometry(radius, segments, 11);
 
-            for (var i = 0; i < maxParticleCount; i++) {
+            var particles = new THREE.BufferGeometry();
+
+            var vertices = new Float32Array(max * 3);
+
+            for (var i = 0; i < max; i++) {
 
                 var x = Math.random() * radius - radius / 2;
                 var y = Math.random() * radius - radius / 2;
                 var z = Math.random() * radius - radius / 2;
 
-                var geo = new THREE.Geometry();
-
-                geo.vertices.push(
-                    new THREE.Vector3( -x,  y, z ),
-                    new THREE.Vector3( -x, -y, z ),
-                    new THREE.Vector3(  x, -y, -z )
-                );
-
-                geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
-
-                geo.computeBoundingSphere();
-
-                var point = new THREE.Points(geo);
-
-                group.add(point);
-
-                particlePositions[i * 3]     = x;
-                particlePositions[i * 3 + 1] = y;
-                particlePositions[i * 3 + 2] = z;
-
-                // add it to the geometry
-                particlesData.push({
-                    velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),
-                    numConnections: 0
-                });
-
+                vertices[i * 3]     = x;
+                vertices[i * 3 + 1] = y;
+                vertices[i * 3 + 2] = z;
             }
 
-            particles.setDrawRange(0, particleCount);
-            particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
+            particles.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
 
-            /**
-             * Lines
-             * @type {THREE.BufferGeometry}
-             */
-            var geometry = new THREE.BufferGeometry();
+            var pointsMesh = new THREE.Points(particles);
 
-            geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3).setDynamic(true));
-            geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3).setDynamic(true));
+            var lineGeometry = new THREE.BufferGeometry();
+            lineGeometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
+            //lineGeometry.computeBoundingSphere();
 
-            geometry.computeBoundingSphere();
+            var linesMesh = new THREE.LineSegments(lineGeometry);
 
-            geometry.setDrawRange(0, 0);
-
-            var material = new THREE.LineBasicMaterial({
-                vertexColors: THREE.VertexColors,
-                blending: THREE.AdditiveBlending,
-                transparent: true
-            });
-
-            pointCloud = new THREE.Points(particles, PointMaterial);
-            linesMesh  = new THREE.LineSegments(geometry, material);
-
-            return group.add(helper, linesMesh);
+            return e.helpers.group(pointsMesh, linesMesh);
 
         },
 
         share: function (e) {
             return {
-                pointCloud: pointCloud,
-                linesMesh: linesMesh,
-                particlesData: particlesData,
-                particlePositions: particlePositions,
-                particleCount: particleCount,
-                colors: colors,
-                radius: radius,
-                positions: positions,
-                particles: particles
+                max: max,
+                radius: radius
             }
         }
+
     }
 
 })();

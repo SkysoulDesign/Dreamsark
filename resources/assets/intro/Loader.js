@@ -3,8 +3,15 @@ module.exports = (function (e, c) {
     return e.loader = {
 
         loading: false,
+        loader: null,
 
         init: function () {
+
+            /**
+             * Init Loader
+             * @type {THREE.TextureLoader}
+             */
+            this.loader = new THREE.TextureLoader(e.manager);
 
             /**
              * Load Global Items
@@ -13,8 +20,18 @@ module.exports = (function (e, c) {
 
         },
 
+        /**
+         * Loader texture
+         * @param path
+         * @returns {*}
+         */
+        l: function (path) {
+            return this.loader.load(path);
+        },
+
         load: function (elements) {
             this.loading = true;
+            console.log(elements)
             elements.forEach(function (el) {
                 e.elements[el.name]      = el.create(e);
                 e.elements[el.name].name = el.name;

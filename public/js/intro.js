@@ -40848,8 +40848,17 @@ module.exports = (function (e) {
         },
 
         GUI: function () {
+
+            /**
+             * Only Initialize GUI if it`s set
+             */
+            if (!this.active.GUI instanceof Object || this.active.GUI === undefined) {
+                return;
+            }
+
             var controller = this.GUIData.controller = this.active.GUI.controller(this.public);
             this.active.GUI.gui(controller, this.public, this.GUIData.dat);
+
         },
 
         next: function () {
@@ -41036,8 +41045,15 @@ module.exports = (function (e, c) {
     return e.loader = {
 
         loading: false,
+        loader: null,
 
         init: function () {
+
+            /**
+             * Init Loader
+             * @type {THREE.TextureLoader}
+             */
+            this.loader = new THREE.TextureLoader(e.manager);
 
             /**
              * Load Global Items
@@ -41046,8 +41062,18 @@ module.exports = (function (e, c) {
 
         },
 
+        /**
+         * Loader texture
+         * @param path
+         * @returns {*}
+         */
+        l: function (path) {
+            return this.loader.load(path);
+        },
+
         load: function (elements) {
             this.loading = true;
+            console.log(elements)
             elements.forEach(function (el) {
                 e.elements[el.name]      = el.create(e);
                 e.elements[el.name].name = el.name;
@@ -41115,18 +41141,10 @@ module.exports = (function (e) {
 },{"./plugins/OrbitControls.js":28,"./plugins/Stats.js":29,"./plugins/TrackballControls.js":30}],14:[function(require,module,exports){
 module.exports = (function (e) {
 
-    var INTERSECTED;
-
     return {
 
         constructor: function (E) {
-            return {
-                limitConnections: false,
-                maxConnections: 50,
-                maxParticleCount: 1000,
-                minDistance: 150,
-                particleCount: 260
-            }
+            return {}
         },
 
         setup: function (data, E) {
@@ -41134,36 +41152,17 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles);
+            e.scene.a.add(E.particles, E.skybox);
 
             /**
              * Camera Settings
              */
-            e.camera.a.position.z = 1750;
+            e.camera.a.position.z = 20;
 
             /**
              * Plugin Init
              */
             e.plugins.OrbitControls.init();
-
-            /**
-             * RayCaster
-             */
-            data.raycaster = new THREE.Raycaster();
-            data.raycaster.params.Points.threshold = 5;
-
-            data.mouse = new THREE.Vector2();
-
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-
-            function onDocumentMouseMove(event) {
-
-                event.preventDefault();
-
-                data.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-                data.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-
-            }
 
             //e.helpers.timeout(5000, function () {
             //    e.compositor.next();
@@ -41171,144 +41170,11 @@ module.exports = (function (e) {
 
         },
 
-        GUI: {
-            controller: function (data) {
-                return {
-                    showDots: true,
-                    showLines: true,
-                    minDistance: data.minDistance,
-                    limitConnections: data.limitConnections,
-                    maxConnections: data.maxConnections,
-                    particleCount: data.particleCount
-                };
-            },
-            gui: function (controller, data, gui) {
-
-                gui.add(controller, "showDots").onChange(function (value) {
-                    data.pointCloud.visible = value;
-                }).name('Show Particles');
-
-                gui.add(controller, "showLines").onChange(function (value) {
-                    data.linesMesh.visible = value;
-                });
-
-                gui.add(controller, "minDistance", 10, 300);
-                gui.add(controller, "limitConnections");
-                gui.add(controller, "maxConnections", 0, 100, 1);
-                gui.add(controller, "particleCount", 0, data.maxParticleCount, 1).onChange(function (value) {
-
-                    data.particleCount = parseInt(value);
-                    data.particles.setDrawRange(0, data.particleCount);
-
-                });
-            }
-        },
-
         animation: function (data, E) {
 
-            data.raycaster.setFromCamera(data.mouse, e.camera.a);
-
-            var intersects = data.raycaster.intersectObject(data.pointCloud);
-
-            if (intersects.length > 0) {
-
-                if ( INTERSECTED != intersects[ 0 ].index ) {
-
-                    INTERSECTED = intersects[ 0 ].index;
-
-                    //data.pointCloud.geometry[INTERSECTED].visible = false;
-                   console.log(data.pointCloud);
-
-                }
-
-            } else {
-
-                //console.log('not Working')
+            for (var i = 0; i < data.max; i++) {
 
             }
-
-            var particlesData     = data.particlesData,
-                particlePositions = data.particlePositions,
-                linesMesh         = data.linesMesh,
-                pointCloud        = data.pointCloud,
-                radius            = data.radius,
-                particleCount     = data.particleCount,
-                positions         = data.positions,
-                colors            = data.colors;
-
-            var vertexpos    = 0;
-            var colorpos     = 0;
-            var numConnected = 0;
-            var rHalf        = radius / 2;
-
-            for (var b = 0; b < particleCount; b++)
-                particlesData[b].numConnections = 0;
-
-            for (var i = 0; i < particleCount; i++) {
-
-                // get the particle
-                var particleData = particlesData[i];
-
-                particlePositions[i * 3] += particleData.velocity.x / 5;
-                particlePositions[i * 3 + 1] += particleData.velocity.y / 5;
-                particlePositions[i * 3 + 2] += particleData.velocity.z / 5;
-
-                if (particlePositions[i * 3 + 1] < -rHalf || particlePositions[i * 3 + 1] > rHalf)
-                    particleData.velocity.y = -particleData.velocity.y;
-
-                if (particlePositions[i * 3] < -rHalf || particlePositions[i * 3] > rHalf)
-                    particleData.velocity.x = -particleData.velocity.x;
-
-                if (particlePositions[i * 3 + 2] < -rHalf || particlePositions[i * 3 + 2] > rHalf)
-                    particleData.velocity.z = -particleData.velocity.z;
-
-                if (data.limitConnections && particleData.numConnections >= data.maxConnections)
-                    continue;
-
-                // Check collision
-                for (var j = i + 1; j < particleCount; j++) {
-
-                    var particleDataB = particlesData[j];
-                    if (data.limitConnections && particleDataB.numConnections >= data.maxConnections)
-                        continue;
-
-                    var dx   = particlePositions[i * 3] - particlePositions[j * 3];
-                    var dy   = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
-                    var dz   = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
-                    var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-                    if (dist < data.minDistance) {
-
-                        particleData.numConnections++;
-                        particleDataB.numConnections++;
-
-                        var alpha = 1.0 - dist / data.minDistance;
-
-                        positions[vertexpos++] = particlePositions[i * 3];
-                        positions[vertexpos++] = particlePositions[i * 3 + 1];
-                        positions[vertexpos++] = particlePositions[i * 3 + 2];
-
-                        positions[vertexpos++] = particlePositions[j * 3];
-                        positions[vertexpos++] = particlePositions[j * 3 + 1];
-                        positions[vertexpos++] = particlePositions[j * 3 + 2];
-
-                        colors[colorpos++] = alpha;
-                        colors[colorpos++] = alpha;
-                        colors[colorpos++] = alpha;
-
-                        colors[colorpos++] = alpha;
-                        colors[colorpos++] = alpha;
-                        colors[colorpos++] = alpha;
-
-                        numConnected++;
-                    }
-                }
-            }
-
-            linesMesh.geometry.setDrawRange(0, numConnected * 2);
-            linesMesh.geometry.attributes.position.needsUpdate = true;
-            pointCloud.geometry.attributes.position.needsUpdate = true;
-
 
         }
 
@@ -41420,124 +41286,60 @@ module.exports = (function () {
 },{}],21:[function(require,module,exports){
 module.exports = (function () {
 
-    var particlesData = [];
-    var positions, colors;
-    var particles;
-    var pointCloud;
-    var particlePositions;
-    var linesMesh;
-
-    var maxParticleCount = 500;
-    var particleCount    = 260;
-    var radius           = 800;
+    var max    = 10;
+    var radius = 10;
 
     return {
         name: 'particles',
         create: function (e) {
 
-            var helper = new THREE.BoxHelper(new THREE.Mesh(new THREE.BoxGeometry(radius, radius, radius)));
-            helper.material.color.setHex(0x080808);
-            helper.material.blending    = THREE.AdditiveBlending;
-            helper.material.transparent = true;
+            var map = e.loader.l('lib/point-1.png');
 
-            var segments = maxParticleCount * maxParticleCount;
-
-            positions = new Float32Array(segments * 3);
-            colors    = new Float32Array(segments * 3);
-
-            var sprite = (new THREE.TextureLoader(e.manager)).load("lib/disc.png");
-
-            var PointMaterial = new THREE.PointsMaterial({
-                color: 0xFFFFFF,
-                size: 35,
-                blending: THREE.AdditiveBlending,
-                transparent: true,
-                sizeAttenuation: false,
-                map: sprite,
-                alphaTest: 0.5
+            var material = new THREE.PointsMaterial({
+                map: map,
+                size: 15
             });
 
-            var group = e.helpers.group();
+            var segments = 6;
 
-            particles         = new THREE.BufferGeometry();
-            particlePositions = new Float32Array(maxParticleCount * 3);
+            var circleGeometry = new THREE.CircleGeometry(radius, segments, 11);
 
-            for (var i = 0; i < maxParticleCount; i++) {
+            var particles = new THREE.BufferGeometry();
+
+            var vertices = new Float32Array(max * 3);
+
+            for (var i = 0; i < max; i++) {
 
                 var x = Math.random() * radius - radius / 2;
                 var y = Math.random() * radius - radius / 2;
                 var z = Math.random() * radius - radius / 2;
 
-                var geo = new THREE.Geometry();
-
-                geo.vertices.push(
-                    new THREE.Vector3( -x,  y, z ),
-                    new THREE.Vector3( -x, -y, z ),
-                    new THREE.Vector3(  x, -y, -z )
-                );
-
-                geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
-
-                geo.computeBoundingSphere();
-
-                var point = new THREE.Points(geo);
-
-                group.add(point);
-
-                particlePositions[i * 3]     = x;
-                particlePositions[i * 3 + 1] = y;
-                particlePositions[i * 3 + 2] = z;
-
-                // add it to the geometry
-                particlesData.push({
-                    velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),
-                    numConnections: 0
-                });
-
+                vertices[i * 3]     = x;
+                vertices[i * 3 + 1] = y;
+                vertices[i * 3 + 2] = z;
             }
 
-            particles.setDrawRange(0, particleCount);
-            particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
+            particles.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
 
-            /**
-             * Lines
-             * @type {THREE.BufferGeometry}
-             */
-            var geometry = new THREE.BufferGeometry();
+            var pointsMesh = new THREE.Points(particles);
 
-            geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3).setDynamic(true));
-            geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3).setDynamic(true));
+            var lineGeometry = new THREE.BufferGeometry();
+            lineGeometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3).setDynamic(true));
+            //lineGeometry.computeBoundingSphere();
 
-            geometry.computeBoundingSphere();
+            var linesMesh = new THREE.LineSegments(lineGeometry);
 
-            geometry.setDrawRange(0, 0);
-
-            var material = new THREE.LineBasicMaterial({
-                vertexColors: THREE.VertexColors,
-                blending: THREE.AdditiveBlending,
-                transparent: true
-            });
-
-            pointCloud = new THREE.Points(particles, PointMaterial);
-            linesMesh  = new THREE.LineSegments(geometry, material);
-
-            return group.add(helper, linesMesh);
+            return e.helpers.group(pointsMesh, linesMesh);
 
         },
 
         share: function (e) {
             return {
-                pointCloud: pointCloud,
-                linesMesh: linesMesh,
-                particlesData: particlesData,
-                particlePositions: particlePositions,
-                particleCount: particleCount,
-                colors: colors,
-                radius: radius,
-                positions: positions,
-                particles: particles
+                max: max,
+                radius: radius
             }
         }
+
     }
 
 })();
