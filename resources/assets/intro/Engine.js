@@ -15,7 +15,10 @@ module.exports = (function (e) {
         loader       = require('./Loader'),
         shaders      = require('./Shaders'),
         passer       = require('./Passer'),
-        composer     = require('./Composer');
+        composer     = require('./Composer'),
+        events       = require('./Events'),
+        tween        = require('./Tween'),
+        raycaster    = require('./modules/Raycaster');
 
     /**
      * Init Stuff
@@ -55,6 +58,11 @@ module.exports = (function (e) {
              * Render Composition
              */
             compositor.animate();
+
+            /**
+             * Check Raycaster
+             */
+            raycaster.calculate();
 
             /**
              * Stats

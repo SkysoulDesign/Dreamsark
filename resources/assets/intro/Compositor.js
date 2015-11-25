@@ -6,6 +6,7 @@ module.exports = (function (e) {
          * Active Composition
          */
         active: null,
+
         /**
          * Composition Counter
          */
@@ -70,7 +71,14 @@ module.exports = (function (e) {
         },
 
         animate: function () {
-            this.active.animation(this.public, e.elements);
+
+            /**
+             * Check if Animation is set
+             */
+            if (typeof this.active.animation === 'function') {
+                this.active.animation(this.public, e.elements);
+            }
+
         },
 
         GUI: function () {
