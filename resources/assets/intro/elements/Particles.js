@@ -3,8 +3,9 @@ module.exports = (function () {
     var maxPoints     = 100;
     var radius        = 1000;
     var particlesData = [];
-    var points        = new Float32Array(maxPoints * 3);
-    var particles     = [];
+    //var points        = new Float32Array(maxPoints * 3);
+    var points        = [];
+    //var particles     = [];
 
     /**
      * Create Point
@@ -12,8 +13,8 @@ module.exports = (function () {
      */
     var point = function () {
         return {
-            geometry: new THREE.BufferGeometry(),
-            vertices: new Float32Array(maxPoints * 3),
+            geometry: new THREE.Geometry(), //new THREE.BufferGeometry()
+            //vertices: new Float32Array(maxPoints * 3),
             create: function (material) {
                 return new THREE.Points(this.geometry, material);
             }
@@ -60,23 +61,33 @@ module.exports = (function () {
                     transparent: true
                 });
 
-                p.vertices[i * 3] = points[i * 3] = x;
-                p.vertices[i * 3 + 1] = points[i * 3 + 1] = y;
-                p.vertices[i * 3 + 2] = points[i * 3 + 2] = z;
+                /**
+                 * Create one point on the center
+                 */
+                p.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-                var attribute = new THREE.BufferAttribute(p.vertices, 3).setDynamic(true);
-                p.geometry.addAttribute('position', attribute);
+                //p.vertices[i * 3] = points[i * 3] = x;
+                //p.vertices[i * 3 + 1] = points[i * 3 + 1] = y;
+                //p.vertices[i * 3 + 2] = points[i * 3 + 2] = z;
+
+                //var attribute = new THREE.BufferAttribute(p.vertices, 3).setDynamic(true);
+                //p.geometry.addAttribute('position', attribute);
 
                 /**
                  * Limit to display only one particle per p
                  */
-                p.geometry.setDrawRange(i, 1);
+                //p.geometry.setDrawRange(i, 1);
 
                 /**
                  * Create and add to the Group
                  */
                 p = p.create(material);
-                particles.push(p);
+
+                p.position.set(x, y, z);
+                p.rotation.set(x, y, z);
+
+                points.push(p);
+
                 group.add(p);
 
                 particlesData.push({
@@ -106,8 +117,8 @@ module.exports = (function () {
                 radius: 10,
                 points: points,
                 lines: lines,
-                particlesData: particlesData,
-                particles: particles
+                particlesData: particlesData
+                //particles: particles
             }
         }
 

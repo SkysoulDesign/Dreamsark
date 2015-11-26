@@ -16,7 +16,7 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles);
+            e.scene.a.add(E.particles, E.skybox);
 
             /**
              * Camera Settings
@@ -27,15 +27,20 @@ module.exports = (function (e) {
              * Plugin Init
              */
             e.plugins.OrbitControls.init();
+            //e.plugins.TrackballControls.init();
 
-            e.events.add('mousemove', window, function (mouse, event) {
+            e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
                 mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
             });
 
-            e.events.add('click', window, function (mouse, event) {
-                console.log(e.raycaster.intersected);
+            e.events.add('click', function (mouse, event) {
+                e.raycaster.click();
             });
+
+            //e.events.add('click', window, function (mouse, event) {
+            //    console.log(e.raycaster.intersected);
+            //});
 
             //e.helpers.timeout(5000, function () {
             //    e.compositor.next();
@@ -62,44 +67,37 @@ module.exports = (function (e) {
 
         raycaster: function (data, E) {
 
-            this.setFromCamera(e.events.mouse, e.camera.a);
             //this.params.Points.threshold = 10;
 
-            var intersects = this.intersectObjects(data.particles);
+            this.objects = data.points;
+            this.setFrom(e.events.mouse, e.camera.a);
+            //var intersects = this.intersectObjects(data.particles);
 
-            this.on(function (index) {
+            this.on = function (index, intersected) {
+                e.tween.l(intersected.material, .3, {
+                    size: 100
+                });
+            };
 
-            });
+            this.onClick = function (index, intersected) {
 
-            this.out(function (index) {
+                //e.plugins.TrackballControls.instance.enabled = false;
+                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8);
+                //e.helpers.smoothMovePlugin(e.plugins.TrackballControls.instance, intersected, 1, 2);
+                //e.camera.a.position = intersected.position
+            };
 
-            });
-
-            //if (intersects.length > 0) {
-            //
-            //    if (data.INTERSECTED != intersects[0].index) {
-            //
-            //        data.INTERSECTED = intersects[0].index;
-            //
-            //        e.tween.l(intersects[0].object.material, .3, {
-            //            size: 100
-            //        });
-            //
-            //    }
-            //
-            //} else if (data.INTERSECTED !== null) {
-            //
-            //    e.tween.l(data.particles[data.INTERSECTED].material, .3, {
-            //        size: 50
-            //    });
-            //
-            //    data.INTERSECTED = null;
-            //
-            //}
+            this.out = function (index, intersected) {
+                e.tween.l(intersected.material, .3, {
+                    size: 50
+                });
+            };
 
         },
 
         animation: function (data, E) {
+
+            //e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;
@@ -122,9 +120,9 @@ module.exports = (function (e) {
                     if (data.limitConnections && particleDataB.connections >= data.maxConnections)
                         continue;
 
-                    var dx   = points[i * 3] - points[j * 3];
-                    var dy   = points[i * 3 + 1] - points[j * 3 + 1];
-                    var dz   = points[i * 3 + 2] - points[j * 3 + 2];
+                    var dx   = points[i].position.x - points[j].position.x;
+                    var dy   = points[i].position.y - points[j].position.y;
+                    var dz   = points[i].position.z - points[j].position.z;
                     var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
                     if (dist < data.minDistance) {
@@ -132,13 +130,13 @@ module.exports = (function (e) {
                         particleData.connections++;
                         particleDataB.connections++;
 
-                        lines.vertices[vertexPos++] = points[i * 3];
-                        lines.vertices[vertexPos++] = points[i * 3 + 1];
-                        lines.vertices[vertexPos++] = points[i * 3 + 2];
+                        lines.vertices[vertexPos++] = points[i].position.x;
+                        lines.vertices[vertexPos++] = points[i].position.y;
+                        lines.vertices[vertexPos++] = points[i].position.z;
 
-                        lines.vertices[vertexPos++] = points[j * 3];
-                        lines.vertices[vertexPos++] = points[j * 3 + 1];
-                        lines.vertices[vertexPos++] = points[j * 3 + 2];
+                        lines.vertices[vertexPos++] = points[j].position.x;
+                        lines.vertices[vertexPos++] = points[j].position.y;
+                        lines.vertices[vertexPos++] = points[j].position.z;
 
                         var alpha = 1.0 - dist / data.minDistance;
 

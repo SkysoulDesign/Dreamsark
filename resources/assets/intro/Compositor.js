@@ -68,6 +68,14 @@ module.exports = (function (e) {
              */
             this.GUI();
 
+            /**
+             * Check if Raycaster is set
+             */
+            if (typeof this.active.raycaster === 'function') {
+                e.raycaster.init();
+                this.active.raycaster.call(e.raycaster, this.public, e.elements);
+            }
+
         },
 
         animate: function () {

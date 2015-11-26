@@ -60,11 +60,11 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Project $projec
+     * @param Project $project
      * @param ProjectCreation|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function projectStore(Project $projec, Request $request)
+    public function projectStore(Project $project, Request $request)
     {
 
         $command = new CreateReviewCommand($project, $request->all());

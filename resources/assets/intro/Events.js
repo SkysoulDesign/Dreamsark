@@ -7,8 +7,8 @@ module.exports = (function (e) {
 
     return e.events = {
         mouse: mouse,
-        add: function (event, object, callback) {
-            (object || window).addEventListener(event, callback.bind(this, mouse), false);
+        add: function (event, callback, object) {
+            (object || e.renderer.domElement).addEventListener(event, callback.bind(this, mouse), false);
         }
 
     }

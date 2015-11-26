@@ -50,7 +50,6 @@ Route::get('artisan/{mode?}/{queue?}', ['as' => 'artisan', 'uses' => function ($
 
 Route::get('/', ['as' => 'home', 'uses' => 'Home\HomeController@index']);
 
-
 //app()->setLocale('cn');
 
 /**

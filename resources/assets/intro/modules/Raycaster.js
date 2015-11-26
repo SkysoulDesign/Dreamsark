@@ -4,26 +4,72 @@ module.exports = (function (e, c) {
      * Raycaster
      * @type {THREE.Raycaster}
      */
-    var raycaster = new THREE.Raycaster();
-
-    raycaster.params.Points.threshold = 10;
-
     return e.raycaster = {
+        index: null,
         intersected: null,
-        a: raycaster,
-        init: function () {
-            return this.a = new THREE.Raycaster();
+        a: null,
+        objects: [],
+        on: null,
+        out: null,
+        onClick: null,
+
+
+        init: function (configs) {
+            this.a = new THREE.Raycaster();
+            this.configure(configs);
         },
+
+        configure: function (configs) {
+            var defaults                   = {
+                params: {
+                    Points: {
+                        threshold: 10
+                    }
+                }
+            };
+            this.a.params.Points.threshold = 10;
+        },
+
+        setFrom: function (origin, direction) {
+            this.a.setFromCamera(origin, direction);
+        },
+
+        click: function () {
+            if (typeof this.onClick === 'function' && this.index !== null)
+                this.onClick.call(this, this.index, this.intersected);
+        },
+
         calculate: function () {
 
             /**
-             * If not set, Initialize it
+             * If not initialized then returns
              */
-            if (this.a === null) {
-                this.init();
-            }
+            if (this.a === null) return;
 
-            this.active.raycaster.call(this.a, this.public, e.elements);
+            e.compositor.active.raycaster.call(this, e.compositor.public, e.elements);
+
+            var intersects = this.a.intersectObjects(this.objects);
+
+            if (intersects.length > 0) {
+
+                if (this.index != intersects[0].index) {
+
+                    this.index       = intersects[0].index;
+                    this.intersected = intersects[0].object;
+
+                    if (typeof this.on === 'function')
+                        this.on.call(this, this.index, this.intersected);
+
+                }
+
+            } else if (this.index !== null) {
+
+                if (typeof this.out === 'function')
+                    this.out.call(this, this.index, this.intersected);
+
+                this.index = null;
+
+            }
 
         }
     };

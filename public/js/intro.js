@@ -48592,6 +48592,14 @@ module.exports = (function (e) {
              */
             this.GUI();
 
+            /**
+             * Check if Raycaster is set
+             */
+            if (typeof this.active.raycaster === 'function') {
+                e.raycaster.init();
+                this.active.raycaster.call(e.raycaster, this.public, e.elements);
+            }
+
         },
 
         animate: function () {
@@ -48759,8 +48767,8 @@ module.exports = (function (e) {
 
     return e.events = {
         mouse: mouse,
-        add: function (event, object, callback) {
-            (object || window).addEventListener(event, callback.bind(this, mouse), false);
+        add: function (event, callback, object) {
+            (object || e.renderer.domElement).addEventListener(event, callback.bind(this, mouse), false);
         }
 
     }
@@ -48840,6 +48848,50 @@ module.exports = function (e) {
         },
         random: function (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+
+        smoothMovePlugin: function(controls, target, time, distance){
+            console.log(controls);
+            //e.tween.l(camera.position, time, {
+            //    x: target.position.x / distance,
+            //    y: target.position.y / distance,
+            //    z: target.position.z / distance
+            //});
+        },
+
+        smoothLookAt: function (camera, target, time, distance) {
+
+            var clone = camera.clone();
+            clone.position.set(target.position.x / distance, target.position.y / distance, target.position.z / distance);
+            clone.lookAt(target.position);
+
+            //var finalPosition = camera.clone();
+            //finalPosition.position.set()
+
+            var initialQuaternion = camera.quaternion;
+            var endingQuaternion  = clone.quaternion;
+            var targetQuaternion  = new THREE.Quaternion();
+
+            var o = {time: 0};
+
+            e.tween.l(camera.position, time, {
+                x: target.position.x / distance,
+                y: target.position.y / distance,
+                z: target.position.z / distance
+            });
+
+            e.tween.l(o, time, {
+                time: 1,
+                onUpdate: function () {
+                    THREE.Quaternion.slerp(initialQuaternion, endingQuaternion, targetQuaternion, o.time);
+                    camera.setRotationFromQuaternion(targetQuaternion);
+                },
+                onComplete: function () {
+                    //e.camera.a.lookAt(target.position)
+                }
+            });
+
+
         }
     }
 
@@ -49078,7 +49130,7 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles);
+            e.scene.a.add(E.particles, E.skybox);
 
             /**
              * Camera Settings
@@ -49089,15 +49141,20 @@ module.exports = (function (e) {
              * Plugin Init
              */
             e.plugins.OrbitControls.init();
+            //e.plugins.TrackballControls.init();
 
-            e.events.add('mousemove', window, function (mouse, event) {
+            e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
                 mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
             });
 
-            e.events.add('click', window, function (mouse, event) {
-                console.log(e.raycaster.intersected);
+            e.events.add('click', function (mouse, event) {
+                e.raycaster.click();
             });
+
+            //e.events.add('click', window, function (mouse, event) {
+            //    console.log(e.raycaster.intersected);
+            //});
 
             //e.helpers.timeout(5000, function () {
             //    e.compositor.next();
@@ -49124,44 +49181,37 @@ module.exports = (function (e) {
 
         raycaster: function (data, E) {
 
-            this.setFromCamera(e.events.mouse, e.camera.a);
             //this.params.Points.threshold = 10;
 
-            var intersects = this.intersectObjects(data.particles);
+            this.objects = data.points;
+            this.setFrom(e.events.mouse, e.camera.a);
+            //var intersects = this.intersectObjects(data.particles);
 
-            this.on(function (index) {
+            this.on = function (index, intersected) {
+                e.tween.l(intersected.material, .3, {
+                    size: 100
+                });
+            };
 
-            });
+            this.onClick = function (index, intersected) {
 
-            this.out(function (index) {
+                //e.plugins.TrackballControls.instance.enabled = false;
+                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8);
+                //e.helpers.smoothMovePlugin(e.plugins.TrackballControls.instance, intersected, 1, 2);
+                //e.camera.a.position = intersected.position
+            };
 
-            });
-
-            //if (intersects.length > 0) {
-            //
-            //    if (data.INTERSECTED != intersects[0].index) {
-            //
-            //        data.INTERSECTED = intersects[0].index;
-            //
-            //        e.tween.l(intersects[0].object.material, .3, {
-            //            size: 100
-            //        });
-            //
-            //    }
-            //
-            //} else if (data.INTERSECTED !== null) {
-            //
-            //    e.tween.l(data.particles[data.INTERSECTED].material, .3, {
-            //        size: 50
-            //    });
-            //
-            //    data.INTERSECTED = null;
-            //
-            //}
+            this.out = function (index, intersected) {
+                e.tween.l(intersected.material, .3, {
+                    size: 50
+                });
+            };
 
         },
 
         animation: function (data, E) {
+
+            //e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;
@@ -49184,9 +49234,9 @@ module.exports = (function (e) {
                     if (data.limitConnections && particleDataB.connections >= data.maxConnections)
                         continue;
 
-                    var dx   = points[i * 3] - points[j * 3];
-                    var dy   = points[i * 3 + 1] - points[j * 3 + 1];
-                    var dz   = points[i * 3 + 2] - points[j * 3 + 2];
+                    var dx   = points[i].position.x - points[j].position.x;
+                    var dy   = points[i].position.y - points[j].position.y;
+                    var dz   = points[i].position.z - points[j].position.z;
                     var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
                     if (dist < data.minDistance) {
@@ -49194,13 +49244,13 @@ module.exports = (function (e) {
                         particleData.connections++;
                         particleDataB.connections++;
 
-                        lines.vertices[vertexPos++] = points[i * 3];
-                        lines.vertices[vertexPos++] = points[i * 3 + 1];
-                        lines.vertices[vertexPos++] = points[i * 3 + 2];
+                        lines.vertices[vertexPos++] = points[i].position.x;
+                        lines.vertices[vertexPos++] = points[i].position.y;
+                        lines.vertices[vertexPos++] = points[i].position.z;
 
-                        lines.vertices[vertexPos++] = points[j * 3];
-                        lines.vertices[vertexPos++] = points[j * 3 + 1];
-                        lines.vertices[vertexPos++] = points[j * 3 + 2];
+                        lines.vertices[vertexPos++] = points[j].position.x;
+                        lines.vertices[vertexPos++] = points[j].position.y;
+                        lines.vertices[vertexPos++] = points[j].position.z;
 
                         var alpha = 1.0 - dist / data.minDistance;
 
@@ -49337,8 +49387,9 @@ module.exports = (function () {
     var maxPoints     = 100;
     var radius        = 1000;
     var particlesData = [];
-    var points        = new Float32Array(maxPoints * 3);
-    var particles     = [];
+    //var points        = new Float32Array(maxPoints * 3);
+    var points        = [];
+    //var particles     = [];
 
     /**
      * Create Point
@@ -49346,8 +49397,8 @@ module.exports = (function () {
      */
     var point = function () {
         return {
-            geometry: new THREE.BufferGeometry(),
-            vertices: new Float32Array(maxPoints * 3),
+            geometry: new THREE.Geometry(), //new THREE.BufferGeometry()
+            //vertices: new Float32Array(maxPoints * 3),
             create: function (material) {
                 return new THREE.Points(this.geometry, material);
             }
@@ -49394,23 +49445,33 @@ module.exports = (function () {
                     transparent: true
                 });
 
-                p.vertices[i * 3] = points[i * 3] = x;
-                p.vertices[i * 3 + 1] = points[i * 3 + 1] = y;
-                p.vertices[i * 3 + 2] = points[i * 3 + 2] = z;
+                /**
+                 * Create one point on the center
+                 */
+                p.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-                var attribute = new THREE.BufferAttribute(p.vertices, 3).setDynamic(true);
-                p.geometry.addAttribute('position', attribute);
+                //p.vertices[i * 3] = points[i * 3] = x;
+                //p.vertices[i * 3 + 1] = points[i * 3 + 1] = y;
+                //p.vertices[i * 3 + 2] = points[i * 3 + 2] = z;
+
+                //var attribute = new THREE.BufferAttribute(p.vertices, 3).setDynamic(true);
+                //p.geometry.addAttribute('position', attribute);
 
                 /**
                  * Limit to display only one particle per p
                  */
-                p.geometry.setDrawRange(i, 1);
+                //p.geometry.setDrawRange(i, 1);
 
                 /**
                  * Create and add to the Group
                  */
                 p = p.create(material);
-                particles.push(p);
+
+                p.position.set(x, y, z);
+                p.rotation.set(x, y, z);
+
+                points.push(p);
+
                 group.add(p);
 
                 particlesData.push({
@@ -49440,8 +49501,8 @@ module.exports = (function () {
                 radius: 10,
                 points: points,
                 lines: lines,
-                particlesData: particlesData,
-                particles: particles
+                particlesData: particlesData
+                //particles: particles
             }
         }
 
@@ -49576,26 +49637,72 @@ module.exports = (function (e, c) {
      * Raycaster
      * @type {THREE.Raycaster}
      */
-    var raycaster = new THREE.Raycaster();
-
-    raycaster.params.Points.threshold = 10;
-
     return e.raycaster = {
+        index: null,
         intersected: null,
-        a: raycaster,
-        init: function () {
-            return this.a = new THREE.Raycaster();
+        a: null,
+        objects: [],
+        on: null,
+        out: null,
+        onClick: null,
+
+
+        init: function (configs) {
+            this.a = new THREE.Raycaster();
+            this.configure(configs);
         },
+
+        configure: function (configs) {
+            var defaults                   = {
+                params: {
+                    Points: {
+                        threshold: 10
+                    }
+                }
+            };
+            this.a.params.Points.threshold = 10;
+        },
+
+        setFrom: function (origin, direction) {
+            this.a.setFromCamera(origin, direction);
+        },
+
+        click: function () {
+            if (typeof this.onClick === 'function' && this.index !== null)
+                this.onClick.call(this, this.index, this.intersected);
+        },
+
         calculate: function () {
 
             /**
-             * If not set, Initialize it
+             * If not initialized then returns
              */
-            if (this.a === null) {
-                this.init();
-            }
+            if (this.a === null) return;
 
-            this.active.raycaster.call(this.a, this.public, e.elements);
+            e.compositor.active.raycaster.call(this, e.compositor.public, e.elements);
+
+            var intersects = this.a.intersectObjects(this.objects);
+
+            if (intersects.length > 0) {
+
+                if (this.index != intersects[0].index) {
+
+                    this.index       = intersects[0].index;
+                    this.intersected = intersects[0].object;
+
+                    if (typeof this.on === 'function')
+                        this.on.call(this, this.index, this.intersected);
+
+                }
+
+            } else if (this.index !== null) {
+
+                if (typeof this.out === 'function')
+                    this.out.call(this, this.index, this.intersected);
+
+                this.index = null;
+
+            }
 
         }
     };

@@ -71,6 +71,50 @@ module.exports = function (e) {
         },
         random: function (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+
+        smoothMovePlugin: function(controls, target, time, distance){
+            console.log(controls);
+            //e.tween.l(camera.position, time, {
+            //    x: target.position.x / distance,
+            //    y: target.position.y / distance,
+            //    z: target.position.z / distance
+            //});
+        },
+
+        smoothLookAt: function (camera, target, time, distance) {
+
+            var clone = camera.clone();
+            clone.position.set(target.position.x / distance, target.position.y / distance, target.position.z / distance);
+            clone.lookAt(target.position);
+
+            //var finalPosition = camera.clone();
+            //finalPosition.position.set()
+
+            var initialQuaternion = camera.quaternion;
+            var endingQuaternion  = clone.quaternion;
+            var targetQuaternion  = new THREE.Quaternion();
+
+            var o = {time: 0};
+
+            e.tween.l(camera.position, time, {
+                x: target.position.x / distance,
+                y: target.position.y / distance,
+                z: target.position.z / distance
+            });
+
+            e.tween.l(o, time, {
+                time: 1,
+                onUpdate: function () {
+                    THREE.Quaternion.slerp(initialQuaternion, endingQuaternion, targetQuaternion, o.time);
+                    camera.setRotationFromQuaternion(targetQuaternion);
+                },
+                onComplete: function () {
+                    //e.camera.a.lookAt(target.position)
+                }
+            });
+
+
         }
     }
 
