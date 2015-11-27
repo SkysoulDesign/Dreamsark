@@ -1,4 +1,4 @@
-@servers(['web' => 'skysoul1@skysoul.com.au'])
+@servers(['web' => 'root@139.196.36.204'])
 
 @macro('reset')
     remove-clone
@@ -6,9 +6,11 @@
 @endmacro
 
 @task('update')
-    cd public_html/dreamsark.dev
+    cd /home/dreamsark.dev
     git checkout .
     git pull origin master
+    composer self-update
+    composer update
 @endtask
 
 @task('config-git')
@@ -17,22 +19,22 @@
 @endtask
 
 @task('refresh')
-    cd public_html/dreamsark.dev
-    php56s artisan migrate:refresh --seed
+    cd /home/dreamsark.dev
+    php artisan migrate:refresh --seed
 @endtask
 
 @task('remove-clone')
-    cd public_html
-    rm -r -f dreamsark.dev
+    cd /home
+    sudo rm -r -f dreamsark.dev
     git clone https://github.com/SkysoulDesign/Dreamsark.git dreamsark.dev
 @endtask
 
 @task('reset-db')
-    mysql -uskysoul1 -pGH4C=3F6
-    drop database skysoul1_dreamsark;
-    drop database skysoul1_dreamsark_report;
-    drop database skysoul1_dreamsark_translation;
-    create database skysoul1_dreamsark;
-    create database skysoul1_dreamsark_report;
-    create database skysoul1_dreamsark_translation;
+    mysql -uroot -p478135
+    drop database dreamsark;
+    drop database dreamsark_report;
+    drop database dreamsark_translation;
+    create database dreamsark;
+    create database dreamsark_report;
+    create database dreamsark_translation;
 @endtask

@@ -48689,6 +48689,7 @@ module.exports = (function (e) {
         scene        = require('./modules/Scene'),
         renderer     = require('./modules/Renderer'),
         plugins      = require('./Plugins'),
+        //fonts        = require('./Fonts'),
         loader       = require('./Loader'),
         shaders      = require('./Shaders'),
         passer       = require('./Passer'),
@@ -48850,16 +48851,7 @@ module.exports = function (e) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
-        smoothMovePlugin: function(controls, target, time, distance){
-            console.log(controls);
-            //e.tween.l(camera.position, time, {
-            //    x: target.position.x / distance,
-            //    y: target.position.y / distance,
-            //    z: target.position.z / distance
-            //});
-        },
-
-        smoothLookAt: function (camera, target, time, distance) {
+        smoothLookAt: function (camera, target, time, distance, onComplete) {
 
             var clone = camera.clone();
             clone.position.set(target.position.x / distance, target.position.y / distance, target.position.z / distance);
@@ -48887,10 +48879,10 @@ module.exports = function (e) {
                     camera.setRotationFromQuaternion(targetQuaternion);
                 },
                 onComplete: function () {
-                    //e.camera.a.lookAt(target.position)
+                    if (typeof onComplete === 'function')
+                        onComplete();
                 }
             });
-
 
         }
     }
@@ -49066,16 +49058,16 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./postprocessing/BloomPass.js":38,"./postprocessing/MaskPass.js":39,"./postprocessing/RenderPass.js":40}],17:[function(require,module,exports){
+},{"./postprocessing/BloomPass.js":40,"./postprocessing/MaskPass.js":41,"./postprocessing/RenderPass.js":42}],17:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
-    var plugins = ({"plugins":({"OrbitControls":require("./plugins/OrbitControls.js"),"Stats":require("./plugins/Stats.js"),"TrackballControls":require("./plugins/TrackballControls.js")})}).plugins;
+    var plugins = ({"plugins":({"FontUtils":require("./plugins/FontUtils.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"Stats":require("./plugins/Stats.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js")})}).plugins;
 
     return e.plugins = plugins;
 
 })(Engine);
-},{"./plugins/OrbitControls.js":35,"./plugins/Stats.js":36,"./plugins/TrackballControls.js":37}],18:[function(require,module,exports){
+},{"./plugins/FontUtils.js":35,"./plugins/OrbitControls.js":36,"./plugins/Stats.js":37,"./plugins/TextGeometry.js":38,"./plugins/TrackballControls.js":39}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -49095,7 +49087,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./shaders/ConvolutionShader.js":41,"./shaders/CopyShader.js":42,"./shaders/FXAAShader.js":43}],19:[function(require,module,exports){
+},{"./shaders/ConvolutionShader.js":43,"./shaders/CopyShader.js":44,"./shaders/FXAAShader.js":45}],19:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -49130,7 +49122,7 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles, E.skybox);
+            e.scene.a.add(E.particles, E.skybox, E.dreamsark);
 
             /**
              * Camera Settings
@@ -49140,8 +49132,8 @@ module.exports = (function (e) {
             /**
              * Plugin Init
              */
-            e.plugins.OrbitControls.init();
-            //e.plugins.TrackballControls.init();
+            //e.plugins.OrbitControls.init();
+            e.plugins.TrackballControls.init();
 
             e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -49195,8 +49187,19 @@ module.exports = (function (e) {
 
             this.onClick = function (index, intersected) {
 
-                //e.plugins.TrackballControls.instance.enabled = false;
-                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8);
+                var onComplete = function () {
+                    e.tween.l(e.camera.a.position, 1, {
+                        x: intersected.position.x * .8,
+                        y: intersected.position.y * .8,
+                        z: intersected.position.z * .8,
+
+                        ease: 'Expo.easeOut'
+
+                    })
+                };
+
+                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8, onComplete);
+
                 //e.helpers.smoothMovePlugin(e.plugins.TrackballControls.instance, intersected, 1, 2);
                 //e.camera.a.position = intersected.position
             };
@@ -49211,7 +49214,7 @@ module.exports = (function (e) {
 
         animation: function (data, E) {
 
-            //e.plugins.TrackballControls.instance.update();
+            e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;
@@ -49340,7 +49343,8 @@ module.exports = (function () {
         ],
         'comp-1': [
             require('../elements/Particles'),
-            require('../elements/Skybox')
+            require('../elements/Skybox'),
+            //require('../elements/Dreamsark'),
         ],
         'comp-2': [
             require('../elements/Ball')
@@ -49768,6 +49772,315 @@ module.exports = (function (e, c) {
 
 })(Engine, Configs);
 },{}],35:[function(require,module,exports){
+/**
+ * @author Eberhard Graether / http://egraether.com/
+ * @author Mark Lundin    / http://mark-lundin.com
+ * @author Simone Manini / http://daron1337.github.io
+ * @author Luca Antiga    / http://lantiga.github.io
+ */
+module.exports = (function (e) {
+
+	return {
+
+		/**
+		 * Plugin Instance
+		 */
+		instance: null,
+
+		init: function () {
+			return this.plugin();
+		},
+
+		plugin: function () {
+
+			THREE.FontUtils = {
+
+				faces: {},
+
+				// Just for now. face[weight][style]
+
+				face: 'helvetiker',
+				weight: 'normal',
+				style: 'normal',
+				size: 150,
+				divisions: 10,
+
+				getFace: function () {
+
+					try {
+
+						return this.faces[ this.face.toLowerCase() ][ this.weight ][ this.style ];
+
+					} catch ( e ) {
+
+						throw "The font " + this.face + " with " + this.weight + " weight and " + this.style + " style is missing."
+
+					}
+
+				},
+
+				loadFace: function ( data ) {
+
+					var family = data.familyName.toLowerCase();
+
+					var ThreeFont = this;
+
+					ThreeFont.faces[ family ] = ThreeFont.faces[ family ] || {};
+
+					ThreeFont.faces[ family ][ data.cssFontWeight ] = ThreeFont.faces[ family ][ data.cssFontWeight ] || {};
+					ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
+
+					ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
+
+					return data;
+
+				},
+
+				drawText: function ( text ) {
+
+					// RenderText
+
+					var i,
+						face = this.getFace(),
+						scale = this.size / face.resolution,
+						offset = 0,
+						chars = String( text ).split( '' ),
+						length = chars.length;
+
+					var fontPaths = [];
+
+					for ( i = 0; i < length; i ++ ) {
+
+						var path = new THREE.Path();
+
+						var ret = this.extractGlyphPoints( chars[ i ], face, scale, offset, path );
+						offset += ret.offset;
+
+						fontPaths.push( ret.path );
+
+					}
+
+					// get the width
+
+					var width = offset / 2;
+					//
+					// for ( p = 0; p < allPts.length; p++ ) {
+					//
+					// 	allPts[ p ].x -= width;
+					//
+					// }
+
+					//var extract = this.extractPoints( allPts, characterPts );
+					//extract.contour = allPts;
+
+					//extract.paths = fontPaths;
+					//extract.offset = width;
+
+					return { paths: fontPaths, offset: width };
+
+				},
+
+
+
+
+				extractGlyphPoints: function ( c, face, scale, offset, path ) {
+
+					var pts = [];
+
+					var b2 = THREE.ShapeUtils.b2;
+					var b3 = THREE.ShapeUtils.b3;
+
+					var i, i2, divisions,
+						outline, action, length,
+						scaleX, scaleY,
+						x, y, cpx, cpy, cpx0, cpy0, cpx1, cpy1, cpx2, cpy2,
+						laste,
+						glyph = face.glyphs[ c ] || face.glyphs[ '?' ];
+
+					if ( ! glyph ) return;
+
+					if ( glyph.o ) {
+
+						outline = glyph._cachedOutline || ( glyph._cachedOutline = glyph.o.split( ' ' ) );
+						length = outline.length;
+
+						scaleX = scale;
+						scaleY = scale;
+
+						for ( i = 0; i < length; ) {
+
+							action = outline[ i ++ ];
+
+							//console.log( action );
+
+							switch ( action ) {
+
+								case 'm':
+
+									// Move To
+
+									x = outline[ i ++ ] * scaleX + offset;
+									y = outline[ i ++ ] * scaleY;
+
+									path.moveTo( x, y );
+									break;
+
+								case 'l':
+
+									// Line To
+
+									x = outline[ i ++ ] * scaleX + offset;
+									y = outline[ i ++ ] * scaleY;
+									path.lineTo( x, y );
+									break;
+
+								case 'q':
+
+									// QuadraticCurveTo
+
+									cpx  = outline[ i ++ ] * scaleX + offset;
+									cpy  = outline[ i ++ ] * scaleY;
+									cpx1 = outline[ i ++ ] * scaleX + offset;
+									cpy1 = outline[ i ++ ] * scaleY;
+
+									path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
+
+									laste = pts[ pts.length - 1 ];
+
+									if ( laste ) {
+
+										cpx0 = laste.x;
+										cpy0 = laste.y;
+
+										for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
+
+											var t = i2 / divisions;
+											b2( t, cpx0, cpx1, cpx );
+											b2( t, cpy0, cpy1, cpy );
+
+										}
+
+									}
+
+									break;
+
+								case 'b':
+
+									// Cubic Bezier Curve
+
+									cpx  = outline[ i ++ ] * scaleX + offset;
+									cpy  = outline[ i ++ ] * scaleY;
+									cpx1 = outline[ i ++ ] * scaleX + offset;
+									cpy1 = outline[ i ++ ] * scaleY;
+									cpx2 = outline[ i ++ ] * scaleX + offset;
+									cpy2 = outline[ i ++ ] * scaleY;
+
+									path.bezierCurveTo( cpx1, cpy1, cpx2, cpy2, cpx, cpy );
+
+									laste = pts[ pts.length - 1 ];
+
+									if ( laste ) {
+
+										cpx0 = laste.x;
+										cpy0 = laste.y;
+
+										for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
+
+											var t = i2 / divisions;
+											b3( t, cpx0, cpx1, cpx2, cpx );
+											b3( t, cpy0, cpy1, cpy2, cpy );
+
+										}
+
+									}
+
+									break;
+
+							}
+
+						}
+
+					}
+
+
+
+					return { offset: glyph.ha * scale, path: path };
+
+				}
+
+			};
+
+
+			THREE.FontUtils.generateShapes = function ( text, parameters ) {
+
+				// Parameters
+
+				parameters = parameters || {};
+
+				var size = parameters.size !== undefined ? parameters.size : 100;
+				var curveSegments = parameters.curveSegments !== undefined ? parameters.curveSegments : 4;
+
+				var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
+				var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
+				var style = parameters.style !== undefined ? parameters.style : 'normal';
+
+				THREE.FontUtils.size = size;
+				THREE.FontUtils.divisions = curveSegments;
+
+				THREE.FontUtils.face = font;
+				THREE.FontUtils.weight = weight;
+				THREE.FontUtils.style = style;
+
+				// Get a Font data json object
+
+				var data = THREE.FontUtils.drawText( text );
+
+				var paths = data.paths;
+				var shapes = [];
+
+				for ( var p = 0, pl = paths.length; p < pl; p ++ ) {
+
+					Array.prototype.push.apply( shapes, paths[ p ].toShapes() );
+
+				}
+
+				return shapes;
+
+			};
+
+			// To use the typeface.js face files, hook up the API
+
+			THREE.typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
+			if ( typeof self !== 'undefined' ) self._typeface_js = THREE.typeface_js;
+
+			return this.instance = THREE.FontUtils;
+
+		}
+
+	}
+
+})(Engine);
+
+/**
+ * @author zz85 / http://www.lab4games.net/zz85/blog
+ * @author alteredq / http://alteredqualia.com/
+ *
+ * For Text operations in three.js (See TextGeometry)
+ *
+ * It uses techniques used in:
+ *
+ *	Triangulation ported from AS3
+ *		Simple Polygon Triangulation
+ *		http://actionsnippet.com/?p=1462
+ *
+ * 	A Method to triangulate shapes with holes
+ *		http://www.sakri.net/blog/2009/06/12/an-approach-to-triangulating-polygons-with-holes/
+ *
+ */
+
+
+
+},{}],36:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -50897,7 +51210,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -50924,7 +51237,60 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{"stats.js":6}],37:[function(require,module,exports){
+},{"stats.js":6}],38:[function(require,module,exports){
+/**
+ * @author Eberhard Graether / http://egraether.com/
+ * @author Mark Lundin    / http://mark-lundin.com
+ * @author Simone Manini / http://daron1337.github.io
+ * @author Luca Antiga    / http://lantiga.github.io
+ */
+module.exports = (function (e) {
+	return {
+
+		/**
+		 * Plugin Instance
+		 */
+		instance: null,
+
+		init: function (text, parameters) {
+			return this.plugin(text, parameters);
+		},
+
+		plugin: function (text, parameters) {
+
+			THREE.TextGeometry = function ( text, parameters ) {
+
+				parameters = parameters || {};
+
+				var textShapes = THREE.FontUtils.generateShapes( text, parameters );
+
+				// translate parameters to ExtrudeGeometry API
+
+				parameters.amount = parameters.height !== undefined ? parameters.height : 50;
+
+				// defaults
+
+				if ( parameters.bevelThickness === undefined ) parameters.bevelThickness = 10;
+				if ( parameters.bevelSize === undefined ) parameters.bevelSize = 8;
+				if ( parameters.bevelEnabled === undefined ) parameters.bevelEnabled = false;
+
+				THREE.ExtrudeGeometry.call( this, textShapes, parameters );
+
+				this.type = 'TextGeometry';
+
+			};
+
+			THREE.TextGeometry.prototype = Object.create( THREE.ExtrudeGeometry.prototype );
+			THREE.TextGeometry.prototype.constructor = THREE.TextGeometry;
+
+			return this.instance = new THREE.TextGeometry(text, parameters);
+
+		}
+
+	}
+
+})(Engine);
+},{}],39:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -51581,7 +51947,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -51718,7 +52084,7 @@ module.exports = (function (e) {
 })(Engine);
 
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -51817,7 +52183,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -51884,7 +52250,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],41:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -51992,7 +52358,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52047,7 +52413,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {

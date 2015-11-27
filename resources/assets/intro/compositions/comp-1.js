@@ -16,7 +16,7 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles, E.skybox);
+            e.scene.a.add(E.particles, E.skybox, E.dreamsark);
 
             /**
              * Camera Settings
@@ -26,8 +26,8 @@ module.exports = (function (e) {
             /**
              * Plugin Init
              */
-            e.plugins.OrbitControls.init();
-            //e.plugins.TrackballControls.init();
+            //e.plugins.OrbitControls.init();
+            e.plugins.TrackballControls.init();
 
             e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -81,8 +81,19 @@ module.exports = (function (e) {
 
             this.onClick = function (index, intersected) {
 
-                //e.plugins.TrackballControls.instance.enabled = false;
-                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8);
+                var onComplete = function () {
+                    e.tween.l(e.camera.a.position, 1, {
+                        x: intersected.position.x * .8,
+                        y: intersected.position.y * .8,
+                        z: intersected.position.z * .8,
+
+                        ease: 'Expo.easeOut'
+
+                    })
+                };
+
+                e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8, onComplete);
+
                 //e.helpers.smoothMovePlugin(e.plugins.TrackballControls.instance, intersected, 1, 2);
                 //e.camera.a.position = intersected.position
             };
@@ -97,7 +108,7 @@ module.exports = (function (e) {
 
         animation: function (data, E) {
 
-            //e.plugins.TrackballControls.instance.update();
+            e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;

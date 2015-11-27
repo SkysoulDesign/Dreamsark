@@ -73,16 +73,7 @@ module.exports = function (e) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
-        smoothMovePlugin: function(controls, target, time, distance){
-            console.log(controls);
-            //e.tween.l(camera.position, time, {
-            //    x: target.position.x / distance,
-            //    y: target.position.y / distance,
-            //    z: target.position.z / distance
-            //});
-        },
-
-        smoothLookAt: function (camera, target, time, distance) {
+        smoothLookAt: function (camera, target, time, distance, onComplete) {
 
             var clone = camera.clone();
             clone.position.set(target.position.x / distance, target.position.y / distance, target.position.z / distance);
@@ -110,10 +101,10 @@ module.exports = function (e) {
                     camera.setRotationFromQuaternion(targetQuaternion);
                 },
                 onComplete: function () {
-                    //e.camera.a.lookAt(target.position)
+                    if (typeof onComplete === 'function')
+                        onComplete();
                 }
             });
-
 
         }
     }
