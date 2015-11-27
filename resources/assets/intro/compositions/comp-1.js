@@ -11,12 +11,12 @@ module.exports = (function (e) {
             }
         },
 
-        setup: function (data, E) {
+        setup: function (data, E, ex) {
 
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.skybox, E.dreamsark, E.ground, E.coloredParticles);
+            e.scene.a.add(E.particles, E.skybox, E.dreamsark, E.ground, E.coloredParticles);
 
             /**
              * Camera Settings
@@ -86,10 +86,13 @@ module.exports = (function (e) {
                         x: intersected.position.x * .8,
                         y: intersected.position.y * .8,
                         z: intersected.position.z * .8,
-
                         ease: 'Expo.easeOut'
+                    });
 
-                    })
+                    e.compositor.next({
+                        point: intersected
+                    });
+
                 };
 
                 e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8, onComplete);

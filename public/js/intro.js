@@ -48569,7 +48569,7 @@ module.exports = (function (e) {
 
         },
 
-        init: function () {
+        init: function (extraData) {
 
             var compName = Object.keys(e.compositions)[this.comp];
 
@@ -48585,7 +48585,7 @@ module.exports = (function (e) {
              */
             this.construct();
 
-            this.active.setup(this.public, e.elements);
+            this.active.setup(this.public, e.elements, extraData);
 
             /**
              * Init GUI
@@ -48627,9 +48627,9 @@ module.exports = (function (e) {
 
         },
 
-        next: function () {
+        next: function (extraData) {
             this.comp++;
-            this.init();
+            this.init(extraData);
         },
 
         previous: function () {
@@ -49116,12 +49116,12 @@ module.exports = (function (e) {
             }
         },
 
-        setup: function (data, E) {
+        setup: function (data, E, ex) {
 
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.skybox, E.dreamsark, E.ground, E.coloredParticles);
+            e.scene.a.add(E.particles, E.skybox, E.dreamsark, E.ground, E.coloredParticles);
 
             /**
              * Camera Settings
@@ -49191,10 +49191,13 @@ module.exports = (function (e) {
                         x: intersected.position.x * .8,
                         y: intersected.position.y * .8,
                         z: intersected.position.z * .8,
-
                         ease: 'Expo.easeOut'
+                    });
 
-                    })
+                    e.compositor.next({
+                        point: intersected
+                    });
+
                 };
 
                 e.helpers.smoothLookAt(e.camera.a, intersected, 1, 8, onComplete);
@@ -49286,39 +49289,32 @@ module.exports = (function (e) {
 
     return {
 
-        setup: function (objs) {
+        setup: function (data, E, ex) {
 
-            e.helpers.set(objs.ball, function () {
-                this.material.color = new THREE.Color('yellow');
-            });
 
-            /**
-             * Scene Settings
-             */
-            e.scene.a.add(objs.ball);
+            var points = e.helpers.group();
 
-            /**
-             * Camera Settings
-             */
-            //e.camera.a.position.z = 5;
+            var lastPoint = null;
 
-            /**
-             * Plugin Init
-             */
-            e.helpers.set(e.plugins.TrackballControls.init(), function () {
-                //this.noRotate = true
-            });
+            for (var i = 0; i < 4; i++) {
 
+                var point = E.point.clone();
+
+                point.position.copy(ex.point.position);
+                point.position.x += 12;
+                point.position.y += 12;
+                point.position.z -= 10;
+
+                points.add(point);
+            }
+
+            e.scene.a.add(points);
+
+            e.plugins.OrbitControls.instance.enabled = false;
 
         },
 
-        animation: function (objs) {
-
-            objs.ball.position.x += .003
-            objs.ball.position.y += .001
-            objs.ball.position.z += .002;
-
-            e.plugins.TrackballControls.instance.update();
+        animation: function (data, E) {
 
         }
 
@@ -49348,11 +49344,11 @@ module.exports = (function () {
             require('../elements/ColoredParticles')
         ],
         'comp-2': [
-            require('../elements/Ball')
+            require('../elements/Point')
         ]
     }
 })();
-},{"../elements/Ball":26,"../elements/ColoredParticles":27,"../elements/Dreamsark":28,"../elements/Ground":29,"../elements/Particles":30,"../elements/Skybox":31}],24:[function(require,module,exports){
+},{"../elements/ColoredParticles":26,"../elements/Dreamsark":27,"../elements/Ground":28,"../elements/Particles":29,"../elements/Point":30,"../elements/Skybox":31}],24:[function(require,module,exports){
 module.exports = (function () {
     return {
         //        canvas : A Canvas where the renderer draws its output.
@@ -49374,19 +49370,6 @@ module.exports = (function () {
     }
 })();
 },{}],26:[function(require,module,exports){
-module.exports = (function () {
-
-    return {
-        name: 'ball',
-        create: function (e) {
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-            return new THREE.Mesh(geometry, material);
-        }
-    }
-
-})();
-},{}],27:[function(require,module,exports){
 module.exports = (function () {
 
     var maxPoints     = 100;
@@ -49443,8 +49426,8 @@ module.exports = (function () {
                 var z = Math.random() * radius - radius / 2;
 
                 var material = new THREE.PointsMaterial({
-                    size: 10,
-                    transparent: true
+                    size: 1,
+                    color: 0xFFFFF,
                 });
 
                 p.vertices[i * 3] = points[i * 3] = x;
@@ -49550,7 +49533,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49569,7 +49552,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49599,7 +49582,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = (function () {
 
     var maxPoints     = 100;
@@ -49722,6 +49705,31 @@ module.exports = (function () {
                 particlesData: particlesData
                 //particles: particles
             }
+        }
+
+    }
+
+})();
+},{}],30:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+        name: 'point',
+        create: function (e) {
+
+            var map = e.loader.l('lib/point-1.png');
+
+            var material = new THREE.PointsMaterial({
+                map: map,
+                size: 50,
+                transparent: true
+            });
+
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+
+            return new THREE.Points(geometry, material);
+
         }
 
     }
@@ -49894,8 +49902,9 @@ module.exports = (function (e, c) {
 
             /**
              * If not initialized then returns
+             * If raycaster not set then returns
              */
-            if (this.a === null) return;
+            if (this.a === null || typeof e.compositor.active.raycaster !== 'function') return;
 
             e.compositor.active.raycaster.call(this, e.compositor.public, e.elements);
 
@@ -49964,9 +49973,14 @@ module.exports = (function (e, c) {
          */
         a: null,
 
-        init: function (config) {
+        init: function (configs, autoSet) {
 
-            config = config ? config : c.scene;
+            /**
+             * Auto Set the Scene as Active
+             * @type {*|boolean}
+             */
+            autoSet = autoSet || true;
+            configs = configs ? configs : c.scene;
 
             /**
              * Scene
@@ -49975,11 +49989,22 @@ module.exports = (function (e, c) {
             var scene = new THREE.Scene();
 
             Object.keys(c.scene).map(function (key) {
-                scene[key] = config[key];
+                scene[key] = configs[key];
             });
 
-            return this.a = scene;
+            if (autoSet)
+                this.a = scene;
 
+            return scene;
+
+        },
+
+        new: function (configs) {
+            return this.init(configs, false);
+        },
+
+        set: function (scene) {
+            this.a = scene;
         }
 
     };

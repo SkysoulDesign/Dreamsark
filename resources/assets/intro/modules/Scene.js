@@ -10,9 +10,14 @@ module.exports = (function (e, c) {
          */
         a: null,
 
-        init: function (config) {
+        init: function (configs, autoSet) {
 
-            config = config ? config : c.scene;
+            /**
+             * Auto Set the Scene as Active
+             * @type {*|boolean}
+             */
+            autoSet = autoSet || true;
+            configs = configs ? configs : c.scene;
 
             /**
              * Scene
@@ -21,11 +26,22 @@ module.exports = (function (e, c) {
             var scene = new THREE.Scene();
 
             Object.keys(c.scene).map(function (key) {
-                scene[key] = config[key];
+                scene[key] = configs[key];
             });
 
-            return this.a = scene;
+            if (autoSet)
+                this.a = scene;
 
+            return scene;
+
+        },
+
+        new: function (configs) {
+            return this.init(configs, false);
+        },
+
+        set: function (scene) {
+            this.a = scene;
         }
 
     };

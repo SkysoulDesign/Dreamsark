@@ -45,7 +45,7 @@ module.exports = (function (e) {
 
         },
 
-        init: function () {
+        init: function (extraData) {
 
             var compName = Object.keys(e.compositions)[this.comp];
 
@@ -61,7 +61,7 @@ module.exports = (function (e) {
              */
             this.construct();
 
-            this.active.setup(this.public, e.elements);
+            this.active.setup(this.public, e.elements, extraData);
 
             /**
              * Init GUI
@@ -103,9 +103,9 @@ module.exports = (function (e) {
 
         },
 
-        next: function () {
+        next: function (extraData) {
             this.comp++;
-            this.init();
+            this.init(extraData);
         },
 
         previous: function () {

@@ -11,7 +11,7 @@ module.exports = (function () {
             require('../elements/ColoredParticles')
         ],
         'comp-2': [
-            require('../elements/Ball')
+            require('../elements/Point')
         ]
     }
 })();

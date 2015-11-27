@@ -54,8 +54,8 @@ module.exports = (function () {
                 var z = Math.random() * radius - radius / 2;
 
                 var material = new THREE.PointsMaterial({
-                    size: 10,
-                    transparent: true
+                    size: 1,
+                    color: 0xFFFFF,
                 });
 
                 p.vertices[i * 3] = points[i * 3] = x;

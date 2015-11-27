@@ -2,39 +2,32 @@ module.exports = (function (e) {
 
     return {
 
-        setup: function (objs) {
+        setup: function (data, E, ex) {
 
-            e.helpers.set(objs.ball, function () {
-                this.material.color = new THREE.Color('yellow');
-            });
 
-            /**
-             * Scene Settings
-             */
-            e.scene.a.add(objs.ball);
+            var points = e.helpers.group();
 
-            /**
-             * Camera Settings
-             */
-            //e.camera.a.position.z = 5;
+            var lastPoint = null;
 
-            /**
-             * Plugin Init
-             */
-            e.helpers.set(e.plugins.TrackballControls.init(), function () {
-                //this.noRotate = true
-            });
+            for (var i = 0; i < 4; i++) {
 
+                var point = E.point.clone();
+
+                point.position.copy(ex.point.position);
+                point.position.x += 12;
+                point.position.y += 12;
+                point.position.z -= 10;
+
+                points.add(point);
+            }
+
+            e.scene.a.add(points);
+
+            e.plugins.OrbitControls.instance.enabled = false;
 
         },
 
-        animation: function (objs) {
-
-            objs.ball.position.x += .003
-            objs.ball.position.y += .001
-            objs.ball.position.z += .002;
-
-            e.plugins.TrackballControls.instance.update();
+        animation: function (data, E) {
 
         }
 

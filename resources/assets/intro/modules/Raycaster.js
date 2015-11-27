@@ -43,8 +43,9 @@ module.exports = (function (e, c) {
 
             /**
              * If not initialized then returns
+             * If raycaster not set then returns
              */
-            if (this.a === null) return;
+            if (this.a === null || typeof e.compositor.active.raycaster !== 'function') return;
 
             e.compositor.active.raycaster.call(this, e.compositor.public, e.elements);
 
