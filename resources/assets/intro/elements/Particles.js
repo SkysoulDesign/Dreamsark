@@ -4,7 +4,7 @@ module.exports = (function () {
     var radius        = 1000;
     var particlesData = [];
     //var points        = new Float32Array(maxPoints * 3);
-    var points        = [];
+    var points = [];
     //var particles     = [];
 
     /**
@@ -84,7 +84,7 @@ module.exports = (function () {
                 p = p.create(material);
 
                 p.position.set(x, y, z);
-                p.rotation.set(x, y, z);
+                //p.rotation.y = -Math.PI / 2;
 
                 points.push(p);
 

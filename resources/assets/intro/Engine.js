@@ -12,7 +12,6 @@ module.exports = (function (e) {
         scene        = require('./modules/Scene'),
         renderer     = require('./modules/Renderer'),
         plugins      = require('./Plugins'),
-        //fonts        = require('./Fonts'),
         loader       = require('./Loader'),
         shaders      = require('./Shaders'),
         passer       = require('./Passer'),

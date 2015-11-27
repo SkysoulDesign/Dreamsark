@@ -5,12 +5,12 @@
     reset-db
 @endmacro
 
-@task('update')
+@task('install')
     cd /home/dreamsark.dev
     git checkout .
     git pull origin master
     composer self-update
-    composer update
+    composer install
 @endtask
 
 @task('config-git')

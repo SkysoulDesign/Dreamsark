@@ -16,18 +16,18 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles, E.skybox, E.dreamsark);
+            e.scene.a.add(E.skybox, E.dreamsark, E.ground, E.coloredParticles);
 
             /**
              * Camera Settings
              */
-            e.camera.a.position.z = 250;
+            e.camera.a.position.z = 800;
 
             /**
              * Plugin Init
              */
-            //e.plugins.OrbitControls.init();
-            e.plugins.TrackballControls.init();
+            e.plugins.OrbitControls.init();
+            //e.plugins.TrackballControls.init();
 
             e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -108,7 +108,7 @@ module.exports = (function (e) {
 
         animation: function (data, E) {
 
-            e.plugins.TrackballControls.instance.update();
+            //e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;

@@ -48689,7 +48689,6 @@ module.exports = (function (e) {
         scene        = require('./modules/Scene'),
         renderer     = require('./modules/Renderer'),
         plugins      = require('./Plugins'),
-        //fonts        = require('./Fonts'),
         loader       = require('./Loader'),
         shaders      = require('./Shaders'),
         passer       = require('./Passer'),
@@ -48758,7 +48757,7 @@ module.exports = (function (e) {
     return render;
 
 })(Engine);
-},{"./Composer":7,"./Compositions":8,"./Compositor":9,"./Elements":11,"./Events":13,"./Helpers":14,"./Loader":15,"./Passer":16,"./Plugins":17,"./Shaders":18,"./Tween":19,"./modules/Camera":30,"./modules/Manager":31,"./modules/Raycaster":32,"./modules/Renderer":33,"./modules/Scene":34}],13:[function(require,module,exports){
+},{"./Composer":7,"./Compositions":8,"./Compositor":9,"./Elements":11,"./Events":13,"./Helpers":14,"./Loader":15,"./Passer":16,"./Plugins":17,"./Shaders":18,"./Tween":19,"./modules/Camera":33,"./modules/Manager":34,"./modules/Raycaster":35,"./modules/Renderer":36,"./modules/Scene":37}],13:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -49058,7 +49057,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./postprocessing/BloomPass.js":40,"./postprocessing/MaskPass.js":41,"./postprocessing/RenderPass.js":42}],17:[function(require,module,exports){
+},{"./postprocessing/BloomPass.js":43,"./postprocessing/MaskPass.js":44,"./postprocessing/RenderPass.js":45}],17:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -49067,7 +49066,7 @@ module.exports = (function (e) {
     return e.plugins = plugins;
 
 })(Engine);
-},{"./plugins/FontUtils.js":35,"./plugins/OrbitControls.js":36,"./plugins/Stats.js":37,"./plugins/TextGeometry.js":38,"./plugins/TrackballControls.js":39}],18:[function(require,module,exports){
+},{"./plugins/FontUtils.js":38,"./plugins/OrbitControls.js":39,"./plugins/Stats.js":40,"./plugins/TextGeometry.js":41,"./plugins/TrackballControls.js":42}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -49087,7 +49086,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./shaders/ConvolutionShader.js":43,"./shaders/CopyShader.js":44,"./shaders/FXAAShader.js":45}],19:[function(require,module,exports){
+},{"./shaders/ConvolutionShader.js":46,"./shaders/CopyShader.js":47,"./shaders/FXAAShader.js":48}],19:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -49122,18 +49121,18 @@ module.exports = (function (e) {
             /**
              * Scene Settings
              */
-            e.scene.a.add(E.particles, E.skybox, E.dreamsark);
+            e.scene.a.add(E.skybox, E.dreamsark, E.ground, E.coloredParticles);
 
             /**
              * Camera Settings
              */
-            e.camera.a.position.z = 250;
+            e.camera.a.position.z = 800;
 
             /**
              * Plugin Init
              */
-            //e.plugins.OrbitControls.init();
-            e.plugins.TrackballControls.init();
+            e.plugins.OrbitControls.init();
+            //e.plugins.TrackballControls.init();
 
             e.events.add('mousemove', function (mouse, event) {
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -49214,7 +49213,7 @@ module.exports = (function (e) {
 
         animation: function (data, E) {
 
-            e.plugins.TrackballControls.instance.update();
+            //e.plugins.TrackballControls.instance.update();
 
             var lines  = data.lines,
                 points = data.points;
@@ -49344,14 +49343,16 @@ module.exports = (function () {
         'comp-1': [
             require('../elements/Particles'),
             require('../elements/Skybox'),
-            //require('../elements/Dreamsark'),
+            require('../elements/Dreamsark'),
+            require('../elements/Ground'),
+            require('../elements/ColoredParticles')
         ],
         'comp-2': [
             require('../elements/Ball')
         ]
     }
 })();
-},{"../elements/Ball":26,"../elements/Particles":27,"../elements/Skybox":28}],24:[function(require,module,exports){
+},{"../elements/Ball":26,"../elements/ColoredParticles":27,"../elements/Dreamsark":28,"../elements/Ground":29,"../elements/Particles":30,"../elements/Skybox":31}],24:[function(require,module,exports){
 module.exports = (function () {
     return {
         //        canvas : A Canvas where the renderer draws its output.
@@ -49391,8 +49392,221 @@ module.exports = (function () {
     var maxPoints     = 100;
     var radius        = 1000;
     var particlesData = [];
+    var points        = new Float32Array(maxPoints * 3);
+    var particles     = [];
+
+    /**
+     * Create Point
+     * @returns {{geometry: THREE.BufferGeometry, vertices: Float32Array, create: create}}
+     */
+    var point = function () {
+        return {
+            geometry: new THREE.BufferGeometry(),
+            vertices: new Float32Array(maxPoints * 3),
+            create: function (material) {
+                return new THREE.Points(this.geometry, material);
+            }
+        }
+    };
+
+    /**
+     * Create Connection Lines
+     * @type {{geometry: THREE.BufferGeometry, colors: Float32Array, vertices: Float32Array, create: lines.create}}
+     */
+    var lines = {
+        geometry: new THREE.BufferGeometry(),
+        colors: new Float32Array(maxPoints * 3),
+        vertices: new Float32Array((maxPoints * maxPoints) * 3),
+        material: function () {
+            return new THREE.LineBasicMaterial({color: new THREE.Color('blue'), opacity: 1, linewidth: 1});
+        },
+        create: function () {
+            return new THREE.LineSegments(this.geometry, this.material());
+        }
+    };
+
+    return {
+        name: 'coloredParticles',
+        create: function (e) {
+
+            var group = e.helpers.group();
+
+            /**
+             * Add Vertices to Points
+             */
+            for (var i = 0; i < maxPoints; i++) {
+
+                var p = point();
+
+                var x = Math.random() * radius - radius / 2;
+                var y = Math.random() * radius - radius / 2;
+                var z = Math.random() * radius - radius / 2;
+
+                var material = new THREE.PointsMaterial({
+                    size: 10,
+                    transparent: true
+                });
+
+                p.vertices[i * 3] = points[i * 3] = x;
+                p.vertices[i * 3 + 1] = points[i * 3 + 1] = y;
+                p.vertices[i * 3 + 2] = points[i * 3 + 2] = z;
+
+                var attribute = new THREE.BufferAttribute(p.vertices, 3).setDynamic(true);
+                p.geometry.addAttribute('position', attribute);
+
+                /**
+                 * Limit to display only one particle per p
+                 */
+                p.geometry.setDrawRange(i, 1);
+
+                /**
+                 * Create and add to the Group
+                 */
+                p = p.create(material);
+                particles.push(p);
+                group.add(p);
+
+                particlesData.push({
+                    velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),
+                    connections: 0
+                });
+
+                //for (var i = 0; i < maxPoints; i++) {
+                //
+                //    var particleData = data.particlesData[i];
+                //
+                //    if (data.limitConnections && particleData.connections >= data.maxConnections)
+                //        continue;
+                //
+                //    for (var j = i + 1; j < data.maxPoints; j++) {
+                //
+                //        var particleDataB = data.particlesData[j];
+                //
+                //        if (data.limitConnections && particleDataB.connections >= data.maxConnections)
+                //            continue;
+                //
+                //        var dx   = points[i].position.x - points[j].position.x;
+                //        var dy   = points[i].position.y - points[j].position.y;
+                //        var dz   = points[i].position.z - points[j].position.z;
+                //        var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                //
+                //        if (dist < data.minDistance) {
+                //
+                //            particleData.connections++;
+                //            particleDataB.connections++;
+                //
+                //            lines.vertices[vertexPos++] = points[i].position.x;
+                //            lines.vertices[vertexPos++] = points[i].position.y;
+                //            lines.vertices[vertexPos++] = points[i].position.z;
+                //
+                //            lines.vertices[vertexPos++] = points[j].position.x;
+                //            lines.vertices[vertexPos++] = points[j].position.y;
+                //            lines.vertices[vertexPos++] = points[j].position.z;
+                //
+                //            var alpha = 1.0 - dist / data.minDistance;
+                //
+                //            lines.colors[colorPos++] = alpha;
+                //            lines.colors[colorPos++] = alpha;
+                //            lines.colors[colorPos++] = alpha;
+                //
+                //            lines.colors[colorPos++] = alpha;
+                //            lines.colors[colorPos++] = alpha;
+                //            lines.colors[colorPos++] = alpha;
+                //
+                //            connections++;
+                //
+                //        }
+                //
+                //    }
+                //}
+
+            }
+
+            /**
+             * Add Position Attribute to the Geometry
+             */
+            var LinePositionAttribute = new THREE.BufferAttribute(lines.vertices, 3).setDynamic(true),
+                LineColorAttribute    = new THREE.BufferAttribute(lines.colors, 3).setDynamic(true);
+
+            lines.geometry.addAttribute('position', LinePositionAttribute);
+            lines.geometry.addAttribute('color', LineColorAttribute);
+
+            return group.add(lines.create());
+
+        },
+
+        share: function (e) {
+            return {
+                c_maxPoints: 100,
+                c_minDistance: 150,
+                c_radius: 10,
+                c_points: points,
+                c_lines: lines,
+                c_particlesData: particlesData,
+                c_particles: particles
+            }
+        }
+
+    }
+
+})();
+},{}],28:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+        name: 'dreamsark',
+        create: function (e) {
+            var factor   = 100;
+            var geometry = new THREE.PlaneGeometry(4 * factor, factor, 1);
+            var map      = e.loader.l('lib/dreamsark.png');
+            var material = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                map: map,
+                transparent: true
+            });
+            return new THREE.Mesh(geometry, material);
+        }
+    }
+
+})();
+},{}],29:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+        name: 'ground',
+        create: function (e) {
+
+            var map = e.loader.l('lib/ground.png');
+
+            var material = new THREE.MeshBasicMaterial({
+                map: map,
+                side: THREE.DoubleSide,
+                transparent: true
+            });
+
+            var radius   = 200;
+            var segments = 10;
+
+            var circleGeometry = new THREE.CircleGeometry(radius, segments);
+
+            var ground = new THREE.Mesh(circleGeometry, material);
+
+            ground.rotation.x = Math.PI / 2;
+            ground.position.y = -21;
+
+            return ground;
+        }
+    }
+
+})();
+},{}],30:[function(require,module,exports){
+module.exports = (function () {
+
+    var maxPoints     = 100;
+    var radius        = 1000;
+    var particlesData = [];
     //var points        = new Float32Array(maxPoints * 3);
-    var points        = [];
+    var points = [];
     //var particles     = [];
 
     /**
@@ -49472,7 +49686,7 @@ module.exports = (function () {
                 p = p.create(material);
 
                 p.position.set(x, y, z);
-                p.rotation.set(x, y, z);
+                //p.rotation.y = -Math.PI / 2;
 
                 points.push(p);
 
@@ -49513,7 +49727,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49530,7 +49744,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (global){
 /**
  * Caption
@@ -49590,7 +49804,7 @@ global.Engine.core = require('./Engine').render();
 
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Config":10,"./Engine":12,"THREE":2,"dat-gui":3}],30:[function(require,module,exports){
+},{"./Config":10,"./Engine":12,"THREE":2,"dat-gui":3}],33:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49618,7 +49832,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49634,7 +49848,7 @@ module.exports = (function (e, c) {
     return e.manager = manager;
 
 })(Engine, Configs);
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49712,7 +49926,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],33:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     var renderer = new THREE.WebGLRenderer(c.renderer);
@@ -49737,7 +49951,7 @@ module.exports = (function (e, c) {
     //};
 
 })(Engine, Configs);
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49771,7 +49985,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],35:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -50080,7 +50294,7 @@ module.exports = (function (e) {
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -51210,7 +51424,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -51237,7 +51451,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{"stats.js":6}],38:[function(require,module,exports){
+},{"stats.js":6}],41:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -51290,7 +51504,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],39:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -51947,7 +52161,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],40:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52084,7 +52298,7 @@ module.exports = (function (e) {
 })(Engine);
 
 
-},{}],41:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52183,7 +52397,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],42:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52250,7 +52464,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],43:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -52358,7 +52572,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],44:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52413,7 +52627,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],45:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -52506,4 +52720,4 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}]},{},[29])
+},{}]},{},[32])
