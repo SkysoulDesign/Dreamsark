@@ -13,6 +13,14 @@
     composer install
 @endtask
 
+@task('update')
+    cd /home/dreamsark.dev
+    git checkout .
+    git pull origin master
+    composer self-update
+    composer update
+@endtask
+
 @task('config-git')
     git config --global user.email "rafael@skysoul.com.au"
     git config --global user.name "Rafael"
