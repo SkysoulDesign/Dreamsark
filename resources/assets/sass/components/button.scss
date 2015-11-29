@@ -24,6 +24,12 @@ button {
     outline: 0;
   }
 
+  &.short{
+    height: rem-calc(30);
+    padding:0;
+    font-size: rem-calc(13);
+  }
+
   svg {
 
     height: 100%;
@@ -59,11 +65,19 @@ button.flat {
 
 button.small {
 
-  //@extend button;
+  width: auto;
+  padding: rem-calc(8) rem-calc(13);
+  font-size: rem-calc(12);
+
+  @extend a.uppercase
+
+}
+
+button.medium {
 
   width: auto;
-  padding: rem-calc(5) rem-calc(10);
-  font-size: rem-calc(12);
+  padding: rem-calc(10) rem-calc(15);
+  font-size: rem-calc(14);
 
   @extend a.uppercase
 

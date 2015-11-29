@@ -17,6 +17,7 @@
 
 <div class="container-fluid">
     @yield('content')
+    @yield('footer')
 </div>
 
 @yield('scripts')

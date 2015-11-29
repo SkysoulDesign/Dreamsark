@@ -77,6 +77,10 @@
     }
   }
 
+  /**
+  * Options
+  */
+
   &.has-attachment {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
@@ -89,7 +93,7 @@
 
   @extend .segment;
 
-  padding:2%;
+  padding: 2%;
 
   background: color(gray, mid-dark, 100);
   border-top: none;

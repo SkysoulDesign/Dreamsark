@@ -1,0 +1,13 @@
+/**
+* Settings
+*/
+
+@include component(footer) {
+
+  background: color(primary, x-dark, 95);
+
+  section.bottom {
+    background: color(primary, x-dark);
+  }
+
+}

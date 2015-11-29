@@ -50,4 +50,36 @@ div.center {
   text-align: center !important;
 }
 
+div.row.horizontal-divided {
+
+  .column {
+
+    border-right: 1px dashed color(white, base, 20);
+
+    &:last-child {
+      border-right: none;
+    }
+
+  }
+
+}
+
+.transparent {
+  background: transparent;
+  border: none transparent;
+  box-shadow: none;
+}
+
+.marged {
+  margin: 2% 0;
+}
+
+.padded {
+  padding: 2% 0;
+}
+
+.centered {
+  text-align: center;
+}
+
 

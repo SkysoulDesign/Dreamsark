@@ -1,4 +1,5 @@
-<div class="container-fluid content">
+<section class="content">
+
     <div class="row">
 
         @foreach(range(1,6) as $n)
@@ -19,14 +20,19 @@
                             consectetur adipisicing elit. Facere.
                         </div>
 
-                        <button class="button primary">View Project</button>
+                        <button class="primary short">View Project</button>
 
                     </section>
                 </div>
             </div>
         @endforeach
 
+        <div class="medium-12 column">
+            <section class="segment centered transparent marged padded">
+                <button class="primary medium">Load More</button>
+            </section>
+        </div>
 
     </div>
 
-</div>
+</section>

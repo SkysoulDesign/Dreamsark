@@ -5,10 +5,10 @@
 /**
 * App
 */
-@import "bower_components/foundation/scss/foundation/components/grid";
-@import "bower_components/foundation/scss/foundation/components/switches";
-@import "bower_components/foundation/scss/normalize";
-@import 'node_modules/csstyle/csstyle';
+@import "../../../bower_components/foundation/scss/foundation/components/grid";
+@import "../../../bower_components/foundation/scss/foundation/components/switches";
+@import "../../../bower_components/foundation/scss/normalize";
+@import '../../../node_modules/csstyle/csstyle';
 
 @import 'app/functions';
 @import 'app/colors';
@@ -34,3 +34,4 @@
 @import 'layout/header/small-header';
 @import 'layout/header/huge-header';
 @import 'layout/content';
+@import 'layout/footer';

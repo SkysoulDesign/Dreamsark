@@ -48513,7 +48513,7 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the compositions directory
      */
-    var compositions = ({"compositions":({"comp-1":require("./compositions/comp-1.js"),"comp-2":require("./compositions/comp-2.js")})}).compositions;
+    var compositions = ({"compositions":({"comp-1":require("./compositions\\comp-1.js"),"comp-2":require("./compositions\\comp-2.js")})}).compositions;
 
     /**
      * Attach Compositions to Engine
@@ -48521,7 +48521,7 @@ module.exports = (function (e) {
     return e.compositions = compositions;
 
 })(Engine);
-},{"./compositions/comp-1.js":20,"./compositions/comp-2.js":21}],9:[function(require,module,exports){
+},{"./compositions\\comp-1.js":20,"./compositions\\comp-2.js":21}],9:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.compositor = {
@@ -48978,7 +48978,7 @@ module.exports = (function (e, c) {
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
-    var passes = ({"postprocessing":({"BloomPass":require("./postprocessing/BloomPass.js"),"MaskPass":require("./postprocessing/MaskPass.js"),"RenderPass":require("./postprocessing/RenderPass.js")})}).postprocessing;
+    var passes = ({"postprocessing":({"BloomPass":require("./postprocessing\\BloomPass.js"),"MaskPass":require("./postprocessing\\MaskPass.js"),"RenderPass":require("./postprocessing\\RenderPass.js")})}).postprocessing;
 
     return e.passer = {
 
@@ -49057,20 +49057,20 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./postprocessing/BloomPass.js":43,"./postprocessing/MaskPass.js":44,"./postprocessing/RenderPass.js":45}],17:[function(require,module,exports){
+},{"./postprocessing\\BloomPass.js":43,"./postprocessing\\MaskPass.js":44,"./postprocessing\\RenderPass.js":45}],17:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
-    var plugins = ({"plugins":({"FontUtils":require("./plugins/FontUtils.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"Stats":require("./plugins/Stats.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js")})}).plugins;
+    var plugins = ({"plugins":({"FontUtils":require("./plugins\\FontUtils.js"),"OrbitControls":require("./plugins\\OrbitControls.js"),"Stats":require("./plugins\\Stats.js"),"TextGeometry":require("./plugins\\TextGeometry.js"),"TrackballControls":require("./plugins\\TrackballControls.js")})}).plugins;
 
     return e.plugins = plugins;
 
 })(Engine);
-},{"./plugins/FontUtils.js":38,"./plugins/OrbitControls.js":39,"./plugins/Stats.js":40,"./plugins/TextGeometry.js":41,"./plugins/TrackballControls.js":42}],18:[function(require,module,exports){
+},{"./plugins\\FontUtils.js":38,"./plugins\\OrbitControls.js":39,"./plugins\\Stats.js":40,"./plugins\\TextGeometry.js":41,"./plugins\\TrackballControls.js":42}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
-    var shaders = ({"shaders":({"ConvolutionShader":require("./shaders/ConvolutionShader.js"),"CopyShader":require("./shaders/CopyShader.js"),"FXAAShader":require("./shaders/FXAAShader.js")})}).shaders;
+    var shaders = ({"shaders":({"ConvolutionShader":require("./shaders\\ConvolutionShader.js"),"CopyShader":require("./shaders\\CopyShader.js"),"FXAAShader":require("./shaders\\FXAAShader.js")})}).shaders;
 
     return e.shaders = {
 
@@ -49086,7 +49086,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./shaders/ConvolutionShader.js":46,"./shaders/CopyShader.js":47,"./shaders/FXAAShader.js":48}],19:[function(require,module,exports){
+},{"./shaders\\ConvolutionShader.js":46,"./shaders\\CopyShader.js":47,"./shaders\\FXAAShader.js":48}],19:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**

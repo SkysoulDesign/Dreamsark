@@ -10,6 +10,12 @@
 
 @endsection
 
+@section('footer')
+
+    @include('layouts.footer-large')
+
+@endsection
+
 @section('scripts')
     <script src="{{ asset('js/particle.js') }}"></script>
 @endsection
