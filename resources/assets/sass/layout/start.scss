@@ -1,0 +1,25 @@
+@include component(start) {
+
+  position: relative;
+  height: 100vh;
+  background: url('../img/start/bg.png');
+
+  div.body {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+
+}
+
+/**
+* SVGs
+*/
+.svg-dreamsark {
+  path{
+    fill: color(white);
+  }
+}

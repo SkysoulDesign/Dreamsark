@@ -214,3 +214,7 @@ Route::post('report/store', ['as' => 'report.store', 'uses' => 'Report\ReportCon
 Route::get('intro', ['as' => 'intro', 'uses' => function () {
     return view('intro-new');
 }]);
+
+Route::get('in', ['as' => 'in', 'uses' => function () {
+    return view('in');
+}]);

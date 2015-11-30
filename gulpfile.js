@@ -17,6 +17,12 @@ gulp.task('intro', getTask('intro', {name: 'intro'}));
 gulp.watch('resources/assets/intro/**/*.js', ['intro']);
 
 /**
+ * Start Task
+ **/
+gulp.task('start', getTask('start', {name: 'start'}));
+gulp.watch('resources/assets/start/**/*.js', ['start']);
+
+/**
  * Dev JS Task
  **/
 gulp.task('dev', getTask('dev', {name: 'dev'}));
