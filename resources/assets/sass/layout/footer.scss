@@ -4,10 +4,39 @@
 
 @include component(footer) {
 
-  background: color(primary, x-dark, 95);
+  background: color(black, mid-light);
 
   section.bottom {
-    background: color(primary, x-dark);
+    background: color(black);
+
+    color: color(white, x-dark);
+
+    h4 {
+      color: color(white);
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    p {
+      font-size: rem-calc(14);
+    }
+
+    ul {
+
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      text-transform: uppercase;
+      font-size: rem-calc(14);
+      font-weight: 300;
+
+      li {
+
+      }
+
+    }
+
   }
 
 }

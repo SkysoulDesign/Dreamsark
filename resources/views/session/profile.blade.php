@@ -19,7 +19,7 @@
                     <button class="outlined small">edit</button>
                 </div>
 
-                <div class="content">
+                <div class="body">
                     <div class="head">
                         <h1>{{ auth()->user()->username }}</h1>
                     </div>
@@ -34,7 +34,7 @@
                     Backed projects
                 </div>
 
-                <div class="content">
+                <div class="body">
 
                     <div class="description">
                         There is nothing here at the moment

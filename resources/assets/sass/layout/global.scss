@@ -11,9 +11,11 @@ body {
 section, .sections {
   .right {
     float: right !important;
+    text-align: right;
   }
   .left {
     float: left !important;
+    text-align: left;
   }
 }
 
@@ -35,6 +37,19 @@ a {
 
   &.uppercase {
     text-transform: uppercase;
+  }
+
+  &.read-more {
+
+    &:after {
+      content: '\00a0\00bb';
+
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
   }
 
 }
@@ -78,8 +93,20 @@ div.row.horizontal-divided {
   padding: 2% 0;
 }
 
-.centered {
-  text-align: center;
+.padded-small {
+  @extend .padded;
+  padding: 0.3% 0;
 }
 
+.centered {
+  text-align: center !important;
+}
+
+.dimmed {
+  background: color(black, x-dark, 10);
+}
+
+.no-margin-button {
+  margin-bottom: 0 !important;
+}
 

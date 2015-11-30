@@ -1,0 +1,44 @@
+section.banner {
+
+  height: auto;
+  position: relative;
+  z-index: 5;
+
+  color: color(black);
+  font-size: rem-calc(14);
+
+  padding: 1.5% 0;
+
+  &.basic {
+    padding: 0;
+    color: color(white);
+    text-align: center;
+    height: $banner-basic-height;
+    line-height: $banner-basic-height;
+  }
+
+  &.primary {
+    background: color(blue);
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  p {
+    color: color(black, light);
+  }
+
+  .background-loops {
+    width: 100%;
+    position: relative;
+
+    &.home-page {
+      background: url('../dreamsark-assets/header-loop.png') repeat-x center;
+      background-size: contain;
+    }
+
+  }
+
+}
+
