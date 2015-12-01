@@ -5,12 +5,14 @@
   background: url('../img/start/bg.png');
 
   div.body {
-
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
 
+  div.logo {
+    padding: 15%;
   }
 
 }
@@ -19,7 +21,41 @@
 * SVGs
 */
 .svg-dreamsark {
-  path{
+
+  path {
     fill: color(white);
   }
+
+}
+
+.notes {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  left: 50%;
+  width: 100px;
+  height: 60px;
+  margin: 0 0 0 -50px;
+}
+
+.note {
+  font-size: 2.8em;
+  position: absolute;
+  left: 50%;
+  width: 1em;
+  margin: 0 0 0 -0.5em;
+  opacity: 0;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.note:nth-child(odd) {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.note:nth-child(4n) {
+  font-size: 2em;
+}
+
+.note:nth-child(6n) {
+  color: rgba(255, 255, 255, 0.3);
 }

@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "classie": "^1.0.0",
     "dat-gui": "^0.5.0",
     "gsap": "^1.18.0",
     "howler": "^1.1.28",
