@@ -2,7 +2,7 @@
 * Button
 */
 
-button {
+button, .button {
 
   border: none;
   border-radius: $border-radius;
@@ -48,98 +48,109 @@ button {
     }
   }
 
-}
+  &.primary {
 
-button.primary {
+    background: color(blue);
 
-  background: color(blue);
+    &:hover {
+      background: color(blue, mid-light);
+    }
 
-  &:hover {
-    background: color(blue, mid-light);
+  }
+
+  &.white {
+    color: color(primary);
+    background: color(white);
+
+    &:hover {
+      color: color(primary, light);
+      background: color(white, light);
+    }
+
+  }
+
+  &.flat {
+    border-radius: 0px;
+    text-transform: uppercase;
+  }
+
+  &.small {
+
+    width: auto;
+    padding: rem-calc(8) rem-calc(13);
+    font-size: rem-calc(12);
+
+    @extend a.uppercase
+
+  }
+
+  &.medium {
+
+    width: auto;
+    padding: rem-calc(10) rem-calc(30);
+    font-size: rem-calc(14);
+
+    @extend a.uppercase
+
+  }
+
+  &.arrow {
+    font-size: rem-calc(20);
+    line-height: rem-calc(18);
+    position: absolute;
+  }
+
+  &.right-arrow {
+
+    &:after {
+      @extend button.arrow;
+
+      content: '\203A';
+      right: 8%;
+
+    }
+
+  }
+
+  &.left-arrow {
+    &:after {
+      @extend button.arrow;
+
+      content: '\2039';
+      left: 8%;
+
+    }
+  }
+
+  &.round {
+    border-radius: 30px;
+  }
+
+  &.outlined {
+
+    box-shadow: none;
+    border: 1px solid color(gray, mid-dark);
+    background: color(gray, mid-light);
+
+    @extend a.inverted;
+
+    &:hover {
+      border-color: color(gray);
+      background-color: transparent;
+      box-shadow: 0 2px 2px 0 color(gray, x-dark, 50);
+    }
+
   }
 
 }
 
-button.white {
-  color: color(primary);
-  background: color(white);
 
-  &:hover {
-    color: color(primary, light);
-    background: color(white, light);
-  }
 
-}
 
-button.flat {
-  border-radius: 0px;
-  text-transform: uppercase;
-}
 
-button.small {
 
-  width: auto;
-  padding: rem-calc(8) rem-calc(13);
-  font-size: rem-calc(12);
 
-  @extend a.uppercase
 
-}
 
-button.medium {
 
-  width: auto;
-  padding: rem-calc(10) rem-calc(30);
-  font-size: rem-calc(14);
 
-  @extend a.uppercase
-
-}
-
-button.arrow {
-  font-size: rem-calc(20);
-  line-height: rem-calc(18);
-  position: absolute;
-}
-
-button.right-arrow {
-
-  &:after {
-    @extend button.arrow;
-
-    content: '\203A';
-    right: 8%;
-
-  }
-
-}
-
-button.left-arrow {
-  &:after {
-    @extend button.arrow;
-
-    content: '\2039';
-    left: 8%;
-
-  }
-}
-
-button.round {
-  border-radius: 30px;
-}
-
-button.outlined {
-
-  box-shadow: none;
-  border: 1px solid color(gray, mid-dark);
-  background: color(gray, mid-light);
-
-  @extend a.inverted;
-
-  &:hover {
-    border-color: color(gray);
-    background-color: transparent;
-    box-shadow: 0 2px 2px 0 color(gray, x-dark, 50);
-  }
-
-}
