@@ -29,6 +29,20 @@
       float: left;
       list-style: none;
 
+      &.active {
+
+        a {
+          color: color(black) !important;
+          &:hover {
+            color: color(black);
+            background: color(white) !important;
+          }
+        }
+
+        background: color(gray);
+
+      }
+
       a {
         width: 100%;
         display: block;
@@ -102,7 +116,7 @@
 
       ul {
 
-        padding-bottom: 5% ;
+        padding-bottom: 5%;
         font-size: rem-calc(12);
         line-height: rem-calc(20);
         color: color(white);
@@ -156,4 +170,117 @@
 
   }
 
+  section.extra-container {
+
+    display: none;
+
+    position: absolute;
+    top: $top-menu-height;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+
+    &.show {
+      display: block;
+    }
+
+    div.extra {
+      background: color(white);
+      height: 100%;
+      width: 100%;
+      display: table;
+      left: 0;
+    }
+
+    li.title {
+      text-transform: uppercase;
+      font-weight: bold !important;
+      font-style: rem-calc(10);
+      padding: 7% 10% !important;
+      width: 100%;
+      cursor: auto !important;
+    }
+
+    nav {
+
+      height: 100%;
+      background: color(primary);
+      padding: 0;
+      color: color(white);
+      line-height: normal;
+      display: table-cell;
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      li {
+
+        padding: 4% 10%;
+        cursor: pointer;
+        font-weight: 300;
+
+        &.active, &:not(:first-child):hover {
+          background: color(white);
+          color: color(black);
+        }
+
+      }
+
+    }
+
+    div.body {
+
+      background: color(white);
+      height: 100%;
+      display: table-cell;
+      margin: 0;
+      padding: 0;
+
+      section {
+
+        display: none;
+        height: 100%;
+
+        &.active {
+          display: block !important;
+        }
+
+      }
+
+    }
+
+    aside {
+      height: 100%;
+      background: color(gray);
+      border-left: 1px solid color(gray, mid-dark);
+      padding: 0;
+      margin: 0;
+      display: table-cell;
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        line-height: normal;
+      }
+
+      li {
+        padding: 4% 10%;
+        cursor: pointer;
+
+        &:not(:first-child):hover {
+          background: color(gray, mid-dark);
+          color: color(black);
+        }
+
+      }
+
+    }
+
+  }
+
 }
+

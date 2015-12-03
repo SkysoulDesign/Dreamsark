@@ -7,9 +7,21 @@ global.$ = global.jQuery;
 /** TweenMax - GSAP */
 require('gsap');
 
-var ripple = require('./effects/ripple').init('.rippable', 0.75);
+var classie = require('classie');
 
-/**
- * Components
- */
-var slider = require('./components/slider');
+
+$(document).ready(function () {
+
+    var ripple = require('./effects/ripple').init('.rippable', 0.75);
+
+    /**
+     * Components
+     */
+    var slider = require('./components/slider');
+
+    /**
+     * Menu
+     */
+    var menu = require('./components/menu')(classie);
+
+});
