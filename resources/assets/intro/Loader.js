@@ -1,4 +1,51 @@
-module.exports = (function (e, c) {
+module.exports = function (e, c) {
+
+    return e.loader = {
+
+        /**
+         * Modules
+         */
+        loader: null,
+
+        init: function () {
+
+            /**
+             * Init Loader
+             * @type {THREE.TextureLoader}
+             */
+            this.loader = new THREE.TextureLoader(e.manager);
+
+            /**
+             * Load Global Items
+             */
+            this.load(c.elements['global']);
+
+        },
+
+        /**
+         * Load All Global Elements
+         * @param elements
+         */
+        load: function (elements) {
+
+            elements.forEach(function (el) {
+
+                e.elements[el.name]      = el.create(e);
+                e.elements[el.name].name = el.name;
+
+                /**
+                 * Attach the Public Variables
+                 */
+                if (typeof el.share === 'function') {
+                    e.elements[el.name].public = el.share(e);
+                }
+
+            });
+
+        }
+
+    };
+
 
     return e.loader = {
 
@@ -83,4 +130,4 @@ module.exports = (function (e, c) {
 
     };
 
-})(Engine, Configs);
+};

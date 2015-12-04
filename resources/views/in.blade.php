@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <div id="container"></div>
+
     <section class="start">
 
         <div class="body">
@@ -12,7 +14,7 @@
             <form action="{{ route('intro.skip') }}" method="post">
                 {{ csrf_field() }}
                 <input type="hidden" name="skip" value="true">
-                <a href="#" class="button white round medium trigger">Start Journey</a>
+                <a id="trigger" href="#" class="button white round medium">Start Journey</a>
                 <button type="submit" href="{{ route('home') }}" class="white round medium">Skip</button>
             </form>
 
@@ -23,5 +25,5 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/start.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>
 @endsection

@@ -1,5 +1,44 @@
 module.exports = (function (e) {
 
+    return {
+
+        /**
+         * Public Property
+         */
+        loading: null,
+        manager: null,
+
+        /**
+         * Classes
+         */
+        loader: null,
+
+        init: function () {
+            this.manager = require('./modules/Manager');
+            this.loader  = require('./Loader');
+        },
+
+        start: function () {
+
+            /**
+             * Set Status to Loading
+             * @type {boolean}
+             */
+            this.loading = true;
+
+            /**
+             * Init Loader
+             */
+            var loaded = this.loader.init();
+
+            if (loaded) {
+
+            }
+
+        }
+
+    };
+
     /**
      * Init Core
      */

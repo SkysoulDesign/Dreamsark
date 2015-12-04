@@ -10,6 +10,11 @@ module.exports = (function (e, c) {
         console.log(item, loaded, total);
     };
 
+    manager.onComplete = function (item, loaded, total) {
+        e.loading = false;
+        console.log('completou');
+    };
+
     return e.manager = manager;
 
 })(Engine, Configs);

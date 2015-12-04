@@ -48513,7 +48513,7 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the compositions directory
      */
-    var compositions = ({"compositions":({"comp-1":require("./compositions/comp-1.js"),"comp-2":require("./compositions/comp-2.js")})}).compositions;
+    var compositions = ({"compositions":({"comp-1":require("./compositions/comp-1.js"),"comp-2":require("./compositions/comp-2.js"),"comp-3":require("./compositions/comp-3.js")})}).compositions;
 
     /**
      * Attach Compositions to Engine
@@ -48521,7 +48521,7 @@ module.exports = (function (e) {
     return e.compositions = compositions;
 
 })(Engine);
-},{"./compositions/comp-1.js":20,"./compositions/comp-2.js":21}],9:[function(require,module,exports){
+},{"./compositions/comp-1.js":20,"./compositions/comp-2.js":21,"./compositions/comp-3.js":22}],9:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.compositor = {
@@ -48668,7 +48668,7 @@ module.exports = (function(){
     return configs;
 
 })();
-},{"./configs/Camera":22,"./configs/Elements":23,"./configs/Renderer":24,"./configs/Scene":25}],11:[function(require,module,exports){
+},{"./configs/Camera":23,"./configs/Elements":24,"./configs/Renderer":25,"./configs/Scene":26}],11:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.elements = {};
@@ -48676,6 +48676,45 @@ module.exports = (function (e) {
 })(Engine);
 },{}],12:[function(require,module,exports){
 module.exports = (function (e) {
+
+    return {
+
+        /**
+         * Public Property
+         */
+        loading: null,
+        manager: null,
+
+        /**
+         * Classes
+         */
+        loader: null,
+
+        init: function () {
+            this.manager = require('./modules/Manager');
+            this.loader  = require('./Loader');
+        },
+
+        start: function () {
+
+            /**
+             * Set Status to Loading
+             * @type {boolean}
+             */
+            this.loading = true;
+
+            /**
+             * Init Loader
+             */
+            var loaded = this.loader.init();
+
+            if (loaded) {
+
+            }
+
+        }
+
+    };
 
     /**
      * Init Core
@@ -48757,7 +48796,7 @@ module.exports = (function (e) {
     return render;
 
 })(Engine);
-},{"./Composer":7,"./Compositions":8,"./Compositor":9,"./Elements":11,"./Events":13,"./Helpers":14,"./Loader":15,"./Passer":16,"./Plugins":17,"./Shaders":18,"./Tween":19,"./modules/Camera":33,"./modules/Manager":34,"./modules/Raycaster":35,"./modules/Renderer":36,"./modules/Scene":37}],13:[function(require,module,exports){
+},{"./Composer":7,"./Compositions":8,"./Compositor":9,"./Elements":11,"./Events":13,"./Helpers":14,"./Loader":15,"./Passer":16,"./Plugins":17,"./Shaders":18,"./Tween":19,"./modules/Camera":34,"./modules/Manager":35,"./modules/Raycaster":36,"./modules/Renderer":37,"./modules/Scene":38}],13:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -48888,7 +48927,54 @@ module.exports = function (e) {
 
 }(Engine);
 },{}],15:[function(require,module,exports){
-module.exports = (function (e, c) {
+module.exports = function (e, c) {
+
+    return e.loader = {
+
+        /**
+         * Modules
+         */
+        loader: null,
+
+        init: function () {
+
+            /**
+             * Init Loader
+             * @type {THREE.TextureLoader}
+             */
+            this.loader = new THREE.TextureLoader(e.manager);
+
+            /**
+             * Load Global Items
+             */
+            this.load(c.elements['global']);
+
+        },
+
+        /**
+         * Load All Global Elements
+         * @param elements
+         */
+        load: function (elements) {
+
+            elements.forEach(function (el) {
+
+                e.elements[el.name]      = el.create(e);
+                e.elements[el.name].name = el.name;
+
+                /**
+                 * Attach the Public Variables
+                 */
+                if (typeof el.share === 'function') {
+                    e.elements[el.name].public = el.share(e);
+                }
+
+            });
+
+        }
+
+    };
+
 
     return e.loader = {
 
@@ -48973,7 +49059,7 @@ module.exports = (function (e, c) {
 
     };
 
-})(Engine, Configs);
+};
 },{}],16:[function(require,module,exports){
 module.exports = (function (e) {
 
@@ -49057,7 +49143,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./postprocessing/BloomPass.js":43,"./postprocessing/MaskPass.js":44,"./postprocessing/RenderPass.js":45}],17:[function(require,module,exports){
+},{"./postprocessing/BloomPass.js":44,"./postprocessing/MaskPass.js":45,"./postprocessing/RenderPass.js":46}],17:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -49066,7 +49152,7 @@ module.exports = (function (e) {
     return e.plugins = plugins;
 
 })(Engine);
-},{"./plugins/FontUtils.js":38,"./plugins/OrbitControls.js":39,"./plugins/Stats.js":40,"./plugins/TextGeometry.js":41,"./plugins/TrackballControls.js":42}],18:[function(require,module,exports){
+},{"./plugins/FontUtils.js":39,"./plugins/OrbitControls.js":40,"./plugins/Stats.js":41,"./plugins/TextGeometry.js":42,"./plugins/TrackballControls.js":43}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     // Require all of the scripts in the elements directory
@@ -49086,7 +49172,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./shaders/ConvolutionShader.js":46,"./shaders/CopyShader.js":47,"./shaders/FXAAShader.js":48}],19:[function(require,module,exports){
+},{"./shaders/ConvolutionShader.js":47,"./shaders/CopyShader.js":48,"./shaders/FXAAShader.js":49}],19:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -49103,6 +49189,73 @@ module.exports = (function (e) {
 
 })(Engine);
 },{"GSAP":1}],20:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        constructor: function (E) {
+
+        },
+
+        setup: function (data, E, ex) {
+
+        },
+
+        animation: function (data, E) {
+
+        }
+
+    };
+
+})(Engine);
+},{}],21:[function(require,module,exports){
+module.exports = (function (e) {
+
+    return {
+
+        setup: function (data, E, ex) {
+
+
+            points = e.helpers.group();
+
+            var lastPoint = null;
+
+            var coordinates = {
+                0: new THREE.Vector2(20, 0),
+                1: new THREE.Vector2(0, 20),
+                2: new THREE.Vector2(40, 0),
+                3: new THREE.Vector2(0, 40),
+            };
+
+            for (var i = 0; i < 4; i++) {
+
+                var point = E.point.clone();
+
+                point.material.size = 25;
+
+                point.position.copy(ex.point.position);
+
+                point.position.x = coordinates.x;
+                point.position.y = coordinates.y;
+
+                points.add(point);
+
+            }
+
+            e.scene.a.add(points);
+
+            e.plugins.OrbitControls.instance.enabled = false;
+
+        },
+
+        animation: function (data, E) {
+
+        }
+
+    };
+
+})(Engine);
+},{}],22:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -49284,54 +49437,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],21:[function(require,module,exports){
-module.exports = (function (e) {
-
-    return {
-
-        setup: function (data, E, ex) {
-
-
-            points = e.helpers.group();
-
-            var lastPoint = null;
-
-            var coordinates = {
-                0: new THREE.Vector2(20, 0),
-                1: new THREE.Vector2(0, 20),
-                2: new THREE.Vector2(40, 0),
-                3: new THREE.Vector2(0, 40),
-            };
-
-            for (var i = 0; i < 4; i++) {
-
-                var point = E.point.clone();
-
-                point.material.size = 25;
-
-                point.position.copy(ex.point.position);
-
-                point.position.x = coordinates.x;
-                point.position.y = coordinates.y;
-
-                points.add(point);
-
-            }
-
-            e.scene.a.add(points);
-
-            e.plugins.OrbitControls.instance.enabled = false;
-
-        },
-
-        animation: function (data, E) {
-
-        }
-
-    };
-
-})(Engine);
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = (function () {
     return {
         fov: 45,
@@ -49340,25 +49446,25 @@ module.exports = (function () {
         far: 40000
     }
 })();
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function () {
 
     return {
-        'global': [
-        ],
-        'comp-1': [
+        'global': [],
+        'comp-1': [],
+        'comp-2': [
             require('../elements/Particles'),
             require('../elements/Skybox'),
             require('../elements/Dreamsark'),
             require('../elements/Ground'),
             require('../elements/ColoredParticles')
         ],
-        'comp-2': [
+        'comp-3': [
             require('../elements/Point')
         ]
     }
 })();
-},{"../elements/ColoredParticles":26,"../elements/Dreamsark":27,"../elements/Ground":28,"../elements/Particles":29,"../elements/Point":30,"../elements/Skybox":31}],24:[function(require,module,exports){
+},{"../elements/ColoredParticles":27,"../elements/Dreamsark":28,"../elements/Ground":29,"../elements/Particles":30,"../elements/Point":31,"../elements/Skybox":32}],25:[function(require,module,exports){
 module.exports = (function () {
     return {
         //        canvas : A Canvas where the renderer draws its output.
@@ -49373,13 +49479,13 @@ module.exports = (function () {
         //        logarithmicDepthBuffer : Boolean, default is false.
     }
 })();
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = (function () {
     return {
         //fog: new THREE.Fog(0x000111)
     }
 })();
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = (function () {
 
     var maxPoints     = 100;
@@ -49543,7 +49649,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49562,7 +49668,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49592,7 +49698,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = (function () {
 
     var maxPoints     = 100;
@@ -49720,7 +49826,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49745,7 +49851,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -49762,7 +49868,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 (function (global){
 /**
  * Caption
@@ -49787,42 +49893,14 @@ global.Configs = require('./Config');
 /**
  * Get Engine
  */
-global.Engine = {
-    status: {
-        loading: true
-    }
-};
-global.Engine.core = require('./Engine').render();
+global.Engine = {};
+global.Engine.core = require('./Engine');
+global.Engine.core = require('./Engine');
 
-//
-//var scene = new THREE.Scene();
-//var camera = require('./modules/Camera');
-//
-//var renderer = new THREE.WebGLRenderer();
-//renderer.setSize(window.innerWidth, window.innerHeight);
-//document.body.appendChild(renderer.domElement);
-//
-//var geometry = new THREE.BoxGeometry(1, 1, 1);
-//var material = new THREE.MeshBasicMaterial({ color:0x00ff00 });
-//var cube = new THREE.Mesh(geometry, material);
-//scene.add(cube);
-//
-//camera.position.z = 5;
-//
-//var render = function () {
-//    requestAnimationFrame(render);
-//
-//    cube.rotation.x += 0.1;
-//    cube.rotation.y += 0.1;
-//
-//    renderer.render(scene, camera);
-//};
-//
-//render();
-
-
+var trigger = document.querySelector('#trigger');
+    trigger.addEventListener('click', Engine.start);
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Config":10,"./Engine":12,"THREE":2,"dat-gui":3}],33:[function(require,module,exports){
+},{"./Config":10,"./Engine":12,"THREE":2,"dat-gui":3}],34:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49850,7 +49928,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49863,10 +49941,15 @@ module.exports = (function (e, c) {
         console.log(item, loaded, total);
     };
 
+    manager.onComplete = function (item, loaded, total) {
+        e.loading = false;
+        console.log('completou');
+    };
+
     return e.manager = manager;
 
 })(Engine, Configs);
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -49945,7 +50028,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     var renderer = new THREE.WebGLRenderer(c.renderer);
@@ -49970,7 +50053,7 @@ module.exports = (function (e, c) {
     //};
 
 })(Engine, Configs);
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = (function (e, c) {
 
     /**
@@ -50020,7 +50103,7 @@ module.exports = (function (e, c) {
     };
 
 })(Engine, Configs);
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -50329,7 +50412,7 @@ module.exports = (function (e) {
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -51459,7 +51542,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -51486,7 +51569,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{"stats.js":6}],41:[function(require,module,exports){
+},{"stats.js":6}],42:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -51539,7 +51622,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin    / http://mark-lundin.com
@@ -52196,7 +52279,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52333,7 +52416,7 @@ module.exports = (function (e) {
 })(Engine);
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52432,7 +52515,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52499,7 +52582,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -52607,7 +52690,7 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -52662,7 +52745,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = (function (e) {
 
 	return {
@@ -52755,4 +52838,4 @@ module.exports = (function (e) {
 	}
 
 })(Engine);
-},{}]},{},[32])
+},{}]},{},[33])
