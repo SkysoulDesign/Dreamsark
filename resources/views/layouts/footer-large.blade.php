@@ -2,18 +2,10 @@
 
     <div class="row horizontal-divided padded">
 
-        <div class="medium-4 column">
-            <div class="segment">
-                <img src="{{ asset('img/badges-assets/investor-icon.png') }}" alt="">
+        <div class="medium-12 column">
+            <div class="advertising">
+                <img src="http://www.dreamsark.com/image/ad.jpg" alt="">
             </div>
-        </div>
-
-        <div class="medium-4 column">
-            <img src="{{ asset('img/badges-assets/investors.png') }}" width="100%" alt="">
-        </div>
-
-        <div class="medium-4 column">
-            <img src="{{ asset('img/badges-assets/investors.png') }}" width="100%" alt="">
         </div>
 
     </div>

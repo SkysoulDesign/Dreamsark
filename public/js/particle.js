@@ -10776,7 +10776,11 @@ $(document).ready(function () {
                 "value": "#ffffff"
             },
             "shape": {
-                "type": "image",
+                "type": "circle", //image
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
                 "image": {
                     "src": "/dreamsark-assets/avatar.png",
                     "width": 100,

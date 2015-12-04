@@ -8,7 +8,7 @@
 
     @include('layouts.content-header')
     @include('layouts.content-grid')
-    @include('layouts.content-2')
+    {{--@include('layouts.content-2')--}}
 
 @endsection
 
