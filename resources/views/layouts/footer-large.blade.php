@@ -3,15 +3,17 @@
     <div class="row horizontal-divided padded">
 
         <div class="medium-4 column">
-            Divisor 1
+            <div class="segment">
+                <img src="{{ asset('img/badges-assets/investor-icon.png') }}" alt="">
+            </div>
         </div>
 
         <div class="medium-4 column">
-            Divisor 2
+            <img src="{{ asset('img/badges-assets/investors.png') }}" width="100%" alt="">
         </div>
 
         <div class="medium-4 column">
-            Divisor 3
+            <img src="{{ asset('img/badges-assets/investors.png') }}" width="100%" alt="">
         </div>
 
     </div>

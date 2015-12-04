@@ -104,32 +104,104 @@
 
                     <section data-tab="one" class="active">
 
-                        <div class="medium-8 column">
-
+                        <div class="medium-10 column">
                             <div class="row">
 
-                                <div class="medium-12 column">
+                                <div class="medium-12 column title">
                                     Active Users
                                 </div>
 
                                 <div class="medium-3 column">
-                                    <img src="{{ asset('img/avatar/male.png') }}" alt="">
+                                    <div class="thumbnail">
+
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+
+                                        <div class="name">
+                                            Pedro Hudson
+                                        </div>
+
+                                        <div class="badges">
+                                            <img src="{{ asset('dreamsark-assets/coin.png') }}" alt="">
+                                        </div>
+
+                                    </div>
                                 </div>
                                 <div class="medium-3 column">
-                                    <img src="{{ asset('img/avatar/male.png') }}" alt="">
+                                    <div class="thumbnail">
+
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+
+                                        <div class="name">
+                                            Kelly Medina
+                                        </div>
+
+                                        <div class="badges">
+                                            <img src="{{ asset('dreamsark-assets/coin.png') }}" alt="">
+                                        </div>
+
+                                    </div>
                                 </div>
                                 <div class="medium-3 column">
-                                    <img src="{{ asset('img/avatar/male.png') }}" alt="">
+                                    <div class="thumbnail">
+
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+
+                                        <div class="name">
+                                            Steven Wells
+                                        </div>
+
+                                        <div class="badges">
+                                            <img src="{{ asset('dreamsark-assets/coin.png') }}" alt="">
+                                        </div>
+
+                                    </div>
                                 </div>
                                 <div class="medium-3 column">
-                                    <img src="{{ asset('img/avatar/male.png') }}" alt="">
+                                    <div class="thumbnail">
+
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+
+                                        <div class="name">
+                                            Marian Gonzalez
+                                        </div>
+
+                                        <div class="badges">
+                                            <img src="{{ asset('dreamsark-assets/coin.png') }}" alt="">
+                                        </div>
+
+                                    </div>
                                 </div>
+
+                                <div class="medium-12 column title">
+                                    Other Users
+                                </div>
+
+                                <div class="medium-12 column">
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                    <div class="medium-2 column thumbnail">
+                                        <img src="{{ asset('img/avatar/holder.png') }}" alt="">
+                                    </div>
+                                </div>
+
 
                             </div>
-
                         </div>
 
-                        <aside class="medium-4 column">
+                        <aside class="medium-2 column">
                             <ul>
                                 <li class="title">Category</li>
                                 <li>sub category</li>
@@ -142,7 +214,7 @@
                     </section>
 
                     <section data-tab="two">
-                        <div class="medium-8 column">Oh My God</div>
+                        <div class="medium-8 column"></div>
                         <aside class="medium-4 column">
                             <ul>
                                 <li class="title">Category</li>
@@ -155,7 +227,7 @@
                     </section>
 
                     <section data-tab="three">
-                        <div class="medium-8 column">Jesus Crist</div>
+                        <div class="medium-8 column"></div>
                     </section>
 
                 </div>

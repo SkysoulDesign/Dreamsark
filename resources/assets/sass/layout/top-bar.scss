@@ -236,6 +236,7 @@
       background: color(white);
       height: 100%;
       display: table-cell;
+      line-height: normal;
       margin: 0;
       padding: 0;
 
@@ -248,6 +249,12 @@
           display: block !important;
         }
 
+      }
+
+      div.title {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        text-transform: uppercase;
       }
 
     }
@@ -270,6 +277,10 @@
       li {
         padding: 4% 10%;
         cursor: pointer;
+
+        &.title {
+          padding-top: 15% !important;
+        }
 
         &:not(:first-child):hover {
           background: color(gray, mid-dark);
