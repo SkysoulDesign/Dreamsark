@@ -215,6 +215,8 @@ Route::get('intro', ['as' => 'intro', 'uses' => function () {
     return view('intro-new');
 }]);
 
+Route::post('intro', ['as' => 'intro.skip', 'uses' => 'Home\HomeController@skip']);
+
 Route::get('in', ['as' => 'in', 'uses' => function () {
     return view('in');
 }]);
