@@ -1,4 +1,4 @@
-module.exports = (function (e, c) {
+module.exports = (function (e) {
 
     /**
      * Append Scene to Engine
@@ -8,16 +8,14 @@ module.exports = (function (e, c) {
         /**
          * Active
          */
-        a: null,
+        scene: null,
 
-        init: function (configs, autoSet) {
+        init: function () {
 
-            /**
-             * Auto Set the Scene as Active
-             * @type {*|boolean}
-             */
-            autoSet = autoSet || true;
-            configs = configs ? configs : c.scene;
+
+            var configs = {
+                fog: new THREE.Fog(0x000111)
+            };
 
             /**
              * Scene
@@ -25,25 +23,14 @@ module.exports = (function (e, c) {
              */
             var scene = new THREE.Scene();
 
-            Object.keys(c.scene).map(function (key) {
-                scene[key] = configs[key];
+            e.helpers.keys(configs, function (el, name) {
+                scene[name] = el;
             });
 
-            if (autoSet)
-                this.a = scene;
+            this.scene = scene;
 
-            return scene;
-
-        },
-
-        new: function (configs) {
-            return this.init(configs, false);
-        },
-
-        set: function (scene) {
-            this.a = scene;
         }
 
     };
 
-})(Engine, Configs);
+})(Engine);

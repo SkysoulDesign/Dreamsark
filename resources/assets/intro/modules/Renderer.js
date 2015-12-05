@@ -1,24 +1,36 @@
-module.exports = (function (e, c) {
+module.exports = (function (e) {
 
-    var renderer = new THREE.WebGLRenderer(c.renderer);
+    return e.renderer = {
 
-    /**
-     * Append Renderer to Engine
-     * @type {THREE.WebGLRenderer}
-     */
-    return e.renderer = renderer;
+        renderer: null,
 
-    //return {
-    //    get: function () {
-    //        renderer.scope = this;
-    //        return renderer;
-    //    },
-    //    set: function ($closure) {
-    //        $closure.call(renderer);
-    //    },
-    //    appendTo: function ($element) {
-    //        document.getElementById($element).appendChild(renderer.domElement)
-    //    }
-    //};
+        init: function () {
 
-})(Engine, Configs);
+            var config = {
+                antialias: true
+            };
+
+            /**
+             * Renderer
+             * @type {THREE.PerspectiveCamera}
+             */
+            this.renderer = new THREE.WebGLRenderer(config);
+
+        },
+
+        /**
+         * Configure Renderer
+         */
+        configure: function (configs) {
+
+            e.helpers.appendTo(configs.container, this.domElement);
+
+            //this.setClearColor(scene.a.fog.color);
+            this.setPixelRatio(window.devicePixelRatio);
+            this.setSize(window.innerWidth, window.innerHeight);
+
+        }
+
+    };
+
+})(Engine);

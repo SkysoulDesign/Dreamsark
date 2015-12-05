@@ -8,22 +8,20 @@
  */
 
 /**
- * Set Three Js
+ * Set External Dependencies
  */
-global.THREE = require('THREE');
-global.dat = require('dat-gui');
-
-/**
- * Set Configs
- */
-global.Configs = require('./Config');
+THREE = require('THREE');
 
 /**
  * Get Engine
  */
-global.Engine = {};
-global.Engine.core = require('./Engine');
-global.Engine.core = require('./Engine');
+Engine = {};
+Engine = require('./Engine');
+Engine.init();
+
+var start = function () {
+    Engine.start(Engine)
+};
 
 var trigger = document.querySelector('#trigger');
-    trigger.addEventListener('click', Engine.start);
+    trigger.addEventListener('click', start, false);

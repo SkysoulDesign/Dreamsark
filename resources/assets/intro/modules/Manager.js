@@ -1,20 +1,48 @@
-module.exports = (function (e, c) {
+module.exports = (function (e) {
 
-    /**
-     * Append Renderer to Engine
-     * @type {THREE.LoadingManager}
-     */
-    var manager = new THREE.LoadingManager();
+    return e.manager = {
 
-    manager.onProgress = function (item, loaded, total) {
-        console.log(item, loaded, total);
+        manager: null,
+
+        /**
+         * init Manager
+         * on {start, progress, load, error}
+         * @param on
+         */
+        init: function (on) {
+
+            /**
+             * Append Renderer to Engine
+             * @type {THREE.LoadingManager}
+             */
+            var manager = new THREE.LoadingManager();
+
+            manager.onStart = function (item, loaded, total) {
+                if (e.helpers.isFunction(on.start))
+                    on.start.call(this, item, loaded, total);
+            };
+
+            manager.onProgress = function (item, loaded, total) {
+                var progress = e.loader.progress = (loaded * 100) / total;
+                if (e.helpers.isFunction(on.progress))
+                    on.progress.call(this, item, loaded, total, progress);
+            };
+
+            manager.onLoad = function () {
+                e.loader.complete = true;
+                if (e.helpers.isFunction(on.load))
+                    on.load.call(this);
+
+            };
+
+            manager.onError = function (item) {
+                console.log('item: ' + item + " not loaded");
+                if (e.helpers.isFunction(on.error))
+                    on.error.call(this, item);
+            };
+
+            this.manager = manager;
+        }
     };
 
-    manager.onComplete = function (item, loaded, total) {
-        e.loading = false;
-        console.log('completou');
-    };
-
-    return e.manager = manager;
-
-})(Engine, Configs);
+})(Engine);

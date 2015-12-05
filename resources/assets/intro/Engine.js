@@ -1,121 +1,141 @@
-module.exports = (function (e) {
+module.exports = (function () {
 
     return {
 
         /**
-         * Public Property
+         * Helpers
          */
-        loading: null,
-        manager: null,
+        helpers: require('./Helpers'),
+        configs: require('./Configs'),
 
         /**
-         * Classes
+         * Public Property
+         */
+
+        /**
+         * Modules
          */
         loader: null,
+        manager: null,
+        elements: null,
+        compositor: null,
+        renderer: null,
+        scene: null,
+        camera: null,
 
         init: function () {
-            this.manager = require('./modules/Manager');
-            this.loader  = require('./Loader');
+
+            var helpers = this.helpers;
+
+            /**
+             * Init Modules
+             */
+            require('./Modules');
+            require('./Elements');
+
+            helpers.init(
+                this.loader,
+                this.compositor
+            );
+
+            /**
+             * Start Rendering
+             */
+            this.render();
+
+            return this;
+
         },
 
-        start: function () {
+        start: function (e) {
+
+            this.loader.on.start = function () {
+                document.querySelector('.body').style.display = 'none';
+            };
+
+            this.loader.on.progress = function () {
+
+            };
+
+            this.loader.on.load = function () {
+
+                console.log(e);
+                //var scene    = e.module('scene'),
+                //    elements = e.module('elements');
+
+                //scene.add(elements.Dreamsark);
+
+            };
+
+            this.loader.on.error = function () {
+
+            };
 
             /**
-             * Set Status to Loading
-             * @type {boolean}
+             * Init Modules
              */
-            this.loading = true;
+            this.loader.load(this.elements);
 
             /**
-             * Init Loader
+             * Init After Click
              */
-            var loaded = this.loader.init();
+            //this.helpers.init(
+            //
+            //);
 
-            if (loaded) {
+
+        },
+
+        /**
+         * Get Modules and initialize it if is not initialized before
+         * @param module
+         * @param params
+         * @returns {*}
+         */
+        module: function (module, params) {
+
+            /**
+             * if Module is not initialized then init it
+             */
+            if (this.helpers.isNull(this[module][module])) {
+                this[module].init.call(this[module], params);
+
+                /**
+                 * Configure if is function
+                 */
+                if (this.helpers.isFunction(this[module].configure))
+                    this[module].configure.call(this[module][module], this.configs[module]);
 
             }
 
-        }
+            return this[module][module];
 
-    };
+        },
 
-    /**
-     * Init Core
-     */
-    var helpers      = require('./Helpers'),
-        manager      = require('./modules/Manager'),
-        elements     = require('./Elements'),
-        compositions = require('./Compositions'),
-        compositor   = require('./Compositor'),
-        camera       = require('./modules/Camera'),
-        scene        = require('./modules/Scene'),
-        renderer     = require('./modules/Renderer'),
-        plugins      = require('./Plugins'),
-        loader       = require('./Loader'),
-        shaders      = require('./Shaders'),
-        passer       = require('./Passer'),
-        composer     = require('./Composer'),
-        events       = require('./Events'),
-        tween        = require('./Tween'),
-        raycaster    = require('./modules/Raycaster');
-
-    /**
-     * Init Stuff
-     */
-    helpers.init(loader, scene, camera, compositor, plugins.Stats, composer);
-
-    /**
-     * Set Renderer Sizes
-     */
-    helpers.set(renderer, function () {
-        //this.setClearColor(scene.a.fog.color);
-        this.setPixelRatio(window.devicePixelRatio);
-        this.setSize(window.innerWidth, window.innerHeight);
-        this.gammaInput  = true;
-        this.gammaOutput = true;
-    });
-
-    /**
-     * Append to container
-     */
-    helpers.appendTo('container', renderer.domElement);
-    helpers.appendTo('container', plugins.Stats.instance.domElement);
-
-    var render = {
         render: function () {
 
-            requestAnimationFrame(render.render);
+            var renderer   = this.module('renderer'),
+                scene      = this.module('scene'),
+                camera     = this.module('camera'),
+                compositor = this.module('compositor');
 
-            /**
-             * Return if it`s loading
-             */
-            if (loader.loading) {
-                console.log('loading');
-            }
+            var render = {
+                render: function () {
+                    requestAnimationFrame(render.render);
 
-            /**
-             * Render Composition
-             */
-            compositor.animate();
+                    /**
+                     * Update compositor
+                     */
+                    compositor.update();
 
-            /**
-             * Check Raycaster
-             */
-            raycaster.calculate();
+                    renderer.render(scene, camera);
+                }
+            };
 
-            /**
-             * Stats
-             */
-            plugins.Stats.instance.update();
-
-            /**
-             * Render
-             */
-            renderer.render(scene.a, camera.a);
+            render.render();
 
         }
-    };
 
-    return render;
+    }
 
-})(Engine);
+})();

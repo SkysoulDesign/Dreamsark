@@ -1,5 +1,8 @@
 module.exports = (function (e) {
 
-    return e.elements = {};
+    /**
+     * Require all of the scripts in the elements directory
+     */
+    return e.elements = require('bulk-require')(__dirname, ['elements/**/*.js']).elements;
 
 })(Engine);

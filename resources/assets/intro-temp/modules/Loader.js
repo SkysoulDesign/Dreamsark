@@ -1,4 +1,4 @@
-module.exports = function (e, c) {
+module.exports = function (e) {
 
     return e.loader = {
 
@@ -18,7 +18,7 @@ module.exports = function (e, c) {
             /**
              * Load Global Items
              */
-            this.load(c.elements['global']);
+            this.load(e.c.elements['global']);
 
         },
 

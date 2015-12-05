@@ -1,4 +1,4 @@
-module.exports = (function (e, c) {
+module.exports = function (e) {
 
     /**
      * Raycaster
@@ -75,4 +75,4 @@ module.exports = (function (e, c) {
         }
     };
 
-})(Engine, Configs);
+};

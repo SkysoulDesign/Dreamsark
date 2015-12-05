@@ -1,13 +1,8 @@
-module.exports = (function (e) {
+module.exports = (function () {
 
     /**
-     * Require all of the scripts in the compositions directory
+     * Require all of the scripts in the composition directory
      */
-    var compositions = require('bulk-require')(__dirname, ['compositions/**/*.js']).compositions;
+    return require('bulk-require')(__dirname, ['compositions/**/*.js']).compositions;
 
-    /**
-     * Attach Compositions to Engine
-     */
-    return e.compositions = compositions;
-
-})(Engine);
+})();
