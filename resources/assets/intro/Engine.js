@@ -7,6 +7,7 @@ module.exports = (function () {
          */
         helpers: require('./Helpers'),
         configs: require('./Configs'),
+        plugins: require('./Plugins'),
 
         /**
          * Public Property
@@ -22,6 +23,9 @@ module.exports = (function () {
         renderer: null,
         scene: null,
         camera: null,
+        mouse: null,
+        checker: null,
+        events: null,
 
         init: function () {
 
@@ -54,12 +58,12 @@ module.exports = (function () {
             };
 
             this.loader.on.progress = function () {
-
+                console.log('loading');
             };
 
             this.loader.on.load = function () {
 
-                console.log(e);
+                console.log('everything finished loading');
                 //var scene    = e.module('scene'),
                 //    elements = e.module('elements');
 
@@ -104,7 +108,7 @@ module.exports = (function () {
                  * Configure if is function
                  */
                 if (this.helpers.isFunction(this[module].configure))
-                    this[module].configure.call(this[module][module], this.configs[module]);
+                    this[module].configure.call(this[module][module], this.configs[module], this[module]);
 
             }
 
@@ -114,10 +118,14 @@ module.exports = (function () {
 
         render: function () {
 
+            /**
+             * Init Modules on Render Time
+             */
             var renderer   = this.module('renderer'),
                 scene      = this.module('scene'),
                 camera     = this.module('camera'),
-                compositor = this.module('compositor');
+                compositor = this.module('compositor'),
+                checker    = this.module('checker');
 
             var render = {
                 render: function () {
@@ -127,6 +135,11 @@ module.exports = (function () {
                      * Update compositor
                      */
                     compositor.update();
+
+                    /**
+                     * Update Checker
+                     */
+                    checker.update();
 
                     renderer.render(scene, camera);
                 }

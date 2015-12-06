@@ -23,12 +23,15 @@ module.exports = (function (e) {
             };
 
             manager.onProgress = function (item, loaded, total) {
+
                 var progress = e.loader.progress = (loaded * 100) / total;
+
                 if (e.helpers.isFunction(on.progress))
                     on.progress.call(this, item, loaded, total, progress);
             };
 
             manager.onLoad = function () {
+
                 e.loader.complete = true;
                 if (e.helpers.isFunction(on.load))
                     on.load.call(this);

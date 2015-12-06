@@ -2,14 +2,23 @@ module.exports = function (e, scene, camera, elements) {
 
     return {
 
+        load: [elements.Cube, elements.Logo],
+
         setup: function () {
 
             /**
              * Manually Load Assets
              */
-            e.loader.load(elements.Cube);
-            camera.position.z = 5;
-            scene.add(elements.Cube);
+                //console.log('lelll')
+                //camera.position.z = 10;
+                //camera.position.y = 50;
+
+            elements.Logo.position.y = 3;
+            elements.Cube.position.y = 3;
+
+            //camera.target = elements.Logo.position.clone();
+            scene.add(elements.Logo, elements.Cube);
+
 
         },
 

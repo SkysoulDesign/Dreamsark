@@ -36196,7 +36196,7 @@ module.exports = (function () {
     return ({"compositions":({"loading":require("./compositions\\loading.js")})}).compositions;
 
 })();
-},{"./compositions\\loading.js":8}],3:[function(require,module,exports){
+},{"./compositions\\loading.js":9}],3:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -36221,10 +36221,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js")})}).elements;
+    return e.elements = ({"elements":({"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"Particles":require("./elements\\Particles.js")})}).elements;
 
 })(Engine);
-},{"./elements\\Cube.js":9,"./elements\\Dreamsark.js":10}],5:[function(require,module,exports){
+},{"./elements\\Cube.js":10,"./elements\\Dreamsark.js":11,"./elements\\Logo.js":12,"./elements\\Particles.js":13}],5:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -36234,6 +36234,7 @@ module.exports = (function () {
          */
         helpers: require('./Helpers'),
         configs: require('./Configs'),
+        plugins: require('./Plugins'),
 
         /**
          * Public Property
@@ -36249,6 +36250,9 @@ module.exports = (function () {
         renderer: null,
         scene: null,
         camera: null,
+        mouse: null,
+        checker: null,
+        events: null,
 
         init: function () {
 
@@ -36281,12 +36285,12 @@ module.exports = (function () {
             };
 
             this.loader.on.progress = function () {
-
+                console.log('loading');
             };
 
             this.loader.on.load = function () {
 
-                console.log(e);
+                console.log('everything finished loading');
                 //var scene    = e.module('scene'),
                 //    elements = e.module('elements');
 
@@ -36331,7 +36335,7 @@ module.exports = (function () {
                  * Configure if is function
                  */
                 if (this.helpers.isFunction(this[module].configure))
-                    this[module].configure.call(this[module][module], this.configs[module]);
+                    this[module].configure.call(this[module][module], this.configs[module], this[module]);
 
             }
 
@@ -36341,10 +36345,14 @@ module.exports = (function () {
 
         render: function () {
 
+            /**
+             * Init Modules on Render Time
+             */
             var renderer   = this.module('renderer'),
                 scene      = this.module('scene'),
                 camera     = this.module('camera'),
-                compositor = this.module('compositor');
+                compositor = this.module('compositor'),
+                checker    = this.module('checker');
 
             var render = {
                 render: function () {
@@ -36354,6 +36362,11 @@ module.exports = (function () {
                      * Update compositor
                      */
                     compositor.update();
+
+                    /**
+                     * Update Checker
+                     */
+                    checker.update();
 
                     renderer.render(scene, camera);
                 }
@@ -36366,7 +36379,7 @@ module.exports = (function () {
     }
 
 })();
-},{"./Configs":3,"./Elements":4,"./Helpers":6,"./Modules":7}],6:[function(require,module,exports){
+},{"./Configs":3,"./Elements":4,"./Helpers":6,"./Modules":7,"./Plugins":8}],6:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -36423,19 +36436,19 @@ module.exports = (function () {
         },
 
         isNull: function (item) {
-            return (item === null || item === undefined);
+            return (item === null || item === undefined || item === 0 || item === '0');
         },
 
-        keys: function (elements, callback, bind) {
+        keys: function (elements, callback, context) {
 
             if (this.isArray(elements))
-                elements.forEach(function (el) {
-                    callback.call(bind || Engine, el);
+                elements.forEach(function (el, index) {
+                    callback.call(context || Engine, el, index);
                 });
 
             if (this.isObject(elements))
                 Object.keys(elements).forEach(function (name) {
-                    callback.call(bind || Engine, elements[name], name);
+                    callback.call(context || Engine, elements[name], name);
                 });
         },
 
@@ -36458,6 +36471,29 @@ module.exports = (function () {
 
         captalize: function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
+        length: function (item) {
+
+            if (this.isArray(item))
+                return item.length;
+
+            if (this.isObject(item)) {
+
+                var length = 0;
+
+                this.keys(item, function () {
+                    length++
+                });
+
+                return length;
+
+            }
+
+        },
+
+        timer: function (time, callback) {
+            var timer = setInterval(callback, time * 1000);
         }
     }
 
@@ -36468,22 +36504,40 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Camera":require("./modules\\Camera.js"),"Compositor":require("./modules\\Compositor.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js")})}).modules;
 
 })();
-},{"./modules\\Camera.js":12,"./modules\\Compositor.js":13,"./modules\\Loader.js":14,"./modules\\Manager.js":15,"./modules\\Renderer.js":16,"./modules\\Scene.js":17}],8:[function(require,module,exports){
+},{"./modules\\Browser.js":15,"./modules\\Camera.js":16,"./modules\\Checker.js":17,"./modules\\Compositor.js":18,"./modules\\Events.js":19,"./modules\\Loader.js":20,"./modules\\Manager.js":21,"./modules\\Mouse.js":22,"./modules\\Renderer.js":23,"./modules\\Scene.js":24}],8:[function(require,module,exports){
+module.exports = (function () {
+
+    /**
+     * Require all of the scripts in the modules directory
+     */
+    return ({"plugins":({"OBJLoader":require("./plugins\\OBJLoader.js")})}).plugins;
+
+})();
+},{"./plugins\\OBJLoader.js":25}],9:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
+
+        load: [elements.Cube, elements.Logo],
 
         setup: function () {
 
             /**
              * Manually Load Assets
              */
-            e.loader.load(elements.Cube);
-            camera.position.z = 5;
-            scene.add(elements.Cube);
+                //console.log('lelll')
+                //camera.position.z = 10;
+                //camera.position.y = 50;
+
+            elements.Logo.position.y = 3;
+            elements.Cube.position.y = 3;
+
+            //camera.target = elements.Logo.position.clone();
+            scene.add(elements.Logo, elements.Cube);
+
 
         },
 
@@ -36501,7 +36555,7 @@ module.exports = function (e, scene, camera, elements) {
     };
 
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -36537,7 +36591,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -36572,7 +36626,189 @@ module.exports = (function () {
     }
 
 })();
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+
+        name: 'logo',
+
+        objs: function () {
+            return {
+                logo: 'models/ship.obj'
+            }
+        },
+
+        create: function (e, share, maps, objs) {
+
+            var material = new THREE.MeshBasicMaterial({
+                color: new THREE.Color('blue'),
+                wireframe: true
+            });
+
+            objs.logo.material = material;
+            objs.logo.rotation.x = -Math.PI /2;
+
+            return objs.logo;
+
+        }
+
+    }
+
+})();
+},{}],13:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+
+        name: 'particles',
+
+        objs: function () {
+            return {
+                car: 'models/audi_tt.obj',
+                seila: 'models/audi_tt.obj'
+            }
+        },
+
+        maps: function () {
+            return {
+                spark: 'lib/spark-9.png'
+            }
+        },
+
+        share: function () {
+
+        },
+
+        create: function (e, share, maps, objs) {
+
+            return 'oh my godness' ;
+            //var uniforms =
+            //    {
+            //        texture: {type: 't', value: maps.spark},
+            //        pixel_ratio: {type: 'f', value: window.devicePixelRatio},
+            //        perlin_intensity: {type: 'f', value: 60},
+            //        perlin_frequency: {type: 'f', value: 0.014},
+            //        time: {type: 'f', value: 0},
+            //        particles_size: {type: 'f', value: 3},
+            //        particles_color: {type: 'c', value: new THREE.Color('#eb4927')}
+            //    };
+            //
+            var attributes =
+                {
+                    alpha: {type: 'f', value: []}
+                };
+            //
+            //// Materials
+            //var particles_material = new THREE.ShaderMaterial(
+            //    {
+            //        attributes: attributes,
+            //        uniforms: uniforms,
+            //        vertexShader: document.getElementById('vertexshader').textContent,
+            //        fragmentShader: document.getElementById('fragmentshader').textContent,
+            //        transparent: true,
+            //        blending: THREE.AdditiveBlending,
+            //        depthTest: false,
+            //        // alphaTest      : 0.5,
+            //        // vertexColors    : true
+            //    });
+
+            models =
+                [
+                    {
+                        type: 'cloud',
+                        position: {x: 0, y: 0, z: 0}
+                    }
+                ];
+
+            var particles_material = new THREE.PointsMaterial({
+                map: maps.spark,
+                color: 0xffffff,
+                size: 0.5,
+                sizeAttenuation: true,
+                vertexColors: false
+            });
+
+
+            // Cloud
+            var cloud_vertices = [];
+
+            for (i = 0; i < 2000; i++) {
+
+                //var origin = this.get_random_vector_3(0,0,0,200 / 4,true);
+                //
+                //cloud_vertices.push(origin);
+                //
+                var origin = this.get_random_vector_3(0, 0, 0, 200, false);
+                origin.y /= 3;
+
+                cloud_vertices.push(origin);
+            }
+
+            // Add to models
+            models.push({
+                position: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                geometry: cloud_vertices
+            });
+
+            var particles_geometry = new THREE.Geometry();
+
+            var origins = [];
+
+            for (var i = 0; i < 2000; i++) {
+                origins.push(models[1].geometry[i].clone());
+                particles_geometry.vertices.push(models[1].geometry[i].clone());
+                attributes.alpha.value[i] = Math.random() * 0.9;
+            }
+
+            var particles_system = new THREE.Points(particles_geometry, particles_material);
+
+            particles_system.position.set(0, 50, 0);
+            particles_system.dynamic = true;
+
+
+            return particles_system;
+
+        },
+
+
+        /**
+         * Temp
+         */
+        get_random_vector_3: function (x, y, z, distance, stick_to_surface) {
+            // Defaults
+            x                = x || 0;
+            y                = y || false;
+            z                = z || false;
+            distance         = distance || false;
+            stick_to_surface = stick_to_surface || false;
+
+            // Cordinates
+            var u1    = Math.random() * 2 - 1,
+                u2    = Math.random(),
+                r     = Math.sqrt(1 - u1 * u1),
+                theta = 2 * Math.PI * u2;
+
+            // Stick to surface or disperce inside sphere
+            if (!stick_to_surface)
+                distance = Math.random() * distance;
+
+            // Return
+            return new THREE.Vector3(
+                r * Math.cos(theta) * distance + x,
+                r * Math.sin(theta) * distance + y,
+                u1 * distance + z
+            );
+        },
+
+    }
+
+})();
+},{}],14:[function(require,module,exports){
 /**
  * Caption
  *
@@ -36600,7 +36836,40 @@ var start = function () {
 
 var trigger = document.querySelector('#trigger');
     trigger.addEventListener('click', start, false);
-},{"./Engine":5,"THREE":1}],12:[function(require,module,exports){
+},{"./Engine":5,"THREE":1}],15:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Append Browser to Engine
+     */
+    return e.browser = {
+
+        browser: null,
+
+        width: null,
+        height: null,
+        innerWidth: null,
+        innerHeight: null,
+
+        devicePixelRatio: 1,
+
+        init: function () {
+
+            this.browser = this;
+
+            this.width  = window.width;
+            this.height = window.height;
+
+            this.innerWidth       = window.innerWidth;
+            this.innerHeight      = window.innerHeight;
+            this.devicePixelRatio = window.devicePixelRatio;
+
+        }
+
+    }
+
+})(Engine);
+},{}],16:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -36609,6 +36878,7 @@ module.exports = (function (e) {
     return e.camera = {
 
         camera: null,
+        target: null,
 
         init: function () {
 
@@ -36625,12 +36895,89 @@ module.exports = (function (e) {
              */
             this.camera = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
 
+            this.origin = new THREE.Vector3(5, 0, 20);
+            this.target = new THREE.Vector3(0, 0, 0);
+
+            /**
+             * Follow Mouse Update
+             */
+            this.follow();
+
+
+        },
+
+        configure: function (configs, context) {
+
+            this.position.copy(context.origin);
+            this.rotation.order = 'YXZ';
+
+        },
+
+        follow: function () {
+
+            var mouse   = e.module('mouse'),
+                browser = e.module('browser');
+
+            e.checker.add(function () {
+
+                var x = (mouse.ratio.x * 200 - 100 - this.camera.position.x),
+                    y = -(mouse.ratio.y * 200 - 100) / (browser.innerWidth / browser.innerHeight);
+                this.camera.position.x += (x + this.origin.x) / 30;
+                this.camera.position.y += (y - this.camera.position.y + this.origin.y) / 30;
+                this.camera.lookAt(this.target);
+
+            }, this);
+
         }
 
     };
 
 })(Engine);
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Append Checker to Engine
+     */
+    return e.checker = {
+
+        collection: [],
+        checker: null,
+
+        init: function () {
+            this.checker = this;
+        },
+
+        add: function (callback, context) {
+            this.collection.push(callback.bind(context || e));
+        },
+
+        delete: function (index) {
+            this.collection.splice(index, 1);
+        },
+
+        reset: function () {
+            this.collection = [];
+        },
+
+        update: function () {
+
+            var checker = this;
+
+            if (e.helpers.length(checker.collection) >= 1)
+
+                e.helpers.keys(this.collection, function (el, index) {
+
+                    if (el.call())
+                        checker.delete(index);
+
+                });
+
+        }
+    }
+
+})(Engine);
+},{}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.compositor = {
@@ -36652,9 +36999,6 @@ module.exports = (function (e) {
             this.order        = e.configs.compositions;
             this.compositor   = this;
 
-            /**
-             * initiate the first comp
-             */
             this.setup();
 
         },
@@ -36664,29 +37008,95 @@ module.exports = (function (e) {
             /**
              * Set the first composition if is not set
              */
-            if (composition === undefined) {
+            if (e.helpers.isNull(composition)) {
                 return this.setup(this.compositions[this.order[0]]);
             }
 
-            var scene    = e.module('scene'),
-                camera   = e.module('camera'),
-                elements = e.elements;
+            if (e.helpers.isFunction(composition)) {
 
-            this.active = composition(e, scene, camera, elements);
-            this.active.setup();
+                var scene    = e.module('scene'),
+                    camera   = e.module('camera'),
+                    elements = e.elements,
+
+                    /**
+                     * Initialize comp
+                     */
+                    comp     = composition(e, scene, camera, elements);
+
+                /**
+                 * Load comp dependencies
+                 */
+                e.loader.load(comp.load);
+
+                return this.setup(comp);
+
+            }
+
+            /**
+             * Loop on update until loader is complete then init the composition
+             */
+            e.checker.add(function () {
+
+                if (e.helpers.isObject(composition) && e.loader.complete) {
+
+                    this.active = composition;
+                    this.active.setup();
+
+                    return true;
+
+                }
+
+                return false;
+
+            }, this)
+
         },
 
         update: function () {
 
-            if (e.helpers.isFunction(this.active.animation))
+            if (!e.helpers.isNull(this.active) && e.helpers.isFunction(this.active.animation)) {
                 this.active.animation();
+            }
 
         }
 
     };
 
 })(Engine);
-},{"./../Compositions":2}],14:[function(require,module,exports){
+},{"./../Compositions":2}],19:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Append Camera to Engine
+     */
+    return e.events = {
+
+        events: null,
+        collection: [],
+
+        init: function () {
+
+            this.events = this;
+
+        },
+
+        add: function (element, event, callback, context, useCapture) {
+
+            element.addEventListener(event, callback.bind(context || e), useCapture || false);
+
+            /**
+             * push the element to the collection
+             */
+            this.collection.push({
+                element: element,
+                event: event
+            });
+        }
+
+    };
+
+})(Engine);
+},{}],20:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.loader = {
@@ -36695,29 +37105,39 @@ module.exports = (function (e) {
          */
         progress: null,
         complete: false,
+        count: 0,
+
         on: {start: null, progress: null, load: null, error: null},
 
         /**
          * Modules
          */
         loader: null,
+        objLoader: null,
 
         init: function () {
+
+            var manager = e.module('manager', this.on);
 
             /**
              * Init Loader
              * @type {THREE.TextureLoader}
              */
-            this.loader = new THREE.TextureLoader(e.module('manager', this.on));
+            this.loader = new THREE.TextureLoader(manager);
+
+            /**
+             * Init OBJ Loader
+             * @type {THREE.OBJLoader}
+             */
+            this.objLoader = new THREE.OBJLoader(manager);
 
         },
 
         /**
          * Load All Global Elements
          * @param elements
-         * @param on
          */
-        load: function (elements, on) {
+        load: function (elements) {
 
             /**
              * if is an array of single objects, load recursively them all
@@ -36739,7 +37159,7 @@ module.exports = (function (e) {
 
                 var name      = e.helpers.captalize(elements.name);
                 var element   = {};
-                element[name] = elements
+                element[name] = elements;
 
                 this.load(element);
 
@@ -36750,28 +37170,63 @@ module.exports = (function (e) {
             /**
              * only pass if it`s object and doesn't have create method so i assume it is an object of elements
              */
-            e.helpers.keys(elements, function (el, name) {
+            e.helpers.keys(elements, function (el) {
 
-                var maps     = {};
-                var userData = {};
-
-                /**
-                 * if Maps is set then initialize it
-                 */
-                if (e.helpers.isFunction(el.maps)) {
-
-                    e.helpers.keys(el.maps(), function (el, name) {
-                        maps[name] = this.loader.load(el);
-                    }, this);
-
-                }
+                this.complete = false;
+                this.count++;
 
                 /**
-                 * Check if object has shared properties
+                 * Empty ElementsBag
+                 * @type {{el: *, userData: {}, maps: {}, objs: {}}}
                  */
-                if (e.helpers.isFunction(el.share)) {
-                    userData = el.share();
-                }
+                var elementsBag = {el: el, userData: {}, maps: {}, objs: {}};
+
+                var length = 0;
+                var loaded = 0;
+
+                /**
+                 * Executes on each onLoad event
+                 *
+                 * @param type
+                 * @param name
+                 * @param obj
+                 */
+                var ready = function (type, name, obj) {
+
+                    /**
+                     * fix for getting the object directly, not a Object3D
+                     */
+                    if (obj instanceof THREE.Object3D)
+                        obj = obj.children[0];
+
+                    elementsBag[type][name] = obj;
+
+                    /**
+                     * Check if everything has finished
+                     */
+                    if (loaded++ == length - 1) {
+
+                        var element     = elementsBag.el.create(e, elementsBag.userData, elementsBag.maps, elementsBag.objs),
+                            elementName = e.helpers.captalize(elementsBag.el.name);
+
+                        /**
+                         * Default behaviors
+                         */
+                        element.name = elementName;
+                        element.userData = e.helpers.extend(elementsBag.userData, element.userData);
+
+                        /**
+                         * Append to the global Elements
+                         * @type {Engine}
+                         */
+                        e.elements[elementName] = element;
+
+                        if (this.count-- == 1)
+                            this.complete = true;
+
+                    }
+
+                };
 
                 /**
                  * If the Object doesn't have create method means
@@ -36783,18 +37238,40 @@ module.exports = (function (e) {
                     return;
 
                 /**
-                 * Create Object
-                 * @type {e}
+                 * Check if object has shared properties
                  */
-                var element      = el.create(e, maps, userData);
-                element.name     = el.name;
-                element.userData = e.helpers.extend(userData, element.userData);
+                if (e.helpers.isFunction(el.share))
+                    elementsBag.userData = el.share();
 
                 /**
-                 * Override Element with its constructed version
-                 * @type {e}
+                 * if Maps is set then initialize it
                  */
-                elements[name] = element;
+                if (e.helpers.isFunction(el.maps)) {
+
+                    var maps = el.maps();
+
+                    length += e.helpers.length(maps);
+
+                    e.helpers.keys(maps, function (path, name) {
+                        this.loader.load(path, ready.bind(this, 'maps', name));
+                    }, this);
+
+                }
+
+                /**
+                 * if Objs is set then initialize it
+                 */
+                if (e.helpers.isFunction(el.objs)) {
+
+                    var objs = el.objs();
+
+                    length += e.helpers.length(objs);
+
+                    e.helpers.keys(objs, function (path, name) {
+                        this.objLoader.load(path, ready.bind(this, 'objs', name));
+                    }, this);
+
+                }
 
             }, this);
         }
@@ -36802,7 +37279,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],15:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.manager = {
@@ -36828,12 +37305,15 @@ module.exports = (function (e) {
             };
 
             manager.onProgress = function (item, loaded, total) {
+
                 var progress = e.loader.progress = (loaded * 100) / total;
+
                 if (e.helpers.isFunction(on.progress))
                     on.progress.call(this, item, loaded, total, progress);
             };
 
             manager.onLoad = function () {
+
                 e.loader.complete = true;
                 if (e.helpers.isFunction(on.load))
                     on.load.call(this);
@@ -36851,7 +37331,52 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],16:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Append Camera to Engine
+     */
+    return e.mouse = {
+
+        mouse: null,
+        x: null, y: null,
+        ratio: null,
+
+        init: function () {
+
+            this.mouse = this;
+            this.x     = 0;
+            this.y     = 0;
+            this.ratio = new THREE.Vector2(0, 0);
+
+            var events = e.module('events');
+            events.add(window, 'mousemove', this.move, this);
+
+        },
+
+        set: function (x, y) {
+            this.x = x;
+            this.y = y;
+        },
+
+        move: function (event) {
+
+            this.mouse.set(event.clientX, event.clientY);
+
+            var browser = e.module('browser');
+
+            if (e.helpers.isNull(browser.width) && e.helpers.isNull(browser.height)) {
+                this.ratio.x = this.mouse.x / browser.innerWidth;
+                this.ratio.y = this.mouse.y / browser.innerHeight;
+            }
+
+        }
+
+    };
+
+})(Engine);
+},{}],23:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.renderer = {
@@ -36861,7 +37386,8 @@ module.exports = (function (e) {
         init: function () {
 
             var config = {
-                antialias: true
+                antialias: true,
+                alpha: true
             };
 
             /**
@@ -36875,20 +37401,30 @@ module.exports = (function (e) {
         /**
          * Configure Renderer
          */
-        configure: function (configs) {
+        configure: function (configs, context) {
+
+            var domElement = this.domElement;
+
+            domElement.style.position = 'absolute';
+            domElement.style.zIndex = 5;
 
             e.helpers.appendTo(configs.container, this.domElement);
 
+            /**
+             * Get Global Browser settings
+             */
+            var browser = e.module('browser');
+
             //this.setClearColor(scene.a.fog.color);
-            this.setPixelRatio(window.devicePixelRatio);
-            this.setSize(window.innerWidth, window.innerHeight);
+            this.setPixelRatio(browser.devicePixelRatio);
+            this.setSize(browser.innerWidth, browser.innerHeight);
 
         }
 
     };
 
 })(Engine);
-},{}],17:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -36925,4 +37461,388 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}]},{},[11])
+},{}],25:[function(require,module,exports){
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+THREE.OBJLoader = function ( manager ) {
+
+	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+
+};
+
+THREE.OBJLoader.prototype = {
+
+	constructor: THREE.OBJLoader,
+
+	load: function ( url, onLoad, onProgress, onError ) {
+
+		var scope = this;
+
+		var loader = new THREE.XHRLoader( scope.manager );
+		loader.setCrossOrigin( this.crossOrigin );
+		loader.load( url, function ( text ) {
+
+			onLoad( scope.parse( text ) );
+
+		}, onProgress, onError );
+
+	},
+
+	setCrossOrigin: function ( value ) {
+
+		this.crossOrigin = value;
+
+	},
+
+	parse: function ( text ) {
+
+		console.time( 'OBJLoader' );
+
+		var object, objects = [];
+		var geometry, material;
+
+		function parseVertexIndex( value ) {
+
+			var index = parseInt( value );
+
+			return ( index >= 0 ? index - 1 : index + vertices.length / 3 ) * 3;
+
+		}
+
+		function parseNormalIndex( value ) {
+
+			var index = parseInt( value );
+
+			return ( index >= 0 ? index - 1 : index + normals.length / 3 ) * 3;
+
+		}
+
+		function parseUVIndex( value ) {
+
+			var index = parseInt( value );
+
+			return ( index >= 0 ? index - 1 : index + uvs.length / 2 ) * 2;
+
+		}
+
+		function addVertex( a, b, c ) {
+
+			geometry.vertices.push(
+				vertices[ a ], vertices[ a + 1 ], vertices[ a + 2 ],
+				vertices[ b ], vertices[ b + 1 ], vertices[ b + 2 ],
+				vertices[ c ], vertices[ c + 1 ], vertices[ c + 2 ]
+			);
+
+		}
+
+		function addNormal( a, b, c ) {
+
+			geometry.normals.push(
+				normals[ a ], normals[ a + 1 ], normals[ a + 2 ],
+				normals[ b ], normals[ b + 1 ], normals[ b + 2 ],
+				normals[ c ], normals[ c + 1 ], normals[ c + 2 ]
+			);
+
+		}
+
+		function addUV( a, b, c ) {
+
+			geometry.uvs.push(
+				uvs[ a ], uvs[ a + 1 ],
+				uvs[ b ], uvs[ b + 1 ],
+				uvs[ c ], uvs[ c + 1 ]
+			);
+
+		}
+
+		function addFace( a, b, c, d,  ua, ub, uc, ud, na, nb, nc, nd ) {
+
+			var ia = parseVertexIndex( a );
+			var ib = parseVertexIndex( b );
+			var ic = parseVertexIndex( c );
+			var id;
+
+			if ( d === undefined ) {
+
+				addVertex( ia, ib, ic );
+
+			} else {
+
+				id = parseVertexIndex( d );
+
+				addVertex( ia, ib, id );
+				addVertex( ib, ic, id );
+
+			}
+
+			if ( ua !== undefined ) {
+
+				ia = parseUVIndex( ua );
+				ib = parseUVIndex( ub );
+				ic = parseUVIndex( uc );
+
+				if ( d === undefined ) {
+
+					addUV( ia, ib, ic );
+
+				} else {
+
+					id = parseUVIndex( ud );
+
+					addUV( ia, ib, id );
+					addUV( ib, ic, id );
+
+				}
+
+			}
+
+			if ( na !== undefined ) {
+
+				ia = parseNormalIndex( na );
+				ib = parseNormalIndex( nb );
+				ic = parseNormalIndex( nc );
+
+				if ( d === undefined ) {
+
+					addNormal( ia, ib, ic );
+
+				} else {
+
+					id = parseNormalIndex( nd );
+
+					addNormal( ia, ib, id );
+					addNormal( ib, ic, id );
+
+				}
+
+			}
+
+		}
+
+		// create mesh if no objects in text
+
+		if ( /^o /gm.test( text ) === false ) {
+
+			geometry = {
+				vertices: [],
+				normals: [],
+				uvs: []
+			};
+
+			material = {
+				name: ''
+			};
+
+			object = {
+				name: '',
+				geometry: geometry,
+				material: material
+			};
+
+			objects.push( object );
+
+		}
+
+		var vertices = [];
+		var normals = [];
+		var uvs = [];
+
+		// v float float float
+
+		var vertex_pattern = /v( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)/;
+
+		// vn float float float
+
+		var normal_pattern = /vn( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)/;
+
+		// vt float float
+
+		var uv_pattern = /vt( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)/;
+
+		// f vertex vertex vertex ...
+
+		var face_pattern1 = /f( +-?\d+)( +-?\d+)( +-?\d+)( +-?\d+)?/;
+
+		// f vertex/uv vertex/uv vertex/uv ...
+
+		var face_pattern2 = /f( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))?/;
+
+		// f vertex/uv/normal vertex/uv/normal vertex/uv/normal ...
+
+		var face_pattern3 = /f( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))?/;
+
+		// f vertex//normal vertex//normal vertex//normal ...
+
+		var face_pattern4 = /f( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))?/;
+
+		//
+
+		var lines = text.split( '\n' );
+
+		for ( var i = 0; i < lines.length; i ++ ) {
+
+			var line = lines[ i ];
+			line = line.trim();
+
+			var result;
+
+			if ( line.length === 0 || line.charAt( 0 ) === '#' ) {
+
+				continue;
+
+			} else if ( ( result = vertex_pattern.exec( line ) ) !== null ) {
+
+				// ["v 1.0 2.0 3.0", "1.0", "2.0", "3.0"]
+
+				vertices.push(
+					parseFloat( result[ 1 ] ),
+					parseFloat( result[ 2 ] ),
+					parseFloat( result[ 3 ] )
+				);
+
+			} else if ( ( result = normal_pattern.exec( line ) ) !== null ) {
+
+				// ["vn 1.0 2.0 3.0", "1.0", "2.0", "3.0"]
+
+				normals.push(
+					parseFloat( result[ 1 ] ),
+					parseFloat( result[ 2 ] ),
+					parseFloat( result[ 3 ] )
+				);
+
+			} else if ( ( result = uv_pattern.exec( line ) ) !== null ) {
+
+				// ["vt 0.1 0.2", "0.1", "0.2"]
+
+				uvs.push(
+					parseFloat( result[ 1 ] ),
+					parseFloat( result[ 2 ] )
+				);
+
+			} else if ( ( result = face_pattern1.exec( line ) ) !== null ) {
+
+				// ["f 1 2 3", "1", "2", "3", undefined]
+
+				addFace(
+					result[ 1 ], result[ 2 ], result[ 3 ], result[ 4 ]
+				);
+
+			} else if ( ( result = face_pattern2.exec( line ) ) !== null ) {
+
+				// ["f 1/1 2/2 3/3", " 1/1", "1", "1", " 2/2", "2", "2", " 3/3", "3", "3", undefined, undefined, undefined]
+
+				addFace(
+					result[ 2 ], result[ 5 ], result[ 8 ], result[ 11 ],
+					result[ 3 ], result[ 6 ], result[ 9 ], result[ 12 ]
+				);
+
+			} else if ( ( result = face_pattern3.exec( line ) ) !== null ) {
+
+				// ["f 1/1/1 2/2/2 3/3/3", " 1/1/1", "1", "1", "1", " 2/2/2", "2", "2", "2", " 3/3/3", "3", "3", "3", undefined, undefined, undefined, undefined]
+
+				addFace(
+					result[ 2 ], result[ 6 ], result[ 10 ], result[ 14 ],
+					result[ 3 ], result[ 7 ], result[ 11 ], result[ 15 ],
+					result[ 4 ], result[ 8 ], result[ 12 ], result[ 16 ]
+				);
+
+			} else if ( ( result = face_pattern4.exec( line ) ) !== null ) {
+
+				// ["f 1//1 2//2 3//3", " 1//1", "1", "1", " 2//2", "2", "2", " 3//3", "3", "3", undefined, undefined, undefined]
+
+				addFace(
+					result[ 2 ], result[ 5 ], result[ 8 ], result[ 11 ],
+					undefined, undefined, undefined, undefined,
+					result[ 3 ], result[ 6 ], result[ 9 ], result[ 12 ]
+				);
+
+			} else if ( /^o /.test( line ) ) {
+
+				geometry = {
+					vertices: [],
+					normals: [],
+					uvs: []
+				};
+
+				material = {
+					name: ''
+				};
+
+				object = {
+					name: line.substring( 2 ).trim(),
+					geometry: geometry,
+					material: material
+				};
+
+				objects.push( object )
+
+			} else if ( /^g /.test( line ) ) {
+
+				// group
+
+			} else if ( /^usemtl /.test( line ) ) {
+
+				// material
+
+				material.name = line.substring( 7 ).trim();
+
+			} else if ( /^mtllib /.test( line ) ) {
+
+				// mtl file
+
+			} else if ( /^s /.test( line ) ) {
+
+				// smooth shading
+
+			} else {
+
+				// console.log( "THREE.OBJLoader: Unhandled line " + line );
+
+			}
+
+		}
+
+		var container = new THREE.Object3D();
+
+		for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+			object = objects[ i ];
+			geometry = object.geometry;
+
+			var buffergeometry = new THREE.BufferGeometry();
+
+			buffergeometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( geometry.vertices ), 3 ) );
+
+			if ( geometry.normals.length > 0 ) {
+
+				buffergeometry.addAttribute( 'normal', new THREE.BufferAttribute( new Float32Array( geometry.normals ), 3 ) );
+
+			}
+
+			if ( geometry.uvs.length > 0 ) {
+
+				buffergeometry.addAttribute( 'uv', new THREE.BufferAttribute( new Float32Array( geometry.uvs ), 2 ) );
+
+			}
+
+			material = new THREE.MeshLambertMaterial();
+			material.name = object.material.name;
+
+			var mesh = new THREE.Mesh( buffergeometry, material );
+			mesh.name = object.name;
+
+			container.add( mesh );
+
+		}
+
+		console.timeEnd( 'OBJLoader' );
+
+		return container;
+
+	}
+
+};
+
+},{}]},{},[14])

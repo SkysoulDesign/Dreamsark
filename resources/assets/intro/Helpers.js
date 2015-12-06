@@ -54,19 +54,19 @@ module.exports = (function () {
         },
 
         isNull: function (item) {
-            return (item === null || item === undefined);
+            return (item === null || item === undefined || item === 0 || item === '0');
         },
 
-        keys: function (elements, callback, bind) {
+        keys: function (elements, callback, context) {
 
             if (this.isArray(elements))
-                elements.forEach(function (el) {
-                    callback.call(bind || Engine, el);
+                elements.forEach(function (el, index) {
+                    callback.call(context || Engine, el, index);
                 });
 
             if (this.isObject(elements))
                 Object.keys(elements).forEach(function (name) {
-                    callback.call(bind || Engine, elements[name], name);
+                    callback.call(context || Engine, elements[name], name);
                 });
         },
 
@@ -89,6 +89,29 @@ module.exports = (function () {
 
         captalize: function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
+        length: function (item) {
+
+            if (this.isArray(item))
+                return item.length;
+
+            if (this.isObject(item)) {
+
+                var length = 0;
+
+                this.keys(item, function () {
+                    length++
+                });
+
+                return length;
+
+            }
+
+        },
+
+        timer: function (time, callback) {
+            var timer = setInterval(callback, time * 1000);
         }
     }
 
