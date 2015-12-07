@@ -36193,10 +36193,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions\\loading.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions/loading.js")})}).compositions;
 
 })();
-},{"./compositions\\loading.js":9}],3:[function(require,module,exports){
+},{"./compositions/loading.js":9}],3:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -36221,10 +36221,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"Particles":require("./elements\\Particles.js")})}).elements;
+    return e.elements = ({"elements":({"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"Particles":require("./elements/Particles.js")})}).elements;
 
 })(Engine);
-},{"./elements\\Cube.js":10,"./elements\\Dreamsark.js":11,"./elements\\Logo.js":12,"./elements\\Particles.js":13}],5:[function(require,module,exports){
+},{"./elements/Cube.js":10,"./elements/Dreamsark.js":11,"./elements/Logo.js":12,"./elements/Particles.js":13}],5:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -36329,6 +36329,7 @@ module.exports = (function () {
              * if Module is not initialized then init it
              */
             if (this.helpers.isNull(this[module][module])) {
+
                 this[module].init.call(this[module], params);
 
                 /**
@@ -36338,6 +36339,12 @@ module.exports = (function () {
                     this[module].configure.call(this[module][module], this.configs[module], this[module]);
 
             }
+
+            /**
+             * Link Parent to it's children
+             * @type {*}
+             */
+            this[module][module].class = this[module];
 
             return this[module][module];
 
@@ -36504,39 +36511,89 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js")})}).modules;
 
 })();
-},{"./modules\\Browser.js":15,"./modules\\Camera.js":16,"./modules\\Checker.js":17,"./modules\\Compositor.js":18,"./modules\\Events.js":19,"./modules\\Loader.js":20,"./modules\\Manager.js":21,"./modules\\Mouse.js":22,"./modules\\Renderer.js":23,"./modules\\Scene.js":24}],8:[function(require,module,exports){
+},{"./modules/Browser.js":15,"./modules/Camera.js":16,"./modules/Checker.js":17,"./modules/Compositor.js":18,"./modules/Events.js":19,"./modules/Loader.js":20,"./modules/Manager.js":21,"./modules/Mouse.js":22,"./modules/Raycaster.js":23,"./modules/Renderer.js":24,"./modules/Scene.js":25}],8:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"OBJLoader":require("./plugins\\OBJLoader.js")})}).plugins;
+    return ({"plugins":({"OBJLoader":require("./plugins/OBJLoader.js"),"easie":require("./plugins/easie.js")})}).plugins;
 
 })();
-},{"./plugins\\OBJLoader.js":25}],9:[function(require,module,exports){
+},{"./plugins/OBJLoader.js":26,"./plugins/easie.js":27}],9:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
 
-        load: [elements.Cube, elements.Logo],
+        load: [elements.Cube, elements.Logo, elements.Particles],
 
         setup: function () {
 
             /**
              * Manually Load Assets
              */
-                //console.log('lelll')
-                //camera.position.z = 10;
-                //camera.position.y = 50;
+            //console.log('lelll')
+            //camera.position.z = 10;
+            //camera.position.y = 50;
 
-            elements.Logo.position.y = 3;
-            elements.Cube.position.y = 3;
+            var mouse = e.module('mouse');
+
+            mouse.click(elements.Cube, function (el) {
+
+                console.log('click')
+
+                logo      = elements.Logo;
+                particles = elements.Particles;
+
+                var checker = e.module('checker').class;
+
+                checker.add(function(){
+                    for (var i = 0, len = particles.geometry.vertices.length; i < len; i++) {
+
+                        particles.geometry.vertices[i] = 0;
+
+                    }
+
+                    particles.verticesNeedUpdate = true;
+                })
+
+
+                //for (var i = 0, len = logo.geometry.attributes.position.length; i < len; i++) {
+                //
+                //    var particle_vertice = logo.vertices[i],
+                //        //origin           = this.origins[i],
+                //        destination      = logo.geometry[i % (destinations_length)],
+                //        vector           = null;
+                //
+                //    // Position
+                //    vector = new THREE.Vector3(
+                //        logo.position.x + destination.x,
+                //        logo.position.y + destination.y,
+                //        logo.position.z + destination.z
+                //    );
+                //
+                //    particle_vertice.x = Easie['quintInOut'](0, 0, vector.x, 1);
+                //    particle_vertice.y = Easie['quintInOut'](0, 0, vector.y, 1);
+                //    particle_vertice.z = Easie['quintInOut'](0, 0, vector.z, 1);
+                //
+                //}
+
+
+            });
+
+
+            //mouse.add.click(function (event) {
+            //    console.log(event);
+            //});
+
+            //elements.Logo.position.y = 3;
+            //elements.Cube.position.y = 3;
 
             //camera.target = elements.Logo.position.clone();
-            scene.add(elements.Logo, elements.Cube);
+            scene.add(elements.Particles, elements.Cube);
 
 
         },
@@ -36547,9 +36604,9 @@ module.exports = function (e, scene, camera, elements) {
 
         animation: function () {
 
-            elements.Cube.rotation.x += 0.05;
-            elements.Cube.rotation.y += 0.05;
-            elements.Cube.rotation.z += 0.05;
+            //elements.Cube.rotation.x += 0.05;
+            //elements.Cube.rotation.y += 0.05;
+            //elements.Cube.rotation.z += 0.05;
         }
 
     };
@@ -36646,12 +36703,12 @@ module.exports = (function () {
                 wireframe: true
             });
 
-            objs.logo.material = material;
-            objs.logo.rotation.x = -Math.PI /2;
+            objs.logo.rotation.x = -Math.PI / 2;
+            objs.logo.material   = material;
 
             return objs.logo;
 
-        }
+        },
 
     }
 
@@ -36678,11 +36735,20 @@ module.exports = (function () {
 
         share: function () {
 
+            var morph = this.morph;
+
+            return {
+                morph: morph
+            }
+
+        },
+
+        morph: function () {
+            console.log('power rangers')
         },
 
         create: function (e, share, maps, objs) {
 
-            return 'oh my godness' ;
             //var uniforms =
             //    {
             //        texture: {type: 't', value: maps.spark},
@@ -36738,7 +36804,7 @@ module.exports = (function () {
                 //var origin = this.get_random_vector_3(0,0,0,200 / 4,true);
                 //
                 //cloud_vertices.push(origin);
-                //
+
                 var origin = this.get_random_vector_3(0, 0, 0, 200, false);
                 origin.y /= 3;
 
@@ -36835,7 +36901,7 @@ var start = function () {
 };
 
 var trigger = document.querySelector('#trigger');
-    trigger.addEventListener('click', start, false);
+trigger.addEventListener('click', start, false);
 },{"./Engine":5,"THREE":1}],15:[function(require,module,exports){
 module.exports = (function (e) {
 
@@ -36895,7 +36961,7 @@ module.exports = (function (e) {
              */
             this.camera = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
 
-            this.origin = new THREE.Vector3(5, 0, 20);
+            this.origin = new THREE.Vector3(0, 0, 20);
             this.target = new THREE.Vector3(0, 0, 0);
 
             /**
@@ -37075,9 +37141,7 @@ module.exports = (function (e) {
         collection: [],
 
         init: function () {
-
             this.events = this;
-
         },
 
         add: function (element, event, callback, context, useCapture) {
@@ -37342,6 +37406,8 @@ module.exports = (function (e) {
         mouse: null,
         x: null, y: null,
         ratio: null,
+        normalized: null,
+        collection: [],
 
         init: function () {
 
@@ -37350,8 +37416,14 @@ module.exports = (function (e) {
             this.y     = 0;
             this.ratio = new THREE.Vector2(0, 0);
 
+            this.normalized = new THREE.Vector2(0, 0);
+
             var events = e.module('events');
-            events.add(window, 'mousemove', this.move, this);
+
+            /**
+             * Attach the core event for mouse to work
+             */
+            events.add(window, 'mousemove', this.core, this);
 
         },
 
@@ -37360,23 +37432,278 @@ module.exports = (function (e) {
             this.y = y;
         },
 
-        move: function (event) {
-
-            this.mouse.set(event.clientX, event.clientY);
+        core: function (event) {
 
             var browser = e.module('browser');
 
+            this.mouse.set(event.clientX, event.clientY);
+
+            /**
+             * Normalized
+             * @type {number}
+             */
+            var x = ( event.clientX / browser.innerWidth ) * 2 - 1,
+                y = -( event.clientY / browser.innerHeight ) * 2 + 1;
+
+            this.normalized.set(x, y);
+
             if (e.helpers.isNull(browser.width) && e.helpers.isNull(browser.height)) {
-                this.ratio.x = this.mouse.x / browser.innerWidth;
-                this.ratio.y = this.mouse.y / browser.innerHeight;
+                this.ratio.x = event.clientX / browser.innerWidth;
+                this.ratio.y = event.clientY / browser.innerHeight;
             }
+
+        },
+
+        click: function (element, callback, context, userCapture) {
+
+            /**
+             * if it's an THREE object then dispatches it to raycaster
+             */
+            if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
+
+                var raycaster = e.module('raycaster').class;
+                raycaster.click(element, callback, context);
+
+                this.collection.push({
+                    element: element,
+                    type: 'click',
+                    raycaster: true
+                });
+
+                /**
+                 * return the index of the last element
+                 */
+                return e.helpers.length(this.collection) - 1;
+
+            }
+
+            var events = e.module('events');
+            events.add(element, 'click', callback, context || this, userCapture);
+
+            this.collection.push({
+                element: element,
+                type: 'click'
+            });
+
+            /**
+             * return the index of the last element
+             */
+            return e.helpers.length(this.collection) - 1;
+
+        },
+
+        move: function (element, callback, context, userCapture) {
+
+            /**
+             * if it's an THREE object then dispatches it to raycaster
+             */
+            if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
+
+                var raycaster = e.module('raycaster').class;
+                raycaster.move(element, callback, context);
+
+                /**
+                 * return the index of the last element
+                 */
+                return e.helpers.length(this.collection) - 1;
+
+            }
+
+            var events = e.module('events');
+            events.add(element, 'mousemove', callback, context || this, userCapture);
+
+            this.collection.push({
+                element: element,
+                type: 'mousemove'
+            });
+
+            /**
+             * return the index of the last element
+             */
+            return e.helpers.length(this.collection) - 1;
+
+        },
+
+        delete: function (index) {
+
+            var collection = this.collection;
+
+            /**
+             * if it`s an raycaster object so remove it
+             */
+            if (!e.helpers.isNull(collection[index].raycaster)) {
+
+                var raycaster = e.module('raycaster').class
+                raycaster.delete(collection[index]);
+
+            }
+
+            this.collection.splice(index, 1);
+        }
+    };
+
+})(Engine);
+},{}],23:[function(require,module,exports){
+module.exports = (function (e) {
+
+    /**
+     * Append Camera to Engine
+     */
+    return e.raycaster = {
+
+        raycaster: null,
+        collection: [],
+        clicksBag: [],
+
+        watcher: {
+            click: false,
+            mousemove: false
+        },
+
+        init: function () {
+
+            this.raycaster = new THREE.Raycaster();
+
+            var mouse = e.module('mouse');
+
+            /**
+             * Set Watcher
+             */
+            mouse.click(document, function (event) {
+                this.watcher.click = true;
+            }, this);
+
+            /**
+             * Set Watcher
+             */
+            mouse.move(document, function (event) {
+                this.watcher.mousemove = true;
+            }, this);
+
+            /**
+             * Calculate intersections
+             */
+            this.update();
+
+        },
+
+        configure: function (configs) {
+            this.params.Points.threshold = 10;
+        },
+
+        click: function (element, callback, context) {
+
+            this.add(element);
+
+            this.clicksBag.push({
+                element: element,
+                callback: callback,
+                context: context,
+                type: 'click'
+            });
+
+        },
+
+        move: function (element, callback, context) {
+
+            this.add(element);
+
+            this.clicksBag.push({
+                element: element,
+                callback: callback,
+                context: context,
+                type: 'mousemove'
+            });
+
+        },
+
+        add: function (element) {
+            this.collection.push(element);
+        },
+
+        delete: function (index) {
+
+            var bag = this.clicksBag;
+
+            if (e.helpers.isObject(index)) {
+
+                /**
+                 * Loop on bag to find a match
+                 */
+                e.helpers.keys(bag, function (el, ind) {
+
+                    /**
+                     * find where type and element are equivalent
+                     */
+                    if (el.type === index.type && el.element === index.element)
+                        index = ind;
+                });
+
+            }
+
+            bag.splice(index, 1);
+
+        },
+
+        update: function () {
+
+            var checker = e.module('checker').class,
+                mouse   = e.module('mouse'),
+                camera  = e.module('camera');
+
+            checker.add(function () {
+
+                e.helpers.keys(this.clicksBag, function (el, index) {
+
+                    /**
+                     * Set From Camera as Default
+                     */
+                    this.raycaster.setFromCamera(mouse.normalized, camera);
+
+                    var intersects = this.raycaster.intersectObjects(this.collection);
+
+                    if (intersects.length > 0) {
+
+                        if (intersects[0].object === el.element) {
+
+                            var result = false;
+
+                            /**
+                             * if element is clicked call it
+                             */
+                            if (this.watcher.click && el.type === 'click') {
+                                result             = el.callback.call(el.context || e, el);
+                                this.watcher.click = false;
+                            }
+
+                            /**
+                             * if element is mouse move
+                             */
+                            if (this.watcher.mousemove && el.type === 'mousemove') {
+                                result                 = el.callback.call(el.context || e, el);
+                                this.watcher.mousemove = false;
+                            }
+
+                            /**
+                             * Remove listener if the return is true
+                             */
+                            if (result)
+                                this.delete(index);
+
+                        }
+
+                    }
+
+                }, this);
+
+            }, this);
 
         }
 
     };
 
 })(Engine);
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.renderer = {
@@ -37424,7 +37751,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -37461,7 +37788,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * @author mrdoob / http://mrdoob.com/
  */
@@ -37844,5 +38171,254 @@ THREE.OBJLoader.prototype = {
 	}
 
 };
+
+},{}],27:[function(require,module,exports){
+(function() {
+  /*
+  Easie.coffee (https://github.com/jimjeffers/Easie)
+  Project created by J. Jeffers
+
+  Robert Penner's Easing Equations in CoffeeScript
+  http://robertpenner.com/easing/
+
+  DISCLAIMER: Software provided as is with no warranty of any type.
+  Don't do bad things with this :)
+  */  Easie = (function() {
+    function Easie() {}
+    Easie.backIn = function(time, begin, change, duration, overshoot) {
+      if (overshoot == null) {
+        overshoot = 1.70158;
+      }
+      return change * (time /= duration) * time * ((overshoot + 1) * time - overshoot) + begin;
+    };
+    Easie.backOut = function(time, begin, change, duration, overshoot) {
+      if (overshoot == null) {
+        overshoot = 1.70158;
+      }
+      return change * ((time = time / duration - 1) * time * ((overshoot + 1) * time + overshoot) + 1) + begin;
+    };
+    Easie.backInOut = function(time, begin, change, duration, overshoot) {
+      if (overshoot == null) {
+        overshoot = 1.70158;
+      }
+      if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * (time * time * (((overshoot *= 1.525) + 1) * time - overshoot)) + begin;
+      } else {
+        return change / 2 * ((time -= 2) * time * (((overshoot *= 1.525) + 1) * time + overshoot) + 2) + begin;
+      }
+    };
+    Easie.bounceOut = function(time, begin, change, duration) {
+      if ((time /= duration) < 1 / 2.75) {
+        return change * (7.5625 * time * time) + begin;
+      } else if (time < 2 / 2.75) {
+        return change * (7.5625 * (time -= 1.5 / 2.75) * time + 0.75) + begin;
+      } else if (time < 2.5 / 2.75) {
+        return change * (7.5625 * (time -= 2.25 / 2.75) * time + 0.9375) + begin;
+      } else {
+        return change * (7.5625 * (time -= 2.625 / 2.75) * time + 0.984375) + begin;
+      }
+    };
+    Easie.bounceIn = function(time, begin, change, duration) {
+      return change - Easie.bounceOut(duration - time, 0, change, duration) + begin;
+    };
+    Easie.bounceInOut = function(time, begin, change, duration) {
+      if (time < duration / 2) {
+        return Easie.bounceIn(time * 2, 0, change, duration) * 0.5 + begin;
+      } else {
+        return Easie.bounceOut(time * 2 - duration, 0, change, duration) * 0.5 + change * 0.5 + begin;
+      }
+    };
+    Easie.circIn = function(time, begin, change, duration) {
+      return -change * (Math.sqrt(1 - (time = time / duration) * time) - 1) + begin;
+    };
+    Easie.circOut = function(time, begin, change, duration) {
+      return change * Math.sqrt(1 - (time = time / duration - 1) * time) + begin;
+    };
+    Easie.circInOut = function(time, begin, change, duration) {
+      if ((time = time / (duration / 2)) < 1) {
+        return -change / 2 * (Math.sqrt(1 - time * time) - 1) + begin;
+      } else {
+        return change / 2 * (Math.sqrt(1 - (time -= 2) * time) + 1) + begin;
+      }
+    };
+    Easie.cubicIn = function(time, begin, change, duration) {
+      return change * (time /= duration) * time * time + begin;
+    };
+    Easie.cubicOut = function(time, begin, change, duration) {
+      return change * ((time = time / duration - 1) * time * time + 1) + begin;
+    };
+    Easie.cubicInOut = function(time, begin, change, duration) {
+      if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * time * time * time + begin;
+      } else {
+        return change / 2 * ((time -= 2) * time * time + 2) + begin;
+      }
+    };
+    Easie.elasticOut = function(time, begin, change, duration, amplitude, period) {
+      var overshoot;
+      if (amplitude == null) {
+        amplitude = null;
+      }
+      if (period == null) {
+        period = null;
+      }
+      if (time === 0) {
+        return begin;
+      } else if ((time = time / duration) === 1) {
+        return begin + change;
+      } else {
+        if (!(period != null)) {
+          period = duration * 0.3;
+        }
+        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+          amplitude = change;
+          overshoot = period / 4;
+        } else {
+          overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+        }
+        return (amplitude * Math.pow(2, -10 * time)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + change + begin;
+      }
+    };
+    Easie.elasticIn = function(time, begin, change, duration, amplitude, period) {
+      var overshoot;
+      if (amplitude == null) {
+        amplitude = null;
+      }
+      if (period == null) {
+        period = null;
+      }
+      if (time === 0) {
+        return begin;
+      } else if ((time = time / duration) === 1) {
+        return begin + change;
+      } else {
+        if (!(period != null)) {
+          period = duration * 0.3;
+        }
+        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+          amplitude = change;
+          overshoot = period / 4;
+        } else {
+          overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+        }
+        time -= 1;
+        return -(amplitude * Math.pow(2, 10 * time)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + begin;
+      }
+    };
+    Easie.elasticInOut = function(time, begin, change, duration, amplitude, period) {
+      var overshoot;
+      if (amplitude == null) {
+        amplitude = null;
+      }
+      if (period == null) {
+        period = null;
+      }
+      if (time === 0) {
+        return begin;
+      } else if ((time = time / (duration / 2)) === 2) {
+        return begin + change;
+      } else {
+        if (!(period != null)) {
+          period = duration * (0.3 * 1.5);
+        }
+        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+          amplitude = change;
+          overshoot = period / 4;
+        } else {
+          overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+        }
+        if (time < 1) {
+          return -0.5 * (amplitude * Math.pow(2, 10 * (time -= 1))) * Math.sin((time * duration - overshoot) * ((2 * Math.PI) / period)) + begin;
+        } else {
+          return amplitude * Math.pow(2, -10 * (time -= 1)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + change + begin;
+        }
+      }
+    };
+    Easie.expoIn = function(time, begin, change, duration) {
+      if (time === 0) {
+        return begin;
+      }
+      return change * Math.pow(2, 10 * (time / duration - 1)) + begin;
+    };
+    Easie.expoOut = function(time, begin, change, duration) {
+      if (time === duration) {
+        return begin + change;
+      }
+      return change * (-Math.pow(2, -10 * time / duration) + 1) + begin;
+    };
+    Easie.expoInOut = function(time, begin, change, duration) {
+      if (time === 0) {
+        return begin;
+      } else if (time === duration) {
+        return begin + change;
+      } else if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * Math.pow(2, 10 * (time - 1)) + begin;
+      } else {
+        return change / 2 * (-Math.pow(2, -10 * (time - 1)) + 2) + begin;
+      }
+    };
+    Easie.linearNone = function(time, begin, change, duration) {
+      return change * time / duration + begin;
+    };
+    Easie.linearIn = function(time, begin, change, duration) {
+      return Easie.linearNone(time, begin, change, duration);
+    };
+    Easie.linearOut = function(time, begin, change, duration) {
+      return Easie.linearNone(time, begin, change, duration);
+    };
+    Easie.linearInOut = function(time, begin, change, duration) {
+      return Easie.linearNone(time, begin, change, duration);
+    };
+    Easie.quadIn = function(time, begin, change, duration) {
+      return change * (time = time / duration) * time + begin;
+    };
+    Easie.quadOut = function(time, begin, change, duration) {
+      return -change * (time = time / duration) * (time - 2) + begin;
+    };
+    Easie.quadInOut = function(time, begin, change, duration) {
+      if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * time * time + begin;
+      } else {
+        return -change / 2 * ((time -= 1) * (time - 2) - 1) + begin;
+      }
+    };
+    Easie.quartIn = function(time, begin, change, duration) {
+      return change * (time = time / duration) * time * time * time + begin;
+    };
+    Easie.quartOut = function(time, begin, change, duration) {
+      return -change * ((time = time / duration - 1) * time * time * time - 1) + begin;
+    };
+    Easie.quartInOut = function(time, begin, change, duration) {
+      if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * time * time * time * time + begin;
+      } else {
+        return -change / 2 * ((time -= 2) * time * time * time - 2) + begin;
+      }
+    };
+    Easie.quintIn = function(time, begin, change, duration) {
+      return change * (time = time / duration) * time * time * time * time + begin;
+    };
+    Easie.quintOut = function(time, begin, change, duration) {
+      return change * ((time = time / duration - 1) * time * time * time * time + 1) + begin;
+    };
+    Easie.quintInOut = function(time, begin, change, duration) {
+      if ((time = time / (duration / 2)) < 1) {
+        return change / 2 * time * time * time * time * time + begin;
+      } else {
+        return change / 2 * ((time -= 2) * time * time * time * time + 2) + begin;
+      }
+    };
+    Easie.sineIn = function(time, begin, change, duration) {
+      return -change * Math.cos(time / duration * (Math.PI / 2)) + change + begin;
+    };
+    Easie.sineOut = function(time, begin, change, duration) {
+      return change * Math.sin(time / duration * (Math.PI / 2)) + begin;
+    };
+    Easie.sineInOut = function(time, begin, change, duration) {
+      return -change / 2 * (Math.cos(Math.PI * time / duration) - 1) + begin;
+    };
+    return Easie;
+  })();
+}).call(this);
 
 },{}]},{},[14])

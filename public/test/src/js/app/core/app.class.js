@@ -1,42 +1,36 @@
-(function(window)
-{
+(function (window) {
     'use strict';
 
     APP.CORE.App = APP.CORE.Abstract.extend(
-    {
-        options:
         {
-        },
+            options: {},
 
-        /**
-         * INIT
-         */
-        init: function(options)
-        {
-            this._super(options);
+            /**
+             * INIT
+             */
+            init: function (options) {
+                this._super(options);
 
-            this.browser = new APP.TOOLS.Browser();
-            //this.debug   = new APP.TOOLS.Debug();
-            this.world   = new APP.COMPONENTS.WORLD.World();
-        },
+                this.browser = new APP.TOOLS.Browser();
+                this.debug   = new APP.TOOLS.Debug();
+                this.world   = new APP.COMPONENTS.WORLD.World();
+            },
 
-        /**
-         * START
-         */
-        start: function()
-        {
-            //this.browser.start();
-            this.world.start();
-        },
+            /**
+             * START
+             */
+            start: function () {
+                this.browser.start();
+                this.world.start();
+            },
 
-        /**
-         * FRAME
-         */
-        frame: function()
-        {
-            //this.browser.frame();
-            //this.debug.frame();
-            this.world.frame();
-        }
-    });
+            /**
+             * FRAME
+             */
+            frame: function () {
+                this.browser.frame();
+                this.debug.frame();
+                this.world.frame();
+            }
+        });
 })(window);

@@ -24,7 +24,7 @@
             this.particles = new APP.COMPONENTS.WORLD.Particles({scene:this.scene});
             this.lens      = new APP.COMPONENTS.WORLD.Lens({scene:this.scene});
             this.debug     = new APP.TOOLS.Debug();
-            //this.browser   = new APP.TOOLS.Browser();
+            this.browser   = new APP.TOOLS.Browser();
 
             // // Light
             // var ambient = new THREE.AmbientLight(0xffffff);
@@ -40,11 +40,11 @@
         {
             this.camera.start();
             this.particles.start();
-            //this.lens.start();
-            //this.renderer.start();
-            //this.debug.start();
+            this.lens.start();
+            this.renderer.start();
+            this.debug.start();
 
-            //this.renderer.launch_bad_tv_effet();
+            this.renderer.launch_bad_tv_effet();
         },
 
         /**
@@ -53,6 +53,7 @@
         init_events: function()
         {
             var that = this;
+
 
         },
 

@@ -102,6 +102,7 @@ module.exports = (function () {
              * if Module is not initialized then init it
              */
             if (this.helpers.isNull(this[module][module])) {
+
                 this[module].init.call(this[module], params);
 
                 /**
@@ -111,6 +112,12 @@ module.exports = (function () {
                     this[module].configure.call(this[module][module], this.configs[module], this[module]);
 
             }
+
+            /**
+             * Link Parent to it's children
+             * @type {*}
+             */
+            this[module][module].class = this[module];
 
             return this[module][module];
 

@@ -9,9 +9,7 @@ module.exports = (function (e) {
         collection: [],
 
         init: function () {
-
             this.events = this;
-
         },
 
         add: function (element, event, callback, context, useCapture) {

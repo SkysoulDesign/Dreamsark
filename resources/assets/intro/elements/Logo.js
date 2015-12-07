@@ -17,12 +17,12 @@ module.exports = (function () {
                 wireframe: true
             });
 
-            objs.logo.material = material;
-            objs.logo.rotation.x = -Math.PI /2;
+            objs.logo.rotation.x = -Math.PI / 2;
+            objs.logo.material   = material;
 
             return objs.logo;
 
-        }
+        },
 
     }
 

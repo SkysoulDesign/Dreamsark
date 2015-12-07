@@ -19,11 +19,20 @@ module.exports = (function () {
 
         share: function () {
 
+            var morph = this.morph;
+
+            return {
+                morph: morph
+            }
+
+        },
+
+        morph: function () {
+            console.log('power rangers')
         },
 
         create: function (e, share, maps, objs) {
 
-            return 'oh my godness' ;
             //var uniforms =
             //    {
             //        texture: {type: 't', value: maps.spark},
@@ -79,7 +88,7 @@ module.exports = (function () {
                 //var origin = this.get_random_vector_3(0,0,0,200 / 4,true);
                 //
                 //cloud_vertices.push(origin);
-                //
+
                 var origin = this.get_random_vector_3(0, 0, 0, 200, false);
                 origin.y /= 3;
 

@@ -23,7 +23,7 @@ module.exports = (function (e) {
              */
             this.camera = new THREE.PerspectiveCamera(config.fov, config.aspect, config.near, config.far);
 
-            this.origin = new THREE.Vector3(5, 0, 20);
+            this.origin = new THREE.Vector3(0, 0, 20);
             this.target = new THREE.Vector3(0, 0, 0);
 
             /**

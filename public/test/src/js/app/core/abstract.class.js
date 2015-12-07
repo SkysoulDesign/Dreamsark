@@ -1,38 +1,34 @@
-(function(window)
-{
+(function (window) {
     'use strict';
 
     APP.CORE.Abstract = Class.extend(
-    {
-        options: {},
-
-        /**
-         * INIT
-         */
-        init: function(options)
         {
-            if(typeof options === 'undefined')
-                options = {};
+            options: {},
 
-            this.$ = {};
+            /**
+             * INIT
+             */
+            init: function (options) {
+                if (typeof options === 'undefined')
+                    options = {};
 
-            this.options = merge(this.options,options);
-        },
+                this.$ = {};
 
-        /**
-         * START
-         */
-        start: function()
-        {
+                this.options = merge(this.options, options);
+            },
 
-        },
+            /**
+             * START
+             */
+            start: function () {
 
-        /**
-         * DESTROY
-         */
-        destroy: function()
-        {
+            },
 
-        }
-    });
+            /**
+             * DESTROY
+             */
+            destroy: function () {
+
+            }
+        });
 })(window);
