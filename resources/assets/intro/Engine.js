@@ -26,6 +26,7 @@ module.exports = (function () {
         mouse: null,
         checker: null,
         events: null,
+        stats: null,
 
         init: function () {
 
@@ -132,7 +133,8 @@ module.exports = (function () {
                 scene      = this.module('scene'),
                 camera     = this.module('camera'),
                 compositor = this.module('compositor'),
-                checker    = this.module('checker');
+                checker    = this.module('checker'),
+                stats      = this.module('stats');
 
             var render = {
                 render: function () {
@@ -147,6 +149,11 @@ module.exports = (function () {
                      * Update Checker
                      */
                     checker.update();
+
+                    /**
+                     * Stats
+                     */
+                    stats.update();
 
                     renderer.render(scene, camera);
                 }

@@ -11,6 +11,11 @@ module.exports = (function (e) {
 
         renderer: {
             container: '#container'
+        },
+
+        stats: {
+            enabled: true,
+            container: '#container'
         }
 
     }

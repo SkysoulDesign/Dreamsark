@@ -70,6 +70,42 @@ module.exports = (function () {
                 });
         },
 
+        map: function (obj, callback, context) {
+
+            var instance = {};
+
+            /**
+             * Loop on every property and set them accordingly
+             */
+            this.keys(obj, function (el, index) {
+
+                /**
+                 * if it's an object, map again
+                 */
+                if (this.isObject(el)) {
+
+                    return instance[index] = this.map(el, callback, context);
+
+                } else {
+
+                    /**
+                     * call Callback
+                     */
+                    instance[index] = callback.call(context || Engine, el, index);
+
+                }
+
+            }, this);
+
+            return instance;
+
+        },
+
+        for: function (max, callback, context) {
+            for (var i = 0; i < max; i++)
+                callback.call(context || Engine, i);
+        },
+
         extend: function (obj, src) {
 
             this.keys(src, function (el, name) {

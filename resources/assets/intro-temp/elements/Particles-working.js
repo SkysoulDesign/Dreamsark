@@ -29,7 +29,7 @@ module.exports = (function () {
 
             var PointMaterial = new THREE.PointsMaterial({
                 color: 0xFFFFFF,
-                size: 35,
+                size: 1,
                 blending: THREE.AdditiveBlending,
                 transparent: true,
                 sizeAttenuation: false,
@@ -51,12 +51,12 @@ module.exports = (function () {
                 var geo = new THREE.Geometry();
 
                 geo.vertices.push(
-                    new THREE.Vector3( -x,  y, z ),
-                    new THREE.Vector3( -x, -y, z ),
-                    new THREE.Vector3(  x, -y, -z )
+                    new THREE.Vector3(-x, y, z),
+                    new THREE.Vector3(-x, -y, z),
+                    new THREE.Vector3(x, -y, -z)
                 );
 
-                geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
+                geo.faces.push(new THREE.Face3(0, 1, 2));
 
                 geo.computeBoundingSphere();
 

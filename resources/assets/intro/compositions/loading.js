@@ -13,48 +13,88 @@ module.exports = function (e, scene, camera, elements) {
             //camera.position.z = 10;
             //camera.position.y = 50;
 
-            var mouse = e.module('mouse');
+            var mouse   = e.module('mouse'),
+                tween   = e.module('tween'),
+                checker = e.module('checker').class;
+
 
             mouse.click(elements.Cube, function (el) {
 
-                console.log('click')
+                console.log('click');
 
-                logo      = elements.Logo;
-                particles = elements.Particles;
+                var particles = elements.Particles,
+                    positions = particles.geometry.getAttribute('position'),
+                    time      = +new Date(),
+                    duration  = 6000;
 
-                var checker = e.module('checker').class;
+                //var final = new THREE.Vector3(Math.random() * 4, Math.random() * 4, Math.random() * 4);
 
-                checker.add(function(){
-                    for (var i = 0, len = particles.geometry.vertices.length; i < len; i++) {
+                var final = [];
 
-                        particles.geometry.vertices[i] = 0;
+                e.helpers.for(positions.count, function (i) {
+                    var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
+                    final[i]    = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
+                });
 
-                    }
+                tween.create(final, duration, function (obj, raw) {
 
-                    particles.verticesNeedUpdate = true;
-                })
+                    e.helpers.for(positions.count, function (i) {
 
+                        var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
 
-                //for (var i = 0, len = logo.geometry.attributes.position.length; i < len; i++) {
+                        positions.array[i * 3]     = initial.x + obj[i].x;
+                        positions.array[i * 3 + 1] = initial.y + obj[i].y;
+                        positions.array[i * 3 + 2] = initial.z + obj[i].z;
+
+                    });
+
+                    positions.needsUpdate = true;
+
+                });
+
+                //checker.add(function () {
                 //
-                //    var particle_vertice = logo.vertices[i],
-                //        //origin           = this.origins[i],
-                //        destination      = logo.geometry[i % (destinations_length)],
-                //        vector           = null;
+                //    positions.needsUpdate = true;
                 //
-                //    // Position
-                //    vector = new THREE.Vector3(
-                //        logo.position.x + destination.x,
-                //        logo.position.y + destination.y,
-                //        logo.position.z + destination.z
-                //    );
+                //    var elapsed_time = (+new Date()) - time;
                 //
-                //    particle_vertice.x = Easie['quintInOut'](0, 0, vector.x, 1);
-                //    particle_vertice.y = Easie['quintInOut'](0, 0, vector.y, 1);
-                //    particle_vertice.z = Easie['quintInOut'](0, 0, vector.z, 1);
+                //    if (elapsed_time < duration) {
                 //
-                //}
-
+                //        var progress = elapsed_time / duration;
+                //
+                //        e.helpers.for(positions.count, function (i) {
+                //
+                //            var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
+                //
+                //            var final = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
+                //
+                //            positions.array[i * 3]     = initial.x + Easie.quintInOut(progress, 0, final.x, 1);
+                //            positions.array[i * 3 + 1] = initial.y + Easie.quintInOut(progress, 0, final.y, 1);
+                //            positions.array[i * 3 + 2] = initial.z + Easie.quintInOut(progress, 0, final.z, 1);
+                //
+                //
+                //            //tween.add(vector, 2, {
+                //            //    x: vector.x * Math.random() * 3, onComplete: function () {
+                //            //
+                //            //    }, onUpdate: function () {
+                //            //        positions.array[i * 3] = vector.x;
+                //            //    }, ease: Power4.easeInOut
+                //            //});
+                //            //tween.add(vector, 2, {
+                //            //    y: vector.y * Math.random() * 3, onUpdate: function () {
+                //            //        positions.array[i * 3 + 1] = vector.y;
+                //            //    }, ease: Power4.easeInOut
+                //            //});
+                //            //tween.add(vector, 2, {
+                //            //    z: vector.z * Math.random() * 3, onUpdate: function () {
+                //            //        positions.array[i * 3 + 2] = vector.z;
+                //            //    }, ease: Power4.easeInOut
+                //            //});
+                //
+                //        });
+                //    }
+                //
+                //});
 
             });
 

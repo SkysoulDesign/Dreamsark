@@ -11,6 +11,7 @@
  * Set External Dependencies
  */
 THREE = require('THREE');
+require('GSAP'); //Tween
 
 /**
  * Get Engine
