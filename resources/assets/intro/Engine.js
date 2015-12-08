@@ -52,10 +52,10 @@ module.exports = (function () {
 
         },
 
-        start: function (e) {
+        start: function () {
 
             this.loader.on.start = function () {
-                document.querySelector('.body').style.display = 'none';
+                //document.querySelector('.body').style.display = 'block';
             };
 
             this.loader.on.progress = function () {
@@ -138,6 +138,7 @@ module.exports = (function () {
 
             var render = {
                 render: function () {
+
                     requestAnimationFrame(render.render);
 
                     /**
@@ -156,6 +157,7 @@ module.exports = (function () {
                     stats.update();
 
                     renderer.render(scene, camera);
+
                 }
             };
 

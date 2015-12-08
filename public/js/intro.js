@@ -43951,10 +43951,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"Particles":require("./elements/Particles.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"Particles":require("./elements/Particles.js")})}).elements;
 
 })(Engine);
-},{"./elements/Cube.js":12,"./elements/Dreamsark.js":13,"./elements/Logo.js":14,"./elements/Particles.js":15}],7:[function(require,module,exports){
+},{"./elements/Circle.js":12,"./elements/Cube.js":13,"./elements/Dreamsark.js":14,"./elements/Logo.js":15,"./elements/Particles.js":16}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44009,10 +44009,10 @@ module.exports = (function () {
 
         },
 
-        start: function (e) {
+        start: function () {
 
             this.loader.on.start = function () {
-                document.querySelector('.body').style.display = 'none';
+                //document.querySelector('.body').style.display = 'block';
             };
 
             this.loader.on.progress = function () {
@@ -44095,6 +44095,7 @@ module.exports = (function () {
 
             var render = {
                 render: function () {
+
                     requestAnimationFrame(render.render);
 
                     /**
@@ -44113,6 +44114,7 @@ module.exports = (function () {
                     stats.update();
 
                     renderer.render(scene, camera);
+
                 }
             };
 
@@ -44287,7 +44289,7 @@ module.exports = (function () {
     return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
 
 })();
-},{"./modules/Browser.js":17,"./modules/Camera.js":18,"./modules/Checker.js":19,"./modules/Compositor.js":20,"./modules/Events.js":21,"./modules/Loader.js":22,"./modules/Manager.js":23,"./modules/Mouse.js":24,"./modules/Raycaster.js":25,"./modules/Renderer.js":26,"./modules/Scene.js":27,"./modules/Stats.js":28,"./modules/Tween.js":29}],10:[function(require,module,exports){
+},{"./modules/Browser.js":18,"./modules/Camera.js":19,"./modules/Checker.js":20,"./modules/Compositor.js":21,"./modules/Events.js":22,"./modules/Loader.js":23,"./modules/Manager.js":24,"./modules/Mouse.js":25,"./modules/Raycaster.js":26,"./modules/Renderer.js":27,"./modules/Scene.js":28,"./modules/Stats.js":29,"./modules/Tween.js":30}],10:[function(require,module,exports){
 module.exports = (function () {
 
     /**
@@ -44296,33 +44298,113 @@ module.exports = (function () {
     return ({"plugins":({"OBJLoader":require("./plugins/OBJLoader.js"),"easie":require("./plugins/easie.js")})}).plugins;
 
 })();
-},{"./plugins/OBJLoader.js":30,"./plugins/easie.js":31}],11:[function(require,module,exports){
+},{"./plugins/OBJLoader.js":31,"./plugins/easie.js":32}],11:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
 
-        load: [elements.Cube, elements.Logo, elements.Particles],
+        /**
+         * Manually Load Assets
+         */
+        load: [elements.Cube, elements.Logo, elements.Particles, elements.Circle],
 
         setup: function () {
 
+            var mouse = e.module('mouse'),
+                tween = e.module('tween');
+
             /**
-             * Manually Load Assets
+             * Starting Logo
              */
-            //console.log('lelll')
-            //camera.position.z = 10;
-            //camera.position.y = 50;
+            var logo = elements.Logo;
+            logo.scale.set(.5, .5, .5);
+            logo.position.setY(2);
 
-            var mouse   = e.module('mouse'),
-                tween   = e.module('tween'),
-                checker = e.module('checker').class;
+            /**
+             * Play Button
+             */
+            var startButton = elements.Cube;
+            startButton.position.set(-2, -1, 0);
 
-            elements.Particles.rotateX(Math.PI / 2);
+            /**
+             * skip Button
+             */
+            var skipButton      = elements.Cube.clone();
+            skipButton.material = new THREE.MeshBasicMaterial({color: 0xFFE401, wireframe: true});
+            skipButton.position.set(2, -1, 0);
 
-            mouse.click(elements.Cube, function () {
+            /**
+             * Particles
+             */
+            var particles = elements.Particles;
+            particles.rotateX(Math.PI / 2);
 
-                var particles     = elements.Particles,
-                    logo          = elements.Logo,
-                    logoPositions = logo.geometry.getAttribute('position'),
+            mouse.click(startButton, function () {
+
+                console.log('click')
+
+                var buttonDestination = {
+                    start: startButton.position.x,
+                    skip: skipButton.position.x,
+                    scaleX: skipButton.scale.x,
+                    scaleY: skipButton.scale.y,
+                    opacity: 1
+                };
+
+                /**
+                 * Hide Buttons
+                 */
+                tween.add(buttonDestination, 1, {
+                    start: 0.1,
+                    skip: 0.1,
+                    opacity: 0,
+                    scaleX: 0.001,
+                    scaleY: 0.001,
+                    ease: Power3.easeInOut,
+                    onUpdate: function () {
+
+                        startButton.position.x = buttonDestination.start;
+                        skipButton.position.x  = skipButton.scale.x = buttonDestination.skip;
+
+                        startButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+                        skipButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+
+                        startButton.material.opacity = buttonDestination.opacity;
+                        skipButton.material.opacity  = buttonDestination.opacity;
+
+                    },
+                    onComplete: function () {
+
+                        /**
+                         * Remove From Scene when finish
+                         */
+                        scene.remove(startButton, skipButton);
+
+                    }
+                });
+
+                var counter = {
+                    scale: logo.scale.x,
+                    y: logo.position.y
+                };
+
+                /**
+                 * Tween Logo Back to 100%
+                 */
+                tween.add(counter, 1, {
+                    scale: 1,
+                    y: 0,
+                    ease: Power4.easeInOut,
+                    onUpdate: function () {
+                        logo.scale.set(counter.scale, counter.scale, counter.scale);
+                        logo.position.y = counter.y;
+                    }
+                });
+
+                /**
+                 * Particles Cloud
+                 */
+                var logoPositions = logo.geometry.getAttribute('position'),
                     positions     = particles.geometry.getAttribute('position'),
                     origin        = positions.array.slice();
 
@@ -44340,7 +44422,7 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
-                tween.create(final, 1, function (obj) {
+                tween.create(final, 2, function (obj) {
 
                     e.helpers.for(positions.count, function (i) {
 
@@ -44354,15 +44436,27 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
+                /**
+                 * Start Loading
+                 */
+                e.start();
+
+                /**
+                 * Remove Click Event
+                 */
+                return true;
+
             });
 
-            scene.add(elements.Particles, elements.Cube);
+            scene.add(logo, particles, startButton, skipButton);
 
         },
 
         share: function () {
             return {}
-        },
+        }
+
+        ,
 
         animation: function () {
 
@@ -44373,8 +44467,34 @@ module.exports = function (e, scene, camera, elements) {
 
     };
 
-};
+}
+;
 },{}],12:[function(require,module,exports){
+module.exports = (function () {
+
+    return {
+
+        name: 'Circle',
+
+        create: function (e, maps, share) {
+
+            var material = new THREE.MeshBasicMaterial({
+                color: 0x0000ff
+            });
+
+            var radius   = 5;
+            var segments = 32;
+
+            var circleGeometry = new THREE.CircleGeometry(radius, segments);
+
+            return new THREE.Mesh(circleGeometry, material);
+
+        }
+
+    }
+
+})();
+},{}],13:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44401,8 +44521,8 @@ module.exports = (function () {
 
         create: function (e, maps, share) {
 
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+            var geometry = new THREE.BoxGeometry(3, 1, 1);
+            var material = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, wireframe: true});
             return new THREE.Mesh(geometry, material);
 
         }
@@ -44410,7 +44530,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44445,7 +44565,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44477,7 +44597,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = (function () {
 
     var maxParticleCount = 6318;
@@ -44535,7 +44655,7 @@ module.exports = (function () {
     }
 
 })();
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Caption
  *
@@ -44564,7 +44684,7 @@ var start = function () {
 
 var trigger = document.querySelector('#trigger');
 trigger.addEventListener('click', start, false);
-},{"./Engine":7,"GSAP":1,"THREE":2}],17:[function(require,module,exports){
+},{"./Engine":7,"GSAP":1,"THREE":2}],18:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -44597,7 +44717,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -44661,7 +44781,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -44706,7 +44826,7 @@ module.exports = (function (e) {
     }
 
 })(Engine);
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.compositor = {
@@ -44792,7 +44912,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"./../Compositions":4}],21:[function(require,module,exports){
+},{"./../Compositions":4}],22:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -44823,7 +44943,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.loader = {
@@ -45006,7 +45126,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.manager = {
@@ -45058,7 +45178,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -45206,7 +45326,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -45366,7 +45486,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = (function (e) {
 
     return e.renderer = {
@@ -45414,7 +45534,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -45451,7 +45571,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -45479,7 +45599,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{"stats.js":3}],29:[function(require,module,exports){
+},{"stats.js":3}],30:[function(require,module,exports){
 module.exports = (function (e) {
 
     /**
@@ -45553,7 +45673,7 @@ module.exports = (function (e) {
     };
 
 })(Engine);
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * @author mrdoob / http://mrdoob.com/
  */
@@ -45937,7 +46057,7 @@ THREE.OBJLoader.prototype = {
 
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function() {
   /*
   Easie.coffee (https://github.com/jimjeffers/Easie)
@@ -46186,4 +46306,4 @@ THREE.OBJLoader.prototype = {
   })();
 }).call(this);
 
-},{}]},{},[16])
+},{}]},{},[17])

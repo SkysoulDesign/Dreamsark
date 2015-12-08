@@ -2,28 +2,108 @@ module.exports = function (e, scene, camera, elements) {
 
     return {
 
-        load: [elements.Cube, elements.Logo, elements.Particles],
+        /**
+         * Manually Load Assets
+         */
+        load: [elements.Cube, elements.Logo, elements.Particles, elements.Circle],
 
         setup: function () {
 
+            var mouse = e.module('mouse'),
+                tween = e.module('tween');
+
             /**
-             * Manually Load Assets
+             * Starting Logo
              */
-            //console.log('lelll')
-            //camera.position.z = 10;
-            //camera.position.y = 50;
+            var logo = elements.Logo;
+            logo.scale.set(.5, .5, .5);
+            logo.position.setY(2);
 
-            var mouse   = e.module('mouse'),
-                tween   = e.module('tween'),
-                checker = e.module('checker').class;
+            /**
+             * Play Button
+             */
+            var startButton = elements.Cube;
+            startButton.position.set(-2, -1, 0);
 
-            elements.Particles.rotateX(Math.PI / 2);
+            /**
+             * skip Button
+             */
+            var skipButton      = elements.Cube.clone();
+            skipButton.material = new THREE.MeshBasicMaterial({color: 0xFFE401, wireframe: true});
+            skipButton.position.set(2, -1, 0);
 
-            mouse.click(elements.Cube, function () {
+            /**
+             * Particles
+             */
+            var particles = elements.Particles;
+            particles.rotateX(Math.PI / 2);
 
-                var particles     = elements.Particles,
-                    logo          = elements.Logo,
-                    logoPositions = logo.geometry.getAttribute('position'),
+            mouse.click(startButton, function () {
+
+                console.log('click')
+
+                var buttonDestination = {
+                    start: startButton.position.x,
+                    skip: skipButton.position.x,
+                    scaleX: skipButton.scale.x,
+                    scaleY: skipButton.scale.y,
+                    opacity: 1
+                };
+
+                /**
+                 * Hide Buttons
+                 */
+                tween.add(buttonDestination, 1, {
+                    start: 0.1,
+                    skip: 0.1,
+                    opacity: 0,
+                    scaleX: 0.001,
+                    scaleY: 0.001,
+                    ease: Power3.easeInOut,
+                    onUpdate: function () {
+
+                        startButton.position.x = buttonDestination.start;
+                        skipButton.position.x  = skipButton.scale.x = buttonDestination.skip;
+
+                        startButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+                        skipButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+
+                        startButton.material.opacity = buttonDestination.opacity;
+                        skipButton.material.opacity  = buttonDestination.opacity;
+
+                    },
+                    onComplete: function () {
+
+                        /**
+                         * Remove From Scene when finish
+                         */
+                        scene.remove(startButton, skipButton);
+
+                    }
+                });
+
+                var counter = {
+                    scale: logo.scale.x,
+                    y: logo.position.y
+                };
+
+                /**
+                 * Tween Logo Back to 100%
+                 */
+                tween.add(counter, 1, {
+                    scale: 1,
+                    y: 0,
+                    ease: Power4.easeInOut,
+                    onUpdate: function () {
+                        logo.scale.set(counter.scale, counter.scale, counter.scale);
+                        logo.position.y = counter.y;
+                    }
+                });
+
+                /**
+                 * Particles Cloud
+                 */
+                var logoPositions = logo.geometry.getAttribute('position'),
                     positions     = particles.geometry.getAttribute('position'),
                     origin        = positions.array.slice();
 
@@ -41,7 +121,7 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
-                tween.create(final, 1, function (obj) {
+                tween.create(final, 2, function (obj) {
 
                     e.helpers.for(positions.count, function (i) {
 
@@ -55,15 +135,27 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
+                /**
+                 * Start Loading
+                 */
+                e.start();
+
+                /**
+                 * Remove Click Event
+                 */
+                return true;
+
             });
 
-            scene.add(elements.Particles, elements.Cube);
+            scene.add(logo, particles, startButton, skipButton);
 
         },
 
         share: function () {
             return {}
-        },
+        }
+
+        ,
 
         animation: function () {
 
@@ -74,4 +166,5 @@ module.exports = function (e, scene, camera, elements) {
 
     };
 
-};
+}
+;
