@@ -1,6 +1,7 @@
 module.exports = (function (e) {
 
     return e.loader = {
+
         /**
          * public property
          */

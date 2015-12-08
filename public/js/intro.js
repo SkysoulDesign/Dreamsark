@@ -44844,7 +44844,7 @@ module.exports = (function (e) {
 
         init: function () {
 
-            this.compositions = require('./../Compositions')
+            this.compositions = require('./../Compositions');
             this.order        = e.configs.compositions;
             this.compositor   = this;
 
@@ -44947,6 +44947,7 @@ module.exports = (function (e) {
 module.exports = (function (e) {
 
     return e.loader = {
+
         /**
          * public property
          */

@@ -15,7 +15,7 @@ module.exports = (function (e) {
 
         init: function () {
 
-            this.compositions = require('./../Compositions')
+            this.compositions = require('./../Compositions');
             this.order        = e.configs.compositions;
             this.compositor   = this;
 
