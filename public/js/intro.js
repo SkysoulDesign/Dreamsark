@@ -44480,8 +44480,8 @@ module.exports = (function () {
 },{}],15:[function(require,module,exports){
 module.exports = (function () {
 
-    var maxParticleCount = 264;
-    var radius           = 50;
+    var maxParticleCount = 6318;
+    var radius           = 200;
 
     return {
 
