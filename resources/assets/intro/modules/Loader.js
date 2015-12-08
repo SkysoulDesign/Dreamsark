@@ -33,6 +33,8 @@ module.exports = (function (e) {
              */
             this.objLoader = new THREE.OBJLoader(manager);
 
+            seila = []
+
         },
 
         /**
@@ -59,18 +61,22 @@ module.exports = (function (e) {
              */
             if (e.helpers.isFunction(elements.create)) {
 
-                var name      = e.helpers.captalize(elements.name);
-                var element   = {};
+                var name    = e.helpers.captalize(elements.name),
+                    element = {};
+
                 element[name] = elements;
 
+                /**
+                 * send again but this time send as an object with no create method
+                 */
                 this.load(element);
 
-                return e.helpers.extend(e.elements, element);
+                return;
 
             }
 
             /**
-             * only pass if it`s object and doesn't have create method so i assume it is an object of elements
+             * only pass if it`s object and doesn't have create method so i assume it is an object of objects
              */
             e.helpers.keys(elements, function (el) {
 
@@ -108,20 +114,7 @@ module.exports = (function (e) {
                      */
                     if (loaded++ == length - 1) {
 
-                        var element     = elementsBag.el.create(e, elementsBag.userData, elementsBag.maps, elementsBag.objs),
-                            elementName = e.helpers.captalize(elementsBag.el.name);
-
-                        /**
-                         * Default behaviors
-                         */
-                        element.name = elementName;
-                        element.userData = e.helpers.extend(elementsBag.userData, element.userData);
-
-                        /**
-                         * Append to the global Elements
-                         * @type {Engine}
-                         */
-                        e.elements[elementName] = element;
+                        this.create(elementsBag);
 
                         if (this.count-- == 1)
                             this.complete = true;
@@ -152,6 +145,9 @@ module.exports = (function (e) {
 
                     var maps = el.maps();
 
+                    /**
+                     * Defines how many items it should wait to complete
+                     */
                     length += e.helpers.length(maps);
 
                     e.helpers.keys(maps, function (path, name) {
@@ -175,7 +171,32 @@ module.exports = (function (e) {
 
                 }
 
+                /**
+                 * if there is no Objs or Maps just create it straight away then
+                 */
+                if (!e.helpers.isFunction(el.objs) && !e.helpers.isFunction(el.maps))
+                    this.create(elementsBag);
+
             }, this);
+        },
+
+        create: function (elementsBag) {
+
+            var element     = elementsBag.el.create(e, elementsBag.userData, elementsBag.maps, elementsBag.objs),
+                elementName = e.helpers.captalize(elementsBag.el.name);
+
+            /**
+             * Default behaviors
+             */
+            element.name = elementName;
+            element.userData = e.helpers.extend(elementsBag.userData, element.userData);
+
+            /**
+             * Append to the global Elements
+             * @type {Engine}
+             */
+            e.elements[elementName] = element;
+
         }
 
     };

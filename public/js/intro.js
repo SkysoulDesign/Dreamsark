@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions/loading.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions\\loading.js")})}).compositions;
 
 })();
-},{"./compositions/loading.js":11}],5:[function(require,module,exports){
+},{"./compositions\\loading.js":11}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43951,10 +43951,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"Particles":require("./elements/Particles.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements\\Circle.js"),"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"Particles":require("./elements\\Particles.js")})}).elements;
 
 })(Engine);
-},{"./elements/Circle.js":12,"./elements/Cube.js":13,"./elements/Dreamsark.js":14,"./elements/Logo.js":15,"./elements/Particles.js":16}],7:[function(require,module,exports){
+},{"./elements\\Circle.js":12,"./elements\\Cube.js":13,"./elements\\Dreamsark.js":14,"./elements\\Logo.js":15,"./elements\\Particles.js":16}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44286,19 +44286,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
 
 })();
-},{"./modules/Browser.js":18,"./modules/Camera.js":19,"./modules/Checker.js":20,"./modules/Compositor.js":21,"./modules/Events.js":22,"./modules/Loader.js":23,"./modules/Manager.js":24,"./modules/Mouse.js":25,"./modules/Raycaster.js":26,"./modules/Renderer.js":27,"./modules/Scene.js":28,"./modules/Stats.js":29,"./modules/Tween.js":30}],10:[function(require,module,exports){
+},{"./modules\\Browser.js":18,"./modules\\Camera.js":19,"./modules\\Checker.js":20,"./modules\\Compositor.js":21,"./modules\\Events.js":22,"./modules\\Loader.js":23,"./modules\\Manager.js":24,"./modules\\Mouse.js":25,"./modules\\Raycaster.js":26,"./modules\\Renderer.js":27,"./modules\\Scene.js":28,"./modules\\Stats.js":29,"./modules\\Tween.js":30}],10:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"OBJLoader":require("./plugins/OBJLoader.js"),"easie":require("./plugins/easie.js")})}).plugins;
+    return ({"plugins":({"OBJLoader":require("./plugins\\OBJLoader.js"),"easie":require("./plugins\\easie.js")})}).plugins;
 
 })();
-},{"./plugins/OBJLoader.js":31,"./plugins/easie.js":32}],11:[function(require,module,exports){
+},{"./plugins\\OBJLoader.js":31,"./plugins\\easie.js":32}],11:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44339,9 +44339,12 @@ module.exports = function (e, scene, camera, elements) {
             var particles = elements.Particles;
             particles.rotateX(Math.PI / 2);
 
+            /**
+             * When Click on the start button
+             */
             mouse.click(startButton, function () {
 
-                console.log('click')
+                console.log('click');
 
                 var buttonDestination = {
                     start: startButton.position.x,
@@ -44578,6 +44581,12 @@ module.exports = (function () {
             }
         },
 
+        maps: function () {
+            return {
+                spark: 'lib/spark.png'
+            }
+        },
+
         create: function (e, share, maps, objs) {
 
             var material = new THREE.MeshBasicMaterial({
@@ -44588,7 +44597,7 @@ module.exports = (function () {
             objs.logo.rotation.x = -Math.PI / 2;
             objs.logo.material   = material;
             //objs.logo.scale.multiplyScalar(3);
-            objs.logo.geometry.scale(3,3,3);
+            objs.logo.geometry.scale(3, 3, 3);
 
             return objs.logo;
 
@@ -44848,6 +44857,9 @@ module.exports = (function (e) {
             this.order        = e.configs.compositions;
             this.compositor   = this;
 
+            /**
+             * Setup right after init so it will start the loading composition as default
+             */
             this.setup();
 
         },
@@ -44855,7 +44867,7 @@ module.exports = (function (e) {
         setup: function (composition) {
 
             /**
-             * Set the first composition if is not set
+             * Set the first composition if none is set
              */
             if (e.helpers.isNull(composition)) {
                 return this.setup(this.compositions[this.order[0]]);
@@ -44870,12 +44882,13 @@ module.exports = (function (e) {
                     /**
                      * Initialize comp
                      */
-                    comp     = composition(e, scene, camera, elements);
+                    comp     = composition(e, scene, camera, elements),
+                    loader   = e.module('loader').class;
 
                 /**
                  * Load comp dependencies
                  */
-                e.loader.load(comp.load);
+                loader.load(comp.load);
 
                 return this.setup(comp);
 
@@ -44886,7 +44899,9 @@ module.exports = (function (e) {
              */
             e.checker.add(function () {
 
-                if (e.helpers.isObject(composition) && e.loader.complete) {
+                var loader = e.module('loader').class;
+
+                if (e.helpers.isObject(composition) && loader.complete) {
 
                     this.active = composition;
                     this.active.setup();
@@ -44979,6 +44994,8 @@ module.exports = (function (e) {
              */
             this.objLoader = new THREE.OBJLoader(manager);
 
+            seila = []
+
         },
 
         /**
@@ -45005,18 +45022,22 @@ module.exports = (function (e) {
              */
             if (e.helpers.isFunction(elements.create)) {
 
-                var name      = e.helpers.captalize(elements.name);
-                var element   = {};
+                var name    = e.helpers.captalize(elements.name),
+                    element = {};
+
                 element[name] = elements;
 
+                /**
+                 * send again but this time send as an object with no create method
+                 */
                 this.load(element);
 
-                return e.helpers.extend(e.elements, element);
+                return;
 
             }
 
             /**
-             * only pass if it`s object and doesn't have create method so i assume it is an object of elements
+             * only pass if it`s object and doesn't have create method so i assume it is an object of objects
              */
             e.helpers.keys(elements, function (el) {
 
@@ -45054,20 +45075,7 @@ module.exports = (function (e) {
                      */
                     if (loaded++ == length - 1) {
 
-                        var element     = elementsBag.el.create(e, elementsBag.userData, elementsBag.maps, elementsBag.objs),
-                            elementName = e.helpers.captalize(elementsBag.el.name);
-
-                        /**
-                         * Default behaviors
-                         */
-                        element.name = elementName;
-                        element.userData = e.helpers.extend(elementsBag.userData, element.userData);
-
-                        /**
-                         * Append to the global Elements
-                         * @type {Engine}
-                         */
-                        e.elements[elementName] = element;
+                        this.create(elementsBag);
 
                         if (this.count-- == 1)
                             this.complete = true;
@@ -45098,6 +45106,9 @@ module.exports = (function (e) {
 
                     var maps = el.maps();
 
+                    /**
+                     * Defines how many items it should wait to complete
+                     */
                     length += e.helpers.length(maps);
 
                     e.helpers.keys(maps, function (path, name) {
@@ -45121,7 +45132,32 @@ module.exports = (function (e) {
 
                 }
 
+                /**
+                 * if there is no Objs or Maps just create it straight away then
+                 */
+                if (!e.helpers.isFunction(el.objs) && !e.helpers.isFunction(el.maps))
+                    this.create(elementsBag);
+
             }, this);
+        },
+
+        create: function (elementsBag) {
+
+            var element     = elementsBag.el.create(e, elementsBag.userData, elementsBag.maps, elementsBag.objs),
+                elementName = e.helpers.captalize(elementsBag.el.name);
+
+            /**
+             * Default behaviors
+             */
+            element.name = elementName;
+            element.userData = e.helpers.extend(elementsBag.userData, element.userData);
+
+            /**
+             * Append to the global Elements
+             * @type {Engine}
+             */
+            e.elements[elementName] = element;
+
         }
 
     };
@@ -45377,6 +45413,9 @@ module.exports = (function (e) {
 
         click: function (element, callback, context) {
 
+            /**
+             * Push Element to Collection
+             */
             this.add(element);
 
             this.clicksBag.push({
@@ -45399,6 +45438,11 @@ module.exports = (function (e) {
                 type: 'mousemove'
             });
 
+        },
+
+        resetWatcher: function () {
+            this.watcher.click     = false;
+            this.watcher.mousemove = false;
         },
 
         add: function (element) {
@@ -45479,6 +45523,11 @@ module.exports = (function (e) {
                     }
 
                 }, this);
+
+                /**
+                 * Reset Watcher
+                 */
+                this.resetWatcher();
 
             }, this);
 

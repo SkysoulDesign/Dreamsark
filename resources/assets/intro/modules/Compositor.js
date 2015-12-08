@@ -19,6 +19,9 @@ module.exports = (function (e) {
             this.order        = e.configs.compositions;
             this.compositor   = this;
 
+            /**
+             * Setup right after init so it will start the loading composition as default
+             */
             this.setup();
 
         },
@@ -26,7 +29,7 @@ module.exports = (function (e) {
         setup: function (composition) {
 
             /**
-             * Set the first composition if is not set
+             * Set the first composition if none is set
              */
             if (e.helpers.isNull(composition)) {
                 return this.setup(this.compositions[this.order[0]]);
@@ -41,12 +44,13 @@ module.exports = (function (e) {
                     /**
                      * Initialize comp
                      */
-                    comp     = composition(e, scene, camera, elements);
+                    comp     = composition(e, scene, camera, elements),
+                    loader   = e.module('loader').class;
 
                 /**
                  * Load comp dependencies
                  */
-                e.loader.load(comp.load);
+                loader.load(comp.load);
 
                 return this.setup(comp);
 
@@ -57,7 +61,9 @@ module.exports = (function (e) {
              */
             e.checker.add(function () {
 
-                if (e.helpers.isObject(composition) && e.loader.complete) {
+                var loader = e.module('loader').class;
+
+                if (e.helpers.isObject(composition) && loader.complete) {
 
                     this.active = composition;
                     this.active.setup();

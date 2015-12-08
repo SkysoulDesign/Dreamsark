@@ -47,6 +47,9 @@ module.exports = (function (e) {
 
         click: function (element, callback, context) {
 
+            /**
+             * Push Element to Collection
+             */
             this.add(element);
 
             this.clicksBag.push({
@@ -69,6 +72,11 @@ module.exports = (function (e) {
                 type: 'mousemove'
             });
 
+        },
+
+        resetWatcher: function () {
+            this.watcher.click     = false;
+            this.watcher.mousemove = false;
         },
 
         add: function (element) {
@@ -149,6 +157,11 @@ module.exports = (function (e) {
                     }
 
                 }, this);
+
+                /**
+                 * Reset Watcher
+                 */
+                this.resetWatcher();
 
             }, this);
 

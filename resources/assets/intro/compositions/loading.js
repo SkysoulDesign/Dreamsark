@@ -38,9 +38,12 @@ module.exports = function (e, scene, camera, elements) {
             var particles = elements.Particles;
             particles.rotateX(Math.PI / 2);
 
+            /**
+             * When Click on the start button
+             */
             mouse.click(startButton, function () {
 
-                console.log('click')
+                console.log('click');
 
                 var buttonDestination = {
                     start: startButton.position.x,
