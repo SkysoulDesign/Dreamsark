@@ -124,7 +124,7 @@ module.exports = (function () {
 
         },
 
-        render: function () {
+        render: function (time) {
 
             /**
              * Init Modules on Render Time

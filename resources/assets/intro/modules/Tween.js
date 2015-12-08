@@ -11,33 +11,45 @@ module.exports = (function (e) {
             this.tween = this;
         },
 
-        create: function (obj, duration, callback, context) {
+        create: function (obj, ease, callback, context) {
 
             /**
-             * todo find a better way to the time... maybe get the delta from the renderer
+             * if not an object then assume it is a duration only
+             */
+            if (!e.helpers.isObject(ease))
+                ease = {duration: ease};
+
+            var defaults = {
+                begin: 0,
+                ease: 'quintInOut',
+                duration: 1
+            };
+
+            e.helpers.extend(defaults, ease);
+
+            /**
+             * amplify to time base
              * @type {number}
              */
-            var time        = +new Date(),
-                toEasyLater = {};
+            defaults.duration *= 1000;
 
-            var checker = e.module('checker').class;
+            var instance = {},
+                checker  = e.module('checker').class;
 
-            checker.add(function () {
+            checker.add(function (elapsed_time) {
 
-                var elapsed_time = (+new Date()) - time;
+                if (elapsed_time <= defaults.duration) {
 
-                if (elapsed_time < duration) {
+                    var progress = elapsed_time / defaults.duration;
 
-                    var progress = elapsed_time / duration;
-
-                    toEasyLater = e.helpers.map(obj, function (value, key) {
-                        return Easie.quintInOut(progress, 0, value, 1);
+                    instance = e.helpers.map(obj, function (value) {
+                        return Easie[defaults.ease](progress, defaults.begin, value, 1);
                     });
 
                     /**
                      * Call the Call Back
                      */
-                    callback.call(context || e, toEasyLater);
+                    callback.call(context || e, instance);
 
                 } else {
 
@@ -49,31 +61,6 @@ module.exports = (function (e) {
                 }
 
             }, this);
-
-        },
-
-        map: function (obj, progress) {
-
-            var toEasyLater = {};
-
-            /**
-             * Loop on every property and set them accordingly
-             */
-            e.helpers.keys(obj, function (el, index) {
-
-                /**
-                 * if it's an object, map again
-                 */
-                if (e.helpers.isObject(el)) {
-                    return toEasyLater[index] = this.map(el, progress);
-                } else {
-                    toEasyLater[index] = Easie.quintInOut(progress, 0, el, 1)
-                }
-
-
-            }, this);
-
-            return toEasyLater;
 
         },
 

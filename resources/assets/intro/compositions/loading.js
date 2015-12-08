@@ -17,34 +17,37 @@ module.exports = function (e, scene, camera, elements) {
                 tween   = e.module('tween'),
                 checker = e.module('checker').class;
 
+            elements.Particles.rotateX(Math.PI / 2);
 
-            mouse.click(elements.Cube, function (el) {
+            mouse.click(elements.Cube, function () {
 
-                console.log('click');
-
-                var particles = elements.Particles,
-                    positions = particles.geometry.getAttribute('position'),
-                    time      = +new Date(),
-                    duration  = 6000;
-
-                //var final = new THREE.Vector3(Math.random() * 4, Math.random() * 4, Math.random() * 4);
+                var particles     = elements.Particles,
+                    logo          = elements.Logo,
+                    logoPositions = logo.geometry.getAttribute('position'),
+                    positions     = particles.geometry.getAttribute('position'),
+                    origin        = positions.array.slice();
 
                 var final = [];
 
                 e.helpers.for(positions.count, function (i) {
-                    var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-                    final[i]    = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
+
+                    var destination = new THREE.Vector3();
+
+                    destination.x = origin[i * 3] + logoPositions.array[i * 3];
+                    destination.y = origin[i * 3 + 1] + logoPositions.array[i * 3 + 1];
+                    destination.z = origin[i * 3 + 2] + logoPositions.array[i * 3 + 2];
+
+                    final.push(destination);
+
                 });
 
-                tween.create(final, duration, function (obj, raw) {
+                tween.create(final, 1, function (obj) {
 
                     e.helpers.for(positions.count, function (i) {
 
-                        var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-
-                        positions.array[i * 3]     = initial.x + obj[i].x;
-                        positions.array[i * 3 + 1] = initial.y + obj[i].y;
-                        positions.array[i * 3 + 2] = initial.z + obj[i].z;
+                        positions.array[i * 3]     = origin[i * 3] - obj[i].x;
+                        positions.array[i * 3 + 1] = origin[i * 3 + 1] - obj[i].y;
+                        positions.array[i * 3 + 2] = origin[i * 3 + 2] - obj[i].z;
 
                     });
 
@@ -52,63 +55,9 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
-                //checker.add(function () {
-                //
-                //    positions.needsUpdate = true;
-                //
-                //    var elapsed_time = (+new Date()) - time;
-                //
-                //    if (elapsed_time < duration) {
-                //
-                //        var progress = elapsed_time / duration;
-                //
-                //        e.helpers.for(positions.count, function (i) {
-                //
-                //            var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-                //
-                //            var final = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
-                //
-                //            positions.array[i * 3]     = initial.x + Easie.quintInOut(progress, 0, final.x, 1);
-                //            positions.array[i * 3 + 1] = initial.y + Easie.quintInOut(progress, 0, final.y, 1);
-                //            positions.array[i * 3 + 2] = initial.z + Easie.quintInOut(progress, 0, final.z, 1);
-                //
-                //
-                //            //tween.add(vector, 2, {
-                //            //    x: vector.x * Math.random() * 3, onComplete: function () {
-                //            //
-                //            //    }, onUpdate: function () {
-                //            //        positions.array[i * 3] = vector.x;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //            //tween.add(vector, 2, {
-                //            //    y: vector.y * Math.random() * 3, onUpdate: function () {
-                //            //        positions.array[i * 3 + 1] = vector.y;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //            //tween.add(vector, 2, {
-                //            //    z: vector.z * Math.random() * 3, onUpdate: function () {
-                //            //        positions.array[i * 3 + 2] = vector.z;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //
-                //        });
-                //    }
-                //
-                //});
-
             });
 
-
-            //mouse.add.click(function (event) {
-            //    console.log(event);
-            //});
-
-            //elements.Logo.position.y = 3;
-            //elements.Cube.position.y = 3;
-
-            //camera.target = elements.Logo.position.clone();
             scene.add(elements.Particles, elements.Cube);
-
 
         },
 

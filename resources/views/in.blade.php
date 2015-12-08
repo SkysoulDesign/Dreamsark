@@ -8,10 +8,10 @@
 
         <div class="body">
             <div class="logo">
-{{--                <img src="{{ asset('img/start/logo.png')  }}" alt="">--}}
+                {{--<img src="{{ asset('img/start/logo.png')  }}" alt="">--}}
             </div>
 
-            <form action="{{ route('intro.skip') }}" method="post" style="display: none">
+            <form action="{{ route('intro.skip') }}" method="post" style="display:none">
                 {{ csrf_field() }}
                 <input type="hidden" name="skip" value="true">
                 <a id="trigger" href="#" class="button white round medium">Start Journey</a>
@@ -22,10 +22,10 @@
 
     </section>
 
-@endsection
+    @endsection
 
-@section('scripts')
-        <!-- SHADER -->
+    @section('scripts')
+            <!-- SHADER -->
     <script type="x-shader/x-vertex" id="vertexshader">
 
         //
@@ -184,6 +184,8 @@
             gl_Position = projectionMatrix * mvPosition;
 
         }
+
+
     </script>
 
     <script type="x-shader/x-fragment" id="fragmentshader">
@@ -198,6 +200,9 @@
             // sets a white particle texture to desired color
             gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
         }
+
+
     </script>
     <script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>
+
 @endsection

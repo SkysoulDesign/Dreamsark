@@ -1,8 +1,7 @@
 module.exports = (function () {
 
-    var maxParticleCount = 10;
-    var radius           = 10;
-    var particleCount    = 500;
+    var maxParticleCount = 264;
+    var radius           = 50;
 
     return {
 
@@ -10,17 +9,19 @@ module.exports = (function () {
 
         maps: function () {
             return {
-                spark: 'lib/spark-9.png'
+                spark: 'lib/spark.png'
             }
         },
 
         create: function (e, share, maps, objs) {
 
             var PointMaterial = new THREE.PointsMaterial({
-                color: 0x000000,
-                size: 5,
-                //blending: THREE.MultiplyBlending,
-                //map: maps.spark,
+                //color: 0x000000,
+                size: 0.5,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                map: maps.spark,
+                alphaTest: 0.5,
                 sizeAttenuation: true
 
             });

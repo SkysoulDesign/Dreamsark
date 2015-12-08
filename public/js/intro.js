@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions\\loading.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions/loading.js")})}).compositions;
 
 })();
-},{"./compositions\\loading.js":11}],5:[function(require,module,exports){
+},{"./compositions/loading.js":11}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43951,10 +43951,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"Particles":require("./elements\\Particles.js")})}).elements;
+    return e.elements = ({"elements":({"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"Particles":require("./elements/Particles.js")})}).elements;
 
 })(Engine);
-},{"./elements\\Cube.js":12,"./elements\\Dreamsark.js":13,"./elements\\Logo.js":14,"./elements\\Particles.js":15}],7:[function(require,module,exports){
+},{"./elements/Cube.js":12,"./elements/Dreamsark.js":13,"./elements/Logo.js":14,"./elements/Particles.js":15}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44081,7 +44081,7 @@ module.exports = (function () {
 
         },
 
-        render: function () {
+        render: function (time) {
 
             /**
              * Init Modules on Render Time
@@ -44284,19 +44284,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
 
 })();
-},{"./modules\\Browser.js":17,"./modules\\Camera.js":18,"./modules\\Checker.js":19,"./modules\\Compositor.js":20,"./modules\\Events.js":21,"./modules\\Loader.js":22,"./modules\\Manager.js":23,"./modules\\Mouse.js":24,"./modules\\Raycaster.js":25,"./modules\\Renderer.js":26,"./modules\\Scene.js":27,"./modules\\Stats.js":28,"./modules\\Tween.js":29}],10:[function(require,module,exports){
+},{"./modules/Browser.js":17,"./modules/Camera.js":18,"./modules/Checker.js":19,"./modules/Compositor.js":20,"./modules/Events.js":21,"./modules/Loader.js":22,"./modules/Manager.js":23,"./modules/Mouse.js":24,"./modules/Raycaster.js":25,"./modules/Renderer.js":26,"./modules/Scene.js":27,"./modules/Stats.js":28,"./modules/Tween.js":29}],10:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"OBJLoader":require("./plugins\\OBJLoader.js"),"easie":require("./plugins\\easie.js")})}).plugins;
+    return ({"plugins":({"OBJLoader":require("./plugins/OBJLoader.js"),"easie":require("./plugins/easie.js")})}).plugins;
 
 })();
-},{"./plugins\\OBJLoader.js":30,"./plugins\\easie.js":31}],11:[function(require,module,exports){
+},{"./plugins/OBJLoader.js":30,"./plugins/easie.js":31}],11:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44316,34 +44316,37 @@ module.exports = function (e, scene, camera, elements) {
                 tween   = e.module('tween'),
                 checker = e.module('checker').class;
 
+            elements.Particles.rotateX(Math.PI / 2);
 
-            mouse.click(elements.Cube, function (el) {
+            mouse.click(elements.Cube, function () {
 
-                console.log('click');
-
-                var particles = elements.Particles,
-                    positions = particles.geometry.getAttribute('position'),
-                    time      = +new Date(),
-                    duration  = 6000;
-
-                //var final = new THREE.Vector3(Math.random() * 4, Math.random() * 4, Math.random() * 4);
+                var particles     = elements.Particles,
+                    logo          = elements.Logo,
+                    logoPositions = logo.geometry.getAttribute('position'),
+                    positions     = particles.geometry.getAttribute('position'),
+                    origin        = positions.array.slice();
 
                 var final = [];
 
                 e.helpers.for(positions.count, function (i) {
-                    var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-                    final[i]    = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
+
+                    var destination = new THREE.Vector3();
+
+                    destination.x = origin[i * 3] + logoPositions.array[i * 3];
+                    destination.y = origin[i * 3 + 1] + logoPositions.array[i * 3 + 1];
+                    destination.z = origin[i * 3 + 2] + logoPositions.array[i * 3 + 2];
+
+                    final.push(destination);
+
                 });
 
-                tween.create(final, duration, function (obj, raw) {
+                tween.create(final, 1, function (obj) {
 
                     e.helpers.for(positions.count, function (i) {
 
-                        var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-
-                        positions.array[i * 3]     = initial.x + obj[i].x;
-                        positions.array[i * 3 + 1] = initial.y + obj[i].y;
-                        positions.array[i * 3 + 2] = initial.z + obj[i].z;
+                        positions.array[i * 3]     = origin[i * 3] - obj[i].x;
+                        positions.array[i * 3 + 1] = origin[i * 3 + 1] - obj[i].y;
+                        positions.array[i * 3 + 2] = origin[i * 3 + 2] - obj[i].z;
 
                     });
 
@@ -44351,63 +44354,9 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
-                //checker.add(function () {
-                //
-                //    positions.needsUpdate = true;
-                //
-                //    var elapsed_time = (+new Date()) - time;
-                //
-                //    if (elapsed_time < duration) {
-                //
-                //        var progress = elapsed_time / duration;
-                //
-                //        e.helpers.for(positions.count, function (i) {
-                //
-                //            var initial = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
-                //
-                //            var final = new THREE.Vector3(initial.x * Math.random() * 4, initial.y * Math.random() * 4, initial.z * Math.random() * 4)
-                //
-                //            positions.array[i * 3]     = initial.x + Easie.quintInOut(progress, 0, final.x, 1);
-                //            positions.array[i * 3 + 1] = initial.y + Easie.quintInOut(progress, 0, final.y, 1);
-                //            positions.array[i * 3 + 2] = initial.z + Easie.quintInOut(progress, 0, final.z, 1);
-                //
-                //
-                //            //tween.add(vector, 2, {
-                //            //    x: vector.x * Math.random() * 3, onComplete: function () {
-                //            //
-                //            //    }, onUpdate: function () {
-                //            //        positions.array[i * 3] = vector.x;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //            //tween.add(vector, 2, {
-                //            //    y: vector.y * Math.random() * 3, onUpdate: function () {
-                //            //        positions.array[i * 3 + 1] = vector.y;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //            //tween.add(vector, 2, {
-                //            //    z: vector.z * Math.random() * 3, onUpdate: function () {
-                //            //        positions.array[i * 3 + 2] = vector.z;
-                //            //    }, ease: Power4.easeInOut
-                //            //});
-                //
-                //        });
-                //    }
-                //
-                //});
-
             });
 
-
-            //mouse.add.click(function (event) {
-            //    console.log(event);
-            //});
-
-            //elements.Logo.position.y = 3;
-            //elements.Cube.position.y = 3;
-
-            //camera.target = elements.Logo.position.clone();
             scene.add(elements.Particles, elements.Cube);
-
 
         },
 
@@ -44518,10 +44467,12 @@ module.exports = (function () {
 
             objs.logo.rotation.x = -Math.PI / 2;
             objs.logo.material   = material;
+            //objs.logo.scale.multiplyScalar(3);
+            objs.logo.geometry.scale(3,3,3);
 
             return objs.logo;
 
-        },
+        }
 
     }
 
@@ -44529,9 +44480,8 @@ module.exports = (function () {
 },{}],15:[function(require,module,exports){
 module.exports = (function () {
 
-    var maxParticleCount = 10;
-    var radius           = 10;
-    var particleCount    = 500;
+    var maxParticleCount = 264;
+    var radius           = 50;
 
     return {
 
@@ -44539,17 +44489,19 @@ module.exports = (function () {
 
         maps: function () {
             return {
-                spark: 'lib/spark-9.png'
+                spark: 'lib/spark.png'
             }
         },
 
         create: function (e, share, maps, objs) {
 
             var PointMaterial = new THREE.PointsMaterial({
-                color: 0x000000,
-                size: 5,
-                //blending: THREE.MultiplyBlending,
-                //map: maps.spark,
+                //color: 0x000000,
+                size: 0.5,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                map: maps.spark,
+                alphaTest: 0.5,
                 sizeAttenuation: true
 
             });
@@ -44719,13 +44671,14 @@ module.exports = (function (e) {
 
         collection: [],
         checker: null,
+        time: null,
 
         init: function () {
             this.checker = this;
         },
 
         add: function (callback, context) {
-            this.collection.push(callback.bind(context || e));
+            this.collection.push({callback: callback, context: context, time: +new Date()});
         },
 
         delete: function (index) {
@@ -44744,7 +44697,7 @@ module.exports = (function (e) {
 
                 e.helpers.keys(this.collection, function (el, index) {
 
-                    if (el.call())
+                    if (el.callback.call(el.context || e, (+new Date()) - el.time, el.time))
                         checker.delete(index);
 
                 });
@@ -45540,33 +45493,45 @@ module.exports = (function (e) {
             this.tween = this;
         },
 
-        create: function (obj, duration, callback, context) {
+        create: function (obj, ease, callback, context) {
 
             /**
-             * todo find a better way to the time... maybe get the delta from the renderer
+             * if not an object then assume it is a duration only
+             */
+            if (!e.helpers.isObject(ease))
+                ease = {duration: ease};
+
+            var defaults = {
+                begin: 0,
+                ease: 'quintInOut',
+                duration: 1
+            };
+
+            e.helpers.extend(defaults, ease);
+
+            /**
+             * amplify to time base
              * @type {number}
              */
-            var time        = +new Date(),
-                toEasyLater = {};
+            defaults.duration *= 1000;
 
-            var checker = e.module('checker').class;
+            var instance = {},
+                checker  = e.module('checker').class;
 
-            checker.add(function () {
+            checker.add(function (elapsed_time) {
 
-                var elapsed_time = (+new Date()) - time;
+                if (elapsed_time <= defaults.duration) {
 
-                if (elapsed_time < duration) {
+                    var progress = elapsed_time / defaults.duration;
 
-                    var progress = elapsed_time / duration;
-
-                    toEasyLater = e.helpers.map(obj, function (value, key) {
-                        return Easie.quintInOut(progress, 0, value, 1);
+                    instance = e.helpers.map(obj, function (value) {
+                        return Easie[defaults.ease](progress, defaults.begin, value, 1);
                     });
 
                     /**
                      * Call the Call Back
                      */
-                    callback.call(context || e, toEasyLater);
+                    callback.call(context || e, instance);
 
                 } else {
 
@@ -45578,31 +45543,6 @@ module.exports = (function (e) {
                 }
 
             }, this);
-
-        },
-
-        map: function (obj, progress) {
-
-            var toEasyLater = {};
-
-            /**
-             * Loop on every property and set them accordingly
-             */
-            e.helpers.keys(obj, function (el, index) {
-
-                /**
-                 * if it's an object, map again
-                 */
-                if (e.helpers.isObject(el)) {
-                    return toEasyLater[index] = this.map(el, progress);
-                } else {
-                    toEasyLater[index] = Easie.quintInOut(progress, 0, el, 1)
-                }
-
-
-            }, this);
-
-            return toEasyLater;
 
         },
 
