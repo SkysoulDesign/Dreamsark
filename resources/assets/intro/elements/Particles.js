@@ -1,6 +1,6 @@
 module.exports = (function () {
 
-    var maxParticleCount = 6318;
+    var maxParticleCount = 15000;
     var radius           = 200;
 
     return {

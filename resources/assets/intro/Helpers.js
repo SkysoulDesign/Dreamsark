@@ -106,6 +106,43 @@ module.exports = (function () {
                 callback.call(context || Engine, i);
         },
 
+        for2: function (max, startAt, callback, context) {
+            for (var i = startAt || 0; i < max + startAt; i++)
+                callback.call(context || Engine, i, i - startAt);
+        },
+
+        in: function (element, array) {
+
+            return (array.indexOf(element) > -1);
+        },
+
+        clone: function (obj, skip) {
+
+            if (!this.isObject(obj))
+                return obj;
+
+            var temp = {};
+
+            this.keys(obj, function (el, key) {
+
+                /**
+                 * Skip Properties if it has been set
+                 */
+                if (this.in(key, skip))
+                    return;
+
+                temp[key] = this.clone(obj[key], skip);
+
+            }, this);
+
+            return temp;
+
+        },
+
+        every: function (array, callback, context) {
+            return array.every(callback.bind(context || Engine));
+        },
+
         extend: function (obj, src) {
 
             this.keys(src, function (el, name) {
@@ -149,6 +186,7 @@ module.exports = (function () {
         timer: function (time, callback) {
             var timer = setInterval(callback, time * 1000);
         }
+
     }
 
 })();

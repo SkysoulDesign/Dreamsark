@@ -5,12 +5,18 @@ module.exports = function (e, scene, camera, elements) {
         /**
          * Manually Load Assets
          */
-        load: [elements.Cube, elements.Logo, elements.Particles, elements.Circle],
+        load: [elements.Cube, elements.Logo, elements.Particles, elements.Circle, elements.Percentage],
 
         setup: function () {
 
             var mouse = e.module('mouse'),
                 tween = e.module('tween');
+
+            /**
+             * Percentage text
+             */
+            var percentage = elements.Percentage;
+            percentage.text.position.setZ(0.8);
 
             /**
              * Starting Logo
@@ -22,15 +28,28 @@ module.exports = function (e, scene, camera, elements) {
             /**
              * Play Button
              */
-            var startButton = elements.Cube;
+            var startButton = elements.Cube.clone(),
+                startText   = elements.Percentage.clone('Start');
+
             startButton.position.set(-2, -1, 0);
+            startButton.add(startText.text);
 
             /**
              * skip Button
              */
-            var skipButton      = elements.Cube.clone();
+            var skipButton = elements.Cube.clone(),
+                skipText   = elements.Percentage.clone('Skip');
+
             skipButton.material = new THREE.MeshBasicMaterial({color: 0xFFE401, wireframe: true});
             skipButton.position.set(2, -1, 0);
+            skipButton.add(skipText.text);
+
+            /***
+             * Loading Circle
+             */
+            var loadingCircle = elements.Circle;
+            loadingCircle.position.set(0, 2, 5);
+            loadingCircle.geometry.rotateX(Math.PI / 2);
 
             /**
              * Particles
@@ -42,8 +61,6 @@ module.exports = function (e, scene, camera, elements) {
              * When Click on the start button
              */
             mouse.click(startButton, function () {
-
-                console.log('click');
 
                 var buttonDestination = {
                     start: startButton.position.x,
@@ -85,6 +102,25 @@ module.exports = function (e, scene, camera, elements) {
                     }
                 });
 
+                /**
+                 * Show Percentage Bar
+                 */
+                var percentageScale = {
+                    scale: 0
+                };
+
+                tween.add(percentageScale, 1, {
+                    scale: 1,
+                    delay: 0.5,
+                    ease: Power3.easeInOut,
+                    onStart: function () {
+                        scene.add(percentage.text);
+                    },
+                    onUpdate: function () {
+                        percentage.text.scale.set(percentageScale.scale, percentageScale.scale, percentageScale.scale);
+                    }
+                });
+
                 var counter = {
                     scale: logo.scale.x,
                     y: logo.position.y
@@ -106,15 +142,23 @@ module.exports = function (e, scene, camera, elements) {
                 /**
                  * Particles Cloud
                  */
-                var logoPositions = logo.geometry.getAttribute('position'),
-                    positions     = particles.geometry.getAttribute('position'),
-                    origin        = positions.array.slice();
+                var logoPositions          = logo.geometry.getAttribute('position'),
+                    loadingCirclePositions = loadingCircle.geometry.vertices,
+                    positions              = particles.geometry.getAttribute('position'),
+                    origin                 = positions.array.slice();
 
                 var final = [];
 
-                e.helpers.for(positions.count, function (i) {
+                /**
+                 * Grab some Particles and set the destination to the logo Position
+                 */
+                e.helpers.for(logoPositions.count, function (i) {
 
                     var destination = new THREE.Vector3();
+
+                    /**
+                     * Set Logo Positions
+                     */
 
                     destination.x = origin[i * 3] + logoPositions.array[i * 3];
                     destination.y = origin[i * 3 + 1] + logoPositions.array[i * 3 + 1];
@@ -124,9 +168,29 @@ module.exports = function (e, scene, camera, elements) {
 
                 });
 
+                e.helpers.for2(loadingCirclePositions.length, logoPositions.count, function (i, j) {
+
+                    var destination = new THREE.Vector3();
+
+                    /**
+                     * Set Logo Positions
+                     */
+                    destination.x = origin[i * 3] + loadingCirclePositions[j].x;
+                    destination.y = origin[i * 3 + 1] + loadingCirclePositions[j].y;
+                    destination.z = origin[i * 3 + 2] + loadingCirclePositions[j].z;
+
+                    final.push(destination);
+
+                });
+
+                /**
+                 * Tween the Particles back to the logo
+                 */
                 tween.create(final, 2, function (obj) {
 
                     e.helpers.for(positions.count, function (i) {
+
+                        if (!obj[i]) return;
 
                         positions.array[i * 3]     = origin[i * 3] - obj[i].x;
                         positions.array[i * 3 + 1] = origin[i * 3 + 1] - obj[i].y;
@@ -156,9 +220,7 @@ module.exports = function (e, scene, camera, elements) {
 
         share: function () {
             return {}
-        }
-
-        ,
+        },
 
         animation: function () {
 

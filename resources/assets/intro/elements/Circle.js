@@ -7,10 +7,10 @@ module.exports = (function () {
         create: function (e, maps, share) {
 
             var material = new THREE.MeshBasicMaterial({
-                color: 0x0000ff
+                color: 0xffffff
             });
 
-            var radius   = 5;
+            var radius   = 2;
             var segments = 32;
 
             var circleGeometry = new THREE.CircleGeometry(radius, segments);

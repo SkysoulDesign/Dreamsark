@@ -33,8 +33,6 @@ module.exports = (function (e) {
              */
             this.objLoader = new THREE.OBJLoader(manager);
 
-            seila = []
-
         },
 
         /**

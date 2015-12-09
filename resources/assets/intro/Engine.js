@@ -8,6 +8,7 @@ module.exports = (function () {
         helpers: require('./Helpers'),
         configs: require('./Configs'),
         plugins: require('./Plugins'),
+        fonts: require('./Fonts'),
 
         /**
          * Public Property
@@ -58,8 +59,8 @@ module.exports = (function () {
                 //document.querySelector('.body').style.display = 'block';
             };
 
-            this.loader.on.progress = function () {
-                console.log('loading');
+            this.loader.on.progress = function (i) {
+                console.log(i);
             };
 
             this.loader.on.load = function () {
