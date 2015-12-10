@@ -5,8 +5,8 @@ module.exports = (function () {
         maps: function () {
             return {
                 texture: 'lib/universe.png',
-                //texturea: 'http://www.gettyimages.ca/gi-resources/images/Homepage/Category-Creative/UK/UK_Creative_462809583.jpg',
-                //textuasrea: 'http://www.planwallpaper.com/static/images/magic-of-blue-universe-images.jpg',
+                texturea: 'http://www.gettyimages.ca/gi-resources/images/Homepage/Category-Creative/UK/UK_Creative_462809583.jpg',
+                textuasrea: 'http://www.planwallpaper.com/static/images/magic-of-blue-universe-images.jpg',
                 //textxure: 'http://images.panda.org/assets/images/pages/welcome/orangutan_1600x1000_279157.jpg',
                 //textfure: 'http://blog.jimdo.com/wp-content/uploads/2014/01/tree-247122.jpg'
             }
