@@ -93,29 +93,33 @@ module.exports = (function () {
 
                 tween: function (name, time, o) {
 
-                    /**
-                     * Wait Previous Complete to start new one
-                     */
-                    //if (this.restarting)
-                    //    e.helpers.timeout(1000, function () {
-                    //        this.tween(name, time, o);
-                    //    }, this);
-
-                    this.animating  = true;
-                    this.restarting = false;
+                    this.animating = true;
 
                     var tween    = e.module('tween').class,
                         vertices = this.vertices,
-                        origin   = this.origin;
+                        origin   = this.origin,
+                        final    = this.final;
 
                     var options = e.helpers.extend({duration: time}, o);
 
-                    e.helpers.keys(this.final, function (el) {
+                    e.helpers.keys(final, function (el) {
 
                         /**
                          * Tween only the specified name
                          */
                         if (name !== el.name && name !== 'all') return;
+
+                        /**
+                         * Remove Array from Final and set animating to false if final is empty
+                         */
+                        var onComplete = function () {
+
+                            final.shift();
+
+                            if (!e.helpers.length(final))
+                                this.animating = false
+
+                        };
 
                         tween.create(el.data, options, function (obj) {
 
@@ -135,9 +139,7 @@ module.exports = (function () {
                              */
                             vertices.needsUpdate = true;
 
-                        }, function () {
-                            this.animating = false
-                        }, this);
+                        }, onComplete, this);
 
                     }, this);
 
@@ -148,10 +150,9 @@ module.exports = (function () {
                 },
 
                 reset: function () {
-                    this.index      = 0;
-                    this.final      = [];
-                    this.animating  = false;
-                    this.restarting = true;
+                    this.index     = 0;
+                    this.origin    = this.mesh.geometry.getAttribute('position').array.slice();
+                    this.animating = false;
                 }
 
             };

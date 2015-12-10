@@ -7,6 +7,7 @@ module.exports = (function (e) {
 
         camera: null,
         target: null,
+        followEnabled: true,
 
         init: function () {
 
@@ -14,7 +15,7 @@ module.exports = (function (e) {
                 fov: 45,
                 aspect: window.innerWidth / window.innerHeight,
                 near: 1,
-                far: 40000
+                far: 1e7
             };
 
             /**
@@ -30,7 +31,6 @@ module.exports = (function (e) {
              * Follow Mouse Update
              */
             this.follow();
-
 
         },
 
@@ -53,6 +53,8 @@ module.exports = (function (e) {
                 this.camera.position.x += (x + this.origin.x) / 30;
                 this.camera.position.y += (y - this.camera.position.y + this.origin.y) / 30;
                 this.camera.lookAt(this.target);
+
+                return !this.followEnabled;
 
             }, this);
 

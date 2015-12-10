@@ -183,12 +183,23 @@ module.exports = (function () {
 
         },
 
-        timer: function (time, callback) {
-            var timer = setInterval(callback, time * 1000);
-        },
+        timer: function (time, callback, context) {
 
-        timeout: function (time, callback, context) {
-            return window.setTimeout(callback.bind(context), time);
+            //var result = callback.call(context);
+            //
+            //
+            //
+            //var timer  = setInterval(this.timer.bind(time, callback, context), time * 1000);
+            //
+            //if (result === false) {
+            //
+            //
+            //}
+            //
+            //if (result) {
+            //
+            //}
+
         },
 
         random3: function (x, y, z, distance, stick) {

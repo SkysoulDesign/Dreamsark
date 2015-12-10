@@ -8,6 +8,22 @@ module.exports = function (e, scene, camera, elements) {
                 tween = e.module('tween');
 
             /**
+             * Particles
+             */
+            var particles = elements.Particles;
+            particles.reset();
+
+            /**
+             * Fade in the skybox
+             */
+            var skybox = elements.Skybox;
+
+            tween.add(skybox.material, 3, {
+                opacity: 1,
+                ease: Power3.easeInOut
+            });
+
+            /**
              * Remove Percentage Button
              */
             var percentage = elements.Percentage;
@@ -31,33 +47,68 @@ module.exports = function (e, scene, camera, elements) {
             });
 
             /**
-             * Sphere
+             * Singularity
              */
-            var sphere          = elements.Sphere,
-                spherePositions = sphere.geometry.getAttribute('position');
+            var singularity          = elements.SingularityBuffer,
+                singularityPositions = singularity.getAttribute('position');
 
-            /**
-             * Particles
-             */
-            var particles = elements.Particles;
-                particles.reset();
-
-            particles.for('sphere', spherePositions.count, function (i) {
+            particles.for('singularity', singularityPositions.count, function (i) {
 
                 return {
-                    x: spherePositions.array[i * 3],
-                    y: spherePositions.array[i * 3 + 1],
-                    z: spherePositions.array[i * 3 + 2]
+                    x: singularityPositions.array[i * 3],
+                    y: singularityPositions.array[i * 3 + 1],
+                    z: singularityPositions.array[i * 3 + 2]
                 };
 
             });
 
-            particles.tween('sphere', 2, {ease: 'quadInOut', complete: function(){
-                console.log('terminou')
-            }});
+            /**
+             * Expand the particles back in
+             */
+            var expandUniverse = function () {
 
+                particles.reset();
 
-            scene.add(sphere)
+                /**
+                 * Universe Buffer
+                 */
+                var universe          = elements.UniverseBuffer;
+                var universePositions = universe.getAttribute('position');
+
+                particles.for('universe', universePositions.count, function (i) {
+
+                    return {
+                        x: universePositions.array[i * 3],
+                        y: universePositions.array[i * 3 + 1],
+                        z: universePositions.array[i * 3 + 2]
+                    };
+
+                });
+
+                particles.tween('universe', 2, {
+
+                    complete: function () {
+
+                        camera.class.followEnabled = false;
+
+                        var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
+                        var checker  = e.module('checker').class;
+
+                        checker.add(function () {
+                            controls.update()
+                        })
+
+                    }
+
+                });
+
+            };
+
+            particles.tween('singularity', 2, {
+                ease: 'quadInOut', complete: expandUniverse
+            });
+
+            scene.add(skybox)
 
         },
 
@@ -67,5 +118,4 @@ module.exports = function (e, scene, camera, elements) {
 
     };
 
-}
-;
+};

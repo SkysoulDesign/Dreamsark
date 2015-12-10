@@ -12,9 +12,8 @@ module.exports = (function (e) {
 
         init: function () {
 
-
             var configs = {
-                fog: new THREE.Fog(0x000111)
+                fog: new THREE.FogExp2( 0x000000, 0.00000025 )
             };
 
             /**

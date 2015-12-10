@@ -182,11 +182,21 @@ module.exports = function (e, scene, camera, elements) {
                     };
 
                     on.load = function () {
-                        percentage.update("loaded, get ready");
+
+                        var checker = e.module('checker');
+
+                        checker.add(function () {
+
+                            if (particles.animating) return;
+
+                            percentage.update("loaded");
+                            e.compositor.next();
+
+                            return true;
+
+                        });
 
                     };
-
-                    e.compositor.next();
 
                 });
 
