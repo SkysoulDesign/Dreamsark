@@ -6,7 +6,8 @@ module.exports = (function (e) {
          * Set The Order that the compositions should be loaded
          */
         compositions: [
-            'loading'
+            'loading',
+            'universe'
         ],
 
         renderer: {

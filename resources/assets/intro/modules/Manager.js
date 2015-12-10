@@ -27,7 +27,7 @@ module.exports = (function (e) {
                 var progress = e.loader.progress = (loaded * 100) / total;
 
                 if (e.helpers.isFunction(on.progress))
-                    on.progress.call(this, item, loaded, total, progress);
+                    on.progress.call(this, Math.round(progress), item, loaded, total);
             };
 
             manager.onLoad = function () {

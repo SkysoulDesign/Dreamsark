@@ -7,6 +7,7 @@ module.exports = (function (e) {
          */
         compositions: null,
         active: null,
+        index: 0,
 
         /**
          * Modules
@@ -32,25 +33,26 @@ module.exports = (function (e) {
              * Set the first composition if none is set
              */
             if (e.helpers.isNull(composition)) {
-                return this.setup(this.compositions[this.order[0]]);
+                return this.setup(this.compositions[this.order[this.index++]]);
             }
 
+            /**
+             * Only for the first time it will be initialized and have the load property
+             * treated as manually load ideally for loading page
+             */
             if (e.helpers.isFunction(composition)) {
 
-                var scene    = e.module('scene'),
-                    camera   = e.module('camera'),
-                    elements = e.elements,
-
-                    /**
-                     * Initialize comp
-                     */
-                    comp     = composition(e, scene, camera, elements),
-                    loader   = e.module('loader').class;
+                /**
+                 * Initialize comp
+                 */
+                var comp   = this.initiate(composition),
+                    loader = e.module('loader').class;
 
                 /**
                  * Load comp dependencies
                  */
-                loader.load(comp.load);
+                if (e.helpers.isArray(comp.load))
+                    loader.load(comp.load);
 
                 return this.setup(comp);
 
@@ -84,6 +86,25 @@ module.exports = (function (e) {
                 this.active.animation();
             }
 
+        },
+
+        initiate: function (composition) {
+
+            /**
+             * Only functions can be initialized
+             */
+            if (!e.helpers.isFunction(composition)) return;
+
+            var scene    = e.module('scene'),
+                camera   = e.module('camera'),
+                elements = e.elements;
+
+            return composition(e, scene, camera, elements);
+
+        },
+
+        next: function () {
+            this.setup();
         }
 
     };

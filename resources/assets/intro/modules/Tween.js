@@ -11,7 +11,7 @@ module.exports = (function (e) {
             this.tween = this;
         },
 
-        create: function (obj, ease, callback, context) {
+        create: function (obj, ease, callback, onComplete, context) {
 
             /**
              * if not an object then assume it is a duration only
@@ -22,7 +22,9 @@ module.exports = (function (e) {
             var defaults = {
                 begin: 0,
                 ease: 'quintInOut',
-                duration: 1
+                duration: 1,
+                complete: onComplete || function () {
+                }
             };
 
             e.helpers.extend(defaults, ease);
@@ -47,18 +49,22 @@ module.exports = (function (e) {
                     });
 
                     /**
-                     * Call the Call Back
+                     * Call the CallBack
                      */
                     callback.call(context || e, instance);
 
-                } else {
-
-                    /**
-                     * Destroy Checker
-                     */
-                    return true;
-
+                    return false;
                 }
+
+                /**
+                 * Call Complete when the time is up
+                 */
+                defaults.complete.call(context || e);
+
+                /**
+                 * Destroy Checker
+                 */
+                return true;
 
             }, this);
 

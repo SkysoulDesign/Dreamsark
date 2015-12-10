@@ -195,6 +195,15 @@ module.exports = (function (e) {
              */
             e.elements[elementName] = element;
 
+        },
+
+        reset: function () {
+
+            this.progress = null;
+            this.complete = false;
+            this.count    = 0;
+            this.on = {start: null, progress: null, load: null, error: null};
+
         }
 
     };

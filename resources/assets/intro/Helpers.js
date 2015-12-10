@@ -185,6 +185,38 @@ module.exports = (function () {
 
         timer: function (time, callback) {
             var timer = setInterval(callback, time * 1000);
+        },
+
+        timeout: function (time, callback, context) {
+            return window.setTimeout(callback.bind(context), time);
+        },
+
+        random3: function (x, y, z, distance, stick) {
+
+            var options = {
+                x: x || 0,
+                y: y || false,
+                z: z || false,
+                distance: distance || false,
+                stick: stick || false
+            };
+
+            // Coordinates
+            var u1     = Math.random() * 2 - 1,
+                u2     = Math.random(),
+                radius = Math.sqrt(1 - u1 * u1),
+                theta  = 2 * Math.PI * u2;
+
+            // Stick to surface or disperse inside sphere
+            if (!options.stick)
+                options.distance = Math.random() * options.distance;
+
+            return new THREE.Vector3(
+                radius * Math.cos(theta) * options.distance + options.x,
+                radius * Math.sin(theta) * options.distance + options.y,
+                u1 * options.distance + options.z
+            );
+
         }
 
     }

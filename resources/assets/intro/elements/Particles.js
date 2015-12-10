@@ -47,10 +47,116 @@ module.exports = (function () {
             particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
             //particles.setDrawRange(0, particleCount);
 
-            return new THREE.Points(particles, PointMaterial);
+            var mesh = new THREE.Points(particles, PointMaterial);
+
+            return {
+                mesh: mesh,
+                count: 6258 + 60 + 34,
+                radius: 200,
+                index: 0,
+                animating: false,
+                restarting: false,
+                vertices: mesh.geometry.getAttribute('position'),
+                origin: mesh.geometry.getAttribute('position').array.slice(),
+                final: [],
+
+                for: function (name, count, callback, context) {
+
+                    var final  = [],
+                        origin = this.origin;
+
+                    e.helpers.for2(count, this.index, function (i, j) {
+
+                        var destination = callback.call(context || e, j);
+
+                        destination.x += origin[i * 3];
+                        destination.y += origin[i * 3 + 1];
+                        destination.z += origin[i * 3 + 2];
+
+                        final.push(destination);
+
+                    }, this);
+
+                    if (this.index > this.count) {
+                        console.log('you have used more particles than you have, please add more', this.index - this.count);
+                    }
+
+                    this.final.push({
+                        name: name,
+                        data: final,
+                        index: this.index
+                    });
+
+                    this.index += count;
+
+                },
+
+                tween: function (name, time, o) {
+
+                    /**
+                     * Wait Previous Complete to start new one
+                     */
+                    //if (this.restarting)
+                    //    e.helpers.timeout(1000, function () {
+                    //        this.tween(name, time, o);
+                    //    }, this);
+
+                    this.animating  = true;
+                    this.restarting = false;
+
+                    var tween    = e.module('tween').class,
+                        vertices = this.vertices,
+                        origin   = this.origin;
+
+                    var options = e.helpers.extend({duration: time}, o);
+
+                    e.helpers.keys(this.final, function (el) {
+
+                        /**
+                         * Tween only the specified name
+                         */
+                        if (name !== el.name && name !== 'all') return;
+
+                        tween.create(el.data, options, function (obj) {
+
+                            e.helpers.for2(el.data.length, el.index, function (i, j) {
+
+                                if (!obj[j]) return;
+
+                                vertices.array[i * 3]     = origin[i * 3] - obj[j].x;
+                                vertices.array[i * 3 + 1] = origin[i * 3 + 1] - obj[j].y;
+                                vertices.array[i * 3 + 2] = origin[i * 3 + 2] - obj[j].z;
+
+                            });
+
+                            /**
+                             * Update Vertices
+                             * @type {boolean}
+                             */
+                            vertices.needsUpdate = true;
+
+                        }, function () {
+                            this.animating = false
+                        }, this);
+
+                    }, this);
+
+                },
+
+                tweenAll: function (time, options) {
+                    this.tween('all', time, options);
+                },
+
+                reset: function () {
+                    this.index      = 0;
+                    this.final      = [];
+                    this.animating  = false;
+                    this.restarting = true;
+                }
+
+            };
 
         }
-
 
     }
 

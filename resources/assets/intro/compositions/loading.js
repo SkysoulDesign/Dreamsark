@@ -55,7 +55,7 @@ module.exports = function (e, scene, camera, elements) {
              * Particles
              */
             var particles = elements.Particles;
-            particles.rotateX(Math.PI / 2);
+            particles.mesh.rotateX(Math.PI / 2);
 
             /**
              * When Click on the start button
@@ -143,69 +143,52 @@ module.exports = function (e, scene, camera, elements) {
                  * Particles Cloud
                  */
                 var logoPositions          = logo.geometry.getAttribute('position'),
-                    loadingCirclePositions = loadingCircle.geometry.vertices,
-                    positions              = particles.geometry.getAttribute('position'),
-                    origin                 = positions.array.slice();
-
-                var final = [];
+                    loadingCirclePositions = loadingCircle.geometry.vertices;
 
                 /**
                  * Grab some Particles and set the destination to the logo Position
                  */
-                e.helpers.for(logoPositions.count, function (i) {
+                particles.for('particles', logoPositions.count, function (i) {
 
-                    var destination = new THREE.Vector3();
-
-                    /**
-                     * Set Logo Positions
-                     */
-
-                    destination.x = origin[i * 3] + logoPositions.array[i * 3];
-                    destination.y = origin[i * 3 + 1] + logoPositions.array[i * 3 + 1];
-                    destination.z = origin[i * 3 + 2] + logoPositions.array[i * 3 + 2];
-
-                    final.push(destination);
+                    return {
+                        x: logoPositions.array[i * 3],
+                        y: logoPositions.array[i * 3 + 1],
+                        z: logoPositions.array[i * 3 + 2]
+                    };
 
                 });
 
-                e.helpers.for2(loadingCirclePositions.length, logoPositions.count, function (i, j) {
-
-                    var destination = new THREE.Vector3();
-
-                    /**
-                     * Set Logo Positions
-                     */
-                    destination.x = origin[i * 3] + loadingCirclePositions[j].x;
-                    destination.y = origin[i * 3 + 1] + loadingCirclePositions[j].y;
-                    destination.z = origin[i * 3 + 2] + loadingCirclePositions[j].z;
-
-                    final.push(destination);
-
+                particles.for('circle', loadingCirclePositions.length, function (i) {
+                    return loadingCirclePositions[i];
                 });
 
                 /**
                  * Tween the Particles back to the logo
                  */
-                tween.create(final, 2, function (obj) {
-
-                    e.helpers.for(positions.count, function (i) {
-
-                        if (!obj[i]) return;
-
-                        positions.array[i * 3]     = origin[i * 3] - obj[i].x;
-                        positions.array[i * 3 + 1] = origin[i * 3 + 1] - obj[i].y;
-                        positions.array[i * 3 + 2] = origin[i * 3 + 2] - obj[i].z;
-
-                    });
-
-                    positions.needsUpdate = true;
-
-                });
+                particles.tween('circle', 2);
+                particles.tween('particles', 3);
 
                 /**
                  * Start Loading
                  */
-                e.start();
+                e.start(function (on) {
+
+                    on.start = function () {
+                        console.log('starting')
+                    };
+
+                    on.progress = function (progress) {
+                        percentage.update(progress + "%");
+                    };
+
+                    on.load = function () {
+                        percentage.update("loaded, get ready");
+
+                    };
+
+                    e.compositor.next();
+
+                });
 
                 /**
                  * Remove Click Event
@@ -214,7 +197,7 @@ module.exports = function (e, scene, camera, elements) {
 
             });
 
-            scene.add(logo, particles, startButton, skipButton);
+            scene.add(logo, particles.mesh, startButton, skipButton);
 
         },
 

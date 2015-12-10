@@ -53,29 +53,33 @@ module.exports = (function () {
 
         },
 
-        start: function () {
+        start: function (callback, context) {
 
-            this.loader.on.start = function () {
-                //document.querySelector('.body').style.display = 'block';
-            };
+            callback.call(context || this, this.loader.on);
 
-            this.loader.on.progress = function (i) {
-                console.log(i);
-            };
+            //this.loader.reset();
 
-            this.loader.on.load = function () {
-
-                console.log('everything finished loading');
-                //var scene    = e.module('scene'),
-                //    elements = e.module('elements');
-
-                //scene.add(elements.Dreamsark);
-
-            };
-
-            this.loader.on.error = function () {
-
-            };
+            //this.loader.on.start = function () {
+            //    //document.querySelector('.body').style.display = 'block';
+            //};
+            //
+            //this.loader.on.progress = function (item, loaded, total, progress) {
+            //    console.log(item, loaded, total, progress);;
+            //};
+            //
+            //this.loader.on.load = function () {
+            //
+            //    console.log('everything finished loading');
+            //    //var scene    = e.module('scene'),
+            //    //    elements = e.module('elements');
+            //
+            //    //scene.add(elements.Dreamsark);
+            //
+            //};
+            //
+            //this.loader.on.error = function () {
+            //
+            //};
 
             /**
              * Init Modules
