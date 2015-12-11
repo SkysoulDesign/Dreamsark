@@ -11,7 +11,7 @@
                 {{--<img src="{{ asset('img/start/logo.png')  }}" alt="">--}}
             </div>
 
-            <form action="{{ route('intro.skip') }}" method="post">
+            <form id='skipForm' action="{{ route('intro.skip') }}" method="post">
                 {{ csrf_field() }}
                 <input type="hidden" name="skip" value="true">
                 <a id="trigger" href="#" class="button white round medium">Start Journey</a>

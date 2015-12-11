@@ -58,6 +58,26 @@ module.exports = (function (e) {
 
             }, this);
 
+        },
+
+        center: function () {
+
+            var tween      = e.module('tween').class,
+                camera     = this.camera,
+                origin     = {
+                    position: this.camera.position.clone(),
+                    rotation: this.camera.rotation.clone()
+                },
+                parameters = {
+                    position: new THREE.Vector3(0, 0, 100),
+                    rotation: new THREE.Vector3(0, 0, 0)
+                };
+
+            tween.create(parameters, {ease: 'expoInOut', duration: 2, origin: origin}, function (param) {
+                camera.position.set(param.position.x, param.position.y, param.position.z);
+                camera.rotation.set(param.rotation.x, param.rotation.y, param.rotation.z);
+            });
+
         }
 
     };

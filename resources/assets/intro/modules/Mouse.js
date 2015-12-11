@@ -126,6 +126,33 @@ module.exports = (function (e) {
 
         },
 
+        hover: function (element, callbackIn, callbackOut, context, userCapture) {
+
+            /**
+             * if it's an THREE object then dispatches it to raycaster
+             */
+            if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
+
+                var raycaster = e.module('raycaster').class;
+                raycaster.hover(element, callbackIn, callbackOut, context);
+
+                this.collection.push({
+                    element: element,
+                    type: 'hover',
+                    raycaster: true
+                });
+
+                /**
+                 * return the index of the last element
+                 */
+                return e.helpers.length(this.collection) - 1;
+
+            }
+
+            console.log('still to implement the hover method')
+
+        },
+
         delete: function (index) {
 
             var collection = this.collection;
@@ -142,6 +169,7 @@ module.exports = (function (e) {
 
             this.collection.splice(index, 1);
         }
+
     };
 
 })(Engine);

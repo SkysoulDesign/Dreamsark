@@ -2,17 +2,11 @@ module.exports = (function () {
 
     return {
 
-        name: 'logo',
+        name: 'Logo',
 
         objs: function () {
             return {
                 logo: 'models/ship.obj'
-            }
-        },
-
-        maps: function () {
-            return {
-                spark: 'lib/spark.png'
             }
         },
 

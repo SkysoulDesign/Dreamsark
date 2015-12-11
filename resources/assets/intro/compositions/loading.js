@@ -44,6 +44,45 @@ module.exports = function (e, scene, camera, elements) {
             skipButton.position.set(2, -1, 0);
             skipButton.add(skipText.text);
 
+            /**
+             * Skip to Homepage when click in Skip
+             */
+            mouse.click(skipButton, function () {
+
+                var form         = document.querySelector('#skipForm'),
+                    buttonOrigin = {
+                        start: startButton.position.clone(),
+                        skip: skipButton.position.clone()
+                    },
+                    buttonParams = {
+                        start: new THREE.Vector3(50, 0, 0),
+                        skip: new THREE.Vector3(-50, 0, 0)
+
+                    };
+
+                form.submit();
+
+                /**
+                 * Animate buttons Apart
+                 */
+                tween.create(buttonParams, {
+                    ease: 'expoInOut',
+                    origin: buttonOrigin,
+                    duration: 2,
+                }, function (param) {
+
+                    skipButton.position.x  = param.skip.x;
+                    startButton.position.x = param.start.x;
+
+                });
+
+                /**
+                 * Remove Click Event
+                 */
+                return true;
+
+            });
+
             /***
              * Loading Circle
              */
@@ -190,6 +229,13 @@ module.exports = function (e, scene, camera, elements) {
                             if (particles.animating) return;
 
                             percentage.update("loaded");
+
+                            /**
+                             * Disable Camera and center it
+                             */
+                            camera.class.followEnabled = false;
+                            camera.class.center();
+
                             e.compositor.next();
 
                             return true;

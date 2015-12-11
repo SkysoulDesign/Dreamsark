@@ -183,23 +183,48 @@ module.exports = (function () {
 
         },
 
-        timer: function (time, callback, context) {
+        sub: function (origin, obj) {
 
-            //var result = callback.call(context);
-            //
-            //
-            //
-            //var timer  = setInterval(this.timer.bind(time, callback, context), time * 1000);
-            //
-            //if (result === false) {
-            //
-            //
-            //}
-            //
-            //if (result) {
-            //
-            //}
+            this.keys(obj, function (el, attribute) {
 
+                obj[attribute] = this.map(el, function (value, index) {
+                    return value - origin[attribute][index];
+                });
+
+            }, this);
+
+            return obj;
+
+        },
+
+        add: function (origin, obj) {
+
+            this.keys(obj, function (el, attribute) {
+
+                obj[attribute] = this.map(el, function (value, index) {
+                    return value + origin[attribute][index];
+                });
+
+            }, this);
+
+            return obj;
+
+        },
+
+        group: function () {
+
+            var group = new THREE.Group();
+
+            for (var i = 0; i < arguments.length; i++) {
+                group.add(arguments[i]);
+            }
+
+            return group;
+
+        },
+
+        random: function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
         random3: function (x, y, z, distance, stick) {

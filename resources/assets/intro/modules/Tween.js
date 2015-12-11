@@ -30,6 +30,12 @@ module.exports = (function (e) {
             e.helpers.extend(defaults, ease);
 
             /**
+             * if Origin is set, subtract it from origin to readd in the end
+             */
+            if (e.helpers.isObject(defaults.origin))
+                obj = e.helpers.sub(defaults.origin, obj);
+
+            /**
              * amplify to time base
              * @type {number}
              */
@@ -48,12 +54,16 @@ module.exports = (function (e) {
                         return Easie[defaults.ease](progress, defaults.begin, value, 1);
                     });
 
+                    if (e.helpers.isObject(defaults.origin))
+                        instance = e.helpers.add(defaults.origin, instance);
+
                     /**
                      * Call the CallBack
                      */
                     callback.call(context || e, instance);
 
                     return false;
+
                 }
 
                 /**

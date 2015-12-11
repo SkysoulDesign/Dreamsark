@@ -11,7 +11,12 @@ module.exports = (function (e) {
 
         watcher: {
             click: false,
-            mousemove: false
+            mousemove: false,
+            hover: {
+                active: false,
+                el: null,
+                status: false
+            }
         },
 
         init: function () {
@@ -31,7 +36,8 @@ module.exports = (function (e) {
              * Set Watcher
              */
             mouse.move(document, function (event) {
-                this.watcher.mousemove = true;
+                this.watcher.mousemove    = true;
+                this.watcher.hover.active = true;
             }, this);
 
             /**
@@ -42,7 +48,7 @@ module.exports = (function (e) {
         },
 
         configure: function (configs) {
-            this.params.Points.threshold = 10;
+            this.params.Points.threshold = 2;
         },
 
         click: function (element, callback, context) {
@@ -74,9 +80,40 @@ module.exports = (function (e) {
 
         },
 
+        hover: function (element, callbackIn, callbackOut, context) {
+
+            this.add(element);
+
+            this.clicksBag.push({
+                element: element,
+                callbackIn: callbackIn,
+                callbackOut: callbackOut,
+                context: context,
+                type: 'hover'
+            });
+
+        },
+
+        hoverOut: function () {
+
+            var result = false;
+
+            if (!e.helpers.isNull(this.watcher.hover.el))
+                result = this.watcher.hover.el.callbackOut.call(this.watcher.hover.el.context || e, this.watcher.hover.el.element);
+
+            /**
+             * Clear the hover index
+             */
+            this.watcher.hover.el = null;
+
+            return result;
+
+        },
+
         resetWatcher: function () {
-            this.watcher.click     = false;
-            this.watcher.mousemove = false;
+            this.watcher.click        = false;
+            this.watcher.mousemove    = false;
+            this.watcher.hover.active = false;
         },
 
         add: function (element) {
@@ -107,6 +144,7 @@ module.exports = (function (e) {
 
         },
 
+
         update: function () {
 
             var checker = e.module('checker').class,
@@ -126,6 +164,9 @@ module.exports = (function (e) {
 
                     if (intersects.length > 0) {
 
+                        /**
+                         * Check if the first object is in the clicking bag
+                         */
                         if (intersects[0].object === el.element) {
 
                             var result = false;
@@ -134,7 +175,7 @@ module.exports = (function (e) {
                              * if element is clicked call it
                              */
                             if (this.watcher.click && el.type === 'click') {
-                                result             = el.callback.call(el.context || e, el);
+                                result             = el.callback.call(el.context || e, el.element);
                                 this.watcher.click = false;
                             }
 
@@ -142,8 +183,29 @@ module.exports = (function (e) {
                              * if element is mouse move
                              */
                             if (this.watcher.mousemove && el.type === 'mousemove') {
-                                result                 = el.callback.call(el.context || e, el);
+                                result                 = el.callback.call(el.context || e, el.element);
                                 this.watcher.mousemove = false;
+                            }
+
+                            /**
+                             * if element is hovered call it
+                             */
+                            if (this.watcher.hover.active && el.type === 'hover') {
+
+                                /**
+                                 * if he has hovered over the same so return
+                                 */
+                                if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element === el.element)
+                                    return;
+
+                                result = el.callbackIn.call(el.context || e, el.element);
+
+                                if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element !== el.element)
+                                    result = this.hoverOut();
+
+                                this.watcher.hover.el     = el;
+                                this.watcher.hover.status = true;
+
                             }
 
                             /**
@@ -154,6 +216,8 @@ module.exports = (function (e) {
 
                         }
 
+                    } else if (el.type === 'hover' && !e.helpers.isNull(this.watcher.hover.el)) {
+                        this.hoverOut();
                     }
 
                 }, this);
