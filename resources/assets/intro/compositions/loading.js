@@ -244,7 +244,7 @@ module.exports = function (e, scene, camera, elements) {
 
                     };
 
-                });
+                });;
 
                 /**
                  * Remove Click Event
