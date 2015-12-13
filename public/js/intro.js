@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions/loading.js"),"universe":require("./compositions/universe.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions\\loading.js"),"universe":require("./compositions\\universe.js")})}).compositions;
 
 })();
-},{"./compositions/loading.js":12,"./compositions/universe.js":13}],5:[function(require,module,exports){
+},{"./compositions\\loading.js":12,"./compositions\\universe.js":13}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43952,10 +43952,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"NebuleBuffer":require("./elements/NebuleBuffer.js"),"Particles":require("./elements/Particles.js"),"Percentage":require("./elements/Percentage.js"),"Plexus":require("./elements/Plexus.js"),"SingularityBuffer":require("./elements/SingularityBuffer.js"),"Skybox":require("./elements/Skybox.js"),"UniverseBuffer":require("./elements/UniverseBuffer.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements\\Circle.js"),"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"NebuleBuffer":require("./elements\\NebuleBuffer.js"),"Particles":require("./elements\\Particles.js"),"Percentage":require("./elements\\Percentage.js"),"Plexus":require("./elements\\Plexus.js"),"SingularityBuffer":require("./elements\\SingularityBuffer.js"),"Skybox":require("./elements\\Skybox.js"),"UniverseBuffer":require("./elements\\UniverseBuffer.js")})}).elements;
 
 })(Engine);
-},{"./elements/Circle.js":14,"./elements/Cube.js":15,"./elements/Dreamsark.js":16,"./elements/Logo.js":17,"./elements/NebuleBuffer.js":18,"./elements/Particles.js":19,"./elements/Percentage.js":20,"./elements/Plexus.js":21,"./elements/SingularityBuffer.js":22,"./elements/Skybox.js":23,"./elements/UniverseBuffer.js":24}],7:[function(require,module,exports){
+},{"./elements\\Circle.js":14,"./elements\\Cube.js":15,"./elements\\Dreamsark.js":16,"./elements\\Logo.js":17,"./elements\\NebuleBuffer.js":18,"./elements\\Particles.js":19,"./elements\\Percentage.js":20,"./elements\\Plexus.js":21,"./elements\\SingularityBuffer.js":22,"./elements\\Skybox.js":23,"./elements\\UniverseBuffer.js":24}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44137,10 +44137,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the Fonts directory
      */
-    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts/helvetiker_regular.typeface.js")})}).fonts;
+    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts\\helvetiker_regular.typeface.js")})}).fonts;
 
 })();
-},{"./fonts/helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
+},{"./fonts\\helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44271,7 +44271,7 @@ module.exports = (function () {
                 /**
                  * Skip Properties if it has been set
                  */
-                if (this.in(key, skip))
+                if (!this.isNull(skip) && this.in(key, skip))
                     return;
 
                 temp[key] = this.clone(obj[key], skip);
@@ -44284,6 +44284,10 @@ module.exports = (function () {
 
         every: function (array, callback, context) {
             return array.every(callback.bind(context || Engine));
+        },
+
+        timeout: function (time, callback, context) {
+            return window.setTimeout(callback.bind(context || Engine), time * 1000);
         },
 
         extend: function (obj, src) {
@@ -44327,30 +44331,64 @@ module.exports = (function () {
         },
 
         sub: function (origin, obj) {
-
-            this.keys(obj, function (el, attribute) {
-
-                obj[attribute] = this.map(el, function (value, index) {
-                    return value - origin[attribute][index];
-                });
-
-            }, this);
-
-            return obj;
-
+            return this.math(origin, obj, '-')
         },
 
         add: function (origin, obj) {
+            return this.math(origin, obj, '+')
+        },
 
-            this.keys(obj, function (el, attribute) {
+        multiply: function (origin, obj) {
+            return this.math(origin, obj, '*')
+        },
 
-                obj[attribute] = this.map(el, function (value, index) {
-                    return value + origin[attribute][index];
-                });
+        divide: function (origin, obj) {
+            return this.math(origin, obj, '/')
+        },
 
-            }, this);
+        math: function (origin, obj, operator) {
 
-            return obj;
+            var temp = {}, operators = {
+                '-': function (a, b) {
+                    return a - b;
+                },
+                '+': function (a, b) {
+                    return a + b;
+                },
+                '*': function (a, b) {
+                    return a * b;
+                },
+                '/': function (a, b) {
+                    return a / b;
+                }
+            };
+
+            if (this.isObject(origin)) {
+
+                this.keys(origin, function (el, index) {
+
+                    if (this.isObject(el)) {
+                        return temp[index] = this.math(el, this.isObject(obj) ? obj[index] : obj, operator);
+                    }
+
+                    if (this.isObject(obj)) {
+
+                        if (this.isObject(obj[index]))
+                            return temp[index] = this.math(el, obj[index], operator);
+
+                        return temp[index] = operators[operator](el, obj[index]);
+
+                    }
+
+                    temp[index] = operators[operator](el, obj)
+
+                }, this);
+
+                return temp;
+
+            }
+
+            return operators[operator](origin, obj);
 
         },
 
@@ -44407,19 +44445,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
 
 })();
-},{"./modules/Browser.js":27,"./modules/Camera.js":28,"./modules/Checker.js":29,"./modules/Compositor.js":30,"./modules/Events.js":31,"./modules/Loader.js":32,"./modules/Manager.js":33,"./modules/Mouse.js":34,"./modules/Raycaster.js":35,"./modules/Renderer.js":36,"./modules/Scene.js":37,"./modules/Stats.js":38,"./modules/Tween.js":39}],11:[function(require,module,exports){
+},{"./modules\\Browser.js":27,"./modules\\Camera.js":28,"./modules\\Checker.js":29,"./modules\\Compositor.js":30,"./modules\\Events.js":31,"./modules\\Loader.js":32,"./modules\\Manager.js":33,"./modules\\Mouse.js":34,"./modules\\Raycaster.js":35,"./modules\\Renderer.js":36,"./modules\\Scene.js":37,"./modules\\Stats.js":38,"./modules\\Tween.js":39}],11:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"FlyControls":require("./plugins/FlyControls.js"),"FontUtils":require("./plugins/FontUtils.js"),"OBJLoader":require("./plugins/OBJLoader.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js"),"easie":require("./plugins/easie.js")})}).plugins;
+    return ({"plugins":({"FlyControls":require("./plugins\\FlyControls.js"),"FontUtils":require("./plugins\\FontUtils.js"),"OBJLoader":require("./plugins\\OBJLoader.js"),"OrbitControls":require("./plugins\\OrbitControls.js"),"TextGeometry":require("./plugins\\TextGeometry.js"),"TrackballControls":require("./plugins\\TrackballControls.js"),"easie":require("./plugins\\easie.js")})}).plugins;
 
 })();
-},{"./plugins/FlyControls.js":40,"./plugins/FontUtils.js":41,"./plugins/OBJLoader.js":42,"./plugins/OrbitControls.js":43,"./plugins/TextGeometry.js":44,"./plugins/TrackballControls.js":45,"./plugins/easie.js":46}],12:[function(require,module,exports){
+},{"./plugins\\FlyControls.js":40,"./plugins\\FontUtils.js":41,"./plugins\\OBJLoader.js":42,"./plugins\\OrbitControls.js":43,"./plugins\\TextGeometry.js":44,"./plugins\\TrackballControls.js":45,"./plugins\\easie.js":46}],12:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44490,7 +44528,7 @@ module.exports = function (e, scene, camera, elements) {
                 tween.create(buttonParams, {
                     ease: 'expoInOut',
                     origin: buttonOrigin,
-                    duration: 2,
+                    duration: 2
                 }, function (param) {
 
                     skipButton.position.x  = param.skip.x;
@@ -44505,7 +44543,7 @@ module.exports = function (e, scene, camera, elements) {
 
             });
 
-            /***
+            /**
              * Loading Circle
              */
             var loadingCircle = elements.Circle;
@@ -44523,81 +44561,79 @@ module.exports = function (e, scene, camera, elements) {
              */
             mouse.click(startButton, function () {
 
-                var buttonDestination = {
-                    start: startButton.position.x,
-                    skip: skipButton.position.x,
-                    scaleX: skipButton.scale.x,
-                    scaleY: skipButton.scale.y,
-                    opacity: 1
-                };
+                /**
+                 * Scale the Buttons down and remove it from scene
+                 *
+                 * @type {{startX: number, skipX: number, scaleX: number, scaleY: number, opacity: number}}
+                 */
+                var buttonParameters = {
+                    startX: 0.1,
+                    skipX: 0.1,
+                    scaleX: 0.001,
+                    scaleY: 0.001,
+                    opacity: 0
+                },
+                    buttonOrigin     = {
+                        startX: startButton.position.x,
+                        skipX: skipButton.position.x,
+                        scaleX: skipButton.scale.x,
+                        scaleY: skipButton.scale.y,
+                        opacity: 1
+                    },
+                    buttonComplete   = function () {
+                        scene.remove(startButton, skipButton);
+                    };
 
                 /**
                  * Hide Buttons
                  */
-                tween.add(buttonDestination, 1, {
-                    start: 0.1,
-                    skip: 0.1,
-                    opacity: 0,
-                    scaleX: 0.001,
-                    scaleY: 0.001,
-                    ease: Power3.easeInOut,
-                    onUpdate: function () {
+                tween.create(buttonParameters, {
+                    duration: 1,
+                    origin: buttonOrigin,
+                    complete: buttonComplete
+                }, function (param) {
 
-                        startButton.position.x = buttonDestination.start;
-                        skipButton.position.x  = skipButton.scale.x = buttonDestination.skip;
+                    startButton.position.x = param.startX;
+                    skipButton.position.x  = param.skipX;
 
-                        startButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
-                        skipButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+                    startButton.scale.set(param.scaleX, param.scaleY, param.scaleY);
+                    skipButton.scale.set(param.scaleX, param.scaleY, param.scaleY);
 
-                        startButton.material.opacity = buttonDestination.opacity;
-                        skipButton.material.opacity  = buttonDestination.opacity;
+                    startButton.material.opacity = param.opacity;
+                    skipButton.material.opacity  = param.opacity;
 
-                    },
-                    onComplete: function () {
-
-                        /**
-                         * Remove From Scene when finish
-                         */
-                        scene.remove(startButton, skipButton);
-
-                    }
                 });
 
                 /**
-                 * Show Percentage Bar
+                 * Show Percentage Counter
                  */
-                var percentageScale = {
-                    scale: 0
-                };
-
-                tween.add(percentageScale, 1, {
-                    scale: 1,
-                    delay: 0.5,
-                    ease: Power3.easeInOut,
-                    onStart: function () {
+                var percentageDestination = {scale: new THREE.Vector3(1, 1, 1)},
+                    percentageStart       = function () {
                         scene.add(percentage.text);
-                    },
-                    onUpdate: function () {
-                        percentage.text.scale.set(percentageScale.scale, percentageScale.scale, percentageScale.scale);
-                    }
+                    };
+
+                tween.create(percentageDestination, {
+                    duration: 1,
+                    delay: 0.5,
+                    start: percentageStart
+                }, function (param) {
+                    percentage.text.scale.copy(param.scale);
                 });
 
-                var counter = {
-                    scale: logo.scale.x,
-                    y: logo.position.y
+                /**
+                 * Tween Logo Back to 100% and center
+                 */
+                var logoDestination = {
+                    scale: new THREE.Vector3(1, 1, 1),
+                    position: new THREE.Vector3(0, 0, 0)
+                }, logoOrigin       = {
+                    scale: logo.scale,
+                    position: logo.position
                 };
 
-                /**
-                 * Tween Logo Back to 100%
-                 */
-                tween.add(counter, 1, {
-                    scale: 1,
-                    y: 0,
-                    ease: Power4.easeInOut,
-                    onUpdate: function () {
-                        logo.scale.set(counter.scale, counter.scale, counter.scale);
-                        logo.position.y = counter.y;
-                    }
+                tween.create(logoDestination, {ease: 'quintInOut', duration: 1, origin: logoOrigin}, function (param) {
+                    logo.scale.copy(param.scale);
+                    logo.position.copy(param.position);
                 });
 
                 /**
@@ -44707,15 +44743,14 @@ module.exports = function (e, scene, camera, elements) {
             /**
              * Logo
              */
-            var logo       = elements.Logo,
-                logoParams = {
+            var logo            = elements.Logo,
+                logoDestination = {
                     rotation: new THREE.Vector3(logo.rotation.x, logo.rotation.y, Math.PI * 2)
-                },
-                logoOrigin = {
-                    rotation: logo.rotation.clone()
-                };
+                }, logoOrigin   = {
+                rotation: logo.rotation.toVector3()
+            };
 
-            tween.create(logoParams, {ease: 'quintInOut', origin: logoOrigin, duration: 3}, function (param) {
+            tween.create(logoDestination, {ease: 'quintInOut', origin: logoOrigin, duration: 3}, function (param) {
                 logo.rotation.setFromVector3(param.rotation);
             });
 
@@ -44728,34 +44763,32 @@ module.exports = function (e, scene, camera, elements) {
             /**
              * Fade in the skybox
              */
-            var skybox       = elements.Skybox,
-                skyboxParams = {
+            var skybox            = elements.Skybox,
+                skyboxDestination = {
                     opacity: 1
                 };
 
-            tween.create(skyboxParams, 2, function (param) {
+            tween.create(skyboxDestination, 2, function (param) {
                 skybox.material.opacity = param.opacity;
             });
 
             /**
              * Remove Percentage Button
              */
-            var percentage         = elements.Percentage,
-                percentageOrigin   = {
+            var percentage            = elements.Percentage,
+                percentageOrigin      = {
                     scale: percentage.text.scale.clone()
                 },
-                percentageParams   = {
-                    scale: new THREE.Vector3(0)
+                percentageDestination = {
+                    scale: new THREE.Vector3(0, 0, 0)
                 },
-                percentageComplete = function () {
+                percentageComplete    = function () {
                     scene.remove(percentage.text);
                 };
 
-            tween.create(percentageParams, {duration: 1, origin: percentageOrigin, complete: percentageComplete},
+            tween.create(percentageDestination, {duration: 1, origin: percentageOrigin, complete: percentageComplete},
                 function (param) {
-                    percentage.text.scale.x = param.scale.x;
-                    percentage.text.scale.y = param.scale.y;
-                    percentage.text.scale.z = param.scale.z;
+                    percentage.text.scale.copy(param.scale)
                 });
 
             /**
@@ -44778,7 +44811,7 @@ module.exports = function (e, scene, camera, elements) {
              * Expand the particles back in
              */
             var expandUniverse = function () {
-
+console.log('nevercomplegted')
                 particles.reset();
 
                 /**
@@ -44825,16 +44858,40 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 e.helpers.keys(plexus.children, function (el) {
 
-                    mouse.hover(el,
+                    mouse.hoverClick(el,
                         function (element) {
-                            element.material.size = 25
+
+                            var elementParams = {size: 25};
+
+                            tween.create(elementParams, {
+                                ease: 'expoInOut',
+                                origin: element.material.size,
+                                duration: 0.5
+                            }, function (param) {
+                                element.material.size = param.size;
+                            });
+
                         },
                         function (element) {
-                            element.material.size = 10
-                        });
+
+                            var elementParams = {size: 10}
+
+                            tween.create(elementParams, {
+                                ease: 'elasticOut',
+                                origin: element.material.size,
+                                duration: 0.3
+                            }, function (param) {
+                                element.material.size = param.size
+                            });
+
+                        },
+                        function (element) {
+                            //camera.class.moveTo(element.position, element.rotation);
+                        })
 
                 });
 
+                console.log('what noever here')
                 scene.add(plexus);
 
             };
@@ -44842,7 +44899,6 @@ module.exports = function (e, scene, camera, elements) {
             particles.tween('singularity', 2, {
                 ease: 'quadInOut', complete: expandUniverse
             });
-
 
             scene.add(skybox)
 
@@ -44853,7 +44909,6 @@ module.exports = function (e, scene, camera, elements) {
         }
 
     }
-        ;
 
 }
 ;
@@ -45007,7 +45062,7 @@ module.exports = (function () {
 module.exports = (function () {
 
     var maxParticleCount = 15000;
-    var radius           = 200;
+    var radius           = 1000;
 
     return {
 
@@ -45040,13 +45095,11 @@ module.exports = (function () {
              */
             e.helpers.for(maxParticleCount, function (i) {
 
-                var x = Math.random() * radius - radius / 2;
-                var y = Math.random() * radius - radius / 2;
-                var z = Math.random() * radius - radius / 2;
+                var vector = e.helpers.random3(0, 0, 0, radius, false);
 
-                particlePositions[i * 3]     = x;
-                particlePositions[i * 3 + 1] = y;
-                particlePositions[i * 3 + 2] = z;
+                particlePositions[i * 3]     = vector.x;
+                particlePositions[i * 3 + 1] = vector.y;
+                particlePositions[i * 3 + 2] = vector.z;
 
             });
 
@@ -45081,11 +45134,10 @@ module.exports = (function () {
 
                         final.push(destination);
 
-                    }, this);
+                    });
 
-                    if (this.index > this.count) {
-                        console.log('you have used more particles than you have, please add more', this.index - this.count);
-                    }
+                    if (this.index > this.count)
+                        console.log('you have used more particles than what you have, please add more', this.index - this.count);
 
                     this.final.push({
                         name: name,
@@ -45118,12 +45170,18 @@ module.exports = (function () {
                         /**
                          * Remove Array from Final and set animating to false if final is empty
                          */
-                        var onComplete = function () {
+                        options.complete = function () {
 
                             final.shift();
 
+                            /**
+                             * if complete was set call it
+                             */
+                            if (!e.helpers.isNull(o) && e.helpers.isFunction(o.complete))
+                                o.complete();
+
                             if (!e.helpers.length(final))
-                                this.animating = false
+                                this.animating = false;
 
                         };
 
@@ -45145,7 +45203,7 @@ module.exports = (function () {
                              */
                             vertices.needsUpdate = true;
 
-                        }, onComplete, this);
+                        }, this);
 
                     }, this);
 
@@ -45525,7 +45583,7 @@ module.exports = (function (e) {
                 camera     = this.camera,
                 origin     = {
                     position: this.camera.position.clone(),
-                    rotation: this.camera.rotation.clone()
+                    rotation: this.camera.rotation.toVector3()
                 },
                 parameters = {
                     position: new THREE.Vector3(0, 0, 100),
@@ -45533,8 +45591,24 @@ module.exports = (function (e) {
                 };
 
             tween.create(parameters, {ease: 'expoInOut', duration: 2, origin: origin}, function (param) {
+                camera.position.copy(param.position);
+                camera.rotation.setFromVector3(param.rotation);
+            });
+
+        },
+
+        moveTo: function (position, rotation, options) {
+
+            //console.log(position);
+            //console.log();
+
+            var tween      = e.module('tween').class,
+                camera     = this.camera,
+                parameters = {position: position},
+                origin     = {position: camera.position.clone()};
+
+            tween.create(parameters, {origin: origin, duration: 2}, function (param) {
                 camera.position.set(param.position.x, param.position.y, param.position.z);
-                camera.rotation.set(param.rotation.x, param.rotation.y, param.rotation.z);
             });
 
         }
@@ -46151,6 +46225,33 @@ module.exports = (function (e) {
 
         },
 
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture) {
+
+            /**
+             * if it's an THREE object then dispatches it to raycaster
+             */
+            if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
+
+                var raycaster = e.module('raycaster').class;
+                raycaster.hoverClick(element, callbackIn, callbackOut, callbackClick, context);
+
+                this.collection.push({
+                    element: element,
+                    type: 'hoverClick',
+                    raycaster: true
+                });
+
+                /**
+                 * return the index of the last element
+                 */
+                return e.helpers.length(this.collection) - 1;
+
+            }
+
+            console.log('still to implement the hoverClick method')
+
+        },
+
         delete: function (index) {
 
             var collection = this.collection;
@@ -46268,6 +46369,21 @@ module.exports = (function (e) {
 
         },
 
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context) {
+
+            this.add(element);
+
+            this.clicksBag.push({
+                element: element,
+                callbackIn: callbackIn,
+                callbackOut: callbackOut,
+                callback: callbackClick,
+                context: context,
+                type: 'hoverClick'
+            });
+
+        },
+
         hoverOut: function () {
 
             var result = false;
@@ -46348,7 +46464,7 @@ module.exports = (function (e) {
                             /**
                              * if element is clicked call it
                              */
-                            if (this.watcher.click && el.type === 'click') {
+                            if (this.watcher.click && (el.type === 'click' || el.type === 'hoverClick')) {
                                 result             = el.callback.call(el.context || e, el.element);
                                 this.watcher.click = false;
                             }
@@ -46364,7 +46480,7 @@ module.exports = (function (e) {
                             /**
                              * if element is hovered call it
                              */
-                            if (this.watcher.hover.active && el.type === 'hover') {
+                            if (this.watcher.hover.active && (el.type === 'hover' || el.type === 'hoverClick')) {
 
                                 /**
                                  * if he has hovered over the same so return
@@ -46377,8 +46493,7 @@ module.exports = (function (e) {
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element !== el.element)
                                     result = this.hoverOut();
 
-                                this.watcher.hover.el     = el;
-                                this.watcher.hover.status = true;
+                                this.watcher.hover.el = el;
 
                             }
 
@@ -46390,7 +46505,7 @@ module.exports = (function (e) {
 
                         }
 
-                    } else if (el.type === 'hover' && !e.helpers.isNull(this.watcher.hover.el)) {
+                    } else if ((el.type === 'hover' || el.type === 'hoverClick') && !e.helpers.isNull(this.watcher.hover.el)) {
                         this.hoverOut();
                     }
 
@@ -46534,7 +46649,7 @@ module.exports = (function (e) {
             this.tween = this;
         },
 
-        create: function (obj, ease, callback, onComplete, context) {
+        create: function (obj, ease, callback, context) {
 
             /**
              * if not an object then assume it is a duration only
@@ -46546,17 +46661,45 @@ module.exports = (function (e) {
                 begin: 0,
                 ease: 'quintInOut',
                 duration: 1,
-                complete: onComplete || function () {
+                origin: false,
+                delay: false,
+                start: function () {
+                },
+                complete: function () {
                 }
             };
 
             e.helpers.extend(defaults, ease);
 
             /**
-             * if Origin is set, subtract it from origin to readd in the end
+             * if Delay is set, delay this function execution
              */
-            if (e.helpers.isObject(defaults.origin))
-                obj = e.helpers.sub(defaults.origin, obj);
+            if (defaults.delay !== false) {
+
+                e.helpers.timeout(defaults.delay, function(){
+
+                    /**
+                     * Set delay to false so it wont fall here again
+                     * @type {boolean}
+                     */
+                    defaults.delay = false;
+
+                    this.create(obj, defaults, callback, context);
+
+                }, this);
+
+                return;
+
+            }
+
+            /**
+             * if Origin is set, subtract it from origin to re-add in the end
+             */
+            if (defaults.origin !== false) {
+                defaults.origin = e.helpers.clone(defaults.origin);
+                obj             = e.helpers.sub(obj, defaults.origin);
+
+            }
 
             /**
              * amplify to time base
@@ -46566,6 +46709,11 @@ module.exports = (function (e) {
 
             var instance = {},
                 checker  = e.module('checker').class;
+
+            /**
+             * Call Start when it begins
+             */
+            defaults.start.call(context || e);
 
             checker.add(function (elapsed_time) {
 
@@ -46577,8 +46725,8 @@ module.exports = (function (e) {
                         return Easie[defaults.ease](progress, defaults.begin, value, 1);
                     });
 
-                    if (e.helpers.isObject(defaults.origin))
-                        instance = e.helpers.add(defaults.origin, instance);
+                    if (defaults.origin !== false)
+                        instance = e.helpers.add(instance, defaults.origin);
 
                     /**
                      * Call the CallBack

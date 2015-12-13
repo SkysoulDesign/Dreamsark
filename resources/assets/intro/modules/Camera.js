@@ -66,7 +66,7 @@ module.exports = (function (e) {
                 camera     = this.camera,
                 origin     = {
                     position: this.camera.position.clone(),
-                    rotation: this.camera.rotation.clone()
+                    rotation: this.camera.rotation.toVector3()
                 },
                 parameters = {
                     position: new THREE.Vector3(0, 0, 100),
@@ -74,8 +74,24 @@ module.exports = (function (e) {
                 };
 
             tween.create(parameters, {ease: 'expoInOut', duration: 2, origin: origin}, function (param) {
+                camera.position.copy(param.position);
+                camera.rotation.setFromVector3(param.rotation);
+            });
+
+        },
+
+        moveTo: function (position, rotation, options) {
+
+            //console.log(position);
+            //console.log();
+
+            var tween      = e.module('tween').class,
+                camera     = this.camera,
+                parameters = {position: position},
+                origin     = {position: camera.position.clone()};
+
+            tween.create(parameters, {origin: origin, duration: 2}, function (param) {
                 camera.position.set(param.position.x, param.position.y, param.position.z);
-                camera.rotation.set(param.rotation.x, param.rotation.y, param.rotation.z);
             });
 
         }

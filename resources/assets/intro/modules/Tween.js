@@ -11,7 +11,7 @@ module.exports = (function (e) {
             this.tween = this;
         },
 
-        create: function (obj, ease, callback, onComplete, context) {
+        create: function (obj, ease, callback, context) {
 
             /**
              * if not an object then assume it is a duration only
@@ -23,17 +23,45 @@ module.exports = (function (e) {
                 begin: 0,
                 ease: 'quintInOut',
                 duration: 1,
-                complete: onComplete || function () {
+                origin: false,
+                delay: false,
+                start: function () {
+                },
+                complete: function () {
                 }
             };
 
             e.helpers.extend(defaults, ease);
 
             /**
-             * if Origin is set, subtract it from origin to readd in the end
+             * if Delay is set, delay this function execution
              */
-            if (e.helpers.isObject(defaults.origin))
-                obj = e.helpers.sub(defaults.origin, obj);
+            if (defaults.delay !== false) {
+
+                e.helpers.timeout(defaults.delay, function(){
+
+                    /**
+                     * Set delay to false so it wont fall here again
+                     * @type {boolean}
+                     */
+                    defaults.delay = false;
+
+                    this.create(obj, defaults, callback, context);
+
+                }, this);
+
+                return;
+
+            }
+
+            /**
+             * if Origin is set, subtract it from origin to re-add in the end
+             */
+            if (defaults.origin !== false) {
+                defaults.origin = e.helpers.clone(defaults.origin);
+                obj             = e.helpers.sub(obj, defaults.origin);
+
+            }
 
             /**
              * amplify to time base
@@ -43,6 +71,11 @@ module.exports = (function (e) {
 
             var instance = {},
                 checker  = e.module('checker').class;
+
+            /**
+             * Call Start when it begins
+             */
+            defaults.start.call(context || e);
 
             checker.add(function (elapsed_time) {
 
@@ -54,8 +87,8 @@ module.exports = (function (e) {
                         return Easie[defaults.ease](progress, defaults.begin, value, 1);
                     });
 
-                    if (e.helpers.isObject(defaults.origin))
-                        instance = e.helpers.add(defaults.origin, instance);
+                    if (defaults.origin !== false)
+                        instance = e.helpers.add(instance, defaults.origin);
 
                     /**
                      * Call the CallBack

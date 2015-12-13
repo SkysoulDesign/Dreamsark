@@ -1,7 +1,7 @@
 module.exports = (function () {
 
     var maxParticleCount = 15000;
-    var radius           = 200;
+    var radius           = 1000;
 
     return {
 
@@ -34,13 +34,11 @@ module.exports = (function () {
              */
             e.helpers.for(maxParticleCount, function (i) {
 
-                var x = Math.random() * radius - radius / 2;
-                var y = Math.random() * radius - radius / 2;
-                var z = Math.random() * radius - radius / 2;
+                var vector = e.helpers.random3(0, 0, 0, radius, false);
 
-                particlePositions[i * 3]     = x;
-                particlePositions[i * 3 + 1] = y;
-                particlePositions[i * 3 + 2] = z;
+                particlePositions[i * 3]     = vector.x;
+                particlePositions[i * 3 + 1] = vector.y;
+                particlePositions[i * 3 + 2] = vector.z;
 
             });
 
@@ -75,11 +73,10 @@ module.exports = (function () {
 
                         final.push(destination);
 
-                    }, this);
+                    });
 
-                    if (this.index > this.count) {
-                        console.log('you have used more particles than you have, please add more', this.index - this.count);
-                    }
+                    if (this.index > this.count)
+                        console.log('you have used more particles than what you have, please add more', this.index - this.count);
 
                     this.final.push({
                         name: name,
@@ -112,12 +109,18 @@ module.exports = (function () {
                         /**
                          * Remove Array from Final and set animating to false if final is empty
                          */
-                        var onComplete = function () {
+                        options.complete = function () {
 
                             final.shift();
 
+                            /**
+                             * if complete was set call it
+                             */
+                            if (!e.helpers.isNull(o) && e.helpers.isFunction(o.complete))
+                                o.complete();
+
                             if (!e.helpers.length(final))
-                                this.animating = false
+                                this.animating = false;
 
                         };
 
@@ -139,7 +142,7 @@ module.exports = (function () {
                              */
                             vertices.needsUpdate = true;
 
-                        }, onComplete, this);
+                        }, this);
 
                     }, this);
 

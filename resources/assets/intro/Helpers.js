@@ -128,7 +128,7 @@ module.exports = (function () {
                 /**
                  * Skip Properties if it has been set
                  */
-                if (this.in(key, skip))
+                if (!this.isNull(skip) && this.in(key, skip))
                     return;
 
                 temp[key] = this.clone(obj[key], skip);
@@ -141,6 +141,10 @@ module.exports = (function () {
 
         every: function (array, callback, context) {
             return array.every(callback.bind(context || Engine));
+        },
+
+        timeout: function (time, callback, context) {
+            return window.setTimeout(callback.bind(context || Engine), time * 1000);
         },
 
         extend: function (obj, src) {
@@ -184,30 +188,64 @@ module.exports = (function () {
         },
 
         sub: function (origin, obj) {
-
-            this.keys(obj, function (el, attribute) {
-
-                obj[attribute] = this.map(el, function (value, index) {
-                    return value - origin[attribute][index];
-                });
-
-            }, this);
-
-            return obj;
-
+            return this.math(origin, obj, '-')
         },
 
         add: function (origin, obj) {
+            return this.math(origin, obj, '+')
+        },
 
-            this.keys(obj, function (el, attribute) {
+        multiply: function (origin, obj) {
+            return this.math(origin, obj, '*')
+        },
 
-                obj[attribute] = this.map(el, function (value, index) {
-                    return value + origin[attribute][index];
-                });
+        divide: function (origin, obj) {
+            return this.math(origin, obj, '/')
+        },
 
-            }, this);
+        math: function (origin, obj, operator) {
 
-            return obj;
+            var temp = {}, operators = {
+                '-': function (a, b) {
+                    return a - b;
+                },
+                '+': function (a, b) {
+                    return a + b;
+                },
+                '*': function (a, b) {
+                    return a * b;
+                },
+                '/': function (a, b) {
+                    return a / b;
+                }
+            };
+
+            if (this.isObject(origin)) {
+
+                this.keys(origin, function (el, index) {
+
+                    if (this.isObject(el)) {
+                        return temp[index] = this.math(el, this.isObject(obj) ? obj[index] : obj, operator);
+                    }
+
+                    if (this.isObject(obj)) {
+
+                        if (this.isObject(obj[index]))
+                            return temp[index] = this.math(el, obj[index], operator);
+
+                        return temp[index] = operators[operator](el, obj[index]);
+
+                    }
+
+                    temp[index] = operators[operator](el, obj)
+
+                }, this);
+
+                return temp;
+
+            }
+
+            return operators[operator](origin, obj);
 
         },
 

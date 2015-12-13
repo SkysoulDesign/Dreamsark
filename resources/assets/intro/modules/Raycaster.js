@@ -94,6 +94,21 @@ module.exports = (function (e) {
 
         },
 
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context) {
+
+            this.add(element);
+
+            this.clicksBag.push({
+                element: element,
+                callbackIn: callbackIn,
+                callbackOut: callbackOut,
+                callback: callbackClick,
+                context: context,
+                type: 'hoverClick'
+            });
+
+        },
+
         hoverOut: function () {
 
             var result = false;
@@ -174,7 +189,7 @@ module.exports = (function (e) {
                             /**
                              * if element is clicked call it
                              */
-                            if (this.watcher.click && el.type === 'click') {
+                            if (this.watcher.click && (el.type === 'click' || el.type === 'hoverClick')) {
                                 result             = el.callback.call(el.context || e, el.element);
                                 this.watcher.click = false;
                             }
@@ -190,7 +205,7 @@ module.exports = (function (e) {
                             /**
                              * if element is hovered call it
                              */
-                            if (this.watcher.hover.active && el.type === 'hover') {
+                            if (this.watcher.hover.active && (el.type === 'hover' || el.type === 'hoverClick')) {
 
                                 /**
                                  * if he has hovered over the same so return
@@ -203,8 +218,7 @@ module.exports = (function (e) {
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element !== el.element)
                                     result = this.hoverOut();
 
-                                this.watcher.hover.el     = el;
-                                this.watcher.hover.status = true;
+                                this.watcher.hover.el = el;
 
                             }
 
@@ -216,7 +230,7 @@ module.exports = (function (e) {
 
                         }
 
-                    } else if (el.type === 'hover' && !e.helpers.isNull(this.watcher.hover.el)) {
+                    } else if ((el.type === 'hover' || el.type === 'hoverClick') && !e.helpers.isNull(this.watcher.hover.el)) {
                         this.hoverOut();
                     }
 

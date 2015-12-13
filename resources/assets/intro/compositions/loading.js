@@ -68,7 +68,7 @@ module.exports = function (e, scene, camera, elements) {
                 tween.create(buttonParams, {
                     ease: 'expoInOut',
                     origin: buttonOrigin,
-                    duration: 2,
+                    duration: 2
                 }, function (param) {
 
                     skipButton.position.x  = param.skip.x;
@@ -83,7 +83,7 @@ module.exports = function (e, scene, camera, elements) {
 
             });
 
-            /***
+            /**
              * Loading Circle
              */
             var loadingCircle = elements.Circle;
@@ -101,81 +101,79 @@ module.exports = function (e, scene, camera, elements) {
              */
             mouse.click(startButton, function () {
 
-                var buttonDestination = {
-                    start: startButton.position.x,
-                    skip: skipButton.position.x,
-                    scaleX: skipButton.scale.x,
-                    scaleY: skipButton.scale.y,
-                    opacity: 1
-                };
+                /**
+                 * Scale the Buttons down and remove it from scene
+                 *
+                 * @type {{startX: number, skipX: number, scaleX: number, scaleY: number, opacity: number}}
+                 */
+                var buttonParameters = {
+                    startX: 0.1,
+                    skipX: 0.1,
+                    scaleX: 0.001,
+                    scaleY: 0.001,
+                    opacity: 0
+                },
+                    buttonOrigin     = {
+                        startX: startButton.position.x,
+                        skipX: skipButton.position.x,
+                        scaleX: skipButton.scale.x,
+                        scaleY: skipButton.scale.y,
+                        opacity: 1
+                    },
+                    buttonComplete   = function () {
+                        scene.remove(startButton, skipButton);
+                    };
 
                 /**
                  * Hide Buttons
                  */
-                tween.add(buttonDestination, 1, {
-                    start: 0.1,
-                    skip: 0.1,
-                    opacity: 0,
-                    scaleX: 0.001,
-                    scaleY: 0.001,
-                    ease: Power3.easeInOut,
-                    onUpdate: function () {
+                tween.create(buttonParameters, {
+                    duration: 1,
+                    origin: buttonOrigin,
+                    complete: buttonComplete
+                }, function (param) {
 
-                        startButton.position.x = buttonDestination.start;
-                        skipButton.position.x  = skipButton.scale.x = buttonDestination.skip;
+                    startButton.position.x = param.startX;
+                    skipButton.position.x  = param.skipX;
 
-                        startButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
-                        skipButton.scale.set(buttonDestination.scaleX, buttonDestination.scaleY, buttonDestination.scaleY);
+                    startButton.scale.set(param.scaleX, param.scaleY, param.scaleY);
+                    skipButton.scale.set(param.scaleX, param.scaleY, param.scaleY);
 
-                        startButton.material.opacity = buttonDestination.opacity;
-                        skipButton.material.opacity  = buttonDestination.opacity;
+                    startButton.material.opacity = param.opacity;
+                    skipButton.material.opacity  = param.opacity;
 
-                    },
-                    onComplete: function () {
-
-                        /**
-                         * Remove From Scene when finish
-                         */
-                        scene.remove(startButton, skipButton);
-
-                    }
                 });
 
                 /**
-                 * Show Percentage Bar
+                 * Show Percentage Counter
                  */
-                var percentageScale = {
-                    scale: 0
-                };
-
-                tween.add(percentageScale, 1, {
-                    scale: 1,
-                    delay: 0.5,
-                    ease: Power3.easeInOut,
-                    onStart: function () {
+                var percentageDestination = {scale: new THREE.Vector3(1, 1, 1)},
+                    percentageStart       = function () {
                         scene.add(percentage.text);
-                    },
-                    onUpdate: function () {
-                        percentage.text.scale.set(percentageScale.scale, percentageScale.scale, percentageScale.scale);
-                    }
+                    };
+
+                tween.create(percentageDestination, {
+                    duration: 1,
+                    delay: 0.5,
+                    start: percentageStart
+                }, function (param) {
+                    percentage.text.scale.copy(param.scale);
                 });
 
-                var counter = {
-                    scale: logo.scale.x,
-                    y: logo.position.y
+                /**
+                 * Tween Logo Back to 100% and center
+                 */
+                var logoDestination = {
+                    scale: new THREE.Vector3(1, 1, 1),
+                    position: new THREE.Vector3(0, 0, 0)
+                }, logoOrigin       = {
+                    scale: logo.scale,
+                    position: logo.position
                 };
 
-                /**
-                 * Tween Logo Back to 100%
-                 */
-                tween.add(counter, 1, {
-                    scale: 1,
-                    y: 0,
-                    ease: Power4.easeInOut,
-                    onUpdate: function () {
-                        logo.scale.set(counter.scale, counter.scale, counter.scale);
-                        logo.position.y = counter.y;
-                    }
+                tween.create(logoDestination, {ease: 'quintInOut', duration: 1, origin: logoOrigin}, function (param) {
+                    logo.scale.copy(param.scale);
+                    logo.position.copy(param.position);
                 });
 
                 /**
@@ -244,7 +242,7 @@ module.exports = function (e, scene, camera, elements) {
 
                     };
 
-                });;
+                });
 
                 /**
                  * Remove Click Event

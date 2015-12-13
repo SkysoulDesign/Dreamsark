@@ -153,6 +153,33 @@ module.exports = (function (e) {
 
         },
 
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture) {
+
+            /**
+             * if it's an THREE object then dispatches it to raycaster
+             */
+            if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
+
+                var raycaster = e.module('raycaster').class;
+                raycaster.hoverClick(element, callbackIn, callbackOut, callbackClick, context);
+
+                this.collection.push({
+                    element: element,
+                    type: 'hoverClick',
+                    raycaster: true
+                });
+
+                /**
+                 * return the index of the last element
+                 */
+                return e.helpers.length(this.collection) - 1;
+
+            }
+
+            console.log('still to implement the hoverClick method')
+
+        },
+
         delete: function (index) {
 
             var collection = this.collection;

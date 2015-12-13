@@ -10,15 +10,14 @@ module.exports = function (e, scene, camera, elements) {
             /**
              * Logo
              */
-            var logo       = elements.Logo,
-                logoParams = {
+            var logo            = elements.Logo,
+                logoDestination = {
                     rotation: new THREE.Vector3(logo.rotation.x, logo.rotation.y, Math.PI * 2)
-                },
-                logoOrigin = {
-                    rotation: logo.rotation.clone()
-                };
+                }, logoOrigin   = {
+                rotation: logo.rotation.toVector3()
+            };
 
-            tween.create(logoParams, {ease: 'quintInOut', origin: logoOrigin, duration: 3}, function (param) {
+            tween.create(logoDestination, {ease: 'quintInOut', origin: logoOrigin, duration: 3}, function (param) {
                 logo.rotation.setFromVector3(param.rotation);
             });
 
@@ -31,34 +30,32 @@ module.exports = function (e, scene, camera, elements) {
             /**
              * Fade in the skybox
              */
-            var skybox       = elements.Skybox,
-                skyboxParams = {
+            var skybox            = elements.Skybox,
+                skyboxDestination = {
                     opacity: 1
                 };
 
-            tween.create(skyboxParams, 2, function (param) {
+            tween.create(skyboxDestination, 2, function (param) {
                 skybox.material.opacity = param.opacity;
             });
 
             /**
              * Remove Percentage Button
              */
-            var percentage         = elements.Percentage,
-                percentageOrigin   = {
+            var percentage            = elements.Percentage,
+                percentageOrigin      = {
                     scale: percentage.text.scale.clone()
                 },
-                percentageParams   = {
-                    scale: new THREE.Vector3(0)
+                percentageDestination = {
+                    scale: new THREE.Vector3(0, 0, 0)
                 },
-                percentageComplete = function () {
+                percentageComplete    = function () {
                     scene.remove(percentage.text);
                 };
 
-            tween.create(percentageParams, {duration: 1, origin: percentageOrigin, complete: percentageComplete},
+            tween.create(percentageDestination, {duration: 1, origin: percentageOrigin, complete: percentageComplete},
                 function (param) {
-                    percentage.text.scale.x = param.scale.x;
-                    percentage.text.scale.y = param.scale.y;
-                    percentage.text.scale.z = param.scale.z;
+                    percentage.text.scale.copy(param.scale)
                 });
 
             /**
@@ -81,7 +78,7 @@ module.exports = function (e, scene, camera, elements) {
              * Expand the particles back in
              */
             var expandUniverse = function () {
-
+console.log('nevercomplegted')
                 particles.reset();
 
                 /**
@@ -128,16 +125,40 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 e.helpers.keys(plexus.children, function (el) {
 
-                    mouse.hover(el,
+                    mouse.hoverClick(el,
                         function (element) {
-                            element.material.size = 25
+
+                            var elementParams = {size: 25};
+
+                            tween.create(elementParams, {
+                                ease: 'expoInOut',
+                                origin: element.material.size,
+                                duration: 0.5
+                            }, function (param) {
+                                element.material.size = param.size;
+                            });
+
                         },
                         function (element) {
-                            element.material.size = 10
-                        });
+
+                            var elementParams = {size: 10}
+
+                            tween.create(elementParams, {
+                                ease: 'elasticOut',
+                                origin: element.material.size,
+                                duration: 0.3
+                            }, function (param) {
+                                element.material.size = param.size
+                            });
+
+                        },
+                        function (element) {
+                            //camera.class.moveTo(element.position, element.rotation);
+                        })
 
                 });
 
+                console.log('what noever here')
                 scene.add(plexus);
 
             };
@@ -145,7 +166,6 @@ module.exports = function (e, scene, camera, elements) {
             particles.tween('singularity', 2, {
                 ease: 'quadInOut', complete: expandUniverse
             });
-
 
             scene.add(skybox)
 
@@ -156,7 +176,6 @@ module.exports = function (e, scene, camera, elements) {
         }
 
     }
-        ;
 
 }
 ;
