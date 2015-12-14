@@ -93,6 +93,10 @@ module.exports = (function (e) {
             var endingQuaternion  = clone.quaternion;
             var targetQuaternion  = new THREE.Quaternion();
 
+            /**
+             * Element position needs to fix
+             * @type {{time: number, position: *}}
+             */
             var destination = {time: 1, position: element.position.clone().sub(distance)},
                 origin      = {
                     time: 0,
