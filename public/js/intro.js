@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions\\loading.js"),"universe":require("./compositions\\universe.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions/loading.js"),"universe":require("./compositions/universe.js")})}).compositions;
 
 })();
-},{"./compositions\\loading.js":12,"./compositions\\universe.js":13}],5:[function(require,module,exports){
+},{"./compositions/loading.js":12,"./compositions/universe.js":13}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43952,10 +43952,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Circle":require("./elements\\Circle.js"),"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"NebuleBuffer":require("./elements\\NebuleBuffer.js"),"Particles":require("./elements\\Particles.js"),"Percentage":require("./elements\\Percentage.js"),"Plexus":require("./elements\\Plexus.js"),"SingularityBuffer":require("./elements\\SingularityBuffer.js"),"Skybox":require("./elements\\Skybox.js"),"UniverseBuffer":require("./elements\\UniverseBuffer.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"NebuleBuffer":require("./elements/NebuleBuffer.js"),"Particles":require("./elements/Particles.js"),"Percentage":require("./elements/Percentage.js"),"Plexus":require("./elements/Plexus.js"),"SingularityBuffer":require("./elements/SingularityBuffer.js"),"Skybox":require("./elements/Skybox.js"),"UniverseBuffer":require("./elements/UniverseBuffer.js")})}).elements;
 
 })(Engine);
-},{"./elements\\Circle.js":14,"./elements\\Cube.js":15,"./elements\\Dreamsark.js":16,"./elements\\Logo.js":17,"./elements\\NebuleBuffer.js":18,"./elements\\Particles.js":19,"./elements\\Percentage.js":20,"./elements\\Plexus.js":21,"./elements\\SingularityBuffer.js":22,"./elements\\Skybox.js":23,"./elements\\UniverseBuffer.js":24}],7:[function(require,module,exports){
+},{"./elements/Circle.js":14,"./elements/Cube.js":15,"./elements/Dreamsark.js":16,"./elements/Logo.js":17,"./elements/NebuleBuffer.js":18,"./elements/Particles.js":19,"./elements/Percentage.js":20,"./elements/Plexus.js":21,"./elements/SingularityBuffer.js":22,"./elements/Skybox.js":23,"./elements/UniverseBuffer.js":24}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44137,10 +44137,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the Fonts directory
      */
-    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts\\helvetiker_regular.typeface.js")})}).fonts;
+    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts/helvetiker_regular.typeface.js")})}).fonts;
 
 })();
-},{"./fonts\\helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
+},{"./fonts/helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44445,19 +44445,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
 
 })();
-},{"./modules\\Browser.js":27,"./modules\\Camera.js":28,"./modules\\Checker.js":29,"./modules\\Compositor.js":30,"./modules\\Events.js":31,"./modules\\Loader.js":32,"./modules\\Manager.js":33,"./modules\\Mouse.js":34,"./modules\\Raycaster.js":35,"./modules\\Renderer.js":36,"./modules\\Scene.js":37,"./modules\\Stats.js":38,"./modules\\Tween.js":39}],11:[function(require,module,exports){
+},{"./modules/Browser.js":27,"./modules/Camera.js":28,"./modules/Checker.js":29,"./modules/Compositor.js":30,"./modules/Events.js":31,"./modules/Loader.js":32,"./modules/Manager.js":33,"./modules/Mouse.js":34,"./modules/Raycaster.js":35,"./modules/Renderer.js":36,"./modules/Scene.js":37,"./modules/Stats.js":38,"./modules/Tween.js":39}],11:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"FlyControls":require("./plugins\\FlyControls.js"),"FontUtils":require("./plugins\\FontUtils.js"),"OBJLoader":require("./plugins\\OBJLoader.js"),"OrbitControls":require("./plugins\\OrbitControls.js"),"TextGeometry":require("./plugins\\TextGeometry.js"),"TrackballControls":require("./plugins\\TrackballControls.js"),"easie":require("./plugins\\easie.js")})}).plugins;
+    return ({"plugins":({"FlyControls":require("./plugins/FlyControls.js"),"FontUtils":require("./plugins/FontUtils.js"),"OBJLoader":require("./plugins/OBJLoader.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js"),"easie":require("./plugins/easie.js")})}).plugins;
 
 })();
-},{"./plugins\\FlyControls.js":40,"./plugins\\FontUtils.js":41,"./plugins\\OBJLoader.js":42,"./plugins\\OrbitControls.js":43,"./plugins\\TextGeometry.js":44,"./plugins\\TrackballControls.js":45,"./plugins\\easie.js":46}],12:[function(require,module,exports){
+},{"./plugins/FlyControls.js":40,"./plugins/FontUtils.js":41,"./plugins/OBJLoader.js":42,"./plugins/OrbitControls.js":43,"./plugins/TextGeometry.js":44,"./plugins/TrackballControls.js":45,"./plugins/easie.js":46}],12:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44811,7 +44811,7 @@ module.exports = function (e, scene, camera, elements) {
              * Expand the particles back in
              */
             var expandUniverse = function () {
-console.log('nevercomplegted')
+
                 particles.reset();
 
                 /**
@@ -44837,12 +44837,12 @@ console.log('nevercomplegted')
 
                     complete: function () {
 
-                        var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
-                        var checker  = e.module('checker').class;
-
-                        checker.add(function () {
-                            controls.update()
-                        })
+                        //var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
+                        //var checker  = e.module('checker').class;
+                        //
+                        //checker.add(function () {
+                        //    controls.update()
+                        //})
 
                     }
 
@@ -44858,40 +44858,45 @@ console.log('nevercomplegted')
                  */
                 e.helpers.keys(plexus.children, function (el) {
 
-                    mouse.hoverClick(el,
-                        function (element) {
+                    var hoverIn  = function (element) {
 
-                            var elementParams = {size: 25};
+                            var destination = {size: 25},
+                                options     = {
+                                    ease: 'expoInOut',
+                                    origin: element.material.size,
+                                    duration: 0.5
+                                },
+                                update      = function (param) {
+                                    element.material.size = param.size;
+                                };
 
-                            tween.create(elementParams, {
-                                ease: 'expoInOut',
-                                origin: element.material.size,
-                                duration: 0.5
-                            }, function (param) {
-                                element.material.size = param.size;
-                            });
-
-                        },
-                        function (element) {
-
-                            var elementParams = {size: 10}
-
-                            tween.create(elementParams, {
-                                ease: 'elasticOut',
-                                origin: element.material.size,
-                                duration: 0.3
-                            }, function (param) {
-                                element.material.size = param.size
-                            });
+                            tween.create(destination, options, update);
 
                         },
-                        function (element) {
-                            //camera.class.moveTo(element.position, element.rotation);
-                        })
+                        hoverOut = function (element) {
+
+                            var destination = {size: 10},
+                                options     = {
+                                    ease: 'elasticOut',
+                                    origin: element.material.size,
+                                    duration: 0.3
+                                },
+                                update      = function (param) {
+                                    element.material.size = param.size
+                                };
+
+                            tween.create(destination, options, update);
+
+                        },
+                        click    = function (element) {
+                            console.log(element)
+                            camera.class.moveTo(element);
+                        };
+
+                    mouse.hoverClick(el, hoverIn, hoverOut, click);
 
                 });
 
-                console.log('what noever here')
                 scene.add(plexus);
 
             };
@@ -45333,10 +45338,6 @@ module.exports = (function () {
 
                 var vector = e.helpers.random3(0, 0, 0, 1000 / 4, false);
 
-                particlePositions[0] = vector.x;
-                particlePositions[1] = vector.y;
-                particlePositions[2] = vector.z;
-
                 var material = new THREE.PointsMaterial({
                     map: maps['point' + e.helpers.random(1, 4)],
                     size: 10,
@@ -45347,7 +45348,14 @@ module.exports = (function () {
 
                 particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
 
-                group.add(new THREE.Points(particles, material));
+                var point = new THREE.Points(particles, material);
+
+                /**
+                 * Set Position in real world so can be accessible by lookAt
+                 */
+                point.position.copy(vector);
+
+                group.add(point);
 
             });
 
@@ -45597,19 +45605,37 @@ module.exports = (function (e) {
 
         },
 
-        moveTo: function (position, rotation, options) {
+        moveTo: function (element) {
 
-            //console.log(position);
-            //console.log();
+            var tween    = e.module('tween').class,
+                camera   = this.camera,
+                distance = new THREE.Vector3(10, 10, 10);
 
-            var tween      = e.module('tween').class,
-                camera     = this.camera,
-                parameters = {position: position},
-                origin     = {position: camera.position.clone()};
+            var clone = camera.clone();
+            clone.lookAt(element.position);
 
-            tween.create(parameters, {origin: origin, duration: 2}, function (param) {
+            var initialQuaternion = camera.quaternion.clone();
+            var endingQuaternion  = clone.quaternion;
+            var targetQuaternion  = new THREE.Quaternion();
+
+            var destination = {time: 1, position: element.position.clone().sub(distance)},
+                origin      = {
+                    time: 0,
+                    position: camera.position
+                };
+
+            tween.create(destination, {duration: 2, origin: origin}, function (param) {
+
                 camera.position.set(param.position.x, param.position.y, param.position.z);
+
+                THREE.Quaternion.slerp(initialQuaternion, endingQuaternion, targetQuaternion, param.time);
+                camera.setRotationFromQuaternion(targetQuaternion);
+
             });
+
+            //tween.create(parameters, {origin: origin, duration: 2}, function (param) {
+            //    camera.position.set(param.position.x, param.position.y, param.position.z);
+            //});
 
         }
 

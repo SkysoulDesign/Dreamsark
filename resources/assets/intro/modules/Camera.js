@@ -80,19 +80,37 @@ module.exports = (function (e) {
 
         },
 
-        moveTo: function (position, rotation, options) {
+        moveTo: function (element) {
 
-            //console.log(position);
-            //console.log();
+            var tween    = e.module('tween').class,
+                camera   = this.camera,
+                distance = new THREE.Vector3(10, 10, 10);
 
-            var tween      = e.module('tween').class,
-                camera     = this.camera,
-                parameters = {position: position},
-                origin     = {position: camera.position.clone()};
+            var clone = camera.clone();
+            clone.lookAt(element.position);
 
-            tween.create(parameters, {origin: origin, duration: 2}, function (param) {
+            var initialQuaternion = camera.quaternion.clone();
+            var endingQuaternion  = clone.quaternion;
+            var targetQuaternion  = new THREE.Quaternion();
+
+            var destination = {time: 1, position: element.position.clone().sub(distance)},
+                origin      = {
+                    time: 0,
+                    position: camera.position
+                };
+
+            tween.create(destination, {duration: 2, origin: origin}, function (param) {
+
                 camera.position.set(param.position.x, param.position.y, param.position.z);
+
+                THREE.Quaternion.slerp(initialQuaternion, endingQuaternion, targetQuaternion, param.time);
+                camera.setRotationFromQuaternion(targetQuaternion);
+
             });
+
+            //tween.create(parameters, {origin: origin, duration: 2}, function (param) {
+            //    camera.position.set(param.position.x, param.position.y, param.position.z);
+            //});
 
         }
 

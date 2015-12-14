@@ -78,7 +78,7 @@ module.exports = function (e, scene, camera, elements) {
              * Expand the particles back in
              */
             var expandUniverse = function () {
-console.log('nevercomplegted')
+
                 particles.reset();
 
                 /**
@@ -104,12 +104,12 @@ console.log('nevercomplegted')
 
                     complete: function () {
 
-                        var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
-                        var checker  = e.module('checker').class;
-
-                        checker.add(function () {
-                            controls.update()
-                        })
+                        //var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
+                        //var checker  = e.module('checker').class;
+                        //
+                        //checker.add(function () {
+                        //    controls.update()
+                        //})
 
                     }
 
@@ -125,40 +125,45 @@ console.log('nevercomplegted')
                  */
                 e.helpers.keys(plexus.children, function (el) {
 
-                    mouse.hoverClick(el,
-                        function (element) {
+                    var hoverIn  = function (element) {
 
-                            var elementParams = {size: 25};
+                            var destination = {size: 25},
+                                options     = {
+                                    ease: 'expoInOut',
+                                    origin: element.material.size,
+                                    duration: 0.5
+                                },
+                                update      = function (param) {
+                                    element.material.size = param.size;
+                                };
 
-                            tween.create(elementParams, {
-                                ease: 'expoInOut',
-                                origin: element.material.size,
-                                duration: 0.5
-                            }, function (param) {
-                                element.material.size = param.size;
-                            });
-
-                        },
-                        function (element) {
-
-                            var elementParams = {size: 10}
-
-                            tween.create(elementParams, {
-                                ease: 'elasticOut',
-                                origin: element.material.size,
-                                duration: 0.3
-                            }, function (param) {
-                                element.material.size = param.size
-                            });
+                            tween.create(destination, options, update);
 
                         },
-                        function (element) {
-                            //camera.class.moveTo(element.position, element.rotation);
-                        })
+                        hoverOut = function (element) {
+
+                            var destination = {size: 10},
+                                options     = {
+                                    ease: 'elasticOut',
+                                    origin: element.material.size,
+                                    duration: 0.3
+                                },
+                                update      = function (param) {
+                                    element.material.size = param.size
+                                };
+
+                            tween.create(destination, options, update);
+
+                        },
+                        click    = function (element) {
+                            console.log(element)
+                            camera.class.moveTo(element);
+                        };
+
+                    mouse.hoverClick(el, hoverIn, hoverOut, click);
 
                 });
 
-                console.log('what noever here')
                 scene.add(plexus);
 
             };

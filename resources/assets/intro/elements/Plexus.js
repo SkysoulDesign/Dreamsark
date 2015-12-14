@@ -27,10 +27,6 @@ module.exports = (function () {
 
                 var vector = e.helpers.random3(0, 0, 0, 1000 / 4, false);
 
-                particlePositions[0] = vector.x;
-                particlePositions[1] = vector.y;
-                particlePositions[2] = vector.z;
-
                 var material = new THREE.PointsMaterial({
                     map: maps['point' + e.helpers.random(1, 4)],
                     size: 10,
@@ -41,7 +37,14 @@ module.exports = (function () {
 
                 particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
 
-                group.add(new THREE.Points(particles, material));
+                var point = new THREE.Points(particles, material);
+
+                /**
+                 * Set Position in real world so can be accessible by lookAt
+                 */
+                point.position.copy(vector);
+
+                group.add(point);
 
             });
 
