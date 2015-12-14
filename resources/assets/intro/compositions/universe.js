@@ -104,12 +104,10 @@ module.exports = function (e, scene, camera, elements) {
 
                     complete: function () {
 
-                        //var controls = new THREE.TrackballControls(camera, e.module('renderer').domElement);
-                        //var checker  = e.module('checker').class;
-                        //
-                        //checker.add(function () {
-                        //    controls.update()
-                        //})
+                        /**
+                         * Initialize Controls
+                         */
+                        camera.class.initControls();
 
                     }
 
@@ -156,7 +154,6 @@ module.exports = function (e, scene, camera, elements) {
 
                         },
                         click    = function (element) {
-                            console.log(element)
                             camera.class.moveTo(element);
                         };
 

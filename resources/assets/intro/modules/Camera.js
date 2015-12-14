@@ -8,6 +8,7 @@ module.exports = (function (e) {
         camera: null,
         target: null,
         followEnabled: true,
+        controls: null,
 
         init: function () {
 
@@ -79,14 +80,32 @@ module.exports = (function (e) {
             });
 
         },
+        initControls: function () {
+
+            var camera   = this.camera,
+                renderer = e.module('renderer'),
+                checker  = e.module('checker').class,
+                controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+            this.controls = controls;
+
+            checker.add(function () {
+                controls.update()
+            })
+
+        },
 
         moveTo: function (element) {
 
             var tween    = e.module('tween').class,
                 camera   = this.camera,
-                distance = new THREE.Vector3(10, 10, 10);
+                controls = this.controls,
+                distance = 10;
+
+            //return
 
             var clone = camera.clone();
+            clone.position.set(element.position.x - distance, element.position.y - distance, element.position.z - distance);
             clone.lookAt(element.position);
 
             var initialQuaternion = camera.quaternion.clone();
@@ -97,24 +116,23 @@ module.exports = (function (e) {
              * Element position needs to fix
              * @type {{time: number, position: *}}
              */
-            var destination = {time: 1, position: element.position.clone().sub(distance)},
+            var destination = {time: 1, position: clone.position.clone()},
                 origin      = {
                     time: 0,
                     position: camera.position
+                },
+                complete    = function () {
+                    //controls.target.copy(clone.position);
                 };
 
-            tween.create(destination, {duration: 2, origin: origin}, function (param) {
+            tween.create(destination, {duration: 2, origin: origin, complete: complete}, function (param) {
 
-                camera.position.set(param.position.x, param.position.y, param.position.z);
+                camera.position.copy(param.position);
 
                 THREE.Quaternion.slerp(initialQuaternion, endingQuaternion, targetQuaternion, param.time);
                 camera.setRotationFromQuaternion(targetQuaternion);
 
             });
-
-            //tween.create(parameters, {origin: origin, duration: 2}, function (param) {
-            //    camera.position.set(param.position.x, param.position.y, param.position.z);
-            //});
 
         }
 
