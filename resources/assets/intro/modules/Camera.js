@@ -87,6 +87,12 @@ module.exports = (function (e) {
                 checker  = e.module('checker').class,
                 controls = new THREE.TrackballControls(camera, renderer.domElement);
 
+            /**
+             * disable it if it was already enabled before
+             */
+            if (this.controls && this.controls.enabled === false)
+                this.controls.enabled = false;
+
             this.controls = controls;
 
             checker.add(function () {
@@ -97,9 +103,6 @@ module.exports = (function (e) {
                 if (controls.enabled === false) {
 
                     controls.dispose();
-                    this.controls = null;
-
-                    console.log('removed');
 
                     return true;
 
