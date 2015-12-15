@@ -23,7 +23,7 @@ module.exports = function (e, scene, camera, elements) {
              */
             var logo = elements.Logo;
             logo.scale.set(.5, .5, .5);
-            logo.position.setY(2);
+            logo.position.setY(3.5);
 
             /**
              * Play Button
@@ -57,7 +57,6 @@ module.exports = function (e, scene, camera, elements) {
                     buttonParams = {
                         start: new THREE.Vector3(50, 0, 0),
                         skip: new THREE.Vector3(-50, 0, 0)
-
                     };
 
                 form.submit();
@@ -70,10 +69,8 @@ module.exports = function (e, scene, camera, elements) {
                     origin: buttonOrigin,
                     duration: 2
                 }, function (param) {
-
                     skipButton.position.x  = param.skip.x;
                     startButton.position.x = param.start.x;
-
                 });
 
                 /**
@@ -88,13 +85,13 @@ module.exports = function (e, scene, camera, elements) {
              */
             var loadingCircle = elements.Circle;
             loadingCircle.position.set(0, 2, 5);
-            loadingCircle.geometry.rotateX(Math.PI / 2);
+            //loadingCircle.geometry.rotateX(Math.PI / 2);
 
             /**
              * Particles
              */
             var particles = elements.Particles;
-            particles.mesh.rotateX(Math.PI / 2);
+            //particles.mesh.rotateX(Math.PI / 2);
 
             /**
              * When Click on the start button

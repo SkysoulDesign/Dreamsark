@@ -1,2 +1,2 @@
-[Fri Dec 04 2015 15:16:43 GMT+0800 (CST)] layer "mini-header-bg.jpg copy": Expected end of input but "c" found.
-[Fri Dec 04 2015 15:16:43 GMT+0800 (CST)] layer "mini-header-bg.jpg": Duplicate path: mini-header-bg.jpg
+[Tue Dec 15 2015 10:37:25 GMT+0800 (CST)] layer "mini-header-bg.jpg copy": Expected end of input but "c" found.
+[Tue Dec 15 2015 10:37:25 GMT+0800 (CST)] layer "mini-header-bg.jpg": Duplicate path: mini-header-bg.jpg

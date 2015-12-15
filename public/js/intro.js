@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions\\loading.js"),"universe":require("./compositions\\universe.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions/loading.js"),"universe":require("./compositions/universe.js")})}).compositions;
 
 })();
-},{"./compositions\\loading.js":12,"./compositions\\universe.js":13}],5:[function(require,module,exports){
+},{"./compositions/loading.js":12,"./compositions/universe.js":13}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43952,10 +43952,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Circle":require("./elements\\Circle.js"),"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"NebuleBuffer":require("./elements\\NebuleBuffer.js"),"Particles":require("./elements\\Particles.js"),"Percentage":require("./elements\\Percentage.js"),"Plexus":require("./elements\\Plexus.js"),"SingularityBuffer":require("./elements\\SingularityBuffer.js"),"Skybox":require("./elements\\Skybox.js"),"UniverseBuffer":require("./elements\\UniverseBuffer.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"NebuleBuffer":require("./elements/NebuleBuffer.js"),"Particles":require("./elements/Particles.js"),"Percentage":require("./elements/Percentage.js"),"Plexus":require("./elements/Plexus.js"),"SingularityBuffer":require("./elements/SingularityBuffer.js"),"Skybox":require("./elements/Skybox.js"),"UniverseBuffer":require("./elements/UniverseBuffer.js")})}).elements;
 
 })(Engine);
-},{"./elements\\Circle.js":14,"./elements\\Cube.js":15,"./elements\\Dreamsark.js":16,"./elements\\Logo.js":17,"./elements\\NebuleBuffer.js":18,"./elements\\Particles.js":19,"./elements\\Percentage.js":20,"./elements\\Plexus.js":21,"./elements\\SingularityBuffer.js":22,"./elements\\Skybox.js":23,"./elements\\UniverseBuffer.js":24}],7:[function(require,module,exports){
+},{"./elements/Circle.js":14,"./elements/Cube.js":15,"./elements/Dreamsark.js":16,"./elements/Logo.js":17,"./elements/NebuleBuffer.js":18,"./elements/Particles.js":19,"./elements/Percentage.js":20,"./elements/Plexus.js":21,"./elements/SingularityBuffer.js":22,"./elements/Skybox.js":23,"./elements/UniverseBuffer.js":24}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44137,10 +44137,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the Fonts directory
      */
-    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts\\helvetiker_regular.typeface.js")})}).fonts;
+    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts/helvetiker_regular.typeface.js")})}).fonts;
 
 })();
-},{"./fonts\\helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
+},{"./fonts/helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44445,19 +44445,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
 
 })();
-},{"./modules\\Browser.js":27,"./modules\\Camera.js":28,"./modules\\Checker.js":29,"./modules\\Compositor.js":30,"./modules\\Events.js":31,"./modules\\Loader.js":32,"./modules\\Manager.js":33,"./modules\\Mouse.js":34,"./modules\\Raycaster.js":35,"./modules\\Renderer.js":36,"./modules\\Scene.js":37,"./modules\\Stats.js":38,"./modules\\Tween.js":39}],11:[function(require,module,exports){
+},{"./modules/Browser.js":27,"./modules/Camera.js":28,"./modules/Checker.js":29,"./modules/Compositor.js":30,"./modules/Events.js":31,"./modules/Loader.js":32,"./modules/Manager.js":33,"./modules/Mouse.js":34,"./modules/Raycaster.js":35,"./modules/Renderer.js":36,"./modules/Scene.js":37,"./modules/Stats.js":38,"./modules/Tween.js":39}],11:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"FlyControls":require("./plugins\\FlyControls.js"),"FontUtils":require("./plugins\\FontUtils.js"),"OBJLoader":require("./plugins\\OBJLoader.js"),"OrbitControls":require("./plugins\\OrbitControls.js"),"TextGeometry":require("./plugins\\TextGeometry.js"),"TrackballControls":require("./plugins\\TrackballControls.js"),"easie":require("./plugins\\easie.js")})}).plugins;
+    return ({"plugins":({"FlyControls":require("./plugins/FlyControls.js"),"FontUtils":require("./plugins/FontUtils.js"),"OBJLoader":require("./plugins/OBJLoader.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js"),"easie":require("./plugins/easie.js")})}).plugins;
 
 })();
-},{"./plugins\\FlyControls.js":40,"./plugins\\FontUtils.js":41,"./plugins\\OBJLoader.js":42,"./plugins\\OrbitControls.js":43,"./plugins\\TextGeometry.js":44,"./plugins\\TrackballControls.js":45,"./plugins\\easie.js":46}],12:[function(require,module,exports){
+},{"./plugins/FlyControls.js":40,"./plugins/FontUtils.js":41,"./plugins/OBJLoader.js":42,"./plugins/OrbitControls.js":43,"./plugins/TextGeometry.js":44,"./plugins/TrackballControls.js":45,"./plugins/easie.js":46}],12:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44483,7 +44483,7 @@ module.exports = function (e, scene, camera, elements) {
              */
             var logo = elements.Logo;
             logo.scale.set(.5, .5, .5);
-            logo.position.setY(2);
+            logo.position.setY(3.5);
 
             /**
              * Play Button
@@ -44517,7 +44517,6 @@ module.exports = function (e, scene, camera, elements) {
                     buttonParams = {
                         start: new THREE.Vector3(50, 0, 0),
                         skip: new THREE.Vector3(-50, 0, 0)
-
                     };
 
                 form.submit();
@@ -44530,10 +44529,8 @@ module.exports = function (e, scene, camera, elements) {
                     origin: buttonOrigin,
                     duration: 2
                 }, function (param) {
-
                     skipButton.position.x  = param.skip.x;
                     startButton.position.x = param.start.x;
-
                 });
 
                 /**
@@ -44548,13 +44545,13 @@ module.exports = function (e, scene, camera, elements) {
              */
             var loadingCircle = elements.Circle;
             loadingCircle.position.set(0, 2, 5);
-            loadingCircle.geometry.rotateX(Math.PI / 2);
+            //loadingCircle.geometry.rotateX(Math.PI / 2);
 
             /**
              * Particles
              */
             var particles = elements.Particles;
-            particles.mesh.rotateX(Math.PI / 2);
+            //particles.mesh.rotateX(Math.PI / 2);
 
             /**
              * When Click on the start button
@@ -44887,7 +44884,60 @@ module.exports = function (e, scene, camera, elements) {
 
                         },
                         click    = function (element) {
-                            camera.class.moveTo(element);
+
+                            var complete = function () {
+
+                                var tween = e.module('tween').class,
+                                    mouse = e.module('mouse').class;
+
+                                var overlay     = document.querySelector('#show-entry'),
+                                    closeButton = document.querySelector('#view-project'),
+                                    miniature   = document.querySelector('#miniature'),
+                                    title       = document.querySelector('#title'),
+                                    description = document.querySelector('#description');
+
+                                /**
+                                 * Restyle Page
+                                 */
+                                overlay.style.display = 'block';
+                                miniature.src           = element.userData.src;
+                                title.textContent       = element.userData.title;
+                                description.textContent = element.userData.description;
+
+                                mouse.click(closeButton, function (event) {
+
+                                    overlay.style.display         = 'none';
+                                    //camera.position.copy(elements.Logo.position);
+                                    //camera.position.z += 50;
+                                    //camera.lookAt(elements.Logo.position);
+
+                                    /**
+                                     * Re-enable Controls
+                                     */
+                                    camera.class.initControls();
+
+                                });
+
+                                //
+                                //    destination = element.position.clone(),
+                                //    origin      = element.position.clone();
+
+                                //destination.x += 20;
+                                //destination.y += 10;
+                                //destination.z += 10;
+
+                                //console.log(destination)
+                                //
+                                //tween.create(destination, {duration: 1, origin: origin}, function (param) {
+                                //    element.position.copy(param)
+                                //});
+
+                            };
+
+                            /**
+                             * Move Camera to element
+                             */
+                            camera.class.moveTo(element, complete);
                         };
 
                     mouse.hoverClick(el, hoverIn, hoverOut, click);
@@ -45013,10 +45063,11 @@ module.exports = (function () {
                 wireframe: true
             });
 
-            objs.logo.rotation.x = -Math.PI / 2;
-            objs.logo.material   = material;
+            //objs.logo.rotation.x = -Math.PI / 2;
+            objs.logo.material = material;
             //objs.logo.scale.multiplyScalar(3);
-            objs.logo.geometry.scale(3, 3, 3);
+            objs.logo.geometry.scale(0.8, 0.8, 0.8);
+            //objs.logo.position.y = 20;
 
             return objs.logo;
 
@@ -45348,6 +45399,16 @@ module.exports = (function () {
                 var point = new THREE.Points(particles, material);
 
                 /**
+                 * Set Point Meta Data
+                 * @type {{src: *, title: string, description: string}}
+                 */
+                point.userData = {
+                    src: material.map.image.src,
+                    title: 'Project Beta Tittle',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias corporis deleniti deserunt eveniet expedita fuga fugiat.'
+                };
+
+                /**
                  * Set Position in real world so can be accessible by lookAt
                  */
                 point.position.copy(vector);
@@ -45612,12 +45673,28 @@ module.exports = (function (e) {
             this.controls = controls;
 
             checker.add(function () {
-                controls.update()
-            })
+
+                /**
+                 * Disable Controls if requested
+                 */
+                if (controls.enabled === false) {
+
+                    controls.dispose();
+                    this.controls = null;
+
+                    console.log('removed');
+
+                    return true;
+
+                }
+
+                controls.update();
+
+            }, this)
 
         },
 
-        moveTo: function (element) {
+        moveTo: function (element, callback, context) {
 
             var tween    = e.module('tween').class,
                 camera   = this.camera,
@@ -45643,11 +45720,20 @@ module.exports = (function (e) {
                     time: 0,
                     position: camera.position
                 },
+                start       = function () {
+                    if (controls.enabled)
+                        controls.enabled = false;
+                },
                 complete    = function () {
-                    //controls.target.copy(clone.position);
+                    callback.call(context || e);
                 };
 
-            tween.create(destination, {duration: 2, origin: origin, complete: complete}, function (param) {
+            tween.create(destination, {
+                duration: 2,
+                origin: origin,
+                start: start,
+                complete: complete
+            }, function (param) {
 
                 camera.position.copy(param.position);
 

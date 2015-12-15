@@ -18,6 +18,8 @@ button, .button {
   padding: rem-calc(20);
   position: relative;
 
+  text-transform: uppercase ;
+
   &:focus {
     outline: 0;
   }
@@ -129,16 +131,14 @@ button, .button {
   &.outlined {
 
     box-shadow: none;
-    border: 1px solid color(gray, mid-dark);
-    background: color(gray, mid-light);
+    border: 2px solid color(gray, mid-dark);
+    background: transparent;
+
+    color: color(white) !important;
 
     @extend a.inverted;
 
-    &:hover {
-      border-color: color(gray);
-      background-color: transparent;
-      box-shadow: 0 2px 2px 0 color(gray, x-dark, 50);
-    }
+    @extend .colors;
 
   }
 

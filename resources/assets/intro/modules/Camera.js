@@ -90,12 +90,28 @@ module.exports = (function (e) {
             this.controls = controls;
 
             checker.add(function () {
-                controls.update()
-            })
+
+                /**
+                 * Disable Controls if requested
+                 */
+                if (controls.enabled === false) {
+
+                    controls.dispose();
+                    this.controls = null;
+
+                    console.log('removed');
+
+                    return true;
+
+                }
+
+                controls.update();
+
+            }, this)
 
         },
 
-        moveTo: function (element) {
+        moveTo: function (element, callback, context) {
 
             var tween    = e.module('tween').class,
                 camera   = this.camera,
@@ -121,11 +137,20 @@ module.exports = (function (e) {
                     time: 0,
                     position: camera.position
                 },
+                start       = function () {
+                    if (controls.enabled)
+                        controls.enabled = false;
+                },
                 complete    = function () {
-                    //controls.target.copy(clone.position);
+                    callback.call(context || e);
                 };
 
-            tween.create(destination, {duration: 2, origin: origin, complete: complete}, function (param) {
+            tween.create(destination, {
+                duration: 2,
+                origin: origin,
+                start: start,
+                complete: complete
+            }, function (param) {
 
                 camera.position.copy(param.position);
 

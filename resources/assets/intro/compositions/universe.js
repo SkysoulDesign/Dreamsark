@@ -154,7 +154,60 @@ module.exports = function (e, scene, camera, elements) {
 
                         },
                         click    = function (element) {
-                            camera.class.moveTo(element);
+
+                            var complete = function () {
+
+                                var tween = e.module('tween').class,
+                                    mouse = e.module('mouse').class;
+
+                                var overlay     = document.querySelector('#show-entry'),
+                                    closeButton = document.querySelector('#view-project'),
+                                    miniature   = document.querySelector('#miniature'),
+                                    title       = document.querySelector('#title'),
+                                    description = document.querySelector('#description');
+
+                                /**
+                                 * Restyle Page
+                                 */
+                                overlay.style.display = 'block';
+                                miniature.src           = element.userData.src;
+                                title.textContent       = element.userData.title;
+                                description.textContent = element.userData.description;
+
+                                mouse.click(closeButton, function (event) {
+
+                                    overlay.style.display         = 'none';
+                                    //camera.position.copy(elements.Logo.position);
+                                    //camera.position.z += 50;
+                                    //camera.lookAt(elements.Logo.position);
+
+                                    /**
+                                     * Re-enable Controls
+                                     */
+                                    camera.class.initControls();
+
+                                });
+
+                                //
+                                //    destination = element.position.clone(),
+                                //    origin      = element.position.clone();
+
+                                //destination.x += 20;
+                                //destination.y += 10;
+                                //destination.z += 10;
+
+                                //console.log(destination)
+                                //
+                                //tween.create(destination, {duration: 1, origin: origin}, function (param) {
+                                //    element.position.copy(param)
+                                //});
+
+                            };
+
+                            /**
+                             * Move Camera to element
+                             */
+                            camera.class.moveTo(element, complete);
                         };
 
                     mouse.hoverClick(el, hoverIn, hoverOut, click);

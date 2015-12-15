@@ -6,6 +6,51 @@
 
     <section class="start">
 
+        <div id="show-entry" class="show-entry">
+
+            <div class="row box">
+
+                <img id="miniature" src="{{ asset('lib/point-1.png') }}" alt="">
+
+                <div class="medium-6 column info">
+
+                    <h1 id="title">Project Title</h1>
+
+                    <div id="description" class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        A ab, accusantium consequuntur dicta dignissimos.
+                    </div>
+
+                    <div class="row controls">
+
+                        <div class="medium-6 column">
+                            <button id="view-project" class="outlined colors dark primary">view project</button>
+                        </div>
+
+                        <div class="medium-6 column">
+
+                            <div class="statistics">
+                                30.0000
+                                <span>Budget</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="medium-6 column">
+
+                    <section class="video-player">
+                        <img src="{{ asset('lib/cover.jpg') }}" alt="">
+                    </section>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="body" style="display:none">
             <div class="logo">
                 {{--<img src="{{ asset('img/start/logo.png')  }}" alt="">--}}
@@ -186,6 +231,15 @@
         }
 
 
+
+
+
+
+
+
+
+
+
     </script>
 
     <script type="x-shader/x-fragment" id="fragmentshader">
@@ -200,6 +254,15 @@
             // sets a white particle texture to desired color
             gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
         }
+
+
+
+
+
+
+
+
+
 
 
     </script>

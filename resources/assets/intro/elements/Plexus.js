@@ -40,6 +40,16 @@ module.exports = (function () {
                 var point = new THREE.Points(particles, material);
 
                 /**
+                 * Set Point Meta Data
+                 * @type {{src: *, title: string, description: string}}
+                 */
+                point.userData = {
+                    src: material.map.image.src,
+                    title: 'Project Beta Tittle',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias corporis deleniti deserunt eveniet expedita fuga fugiat.'
+                };
+
+                /**
                  * Set Position in real world so can be accessible by lookAt
                  */
                 point.position.copy(vector);
