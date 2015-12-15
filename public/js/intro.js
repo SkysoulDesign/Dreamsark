@@ -43918,10 +43918,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the composition directory
      */
-    return ({"compositions":({"loading":require("./compositions/loading.js"),"universe":require("./compositions/universe.js")})}).compositions;
+    return ({"compositions":({"loading":require("./compositions\\loading.js"),"universe":require("./compositions\\universe.js")})}).compositions;
 
 })();
-},{"./compositions/loading.js":12,"./compositions/universe.js":13}],5:[function(require,module,exports){
+},{"./compositions\\loading.js":12,"./compositions\\universe.js":13}],5:[function(require,module,exports){
 module.exports = (function (e) {
 
     return {
@@ -43952,10 +43952,10 @@ module.exports = (function (e) {
     /**
      * Require all of the scripts in the elements directory
      */
-    return e.elements = ({"elements":({"Circle":require("./elements/Circle.js"),"Cube":require("./elements/Cube.js"),"Dreamsark":require("./elements/Dreamsark.js"),"Logo":require("./elements/Logo.js"),"NebuleBuffer":require("./elements/NebuleBuffer.js"),"Particles":require("./elements/Particles.js"),"Percentage":require("./elements/Percentage.js"),"Plexus":require("./elements/Plexus.js"),"SingularityBuffer":require("./elements/SingularityBuffer.js"),"Skybox":require("./elements/Skybox.js"),"UniverseBuffer":require("./elements/UniverseBuffer.js")})}).elements;
+    return e.elements = ({"elements":({"Circle":require("./elements\\Circle.js"),"Cube":require("./elements\\Cube.js"),"Dreamsark":require("./elements\\Dreamsark.js"),"Logo":require("./elements\\Logo.js"),"NebuleBuffer":require("./elements\\NebuleBuffer.js"),"Particles":require("./elements\\Particles.js"),"Percentage":require("./elements\\Percentage.js"),"Plexus":require("./elements\\Plexus.js"),"SingularityBuffer":require("./elements\\SingularityBuffer.js"),"Skybox":require("./elements\\Skybox.js"),"UniverseBuffer":require("./elements\\UniverseBuffer.js")})}).elements;
 
 })(Engine);
-},{"./elements/Circle.js":14,"./elements/Cube.js":15,"./elements/Dreamsark.js":16,"./elements/Logo.js":17,"./elements/NebuleBuffer.js":18,"./elements/Particles.js":19,"./elements/Percentage.js":20,"./elements/Plexus.js":21,"./elements/SingularityBuffer.js":22,"./elements/Skybox.js":23,"./elements/UniverseBuffer.js":24}],7:[function(require,module,exports){
+},{"./elements\\Circle.js":14,"./elements\\Cube.js":15,"./elements\\Dreamsark.js":16,"./elements\\Logo.js":17,"./elements\\NebuleBuffer.js":18,"./elements\\Particles.js":19,"./elements\\Percentage.js":20,"./elements\\Plexus.js":21,"./elements\\SingularityBuffer.js":22,"./elements\\Skybox.js":23,"./elements\\UniverseBuffer.js":24}],7:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44137,10 +44137,10 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the Fonts directory
      */
-    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts/helvetiker_regular.typeface.js")})}).fonts;
+    return ({"fonts":({"helvetiker_regular.typeface":require("./fonts\\helvetiker_regular.typeface.js")})}).fonts;
 
 })();
-},{"./fonts/helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
+},{"./fonts\\helvetiker_regular.typeface.js":26}],9:[function(require,module,exports){
 module.exports = (function () {
 
     return {
@@ -44203,9 +44203,7 @@ module.exports = (function () {
         keys: function (elements, callback, context) {
 
             if (this.isArray(elements))
-                elements.forEach(function (el, index) {
-                    callback.call(context || Engine, el, index);
-                });
+                elements.forEach(callback.bind(context || Engine));
 
             if (this.isObject(elements))
                 Object.keys(elements).forEach(function (name) {
@@ -44244,7 +44242,20 @@ module.exports = (function () {
 
         },
 
-        for: function (max, callback, context) {
+        for: function (max, callback, context, reverse) {
+
+            /**
+             * Play for on Reverse
+             */
+            if (reverse === true){
+
+                for (var i = max - 1; i >= 0; i--)
+                    callback.call(context || Engine, i);
+
+                return;
+
+            }
+
             for (var i = 0; i < max; i++)
                 callback.call(context || Engine, i);
         },
@@ -44445,19 +44456,19 @@ module.exports = (function () {
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"modules":({"Browser":require("./modules/Browser.js"),"Camera":require("./modules/Camera.js"),"Checker":require("./modules/Checker.js"),"Compositor":require("./modules/Compositor.js"),"Events":require("./modules/Events.js"),"Loader":require("./modules/Loader.js"),"Manager":require("./modules/Manager.js"),"Mouse":require("./modules/Mouse.js"),"Raycaster":require("./modules/Raycaster.js"),"Renderer":require("./modules/Renderer.js"),"Scene":require("./modules/Scene.js"),"Stats":require("./modules/Stats.js"),"Tween":require("./modules/Tween.js")})}).modules;
+    return ({"modules":({"Browser":require("./modules\\Browser.js"),"Camera":require("./modules\\Camera.js"),"Checker":require("./modules\\Checker.js"),"Compositor":require("./modules\\Compositor.js"),"Events":require("./modules\\Events.js"),"Loader":require("./modules\\Loader.js"),"Manager":require("./modules\\Manager.js"),"Mouse":require("./modules\\Mouse.js"),"Raycaster":require("./modules\\Raycaster.js"),"Renderer":require("./modules\\Renderer.js"),"Scene":require("./modules\\Scene.js"),"Stats":require("./modules\\Stats.js"),"Tween":require("./modules\\Tween.js")})}).modules;
 
 })();
-},{"./modules/Browser.js":27,"./modules/Camera.js":28,"./modules/Checker.js":29,"./modules/Compositor.js":30,"./modules/Events.js":31,"./modules/Loader.js":32,"./modules/Manager.js":33,"./modules/Mouse.js":34,"./modules/Raycaster.js":35,"./modules/Renderer.js":36,"./modules/Scene.js":37,"./modules/Stats.js":38,"./modules/Tween.js":39}],11:[function(require,module,exports){
+},{"./modules\\Browser.js":27,"./modules\\Camera.js":28,"./modules\\Checker.js":29,"./modules\\Compositor.js":30,"./modules\\Events.js":31,"./modules\\Loader.js":32,"./modules\\Manager.js":33,"./modules\\Mouse.js":34,"./modules\\Raycaster.js":35,"./modules\\Renderer.js":36,"./modules\\Scene.js":37,"./modules\\Stats.js":38,"./modules\\Tween.js":39}],11:[function(require,module,exports){
 module.exports = (function () {
 
     /**
      * Require all of the scripts in the modules directory
      */
-    return ({"plugins":({"FlyControls":require("./plugins/FlyControls.js"),"FontUtils":require("./plugins/FontUtils.js"),"OBJLoader":require("./plugins/OBJLoader.js"),"OrbitControls":require("./plugins/OrbitControls.js"),"TextGeometry":require("./plugins/TextGeometry.js"),"TrackballControls":require("./plugins/TrackballControls.js"),"easie":require("./plugins/easie.js")})}).plugins;
+    return ({"plugins":({"FlyControls":require("./plugins\\FlyControls.js"),"FontUtils":require("./plugins\\FontUtils.js"),"OBJLoader":require("./plugins\\OBJLoader.js"),"OrbitControls":require("./plugins\\OrbitControls.js"),"TextGeometry":require("./plugins\\TextGeometry.js"),"TrackballControls":require("./plugins\\TrackballControls.js"),"easie":require("./plugins\\easie.js")})}).plugins;
 
 })();
-},{"./plugins/FlyControls.js":40,"./plugins/FontUtils.js":41,"./plugins/OBJLoader.js":42,"./plugins/OrbitControls.js":43,"./plugins/TextGeometry.js":44,"./plugins/TrackballControls.js":45,"./plugins/easie.js":46}],12:[function(require,module,exports){
+},{"./plugins\\FlyControls.js":40,"./plugins\\FontUtils.js":41,"./plugins\\OBJLoader.js":42,"./plugins\\OrbitControls.js":43,"./plugins\\TextGeometry.js":44,"./plugins\\TrackballControls.js":45,"./plugins\\easie.js":46}],12:[function(require,module,exports){
 module.exports = function (e, scene, camera, elements) {
 
     return {
@@ -44538,7 +44549,7 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 return true;
 
-            });
+            }, null, null, 'buttons');
 
             /**
              * Loading Circle
@@ -44706,7 +44717,7 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 return true;
 
-            });
+            }, null, null, 'buttons');
 
             scene.add(logo, particles.mesh, startButton, skipButton);
 
@@ -44906,7 +44917,7 @@ module.exports = function (e, scene, camera, elements) {
 
                                 mouse.click(closeButton, function (event) {
 
-                                    overlay.style.display         = 'none';
+                                    overlay.style.display = 'none';
                                     //camera.position.copy(elements.Logo.position);
                                     //camera.position.z += 50;
                                     //camera.lookAt(elements.Logo.position);
@@ -44938,9 +44949,15 @@ module.exports = function (e, scene, camera, elements) {
                              * Move Camera to element
                              */
                             camera.class.moveTo(element, complete);
+
+                            /**
+                             * Remove All events
+                             */
+                            return true;
+
                         };
 
-                    mouse.hoverClick(el, hoverIn, hoverOut, click);
+                    mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'dots');
 
                 });
 
@@ -45686,7 +45703,7 @@ module.exports = (function (e) {
                 if (controls.enabled === false) {
 
                     controls.dispose();
-                    
+
                     return true;
 
                 }
@@ -46262,7 +46279,7 @@ module.exports = (function (e) {
 
         },
 
-        click: function (element, callback, context, userCapture) {
+        click: function (element, callback, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -46270,10 +46287,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.click(element, callback, context);
+                raycaster.click(element, group, callback, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'click',
                     raycaster: true
                 });
@@ -46332,7 +46350,7 @@ module.exports = (function (e) {
 
         },
 
-        hover: function (element, callbackIn, callbackOut, context, userCapture) {
+        hover: function (element, callbackIn, callbackOut, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -46340,10 +46358,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.hover(element, callbackIn, callbackOut, context);
+                raycaster.hover(element, group, callbackIn, callbackOut, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'hover',
                     raycaster: true
                 });
@@ -46359,7 +46378,7 @@ module.exports = (function (e) {
 
         },
 
-        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture) {
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -46367,10 +46386,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.hoverClick(element, callbackIn, callbackOut, callbackClick, context);
+                raycaster.hoverClick(element, group, callbackIn, callbackOut, callbackClick, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'hoverClick',
                     raycaster: true
                 });
@@ -46460,7 +46480,7 @@ module.exports = (function (e) {
             this.params.Points.threshold = 2;
         },
 
-        click: function (element, callback, context) {
+        click: function (element, group, callback, context) {
 
             /**
              * Push Element to Collection
@@ -46471,7 +46491,8 @@ module.exports = (function (e) {
                 element: element,
                 callback: callback,
                 context: context,
-                type: 'click'
+                type: 'click',
+                group: group
             });
 
         },
@@ -46489,7 +46510,7 @@ module.exports = (function (e) {
 
         },
 
-        hover: function (element, callbackIn, callbackOut, context) {
+        hover: function (element, group, callbackIn, callbackOut, context) {
 
             this.add(element);
 
@@ -46498,12 +46519,13 @@ module.exports = (function (e) {
                 callbackIn: callbackIn,
                 callbackOut: callbackOut,
                 context: context,
-                type: 'hover'
+                type: 'hover',
+                group: group
             });
 
         },
 
-        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context) {
+        hoverClick: function (element, group, callbackIn, callbackOut, callbackClick, context) {
 
             this.add(element);
 
@@ -46513,7 +46535,8 @@ module.exports = (function (e) {
                 callbackOut: callbackOut,
                 callback: callbackClick,
                 context: context,
-                type: 'hoverClick'
+                type: 'hoverClick',
+                group: group
             });
 
         },
@@ -46544,9 +46567,44 @@ module.exports = (function (e) {
             this.collection.push(element);
         },
 
-        delete: function (index) {
+        delete: function (index, group) {
 
             var bag = this.clicksBag;
+
+            /**
+             * remove entire group if set
+             */
+            if (e.helpers.isNull(group) && !e.helpers.isNull(bag[index].group)) {
+
+                var bagGroup = bag[index].group,
+                    indexes  = [];
+
+                e.helpers.keys(bag, function (el, ind) {
+
+                    /**
+                     * find where group are equivalent
+                     */
+                    if (el.group === bagGroup)
+                        indexes.push(ind);
+
+                }, this);
+
+                /**
+                 * Make it from bigger to smaller
+                 */
+                indexes.sort(function (a, b) {
+                    return b - a
+                });
+
+                e.helpers.keys(indexes, function (el) {
+
+                    this.delete(el, bagGroup);
+
+                }, this);
+
+                return;
+
+            }
 
             if (e.helpers.isObject(index)) {
 
@@ -46559,8 +46617,9 @@ module.exports = (function (e) {
                      * find where type and element are equivalent
                      */
                     if (el.type === index.type && el.element === index.element)
-                        index = ind;
-                });
+                        return this.delete(ind);
+
+                }, this);
 
             }
 
@@ -46622,10 +46681,10 @@ module.exports = (function (e) {
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element === el.element)
                                     return;
 
-                                result = el.callbackIn.call(el.context || e, el.element);
+                                el.callbackIn.call(el.context || e, el.element);
 
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element !== el.element)
-                                    result = this.hoverOut();
+                                    this.hoverOut();
 
                                 this.watcher.hover.el = el;
 

@@ -51,7 +51,7 @@ module.exports = (function (e) {
             this.params.Points.threshold = 2;
         },
 
-        click: function (element, callback, context) {
+        click: function (element, group, callback, context) {
 
             /**
              * Push Element to Collection
@@ -62,7 +62,8 @@ module.exports = (function (e) {
                 element: element,
                 callback: callback,
                 context: context,
-                type: 'click'
+                type: 'click',
+                group: group
             });
 
         },
@@ -80,7 +81,7 @@ module.exports = (function (e) {
 
         },
 
-        hover: function (element, callbackIn, callbackOut, context) {
+        hover: function (element, group, callbackIn, callbackOut, context) {
 
             this.add(element);
 
@@ -89,12 +90,13 @@ module.exports = (function (e) {
                 callbackIn: callbackIn,
                 callbackOut: callbackOut,
                 context: context,
-                type: 'hover'
+                type: 'hover',
+                group: group
             });
 
         },
 
-        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context) {
+        hoverClick: function (element, group, callbackIn, callbackOut, callbackClick, context) {
 
             this.add(element);
 
@@ -104,7 +106,8 @@ module.exports = (function (e) {
                 callbackOut: callbackOut,
                 callback: callbackClick,
                 context: context,
-                type: 'hoverClick'
+                type: 'hoverClick',
+                group: group
             });
 
         },
@@ -135,9 +138,44 @@ module.exports = (function (e) {
             this.collection.push(element);
         },
 
-        delete: function (index) {
+        delete: function (index, group) {
 
             var bag = this.clicksBag;
+
+            /**
+             * remove entire group if set
+             */
+            if (e.helpers.isNull(group) && !e.helpers.isNull(bag[index].group)) {
+
+                var bagGroup = bag[index].group,
+                    indexes  = [];
+
+                e.helpers.keys(bag, function (el, ind) {
+
+                    /**
+                     * find where group are equivalent
+                     */
+                    if (el.group === bagGroup)
+                        indexes.push(ind);
+
+                }, this);
+
+                /**
+                 * Make it from bigger to smaller
+                 */
+                indexes.sort(function (a, b) {
+                    return b - a
+                });
+
+                e.helpers.keys(indexes, function (el) {
+
+                    this.delete(el, bagGroup);
+
+                }, this);
+
+                return;
+
+            }
 
             if (e.helpers.isObject(index)) {
 
@@ -150,8 +188,9 @@ module.exports = (function (e) {
                      * find where type and element are equivalent
                      */
                     if (el.type === index.type && el.element === index.element)
-                        index = ind;
-                });
+                        return this.delete(ind);
+
+                }, this);
 
             }
 
@@ -213,10 +252,10 @@ module.exports = (function (e) {
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element === el.element)
                                     return;
 
-                                result = el.callbackIn.call(el.context || e, el.element);
+                                el.callbackIn.call(el.context || e, el.element);
 
                                 if (!e.helpers.isNull(this.watcher.hover.el) && this.watcher.hover.el.element !== el.element)
-                                    result = this.hoverOut();
+                                    this.hoverOut();
 
                                 this.watcher.hover.el = el;
 

@@ -56,7 +56,7 @@ module.exports = (function (e) {
 
         },
 
-        click: function (element, callback, context, userCapture) {
+        click: function (element, callback, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -64,10 +64,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.click(element, callback, context);
+                raycaster.click(element, group, callback, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'click',
                     raycaster: true
                 });
@@ -126,7 +127,7 @@ module.exports = (function (e) {
 
         },
 
-        hover: function (element, callbackIn, callbackOut, context, userCapture) {
+        hover: function (element, callbackIn, callbackOut, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -134,10 +135,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.hover(element, callbackIn, callbackOut, context);
+                raycaster.hover(element, group, callbackIn, callbackOut, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'hover',
                     raycaster: true
                 });
@@ -153,7 +155,7 @@ module.exports = (function (e) {
 
         },
 
-        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture) {
+        hoverClick: function (element, callbackIn, callbackOut, callbackClick, context, userCapture, group) {
 
             /**
              * if it's an THREE object then dispatches it to raycaster
@@ -161,10 +163,11 @@ module.exports = (function (e) {
             if (element instanceof THREE.Mesh || element instanceof THREE.Object3D) {
 
                 var raycaster = e.module('raycaster').class;
-                raycaster.hoverClick(element, callbackIn, callbackOut, callbackClick, context);
+                raycaster.hoverClick(element, group, callbackIn, callbackOut, callbackClick, context);
 
                 this.collection.push({
                     element: element,
+                    group: group,
                     type: 'hoverClick',
                     raycaster: true
                 });

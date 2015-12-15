@@ -176,7 +176,7 @@ module.exports = function (e, scene, camera, elements) {
 
                                 mouse.click(closeButton, function (event) {
 
-                                    overlay.style.display         = 'none';
+                                    overlay.style.display = 'none';
                                     //camera.position.copy(elements.Logo.position);
                                     //camera.position.z += 50;
                                     //camera.lookAt(elements.Logo.position);
@@ -208,9 +208,15 @@ module.exports = function (e, scene, camera, elements) {
                              * Move Camera to element
                              */
                             camera.class.moveTo(element, complete);
+
+                            /**
+                             * Remove All events
+                             */
+                            return true;
+
                         };
 
-                    mouse.hoverClick(el, hoverIn, hoverOut, click);
+                    mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'dots');
 
                 });
 

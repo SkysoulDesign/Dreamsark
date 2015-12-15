@@ -78,7 +78,7 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 return true;
 
-            });
+            }, null, null, 'buttons');
 
             /**
              * Loading Circle
@@ -246,7 +246,7 @@ module.exports = function (e, scene, camera, elements) {
                  */
                 return true;
 
-            });
+            }, null, null, 'buttons');
 
             scene.add(logo, particles.mesh, startButton, skipButton);
 

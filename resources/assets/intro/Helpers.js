@@ -60,9 +60,7 @@ module.exports = (function () {
         keys: function (elements, callback, context) {
 
             if (this.isArray(elements))
-                elements.forEach(function (el, index) {
-                    callback.call(context || Engine, el, index);
-                });
+                elements.forEach(callback.bind(context || Engine));
 
             if (this.isObject(elements))
                 Object.keys(elements).forEach(function (name) {
@@ -101,7 +99,20 @@ module.exports = (function () {
 
         },
 
-        for: function (max, callback, context) {
+        for: function (max, callback, context, reverse) {
+
+            /**
+             * Play for on Reverse
+             */
+            if (reverse === true){
+
+                for (var i = max - 1; i >= 0; i--)
+                    callback.call(context || Engine, i);
+
+                return;
+
+            }
+
             for (var i = 0; i < max; i++)
                 callback.call(context || Engine, i);
         },
