@@ -104,7 +104,7 @@ module.exports = (function () {
             /**
              * Play for on Reverse
              */
-            if (reverse === true){
+            if (reverse === true) {
 
                 for (var i = max - 1; i >= 0; i--)
                     callback.call(context || Engine, i);
@@ -177,6 +177,12 @@ module.exports = (function () {
 
         captalize: function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
+        sort: function (array) {
+            return array.sort(function (a, b) {
+                return b - a
+            });
         },
 
         length: function (item) {

@@ -74,6 +74,7 @@ module.exports = function (e, scene, camera, elements) {
 
             });
 
+
             /**
              * Expand the particles back in
              */
@@ -207,7 +208,8 @@ module.exports = function (e, scene, camera, elements) {
 
                     plexusEvents = function () {
                         e.helpers.keys(plexus.children, function (el) {
-                            mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                            //mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                            mouse.click(el, click, null, null, 'plexus');
                         });
                     };
 

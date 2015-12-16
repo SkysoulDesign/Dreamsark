@@ -44247,7 +44247,7 @@ module.exports = (function () {
             /**
              * Play for on Reverse
              */
-            if (reverse === true){
+            if (reverse === true) {
 
                 for (var i = max - 1; i >= 0; i--)
                     callback.call(context || Engine, i);
@@ -44320,6 +44320,12 @@ module.exports = (function () {
 
         captalize: function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
+        sort: function (array) {
+            return array.sort(function (a, b) {
+                return b - a
+            });
         },
 
         length: function (item) {
@@ -44706,7 +44712,7 @@ module.exports = function (e, scene, camera, elements) {
 
                             return true;
 
-                        });
+                        }, null, 'Wait for Particles to finish animating to start next composition');
 
                     };
 
@@ -44814,6 +44820,7 @@ module.exports = function (e, scene, camera, elements) {
                 };
 
             });
+
 
             /**
              * Expand the particles back in
@@ -44948,7 +44955,8 @@ module.exports = function (e, scene, camera, elements) {
 
                     plexusEvents = function () {
                         e.helpers.keys(plexus.children, function (el) {
-                            mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                            //mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                            mouse.click(el, click, null, null, 'plexus');
                         });
                     };
 
@@ -45653,7 +45661,7 @@ module.exports = (function (e) {
 
                 return !this.followEnabled;
 
-            }, this);
+            }, this, 'Camera following mouse checker');
 
         },
 
@@ -45706,7 +45714,7 @@ module.exports = (function (e) {
 
                 controls.update();
 
-            }, this)
+            }, this, 'Check if control is disabled, so if so remove controls')
 
         },
 
@@ -45938,8 +45946,6 @@ module.exports = (function (e) {
 
         add: function (element, event, callback, context, useCapture) {
 
-            element.addEventListener(event, callback.bind(context || e), useCapture || false);
-
             /**
              * push the element to the collection
              */
@@ -45947,6 +45953,53 @@ module.exports = (function (e) {
                 element: element,
                 event: event
             });
+
+            var temp = {
+                element: element,
+                trigger: false,
+                event: event
+            };
+
+            temp.callback = function (ev) {
+                temp.trigger = callback.call(context || e, ev)
+            };
+
+            console.log(callback)
+
+            /**
+             * Add Event Listener
+             */
+            element.addEventListener(event, temp.callback, useCapture || false);
+
+            var checker = e.module('checker').class;
+
+            /**
+             * Checker to check if the event was removed
+             */
+            checker.add(function () {
+
+                if (temp.trigger === true)
+                    return this.remove(temp);
+
+            }, this, 'Event Listener: ' + event)
+
+        },
+
+        remove: function (object) {
+
+            var collection = this.collection;
+
+            e.helpers.keys(collection, function (el, index) {
+
+                if (el.element === object.element && object.event === el.event) {
+                    object.element.removeEventListener(object.event, object.callback);
+                    collection.splice(index, 1);
+                }
+
+            });
+
+            return true;
+
         }
 
     };
@@ -46229,6 +46282,7 @@ module.exports = (function (e) {
         ratio: null,
         normalized: null,
         collection: [],
+        enabled: false,
 
         init: function () {
 
@@ -46238,6 +46292,8 @@ module.exports = (function (e) {
             this.ratio = new THREE.Vector2(0, 0);
 
             this.normalized = new THREE.Vector2(0, 0);
+
+            this.enabled = true;
 
             var events = e.module('events');
 
@@ -46254,6 +46310,12 @@ module.exports = (function (e) {
         },
 
         core: function (event) {
+
+            /**
+             * if not enabled then destroy it
+             */
+            if (!this.enabled)
+                return this.destroy();
 
             var browser = e.module('browser');
 
@@ -46275,6 +46337,11 @@ module.exports = (function (e) {
 
         },
 
+        destroy: function () {
+            this.mouse = null
+            return true;
+        },
+
         click: function (element, callback, context, userCapture, group) {
 
             /**
@@ -46285,17 +46352,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.click(element, group, callback, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'click',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'click',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -46324,10 +46393,12 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.move(element, callback, context);
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                return;
+
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -46356,17 +46427,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.hover(element, group, callbackIn, callbackOut, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'hover',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'hover',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -46384,17 +46457,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.hoverClick(element, group, callbackIn, callbackOut, callbackClick, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'hoverClick',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'hoverClick',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -46431,6 +46506,11 @@ module.exports = (function (e) {
     return e.raycaster = {
 
         raycaster: null,
+        enabled: false,
+
+        /**
+         * Stores Raw element for intersection checking
+         */
         collection: [],
         clicksBag: [],
 
@@ -46448,28 +46528,66 @@ module.exports = (function (e) {
 
             this.raycaster = new THREE.Raycaster();
 
-            var mouse = e.module('mouse');
+            var mouse   = e.module('mouse'),
+                checker = e.module('checker').class;
 
-            /**
-             * Set Watcher
-             */
-            mouse.click(document, function (event) {
-                this.watcher.click = true;
-            }, this);
+            var click, move;
 
-            /**
-             * Set Watcher
-             */
-            mouse.move(document, function (event) {
-                this.watcher.mousemove    = true;
-                this.watcher.hover.active = true;
-            }, this);
+            checker.add(function () {
+
+                if (this.enabled === false) {
+
+                    /**
+                     * Set Watcher
+                     */
+                    click = mouse.click(document, function (event) {
+                        this.watcher.click = true;
+                    }, this);
+
+                    /**
+                     * Set Watcher
+                     */
+                    move = mouse.move(document, function (event) {
+                        this.watcher.mousemove    = true;
+                        this.watcher.hover.active = true;
+                    }, this);
+
+                    this.enabled = true;
+
+                }
+
+                if (this.enabled === null) {
+
+                    this.enabled = false;
+
+                    var sorted = e.helpers.sort([click, move]);
+
+                    e.helpers.keys(sorted, function (el) {
+                        mouse.delete(el);
+                    });
+
+                    console.log('matando eventos')
+
+                    /**
+                     * Kill this checker
+                     */
+                    return true;
+
+                }
+
+            }, this, 'Check if raycaster is active');
+
 
             /**
              * Calculate intersections
              */
             this.start();
 
+        },
+
+        destroy: function () {
+            this.enabled   = null;
+            this.raycaster = null;
         },
 
         configure: function (configs) {
@@ -46565,7 +46683,8 @@ module.exports = (function (e) {
 
         delete: function (index, group) {
 
-            var bag = this.clicksBag;
+            var bag        = this.clicksBag,
+                collection = this.collection;
 
             /**
              * remove entire group if set
@@ -46588,14 +46707,10 @@ module.exports = (function (e) {
                 /**
                  * Make it from bigger to smaller
                  */
-                indexes.sort(function (a, b) {
-                    return b - a
-                });
+                var sorted = e.helpers.sort(indexes);
 
-                e.helpers.keys(indexes, function (el) {
-
+                e.helpers.keys(sorted, function (el) {
                     this.delete(el, bagGroup);
-
                 }, this);
 
                 return;
@@ -46620,9 +46735,9 @@ module.exports = (function (e) {
             }
 
             bag.splice(index, 1);
+            collection.splice(index, 1);
 
         },
-
 
         start: function () {
 
@@ -46704,6 +46819,15 @@ module.exports = (function (e) {
                  * Reset Watcher
                  */
                 this.resetWatcher();
+
+                /**
+                 * Destroy Raycaster if it's not working
+                 */
+                if (!e.helpers.length(this.clicksBag)) {
+                    this.destroy();
+                    return true;
+                }
+
 
             }, this, 'Raycaster, Checking for click events');
 

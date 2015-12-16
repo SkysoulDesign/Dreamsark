@@ -6,6 +6,11 @@ module.exports = (function (e) {
     return e.raycaster = {
 
         raycaster: null,
+        enabled: false,
+
+        /**
+         * Stores Raw element for intersection checking
+         */
         collection: [],
         clicksBag: [],
 
@@ -23,28 +28,66 @@ module.exports = (function (e) {
 
             this.raycaster = new THREE.Raycaster();
 
-            var mouse = e.module('mouse');
+            var mouse   = e.module('mouse'),
+                checker = e.module('checker').class;
 
-            /**
-             * Set Watcher
-             */
-            mouse.click(document, function (event) {
-                this.watcher.click = true;
-            }, this);
+            var click, move;
 
-            /**
-             * Set Watcher
-             */
-            mouse.move(document, function (event) {
-                this.watcher.mousemove    = true;
-                this.watcher.hover.active = true;
-            }, this);
+            checker.add(function () {
+
+                if (this.enabled === false) {
+
+                    /**
+                     * Set Watcher
+                     */
+                    click = mouse.click(document, function (event) {
+                        this.watcher.click = true;
+                    }, this);
+
+                    /**
+                     * Set Watcher
+                     */
+                    move = mouse.move(document, function (event) {
+                        this.watcher.mousemove    = true;
+                        this.watcher.hover.active = true;
+                    }, this);
+
+                    this.enabled = true;
+
+                }
+
+                if (this.enabled === null) {
+
+                    this.enabled = false;
+
+                    var sorted = e.helpers.sort([click, move]);
+
+                    e.helpers.keys(sorted, function (el) {
+                        mouse.delete(el);
+                    });
+
+                    console.log('matando eventos')
+
+                    /**
+                     * Kill this checker
+                     */
+                    return true;
+
+                }
+
+            }, this, 'Check if raycaster is active');
+
 
             /**
              * Calculate intersections
              */
             this.start();
 
+        },
+
+        destroy: function () {
+            this.enabled   = null;
+            this.raycaster = null;
         },
 
         configure: function (configs) {
@@ -140,7 +183,8 @@ module.exports = (function (e) {
 
         delete: function (index, group) {
 
-            var bag = this.clicksBag;
+            var bag        = this.clicksBag,
+                collection = this.collection;
 
             /**
              * remove entire group if set
@@ -163,14 +207,10 @@ module.exports = (function (e) {
                 /**
                  * Make it from bigger to smaller
                  */
-                indexes.sort(function (a, b) {
-                    return b - a
-                });
+                var sorted = e.helpers.sort(indexes);
 
-                e.helpers.keys(indexes, function (el) {
-
+                e.helpers.keys(sorted, function (el) {
                     this.delete(el, bagGroup);
-
                 }, this);
 
                 return;
@@ -195,6 +235,7 @@ module.exports = (function (e) {
             }
 
             bag.splice(index, 1);
+            collection.splice(index, 1);
 
         },
 
@@ -278,6 +319,15 @@ module.exports = (function (e) {
                  * Reset Watcher
                  */
                 this.resetWatcher();
+
+                /**
+                 * Destroy Raycaster if it's not working
+                 */
+                if (!e.helpers.length(this.clicksBag)) {
+                    this.destroy();
+                    return true;
+                }
+
 
             }, this, 'Raycaster, Checking for click events');
 

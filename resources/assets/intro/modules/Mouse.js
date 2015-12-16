@@ -10,6 +10,7 @@ module.exports = (function (e) {
         ratio: null,
         normalized: null,
         collection: [],
+        enabled: false,
 
         init: function () {
 
@@ -19,6 +20,8 @@ module.exports = (function (e) {
             this.ratio = new THREE.Vector2(0, 0);
 
             this.normalized = new THREE.Vector2(0, 0);
+
+            this.enabled = true;
 
             var events = e.module('events');
 
@@ -35,6 +38,12 @@ module.exports = (function (e) {
         },
 
         core: function (event) {
+
+            /**
+             * if not enabled then destroy it
+             */
+            if (!this.enabled)
+                return this.destroy();
 
             var browser = e.module('browser');
 
@@ -56,6 +65,11 @@ module.exports = (function (e) {
 
         },
 
+        destroy: function () {
+            this.mouse = null
+            return true;
+        },
+
         click: function (element, callback, context, userCapture, group) {
 
             /**
@@ -66,17 +80,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.click(element, group, callback, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'click',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'click',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -105,10 +121,12 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.move(element, callback, context);
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                return;
+
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -137,17 +155,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.hover(element, group, callbackIn, callbackOut, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'hover',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'hover',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 
@@ -165,17 +185,19 @@ module.exports = (function (e) {
                 var raycaster = e.module('raycaster').class;
                 raycaster.hoverClick(element, group, callbackIn, callbackOut, callbackClick, context);
 
-                this.collection.push({
-                    element: element,
-                    group: group,
-                    type: 'hoverClick',
-                    raycaster: true
-                });
+                return;
 
-                /**
-                 * return the index of the last element
-                 */
-                return e.helpers.length(this.collection) - 1;
+                //this.collection.push({
+                //    element: element,
+                //    group: group,
+                //    type: 'hoverClick',
+                //    raycaster: true
+                //});
+                //
+                ///**
+                // * return the index of the last element
+                // */
+                //return e.helpers.length(this.collection) - 1;
 
             }
 

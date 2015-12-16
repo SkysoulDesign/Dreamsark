@@ -235,7 +235,7 @@ module.exports = function (e, scene, camera, elements) {
 
                             return true;
 
-                        });
+                        }, null, 'Wait for Particles to finish animating to start next composition');
 
                     };
 

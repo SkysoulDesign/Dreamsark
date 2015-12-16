@@ -57,7 +57,7 @@ module.exports = (function (e) {
 
                 return !this.followEnabled;
 
-            }, this);
+            }, this, 'Camera following mouse checker');
 
         },
 
@@ -110,7 +110,7 @@ module.exports = (function (e) {
 
                 controls.update();
 
-            }, this)
+            }, this, 'Check if control is disabled, so if so remove controls')
 
         },
 
