@@ -198,7 +198,6 @@ module.exports = (function (e) {
 
         },
 
-
         start: function () {
 
             var checker = e.module('checker').class,
