@@ -13,8 +13,8 @@ module.exports = (function (e) {
             this.checker = this;
         },
 
-        add: function (callback, context) {
-            this.collection.push({callback: callback, context: context, time: +new Date()});
+        add: function (callback, context, description) {
+            this.collection.push({description: description, callback: callback, context: context, time: +new Date()});
         },
 
         delete: function (index) {

@@ -43,7 +43,7 @@ module.exports = (function (e) {
             /**
              * Calculate intersections
              */
-            this.update();
+            this.start();
 
         },
 
@@ -199,7 +199,7 @@ module.exports = (function (e) {
         },
 
 
-        update: function () {
+        start: function () {
 
             var checker = e.module('checker').class,
                 mouse   = e.module('mouse'),
@@ -280,7 +280,7 @@ module.exports = (function (e) {
                  */
                 this.resetWatcher();
 
-            }, this);
+            }, this, 'Raycaster, Checking for click events');
 
         }
 

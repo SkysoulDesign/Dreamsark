@@ -119,106 +119,102 @@ module.exports = function (e, scene, camera, elements) {
                 var plexus = elements.Plexus;
 
                 /**
-                 * Add Hover Mouse
+                 * Add Hover and Click Events
                  */
-                e.helpers.keys(plexus.children, function (el) {
+                var dom          = {
+                    overlay: document.querySelector('#show-entry'),
+                    closeButton: document.querySelector('#view-project'),
+                    miniature: document.querySelector('#miniature'),
+                    title: document.querySelector('#title'),
+                    description: document.querySelector('#description')
+                },
+                    hoverIn      = function (element) {
 
-                    var hoverIn  = function (element) {
-
-                            var destination = {size: 25},
-                                options     = {
-                                    ease: 'expoInOut',
-                                    origin: element.material.size,
-                                    duration: 0.5
-                                },
-                                update      = function (param) {
-                                    element.material.size = param.size;
-                                };
-
-                            tween.create(destination, options, update);
-
-                        },
-                        hoverOut = function (element) {
-
-                            var destination = {size: 10},
-                                options     = {
-                                    ease: 'elasticOut',
-                                    origin: element.material.size,
-                                    duration: 0.3
-                                },
-                                update      = function (param) {
-                                    element.material.size = param.size
-                                };
-
-                            tween.create(destination, options, update);
-
-                        },
-                        click    = function (element) {
-
-                            var complete = function () {
-
-                                var tween = e.module('tween').class,
-                                    mouse = e.module('mouse').class;
-
-                                var overlay     = document.querySelector('#show-entry'),
-                                    closeButton = document.querySelector('#view-project'),
-                                    miniature   = document.querySelector('#miniature'),
-                                    title       = document.querySelector('#title'),
-                                    description = document.querySelector('#description');
-
-                                /**
-                                 * Restyle Page
-                                 */
-                                overlay.style.display = 'block';
-                                miniature.src           = element.userData.src;
-                                title.textContent       = element.userData.title;
-                                description.textContent = element.userData.description;
-
-                                mouse.click(closeButton, function (event) {
-
-                                    overlay.style.display = 'none';
-                                    //camera.position.copy(elements.Logo.position);
-                                    //camera.position.z += 50;
-                                    //camera.lookAt(elements.Logo.position);
-
-                                    /**
-                                     * Re-enable Controls
-                                     */
-                                    camera.class.initControls();
-
-                                });
-
-                                //
-                                //    destination = element.position.clone(),
-                                //    origin      = element.position.clone();
-
-                                //destination.x += 20;
-                                //destination.y += 10;
-                                //destination.z += 10;
-
-                                //console.log(destination)
-                                //
-                                //tween.create(destination, {duration: 1, origin: origin}, function (param) {
-                                //    element.position.copy(param)
-                                //});
-
+                        var destination = {size: 25},
+                            options     = {
+                                ease: 'expoInOut',
+                                origin: element.material.size,
+                                duration: 0.5
+                            },
+                            update      = function (param) {
+                                element.material.size = param.size;
                             };
 
-                            /**
-                             * Move Camera to element
-                             */
-                            camera.class.moveTo(element, complete);
+                        tween.create(destination, options, update);
+
+                    },
+                    hoverOut     = function (element) {
+
+                        var destination = {size: 10},
+                            options     = {
+                                ease: 'elasticOut',
+                                origin: element.material.size,
+                                duration: 0.3
+                            },
+                            update      = function (param) {
+                                element.material.size = param.size
+                            };
+
+                        tween.create(destination, options, update);
+
+                    },
+                    click        = function (element) {
+
+                        var complete = function () {
 
                             /**
-                             * Remove All events
+                             * Restyle Page
                              */
-                            return true;
+                            dom.overlay.style.display = 'block';
+                            dom.miniature.src           = element.userData.src;
+                            dom.title.textContent       = element.userData.title;
+                            dom.description.textContent = element.userData.description;
+
+                            mouse.click(dom.closeButton, function () {
+
+                                dom.overlay.style.display = 'none';
+
+                                /**
+                                 * Re-enable Controls
+                                 */
+                                camera.class.initControls();
+
+                                /**
+                                 * Reattach click events
+                                 */
+                                plexusEvents();
+
+                                /**
+                                 * Remove Click Event on exit
+                                 */
+                                return true;
+
+                            });
 
                         };
 
-                    mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'dots');
+                        /**
+                         * Move Camera to element
+                         */
+                        camera.class.moveTo(element, complete);
 
-                });
+                        /**
+                         * Remove All events
+                         */
+                        return true;
+
+                    },
+
+                    plexusEvents = function () {
+                        e.helpers.keys(plexus.children, function (el) {
+                            mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                        });
+                    };
+
+                /**
+                 * Init Plexus Events
+                 */
+                plexusEvents();
 
                 scene.add(plexus);
 
