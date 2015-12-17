@@ -117,7 +117,110 @@ module.exports = function (e, scene, camera, elements) {
                 /**
                  * Add Plexus
                  */
-                var plexus = elements.Plexus;
+                var plexus      = elements.Plexus,
+                    destination = [];
+
+                e.helpers.keys(plexus.children, function (el) {
+                    destination.push(el.userData);
+                });
+
+                tween.create(destination, {duration: 5, delay: 0.5, ease: 'expoOut'}, function (param) {
+                    e.helpers.keys(plexus.children, function (el, index) {
+                        el.position.copy(param[index].position);
+                        el.material.opacity = param[index].opacity;
+                    });
+                });
+
+                var lines          = elements.Lines,
+                    linesPositions = lines.geometry.getAttribute('position'),
+                    vertexPos      = 0,
+                    connections    = 0;
+
+                for (var i = 0; i < 50; i++) {
+
+                    var plexusI = plexus.children[i].userData;
+
+                    if (plexusI.connections >= 1)
+                        continue;
+
+                    for (var j = i + 1; j < 50; j++) {
+
+                        var plexusJ = plexus.children[j].userData;
+
+                        if (plexusJ.connections >= 1)
+                            continue;
+
+                        if (plexusI.position.distanceTo(plexusJ.position) < 20) {
+
+                            plexusI.connections++;
+                            plexusJ.connections++;
+
+                            /**
+                             * Start |-------
+                             */
+                            linesPositions.array[vertexPos++] = plexusI.position.x;
+                            linesPositions.array[vertexPos++] = plexusI.position.y;
+                            linesPositions.array[vertexPos++] = plexusI.position.z;
+
+                            /**
+                             * End -------|
+                             */
+                            linesPositions.array[vertexPos++] = plexusJ.position.x;
+                            linesPositions.array[vertexPos++] = plexusJ.position.y;
+                            linesPositions.array[vertexPos++] = plexusJ.position.z;
+
+                            connections++;
+
+                        }
+
+                    }
+                }
+
+                e.helpers.for(50, function (i) {
+
+                    var plexusI = plexus.children[i].userData;
+
+                    if (plexusI.connections >= 1)
+                        return;
+
+                    e.helpers.for2(50, i, function (start, j) {
+
+                        var plexusJ = plexus.children[j].userData;
+
+                        if (plexusI.connections >= 1 && plexusJ.connections >= 1)
+                            return;
+
+                        if (plexusI.position.distanceTo(plexusJ.position) < 20) {
+
+                            plexusI.connections++;
+                            plexusJ.connections++;
+
+                            /**
+                             * Start |-------
+                             */
+                            linesPositions.array[vertexPos++] = plexusI.position.x;
+                            linesPositions.array[vertexPos++] = plexusI.position.y;
+                            linesPositions.array[vertexPos++] = plexusI.position.z;
+
+                            /**
+                             * End -------|
+                             */
+                            linesPositions.array[vertexPos++] = plexusJ.position.x;
+                            linesPositions.array[vertexPos++] = plexusJ.position.y;
+                            linesPositions.array[vertexPos++] = plexusJ.position.z;
+
+                            connections++
+
+                        }
+
+                    })
+
+                });
+
+                lines.geometry.setDrawRange(0, connections * 2);
+                linesPositions.needsUpdate = true;
+
+                scene.add(lines);
 
                 /**
                  * Add Hover and Click Events
@@ -208,8 +311,8 @@ module.exports = function (e, scene, camera, elements) {
 
                     plexusEvents = function () {
                         e.helpers.keys(plexus.children, function (el) {
-                            //mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
-                            mouse.click(el, click, null, null, 'plexus');
+                            mouse.hoverClick(el, hoverIn, hoverOut, click, null, null, 'plexus');
+                            //mouse.click(el, click, null, null, 'plexus');
                         });
                     };
 
