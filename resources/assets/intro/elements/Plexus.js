@@ -44,7 +44,7 @@ module.exports = (function () {
                 particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
 
                 var point = new THREE.Points(particles, material);
-                console.log(maps.cover.image.src)
+
                 /**
                  * Set Point Meta Data
                  * @type {{src: *, title: string, description: string}}
@@ -54,7 +54,7 @@ module.exports = (function () {
                     opacity: 1,
                     connections: 0,
                     src: material.map.image.src,
-                    //cover: maps.cover.image.src,
+                    cover: maps.cover.image.src,
                     title: 'Project Beta Tittle',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias corporis deleniti deserunt eveniet expedita fuga fugiat.'
                 };

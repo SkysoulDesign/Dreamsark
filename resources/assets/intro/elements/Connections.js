@@ -4,11 +4,11 @@ module.exports = (function () {
      * Point
      * @type {number}
      */
-    var maxPoints = 1500;
+    var maxPoints = 500;
 
     return {
 
-        name: 'Lines',
+        name: 'Connections',
 
         create: function (e, share, maps, objs) {
 

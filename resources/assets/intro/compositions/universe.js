@@ -74,7 +74,6 @@ module.exports = function (e, scene, camera, elements) {
 
             });
 
-
             /**
              * Expand the particles back in
              */
@@ -136,78 +135,54 @@ module.exports = function (e, scene, camera, elements) {
                     vertexPos      = 0,
                     connections    = 0;
 
-                for (var i = 0; i < 50; i++) {
+                var particlePosition = particles.mesh.geometry.attributes.position,
+                    count            = particlePosition.count / 100;
 
-                    var plexusI = plexus.children[i].userData;
+                e.helpers.for(count, function (i) {
 
-                    if (plexusI.connections >= 1)
-                        continue;
+                    //var plexusI = plexus.children[i].userData;
+                    //
+                    //if (plexusI.connections >= 1)
+                    //    return;
 
-                    for (var j = i + 1; j < 50; j++) {
+                    var positionI = new THREE.Vector3(
+                        particlePosition[i * 3],
+                        particlePosition[i * 3 + 1],
+                        particlePosition[i * 3 + 2]
+                    );
 
-                        var plexusJ = plexus.children[j].userData;
+                    e.helpers.for2(count, i, function (start, j) {
 
-                        if (plexusJ.connections >= 1)
-                            continue;
+                        //var plexusJ = plexus.children[j].userData;
+                        //var plexusJ = particles.mesh;
 
-                        if (plexusI.position.distanceTo(plexusJ.position) < 20) {
+                        //if (plexusI.connections >= 1 && plexusJ.connections >= 1)
+                        //    return;
 
-                            plexusI.connections++;
-                            plexusJ.connections++;
+                        var positionJ = new THREE.Vector3(
+                            particlePosition[j * 3],
+                            particlePosition[j * 3 + 1],
+                            particlePosition[j * 3 + 2]
+                        );
 
-                            /**
-                             * Start |-------
-                             */
-                            linesPositions.array[vertexPos++] = plexusI.position.x;
-                            linesPositions.array[vertexPos++] = plexusI.position.y;
-                            linesPositions.array[vertexPos++] = plexusI.position.z;
+                        if (positionI.distanceTo(positionJ) < 50) {
 
-                            /**
-                             * End -------|
-                             */
-                            linesPositions.array[vertexPos++] = plexusJ.position.x;
-                            linesPositions.array[vertexPos++] = plexusJ.position.y;
-                            linesPositions.array[vertexPos++] = plexusJ.position.z;
-
-                            connections++;
-
-                        }
-
-                    }
-                }
-
-                e.helpers.for(50, function (i) {
-
-                    var plexusI = plexus.children[i].userData;
-
-                    if (plexusI.connections >= 1)
-                        return;
-
-                    e.helpers.for2(50, i, function (start, j) {
-
-                        var plexusJ = plexus.children[j].userData;
-
-                        if (plexusI.connections >= 1 && plexusJ.connections >= 1)
-                            return;
-
-                        if (plexusI.position.distanceTo(plexusJ.position) < 20) {
-
-                            plexusI.connections++;
-                            plexusJ.connections++;
+                            //plexusI.connections++;
+                            //plexusJ.connections++;
 
                             /**
                              * Start |-------
                              */
-                            linesPositions.array[vertexPos++] = plexusI.position.x;
-                            linesPositions.array[vertexPos++] = plexusI.position.y;
-                            linesPositions.array[vertexPos++] = plexusI.position.z;
+                            linesPositions.array[vertexPos++] = particlePosition.array[i * 3];//plexusI.position.x;
+                            linesPositions.array[vertexPos++] = particlePosition.array[i * 3 + 1];//plexusI.position.y;
+                            linesPositions.array[vertexPos++] = particlePosition.array[i * 3 + 2];//plexusI.position.z;
 
                             /**
                              * End -------|
                              */
-                            linesPositions.array[vertexPos++] = plexusJ.position.x;
-                            linesPositions.array[vertexPos++] = plexusJ.position.y;
-                            linesPositions.array[vertexPos++] = plexusJ.position.z;
+                            linesPositions.array[vertexPos++] = particlePosition.array[j * 3];//plexusJ.position.x;
+                            linesPositions.array[vertexPos++] = particlePosition.array[j * 3 + 1];//plexusJ.position.y;
+                            linesPositions.array[vertexPos++] = particlePosition.array[j * 3 + 2];//plexusJ.position.z;
 
                             connections++
 
@@ -230,7 +205,8 @@ module.exports = function (e, scene, camera, elements) {
                     closeButton: document.querySelector('#view-project'),
                     miniature: document.querySelector('#miniature'),
                     title: document.querySelector('#title'),
-                    description: document.querySelector('#description')
+                    description: document.querySelector('#description'),
+                    cover: document.querySelector('#cover')
                 },
                     hoverIn      = function (element) {
 
@@ -271,6 +247,7 @@ module.exports = function (e, scene, camera, elements) {
                              */
                             dom.overlay.style.display = 'block';
                             dom.miniature.src           = element.userData.src;
+                            dom.cover.src               = element.userData.cover;
                             dom.title.textContent       = element.userData.title;
                             dom.description.textContent = element.userData.description;
 

@@ -9,7 +9,8 @@
     "particles.js": "^2.0.0",
     "snapsvg": "^0.4.0",
     "stats.js": "^1.0.0",
-    "three": "^0.73.0"
+    "three": "^0.73.0",
+    "typescript": "^1.7.5"
   },
   "browserify": {
     "transform": [

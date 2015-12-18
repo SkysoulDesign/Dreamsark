@@ -32,7 +32,7 @@ module.exports = (function (e) {
                 temp.trigger = callback.call(context || e, ev)
             };
 
-            console.log(callback)
+            //console.log(callback)
 
             /**
              * Add Event Listener

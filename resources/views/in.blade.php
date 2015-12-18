@@ -42,7 +42,7 @@
                 <div class="medium-6 column">
 
                     <section class="video-player">
-                        <img src="{{ asset('lib/cover.jpg') }}" alt="">
+                        <img id="cover" src="{{ asset('lib/cover.jpg') }}" alt="">
                     </section>
 
                 </div>
@@ -266,6 +266,7 @@
 
 
     </script>
-    <script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>
+    {{--<script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>--}}
+    <script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>
 
 @endsection
