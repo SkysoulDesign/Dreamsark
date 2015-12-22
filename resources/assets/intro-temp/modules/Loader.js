@@ -3,7 +3,7 @@ module.exports = function (e) {
     return e.loader = {
 
         /**
-         * Modules
+         * Initializable
          */
         loader: null,
 

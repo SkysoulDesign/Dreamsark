@@ -98,14 +98,6 @@
     <script type="text/javascript" src="{{ asset('js/three.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>
 
-    <script>
-
-        /**
-         * Initiate App
-         */
-        DreamsArk.App()
-    </script>
-
     {{--<script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>--}}
 
 @endsection

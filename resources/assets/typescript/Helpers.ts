@@ -6,7 +6,9 @@ module DreamsArk.Helpers {
          * Init All items in a row
          */
         each(items, function (item) {
-            item.instance = (new item).instance;
+            var component = new item;
+            component.configure();
+            item.instance = component.instance;
         });
 
     };
@@ -23,6 +25,16 @@ module DreamsArk.Helpers {
 
     };
 
+    /**
+     * Dom Utils
+     */
+    export var appendTo = function (element, domElement) {
+        document.querySelector(element).appendChild(domElement);
+    };
+
+    /**
+     * Checker if obj is X type
+     */
     export class is {
 
         constructor() {

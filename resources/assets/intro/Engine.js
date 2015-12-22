@@ -15,7 +15,7 @@ module.exports = (function () {
          */
 
         /**
-         * Modules
+         * Initializable
          */
         loader: null,
         manager: null,
@@ -34,7 +34,7 @@ module.exports = (function () {
             var helpers = this.helpers;
 
             /**
-             * Init Modules
+             * Init Initializable
              */
             require('./Modules');
             require('./Elements');
@@ -82,7 +82,7 @@ module.exports = (function () {
             //};
 
             /**
-             * Init Modules
+             * Init Initializable
              */
             this.loader.load(this.elements);
 
@@ -97,7 +97,7 @@ module.exports = (function () {
         },
 
         /**
-         * Get Modules and initialize it if is not initialized before
+         * Get Initializable and initialize it if is not initialized before
          * @param module
          * @param params
          * @returns {*}
@@ -132,7 +132,7 @@ module.exports = (function () {
         render: function (time) {
 
             /**
-             * Init Modules on Render Time
+             * Init Initializable on Render Time
              */
             var renderer   = this.module('renderer'),
                 scene      = this.module('scene'),

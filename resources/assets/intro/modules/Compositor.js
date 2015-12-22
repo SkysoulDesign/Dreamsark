@@ -10,7 +10,7 @@ module.exports = (function (e) {
         index: 0,
 
         /**
-         * Modules
+         * Initializable
          */
         compositor: null,
 

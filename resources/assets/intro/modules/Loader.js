@@ -12,7 +12,7 @@ module.exports = (function (e) {
         on: {start: null, progress: null, load: null, error: null},
 
         /**
-         * Modules
+         * Initializable
          */
         loader: null,
         objLoader: null,

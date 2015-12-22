@@ -1,1 +1,1 @@
-{"version":3,"file":"engine.js","sourceRoot":"","sources":["engine.ts"],"names":["engine","engine.constructor"],"mappings":"AAAA;IAEIA;QACIC,OAAOA,CAACA,GAAGA,CAACA,WAAWA,CAACA,CAAAA;IAC5BA,CAACA;IAELD,aAACA;AAADA,CAACA,AAND,IAMC;AANY,cAAM,SAMlB,CAAA"}
+{"version":3,"file":"Engine.js","sourceRoot":"","sources":["Engine.ts"],"names":["engine","engine.constructor"],"mappings":"AAAA;IAEIA;QACIC,OAAOA,CAACA,GAAGA,CAACA,WAAWA,CAACA,CAAAA;IAC5BA,CAACA;IAELD,aAACA;AAADA,CAACA,AAND,IAMC;AANY,cAAM,SAMlB,CAAA"}

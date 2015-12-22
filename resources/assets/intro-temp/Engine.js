@@ -14,7 +14,7 @@ module.exports = function () {
         init: function () {
 
             /**
-             * Init Modules
+             * Init Initializable
              */
             this.modules = require('./Modules');
 
@@ -23,7 +23,7 @@ module.exports = function () {
         start: function () {
 
             /**
-             * Init Modules
+             * Init Initializable
              */
             this.modules.Loader.init();
         }
