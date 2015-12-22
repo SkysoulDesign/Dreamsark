@@ -1,0 +1,58 @@
+@include component(enter-page) {
+
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  text-align: center;
+
+  background: url('../enter-page-assets/bg.jpg') center;
+  background-size: cover;
+
+  @include part(logo) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include part(controllers) {
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    bottom: 8%;
+    left: 0;
+    right: 0;
+
+    li {
+
+      padding: rem-calc(10);
+
+      &:hover {
+        animation: anim-color-up .5s forwards;
+      }
+
+    }
+
+    img {
+      transition: all .2s ease-out;
+    }
+
+    a:hover img {
+      transform: scale(1.1)
+    }
+
+  }
+
+}
+
+/**
+Animation
+*/
+@keyframes anim-color-up {
+  100% {
+    background: color(black, x-dark, 20);
+  }
+}
