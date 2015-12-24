@@ -8,10 +8,14 @@ var DreamsArk;
              * Init All items in a row
              */
             Helpers.each(items, function (item) {
-                var component = new item;
-                component.configure();
-                item.instance = component.instance;
+                var component = new item, instance = component.instance;
+                if (is.Function(component.configure))
+                    component.configure();
+                item.instance = instance ? instance : component;
             });
+        };
+        Helpers.query = function (element) {
+            return document.querySelector(element);
         };
         Helpers.each = function (items, callback, context) {
             if (items === void 0) { items = []; }
@@ -23,11 +27,71 @@ var DreamsArk;
                     callback.call(context, items[name], name);
                 });
         };
+        Helpers.For = function (max, callback, context, reverse) {
+            if (context === void 0) { context = DreamsArk; }
+            if (reverse === void 0) { reverse = false; }
+            /**
+             * if it's array of object
+             */
+            if (is.Array(max) || is.Object(max))
+                max = Helpers.length(max);
+            /**
+             * Play for on Reverse
+             */
+            if (reverse === true) {
+                for (var i = max - 1; i >= 0; i--)
+                    if (callback.call(context, i))
+                        break;
+                return;
+            }
+            for (var i = 0; i < max; i++) {
+                if (callback.call(context, i))
+                    break;
+            }
+        };
+        Helpers.length = function (item) {
+            if (item === void 0) { item = []; }
+            if (is.Array(item))
+                return item.length;
+            if (is.Object(item)) {
+                var length = 0;
+                Helpers.each(item, function () {
+                    length++;
+                });
+                return length;
+            }
+        };
+        Helpers.contains = function (items, element) {
+            if (is.Array(items))
+                return items.indexOf(element) > -1;
+            if (is.Object(items))
+                console.log('is Object Please finish implementing this function');
+            return false;
+        };
+        Helpers.reverse = function (items) {
+            return items.sort(function (a, b) {
+                return b - a;
+            });
+        };
+        Helpers.filter = function (obj, list) {
+            var result = {};
+            Helpers.each(obj, function (el, key) {
+                if (Helpers.contains(list, key))
+                    result[key] = obj[key];
+            });
+            return result;
+        };
         /**
          * Dom Utils
          */
         Helpers.appendTo = function (element, domElement) {
             document.querySelector(element).appendChild(domElement);
+        };
+        Helpers.removeById = function (collection, id) {
+            Helpers.For(collection, function (index) {
+                if (collection[index].id === id)
+                    collection.splice(index, 1);
+            });
         };
         /**
          * Checker if obj is X type
@@ -47,10 +111,213 @@ var DreamsArk;
             is.Function = function (item) {
                 return !!(item && item.constructor && item.call && item.apply);
             };
+            is.Image = function (item) {
+                var ext = item.split('.').pop();
+                return (ext === 'jpg' || ext === 'png');
+            };
+            is.OBJ = function (item) {
+                var ext = item.split('.').pop();
+                return (ext === 'obj');
+            };
             return is;
         })();
         Helpers.is = is;
+        var random = (function () {
+            function random() {
+            }
+            random.id = function (length, radix) {
+                if (length === void 0) { length = 27; }
+                if (radix === void 0) { radix = 36; }
+                return (Math.random() + 1).toString(radix).substring(2, length + 2);
+            };
+            return random;
+        })();
+        Helpers.random = random;
+        var where = (function () {
+            function where() {
+            }
+            where.id = function (collection, id) {
+                var occurrence = [];
+                Helpers.each(collection, function (element) {
+                    if (element.id === id)
+                        occurrence = element;
+                });
+                return occurrence;
+            };
+            where.name = function (collection, id) {
+                var occurrences = [];
+                Helpers.each(collection, function (element) {
+                    if (element.id === id)
+                        occurrences.push(element);
+                });
+                return Helpers.length(occurrences) > 0 ? occurrences[0] : occurrences;
+            };
+            return where;
+        })();
+        Helpers.where = where;
     })(Helpers = DreamsArk.Helpers || (DreamsArk.Helpers = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Ball = (function () {
+            function Ball() {
+            }
+            Ball.prototype.maps = function () {
+                return {
+                    ground: 'lib/ground.png',
+                    sparks2: 'lib/cover-hunger.png',
+                    sparks3: 'lib/cover-hunger.png',
+                    sparks4: 'lib/cover-hunger.png',
+                    sparks5: 'lib/cover-hunger.png',
+                    sparks6: 'lib/cover-hunger.png',
+                    sparks7: 'lib/cover-hunger.png',
+                    sparks8: 'lib/cover-hunger.png',
+                    sparks9: 'lib/cover-hunger.png',
+                    sparks10: 'lib/cover-hunger.png'
+                };
+            };
+            Ball.prototype.objs = function () {
+                return {
+                    logo1: 'models/ship.obj',
+                    logo2: 'models/ship.obj',
+                    logo3: 'models/ship.obj',
+                    logo4: 'models/ship.obj',
+                    logo5: 'models/ship.obj',
+                    logo6: 'models/ship.obj',
+                    logo7: 'models/ship.obj',
+                };
+            };
+            Ball.prototype.create = function (maps, objs) {
+                console.log(objs);
+                var geometry = new THREE.BoxGeometry(1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Ball;
+        })();
+        Elements.Ball = Ball;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Galaxy = (function () {
+            function Galaxy() {
+            }
+            Galaxy.prototype.maps = function () {
+                return {
+                    galaxy: 'lib/galaxy.png',
+                };
+            };
+            Galaxy.prototype.create = function (maps, objs) {
+                var geometry = new THREE.PlaneGeometry(50, 50, 1);
+                var material = new THREE.MeshBasicMaterial({
+                    color: 0xffff00,
+                    map: maps.galaxy,
+                    transparent: true,
+                });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Galaxy;
+        })();
+        Elements.Galaxy = Galaxy;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Overlay1 = (function () {
+            function Overlay1() {
+            }
+            Overlay1.prototype.maps = function () {
+                return {
+                    galaxy: 'assets/universe-assets/overlay-1.png',
+                };
+            };
+            Overlay1.prototype.create = function (maps, objs) {
+                var geometry = new THREE.PlaneGeometry(50, 50, 1);
+                var material = new THREE.MeshBasicMaterial({
+                    map: maps.galaxy,
+                    transparent: true
+                });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Overlay1;
+        })();
+        Elements.Overlay1 = Overlay1;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Overlay2 = (function () {
+            function Overlay2() {
+            }
+            Overlay2.prototype.maps = function () {
+                return {
+                    overlay: 'assets/universe-assets/overlay-2.png',
+                };
+            };
+            Overlay2.prototype.create = function (maps, objs) {
+                var geometry = new THREE.PlaneGeometry(50, 50, 1);
+                var material = new THREE.MeshBasicMaterial({
+                    map: maps.overlay,
+                    transparent: true,
+                    blending: THREE.CustomBlending,
+                });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Overlay2;
+        })();
+        Elements.Overlay2 = Overlay2;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Cube = (function () {
+            function Cube() {
+            }
+            Cube.prototype.maps = function () {
+                return {
+                    sparks1: 'lib/cover-hunger.png',
+                    sparks2: 'lib/cover-hunger.png',
+                    sparks3: 'lib/cover-hunger.png',
+                    sparks4: 'lib/cover-hunger.png',
+                    sparks5: 'lib/cover-hunger.png',
+                    sparks6: 'lib/cover-hunger.png',
+                    sparks7: 'lib/cover-hunger.png',
+                    sparks8: 'lib/cover-hunger.png',
+                    sparks9: 'lib/cover-hunger.png',
+                    sparks10: 'lib/cover-hunger.png'
+                };
+            };
+            Cube.prototype.objs = function () {
+                return {
+                    logo1: 'models/ship.obj',
+                    logo2: 'models/ship.obj',
+                    logo3: 'models/ship.obj',
+                    logo4: 'models/ship.obj',
+                    logo5: 'models/ship.obj',
+                    logo6: 'models/ship.obj',
+                    logo7: 'models/ship.obj',
+                };
+            };
+            Cube.prototype.create = function (maps, objs) {
+                var geometry = new THREE.BoxGeometry(1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Cube;
+        })();
+        Elements.Cube = Cube;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
 })(DreamsArk || (DreamsArk = {}));
 var DreamsArk;
 (function (DreamsArk) {
@@ -74,15 +341,317 @@ var DreamsArk;
 (function (DreamsArk) {
     var Modules;
     (function (Modules) {
+        var length = DreamsArk.Helpers.length;
+        var each = DreamsArk.Helpers.each;
+        var reverse = DreamsArk.Helpers.reverse;
+        var Checker = (function () {
+            function Checker() {
+                this.collection = [];
+            }
+            Checker.prototype.add = function (callback, context) {
+                if (context === void 0) { context = DreamsArk; }
+                this.collection.push(callback.bind(context));
+            };
+            Checker.prototype.update = function () {
+                if (length(this.collection) > 0) {
+                    var removeBag = [];
+                    each(this.collection, function (el, index) {
+                        if (el())
+                            removeBag.push(index);
+                    });
+                    if (length(this.collection) > 0)
+                        this.remove(removeBag);
+                }
+            };
+            Checker.prototype.remove = function (items) {
+                each(reverse(items), function (item) {
+                    this.collection.splice(item, 1);
+                }, this);
+            };
+            return Checker;
+        })();
+        Modules.Checker = Checker;
+    })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Compositions;
+    (function (Compositions) {
+        var Loading = (function () {
+            function Loading() {
+            }
+            Loading.prototype.elements = function () {
+                return ['Overlay1', 'Overlay2'];
+            };
+            Loading.prototype.setup = function (scene, camera, elements) {
+                Camera.swing(new THREE.Vector3(0));
+                elements.Overlay2.position.z = -5;
+                scene.add(elements.Overlay1, elements.Overlay2);
+                camera.position.z = 20;
+            };
+            Loading.prototype.update = function (scene, camera, elements) {
+            };
+            return Loading;
+        })();
+        Compositions.Loading = Loading;
+    })(Compositions = DreamsArk.Compositions || (DreamsArk.Compositions = {}));
+})(DreamsArk || (DreamsArk = {}));
+///<reference path="../compositions/Loading.ts"/>
+var DreamsArk;
+(function (DreamsArk) {
+    var Modules;
+    (function (Modules) {
+        var each = DreamsArk.Helpers.each;
+        var is = DreamsArk.Helpers.is;
+        var filter = DreamsArk.Helpers.filter;
+        var Manager = (function () {
+            function Manager() {
+                this.on = {
+                    start: null,
+                    progress: null,
+                    load: null,
+                    error: null
+                };
+                this.instance = new THREE.LoadingManager();
+            }
+            Manager.prototype.configure = function () {
+                var on = this.on;
+                this.instance.onStart = function (item, loaded, total) {
+                    if (is.Function(on.start))
+                        on.start(item, loaded, total);
+                };
+                this.instance.onProgress = function (item, loaded, total) {
+                    var loader = DreamsArk.module('Loader');
+                    var progress = loader.progress = (loaded * 100) / total;
+                    if (is.Function(on.progress))
+                        on.progress(Math.round(progress), item, loaded, total);
+                };
+                this.instance.onLoad = function () {
+                    var loader = DreamsArk.module('Loader');
+                    loader.complete = true;
+                    if (is.Function(on.load))
+                        on.load();
+                };
+                this.instance.onError = function (item) {
+                    var loader = DreamsArk.module('Loader');
+                    console.log('item: ' + item + " not loaded");
+                    loader.failed = true;
+                    if (is.Function(on.error))
+                        on.error(item);
+                };
+            };
+            return Manager;
+        })();
+        Modules.Manager = Manager;
+        var Loader = (function () {
+            function Loader() {
+                this.progress = 0;
+                this.complete = false;
+                this.failed = false;
+                this.count = 0;
+                var manager = DreamsArk.module('Manager');
+                /**
+                 * Init Loader
+                 * @type {THREE.TextureLoader}
+                 */
+                this.textureLoader = new THREE.TextureLoader(manager);
+                /**
+                 * Init OBJ Loader
+                 */
+                this.objLoader = new THREE.OBJLoader(manager);
+            }
+            Loader.prototype.configure = function () {
+            };
+            Loader.prototype.start = function (elements, callback) {
+                if (elements === void 0) { elements = DreamsArk.Elements; }
+                var maps = {}, objs = {};
+                var ready = function (elementName, name, el) {
+                    if (el instanceof THREE.Texture) {
+                        /**
+                         * Set Element Name
+                         */
+                        maps[elementName] = maps[elementName] || {};
+                        maps[elementName][name] = el;
+                    }
+                    if (el instanceof THREE.Object3D) {
+                        /**
+                         * fix for getting the object directly, not a Object3D
+                         */
+                        objs[elementName] = objs[elementName] || {};
+                        objs[elementName][name] = el.children[0];
+                        objs[elementName][name].name = name;
+                    }
+                    /**
+                     * Check if everything has finished
+                     */
+                    if (this.count-- === 1) {
+                        each(elements, function (el, name) {
+                            elements[name] = new el().create(maps[name], objs[name]);
+                            elements[name].name = name;
+                            /**
+                             * Override Global Elements Bag
+                             */
+                            DreamsArk.elementsBag[name] = elements[name];
+                        });
+                        this.complete = true;
+                        callback(elements);
+                    }
+                };
+                each(elements, function (el, name) {
+                    var element = new el;
+                    if (is.Function(element.maps))
+                        this.load(element.maps(), ready.bind(this, name));
+                    if (is.Function(element.objs))
+                        this.load(element.objs(), ready.bind(this, name));
+                }, this);
+            };
+            Loader.prototype.load = function (items, callback) {
+                each(items, function (path, name) {
+                    /**
+                     * Increase the number of element being loaded
+                     */
+                    this.count++;
+                    this.complete = false;
+                    if (is.Image(path))
+                        this.textureLoader.load(path, callback.bind(this, name));
+                    if (is.OBJ(path))
+                        this.objLoader.load(path, callback.bind(this, name));
+                }, this);
+            };
+            Loader.prototype.Load = function (items, callback, elements) {
+                if (elements === void 0) { elements = DreamsArk.Elements; }
+                this.start(filter(elements, items), callback);
+            };
+            return Loader;
+        })();
+        Modules.Loader = Loader;
+    })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Modules;
+    (function (Modules) {
+        var random = DreamsArk.Helpers.random;
+        var query = DreamsArk.Helpers.query;
+        var where = DreamsArk.Helpers.where;
+        var removeById = DreamsArk.Helpers.removeById;
+        var Mouse = (function () {
+            function Mouse() {
+                this.enabled = true;
+                this.x = 0;
+                this.y = 0;
+                this.ratio = new THREE.Vector2(0, 0);
+                this.normalized = new THREE.Vector2(0, 0);
+                this.enabled = true;
+            }
+            Mouse.prototype.configure = function () {
+                var callback = function (event) {
+                    /**
+                     * if not enabled then destroy it
+                     */
+                    if (!this.enabled)
+                        return this.destroy();
+                    var browser = DreamsArk.module('Browser');
+                    this.x = event.clientX;
+                    this.y = event.clientY;
+                    /**
+                     * Normalized
+                     * @type {number}
+                     */
+                    var x = (event.clientX / browser.innerWidth) * 2 - 1, y = -(event.clientY / browser.innerHeight) * 2 + 1;
+                    this.normalized.set(x, y);
+                    this.ratio.x = event.clientX / browser.innerWidth;
+                    this.ratio.y = event.clientY / browser.innerHeight;
+                };
+                /**
+                 * Manually Create Mouse Movement
+                 */
+                Events.add('window', 'mousemove', callback, this, false);
+            };
+            Mouse.click = function (element, callback, context, useCapture) {
+                if (context === void 0) { context = this; }
+                if (useCapture === void 0) { useCapture = false; }
+                Events.add(element, 'click', callback, context, useCapture);
+            };
+            Mouse.move = function (element, callback, context, useCapture) {
+                if (context === void 0) { context = this; }
+                if (useCapture === void 0) { useCapture = false; }
+                Events.add(element, 'mousemove', callback, context, useCapture);
+            };
+            return Mouse;
+        })();
+        Modules.Mouse = Mouse;
+        var Event = (function () {
+            function Event(id, event, domElement, callback, useCapture) {
+                this.id = id;
+                this.event = event;
+                this.domElement = domElement;
+                this.callback = callback;
+                this.useCapture = useCapture;
+            }
+            return Event;
+        })();
+        var Events = (function () {
+            function Events() {
+                this.instance = this;
+            }
+            Events.add = function (element, event, callback, context, useCapture) {
+                if (context === void 0) { context = DreamsArk; }
+                if (useCapture === void 0) { useCapture = false; }
+                this.assign(event, element, callback, context, useCapture);
+            };
+            Events.assign = function (event, element, callback, context, useCapture) {
+                if (context === void 0) { context = DreamsArk; }
+                if (useCapture === void 0) { useCapture = false; }
+                var domElement = (element === 'window') ? window : query(element), id = random.id();
+                var caller = function (e) {
+                    if (callback.call(context, e))
+                        Events.remove(id);
+                };
+                domElement.addEventListener(event, caller, false);
+                /**
+                 * Store on collection for removal later
+                 */
+                this.collection.push(new Event(id, event, domElement, caller, useCapture));
+            };
+            Events.remove = function (id) {
+                var element = where.id(this.collection, id);
+                element.domElement.removeEventListener(element.event, element.callback, element.useCapture);
+                /**
+                 * Remove From Collection
+                 */
+                removeById(this.collection, id);
+            };
+            Events.collection = [];
+            return Events;
+        })();
+        Modules.Events = Events;
+    })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Modules;
+    (function (Modules) {
         var Camera = (function () {
             function Camera() {
                 this.instance = new THREE.PerspectiveCamera();
             }
             Camera.prototype.configure = function () {
+                var browser = DreamsArk.module('Browser');
                 this.instance.fov = 75;
-                this.instance.aspect = window.innerWidth / window.innerHeight;
+                this.instance.aspect = browser.innerWidth / browser.innerHeight;
                 this.instance.near = 0.1;
                 this.instance.far = 10000;
+            };
+            Camera.swing = function (target) {
+                var mouse = DreamsArk.module('Mouse'), browser = DreamsArk.module('Browser'), checker = DreamsArk.module('Checker'), camera = DreamsArk.module('Camera');
+                var origin = new THREE.Vector3(0, 0, 20);
+                checker.add(function () {
+                    var x = (mouse.ratio.x * 200 - 100 - camera.position.x), y = -(mouse.ratio.y * 200 - 100) / (browser.innerWidth / browser.innerHeight);
+                    camera.position.x += (x + camera.position.x) / 30;
+                    camera.position.y += (y - camera.position.y + origin.y) / 30;
+                    camera.lookAt(target);
+                });
             };
             return Camera;
         })();
@@ -110,12 +679,14 @@ var DreamsArk;
     (function (Modules) {
         var Renderer = (function () {
             function Renderer() {
-                this.instance = new THREE.WebGLRenderer();
+                this.instance = new THREE.WebGLRenderer({
+                    alpha: true
+                });
             }
             Renderer.prototype.configure = function () {
                 var domElement = this.instance.domElement;
                 domElement.style.position = 'absolute';
-                domElement.style.zIndex = '5';
+                domElement.style.zIndex = '1';
                 DreamsArk.Helpers.appendTo('#container', domElement);
                 /**
                  * Get Global Browser settings
@@ -131,33 +702,65 @@ var DreamsArk;
     })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
 })(DreamsArk || (DreamsArk = {}));
 /// <reference path="Helpers.ts" />
+/// <reference path="elements/Ball.ts" />
+/// <reference path="elements/Galaxy.ts" />
+/// <reference path="elements/Overlay1.ts" />
+/// <reference path="elements/Overlay2.ts" />
+/// <reference path="elements/Cube.ts" />
 /// <reference path="modules/Browser.ts" />
+/// <reference path="modules/Checker.ts" />
+/// <reference path="modules/Loader.ts" />
+/// <reference path="modules/Mouse.ts" />
 /// <reference path="modules/Camera.ts" />
 /// <reference path="modules/Scene.ts" />
 /// <reference path="modules/Renderer.ts" />
+/// <reference path="compositions/Loading.ts" />
 var DreamsArk;
 (function (DreamsArk) {
+    var is = DreamsArk.Helpers.is;
+    var init = DreamsArk.Helpers.init;
+    var Mouse = DreamsArk.Modules.Mouse;
+    var Loader = DreamsArk.Modules.Loader;
     /**
      * Debug Mode
      * @type {boolean}
      */
     DreamsArk.debug = false;
+    DreamsArk.elementsBag = {};
+    DreamsArk.core = {
+        active: {
+            composition: null
+        }
+    };
     var App = (function () {
         function App() {
+            /**
+             * start Loading the basic scene
+             */
+            DreamsArk.load();
+            Mouse.click('#start', function () {
+                DreamsArk.start();
+                return true;
+            });
         }
         return App;
     })();
     DreamsArk.App = App;
-    var Start = (function () {
-        function Start() {
-            DreamsArk.Render();
-        }
-        return Start;
-    })();
-    DreamsArk.Start = Start;
-    DreamsArk.Render = function () {
-        requestAnimationFrame(DreamsArk.Render);
-        var renderer = DreamsArk.module('Renderer'), scene = DreamsArk.module('Scene'), camera = DreamsArk.module('Camera');
+    DreamsArk.start = function () {
+        var loader = DreamsArk.module('Loader').start();
+        DreamsArk.render();
+    };
+    DreamsArk.load = function () {
+        var composition = new Composition('Loading');
+        DreamsArk.render();
+    };
+    DreamsArk.render = function () {
+        requestAnimationFrame(DreamsArk.render);
+        var renderer = DreamsArk.module('Renderer'), scene = DreamsArk.module('Scene'), camera = DreamsArk.module('Camera'), checker = DreamsArk.module('Checker');
+        if (!is.Null(DreamsArk.core.active.composition))
+            if (DreamsArk.core.active.composition.update)
+                DreamsArk.core.active.composition.update(scene, camera, DreamsArk.core.active.composition.elementsBag);
+        checker.update();
         renderer.render(scene, camera);
     };
     /**
@@ -169,74 +772,46 @@ var DreamsArk;
         /**
          * Return Null if doesn't exist
          */
-        if (DreamsArk.Helpers.is.Null(DreamsArk.Modules[module]))
+        if (is.Null(DreamsArk.Modules[module]))
             return console.log('module ' + module + ' couldn\'t be found');
         /**
          * if Module is not initialized then init it
          */
-        if (DreamsArk.Helpers.is.Null(DreamsArk.Modules[module].instance))
-            DreamsArk.Helpers.init([DreamsArk.Modules[module]]);
+        if (is.Null(DreamsArk.Modules[module].instance))
+            init([DreamsArk.Modules[module]]);
         return DreamsArk.Modules[module].instance;
     };
+    DreamsArk.element = function (name) {
+        if (is.Null(DreamsArk.elementsBag[name])) {
+            console.log('Element ' + name + ' doesn\'t exist or it wasn\'t loaded.');
+            return;
+        }
+        return DreamsArk.elementsBag[name];
+    };
+    var Composition = (function () {
+        function Composition(name) {
+            this.name = name;
+            if (is.Null(DreamsArk.Compositions[name])) {
+                console.log('Composition: ' + name + ' not found.');
+                return;
+            }
+            var loader = new Loader, scene = DreamsArk.module('Scene'), camera = DreamsArk.module('Camera'), composition = new DreamsArk.Compositions[name], ready = function (elements) {
+                composition.setup(scene, camera, elements);
+                /**  should merge the elements here */
+                composition.elementsBag = elements;
+                DreamsArk.core.active.composition = composition;
+            };
+            if (!is.Null(composition.elements))
+                loader.Load(composition.elements(), ready);
+        }
+        return Composition;
+    })();
+    DreamsArk.Composition = Composition;
 })(DreamsArk || (DreamsArk = {}));
 /**
  * Start App
  */
 new DreamsArk.App();
-new DreamsArk.Start();
-var DreamsArk;
-(function (DreamsArk) {
-    var Modules;
-    (function (Modules) {
-        var Loader = (function () {
-            function Loader() {
-                var manager = DreamsArk.module('Manager');
-                /**
-                 * Init Loader
-                 * @type {THREE.TextureLoader}
-                 */
-                this.textureLoader = new THREE.TextureLoader(manager);
-                /**
-                 * Init OBJ Loader
-                 */
-                this.objLoader = new THREE.OBJLoader(manager);
-            }
-            Loader.prototype.configure = function () {
-            };
-            return Loader;
-        })();
-        Modules.Loader = Loader;
-        var Manager = (function () {
-            function Manager(on) {
-                this.on = on;
-                this.instance = new THREE.LoadingManager();
-            }
-            Manager.prototype.configure = function () {
-                this.instance.onStart = function (item, loaded, total) {
-                    if (DreamsArk.Helpers.is.Function(this.on.start))
-                        this.on.start(item, loaded, total);
-                };
-                this.instance.onProgress = function (item, loaded, total) {
-                    var loader = DreamsArk.module('Loader');
-                    var progress = loader.progress = (loaded * 100) / total;
-                    if (DreamsArk.Helpers.is.Function(this.on.progress))
-                        this.on.progress(Math.round(progress), item, loaded, total);
-                };
-                this.instance.onLoad = function () {
-                    var loader = DreamsArk.module('Loader');
-                    loader.complete = true;
-                    if (DreamsArk.Helpers.is.Function(this.on.load))
-                        this.on.load();
-                };
-                this.instance.onError = function (item) {
-                    console.log('item: ' + item + " not loaded");
-                    if (DreamsArk.Helpers.is.Function(this.on.error))
-                        this.on.error(item);
-                };
-            };
-            return Manager;
-        })();
-        Modules.Manager = Manager;
-    })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
-})(DreamsArk || (DreamsArk = {}));
+var Scene = DreamsArk.Modules.Scene;
+var Camera = DreamsArk.Modules.Camera;
 //# sourceMappingURL=tsc.js.map

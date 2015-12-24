@@ -5,7 +5,9 @@ module DreamsArk.Modules {
         public instance:THREE.WebGLRenderer;
 
         constructor() {
-            this.instance = new THREE.WebGLRenderer();
+            this.instance = new THREE.WebGLRenderer({
+                alpha: true
+            });
         }
 
         configure():void {
@@ -13,7 +15,7 @@ module DreamsArk.Modules {
             var domElement = this.instance.domElement;
 
             domElement.style.position = 'absolute';
-            domElement.style.zIndex = '5';
+            domElement.style.zIndex = '1';
 
             Helpers.appendTo('#container', domElement);
 

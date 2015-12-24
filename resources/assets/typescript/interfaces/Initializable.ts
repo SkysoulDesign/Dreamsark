@@ -1,4 +1,4 @@
 interface Initializable {
-    configure():void;
-    instance: any;
+    configure?():void;
+    instance?: any;
 }

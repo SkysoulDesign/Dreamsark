@@ -202,7 +202,7 @@ module.exports = (function (e) {
             this.progress = null;
             this.complete = false;
             this.count    = 0;
-            this.on = {start: null, progress: null, load: null, error: null};
+            this.on       = {start: null, progress: null, load: null, error: null};
 
         }
 

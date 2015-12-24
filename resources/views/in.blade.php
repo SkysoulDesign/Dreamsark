@@ -96,6 +96,7 @@
 
     {{--<script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/three.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/OBJLoader.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>
 
     {{--<script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>--}}

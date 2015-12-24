@@ -1,21 +1,81 @@
-declare module THREE {
-    export var OBJLoader:any;
-}
+///<reference path="../compositions/Loading.ts"/>
 
 module DreamsArk.Modules {
 
-    export class Loader implements Initializable {
+    import each = DreamsArk.Helpers.each;
+    import is = DreamsArk.Helpers.is;
+    import filter = DreamsArk.Helpers.filter;
+
+    export class Manager implements Initializable {
 
         public instance:any;
+        public on:{start:any, progress:any, load:any, error:any} = {
+            start: null,
+            progress: null,
+            load: null,
+            error: null
+        };
 
-        public progress:number;
-        public complete:boolean;
+        constructor() {
+            this.instance = new THREE.LoadingManager();
+        }
 
-        public mananger:THREE.LoadingManager;
+        configure():void {
+
+            var on = this.on;
+
+            this.instance.onStart = function (item, loaded, total) {
+
+                if (is.Function(on.start))
+                    on.start(item, loaded, total);
+            };
+
+            this.instance.onProgress = function (item, loaded, total) {
+
+                var loader = module('Loader');
+
+                var progress = loader.progress = (loaded * 100) / total;
+
+                if (is.Function(on.progress))
+                    on.progress(Math.round(progress), item, loaded, total);
+            };
+
+            this.instance.onLoad = function () {
+
+                var loader = module('Loader');
+
+                loader.complete = true;
+
+                if (is.Function(on.load))
+                    on.load();
+
+            };
+
+            this.instance.onError = function (item) {
+
+                var loader = module('Loader');
+
+                console.log('item: ' + item + " not loaded");
+
+                loader.failed = true;
+
+                if (is.Function(on.error))
+                    on.error(item);
+            };
+
+        }
+
+    }
+
+    export class Loader implements Initializable {
+
+        public progress:number = 0;
+        public complete:boolean = false;
+        public failed:boolean = false;
+        private count:number = 0;
 
         public objLoader;
         public textureLoader;
-
 
         constructor() {
 
@@ -35,54 +95,99 @@ module DreamsArk.Modules {
 
         }
 
-
         configure():void {
         }
 
-    }
+        private start(elements:any = Elements, callback:any):void {
 
-    export class Manager implements Initializable {
+            var maps = {},
+                objs = {};
 
-        public instance:any;
+            var ready = function (elementName, name, el) {
 
-        constructor(public on:{():void}) {
-            this.instance = new THREE.LoadingManager();
+                if (el instanceof THREE.Texture) {
+
+                    /**
+                     * Set Element Name
+                     */
+                    maps[elementName] = maps[elementName] || {};
+                    maps[elementName][name] = el;
+
+                }
+
+                if (el instanceof THREE.Object3D) {
+
+                    /**
+                     * fix for getting the object directly, not a Object3D
+                     */
+                    objs[elementName] = objs[elementName] || {};
+                    objs[elementName][name] = el.children[0];
+                    objs[elementName][name].name = name;
+
+                }
+
+                /**
+                 * Check if everything has finished
+                 */
+                if (this.count-- === 1) {
+
+                    each(elements, function (el, name) {
+
+                        elements[name] = new el().create(maps[name], objs[name]);
+                        elements[name].name = name;
+
+                        /**
+                         * Override Global Elements Bag
+                         */
+                        elementsBag[name] = elements[name];
+
+                    });
+
+                    this.complete = true;
+
+                    callback(elements)
+
+                }
+
+            };
+
+            each(elements, function (el, name) {
+
+                var element = new el;
+
+                if (is.Function(element.maps))
+                    this.load(element.maps(), ready.bind(this, name))
+
+                if (is.Function(element.objs))
+                    this.load(element.objs(), ready.bind(this, name))
+
+            }, this);
+
+
         }
 
-        configure():void {
+        private load(items:any[], callback) {
 
-            this.instance.onStart = function (item, loaded, total) {
-                if (Helpers.is.Function(this.on.start))
-                    this.on.start(item, loaded, total);
-            };
+            each(items, function (path, name) {
 
-            this.instance.onProgress = function (item, loaded, total) {
+                /**
+                 * Increase the number of element being loaded
+                 */
+                this.count++;
+                this.complete = false;
 
-                var loader = module('Loader');
+                if (is.Image(path))
+                    this.textureLoader.load(path, callback.bind(this, name));
 
-                var progress = loader.progress = (loaded * 100) / total;
+                if (is.OBJ(path))
+                    this.objLoader.load(path, callback.bind(this, name));
 
-                if (Helpers.is.Function(this.on.progress))
-                    this.on.progress(Math.round(progress), item, loaded, total);
-            };
+            }, this);
 
-            this.instance.onLoad = function () {
+        }
 
-                var loader = module('Loader');
-
-                loader.complete = true;
-
-                if (Helpers.is.Function(this.on.load))
-                    this.on.load();
-
-            };
-
-            this.instance.onError = function (item) {
-                console.log('item: ' + item + " not loaded");
-                if (Helpers.is.Function(this.on.error))
-                    this.on.error(item);
-            };
-
+        public Load(items:string[], callback, elements:any = Elements) {
+            this.start(filter(elements, items), callback);
         }
 
     }
