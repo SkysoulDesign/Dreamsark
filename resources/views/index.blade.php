@@ -33,7 +33,7 @@
             vertical: true,
             speed: 0.2,
             loose: true,
-            requestAnimationFrame: true,
+            requestAnimationFrame: true
         });
 
     </script>
