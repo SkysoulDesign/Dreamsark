@@ -13,12 +13,9 @@
                 impedit natus non officia</p>
         </div>
     </div>
-
-    <section class="background-loops home-page">
-        <div class="row">
-            <div class="medium-12">
-                <img src="{{ asset('dreamsark-assets/header-middle.png') }}" alt="">
-            </div>
+    {{--dreamsark-assets/header-middle.png--}}
+    <section id="canvas-mask" class="home-page">
+        <div class="handle">
         </div>
     </section>
 

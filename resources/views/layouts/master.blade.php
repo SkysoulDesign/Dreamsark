@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>DreamsArk</title>
 
+    @yield('styles')
+
     <link rel="stylesheet" media="all" href="{{ asset('css/app.css') }}">
 
 </head>
