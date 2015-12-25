@@ -1,6 +1,8 @@
 /// <reference path="Helpers.ts" />
 
-/// <reference path="elements/Ball.ts" />
+/// <reference path="elements/Particles.ts" />
+/// <reference path="elements/Background.ts" />
+/// <reference path="elements/Logo.ts" />
 /// <reference path="elements/Galaxy.ts" />
 /// <reference path="elements/Overlay1.ts" />
 /// <reference path="elements/Overlay2.ts" />
@@ -8,18 +10,20 @@
 
 /// <reference path="modules/Browser.ts" />
 /// <reference path="modules/Checker.ts" />
+/// <reference path="modules/Animator.ts" />
 /// <reference path="modules/Loader.ts" />
 /// <reference path="modules/Mouse.ts" />
 /// <reference path="modules/Camera.ts" />
 /// <reference path="modules/Scene.ts" />
 /// <reference path="modules/Renderer.ts" />
 
-/// <reference path="compositions/Loading.ts" />
+/// <reference path="compositions/Landing.ts" />
 
 
 module DreamsArk {
 
     import is = DreamsArk.Helpers.is;
+    import query = DreamsArk.Helpers.query;
     import init = DreamsArk.Helpers.init;
     import Mouse = DreamsArk.Modules.Mouse;
     import Loader = DreamsArk.Modules.Loader;
@@ -65,14 +69,26 @@ module DreamsArk {
 
     export var start = function () {
 
-        var loader = module('Loader').start();
+        /**
+         * Remove logo
+         */
+        query('#logo').classList.add('--exit');
+
+        var composition = new Composition('Loading');
 
         render();
+
     };
 
     export var load = function () {
 
-        var composition = new Composition('Loading');
+        /**
+         * Parallax
+         */
+        var scene = document.getElementById('scene');
+        var parallax = new Parallax(scene);
+
+        var composition = new Composition('Landing');
 
         render();
 

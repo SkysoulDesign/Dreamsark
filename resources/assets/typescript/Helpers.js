@@ -61,72 +61,95 @@ var DreamsArk;
                 return length;
             }
         };
-        Helpers.filter = ;
-        Helpers.each(obj, function (el, key) {
-            if (obj.hasOwnProperty(key)) {
-                Helpers.result[key] = predicate[key];
+        Helpers.contains = function (items, element) {
+            if (is.Array(items))
+                return items.indexOf(element) > -1;
+            if (is.Object(items))
+                console.log('is Object Please finish implementing this function');
+            return false;
+        };
+        Helpers.reverse = function (items) {
+            return items.sort(function (a, b) {
+                return b - a;
+            });
+        };
+        Helpers.filter = function (obj, list) {
+            var result = {};
+            Helpers.each(obj, function (el, key) {
+                if (Helpers.contains(list, key))
+                    result[key] = obj[key];
+            });
+            return result;
+        };
+        /**
+         * Dom Utils
+         */
+        Helpers.appendTo = function (element, domElement) {
+            document.querySelector(element).appendChild(domElement);
+        };
+        Helpers.removeById = function (collection, id) {
+            Helpers.For(collection, function (index) {
+                if (collection[index].id === id)
+                    collection.splice(index, 1);
+            });
+        };
+        /**
+         * Checker if obj is X type
+         */
+        var is = (function () {
+            function is() {
             }
-        });
-        console.log(Helpers.result);
-        //for (key in obj) {
-        //
-        //}
-        return Helpers.result;
+            is.Array = function (item) {
+                return Array.isArray(item);
+            };
+            is.Object = function (item) {
+                return (typeof item === "object" && !Array.isArray(item) && item !== null);
+            };
+            is.Null = function (item) {
+                return (item === null || item === undefined || item === 0 || item === '0');
+            };
+            is.Function = function (item) {
+                return !!(item && item.constructor && item.call && item.apply);
+            };
+            is.Image = function (item) {
+                var ext = item.split('.').pop();
+                return (ext === 'jpg' || ext === 'png');
+            };
+            is.OBJ = function (item) {
+                var ext = item.split('.').pop();
+                return (ext === 'obj');
+            };
+            return is;
+        })();
+        Helpers.is = is;
+        var random = (function () {
+            function random() {
+            }
+            random.id = function (length, radix) {
+                if (length === void 0) { length = 27; }
+                if (radix === void 0) { radix = 36; }
+                return (Math.random() + 1).toString(radix).substring(2, length + 2);
+            };
+            random.vector3 = function (x, y, z, distance, stick) {
+                var options = {
+                    x: x || 0,
+                    y: y || false,
+                    z: z || false,
+                    distance: distance || false,
+                    stick: stick || false
+                };
+                // Coordinates
+                var u1 = Math.random() * 2 - 1, u2 = Math.random(), radius = Math.sqrt(1 - u1 * u1), theta = 2 * Math.PI * u2;
+                // Stick to surface or disperse inside sphere
+                if (!options.stick)
+                    options.distance = Math.random() * options.distance;
+                return new THREE.Vector3(radius * Math.cos(theta) * options.distance + options.x, radius * Math.sin(theta) * options.distance + options.y, u1 * options.distance + options.z);
+            };
+            return random;
+        })();
+        Helpers.random = random;
     })(Helpers = DreamsArk.Helpers || (DreamsArk.Helpers = {}));
 })(DreamsArk || (DreamsArk = {}));
-;
-/**
- * Dom Utils
- */
-exports.appendTo = function (element, domElement) {
-    document.querySelector(element).appendChild(domElement);
-};
-exports.removeById = function (collection, id) {
-    For(collection, function (index) {
-        if (collection[index].id === id)
-            collection.splice(index, 1);
-    });
-};
-/**
- * Checker if obj is X type
- */
-var is = (function () {
-    function is() {
-    }
-    is.Array = function (item) {
-        return Array.isArray(item);
-    };
-    is.Object = function (item) {
-        return (typeof item === "object" && !Array.isArray(item) && item !== null);
-    };
-    is.Null = function (item) {
-        return (item === null || item === undefined || item === 0 || item === '0');
-    };
-    is.Function = function (item) {
-        return !!(item && item.constructor && item.call && item.apply);
-    };
-    is.Image = function (item) {
-        var ext = item.split('.').pop();
-        return (ext === 'jpg' || ext === 'png');
-    };
-    is.OBJ = function (item) {
-        var ext = item.split('.').pop();
-        return (ext === 'obj');
-    };
-    return is;
-})();
-exports.is = is;
-var random = (function () {
-    function random() {
-    }
-    random.id = function (length, radix) {
-        if (length === void 0) { length = 27; }
-        if (radix === void 0) { radix = 36; }
-        return (Math.random() + 1).toString(radix).substring(2, length + 2);
-    };
-    return random;
-})();
-exports.random = random;
 var where = (function () {
     function where() {
     }

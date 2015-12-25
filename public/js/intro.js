@@ -43994,7 +43994,7 @@ module.exports = (function () {
             /**
              * Init Initializable
              */
-            require('./Initializable');
+            require('./Modules');
             require('./Elements');
 
             helpers.init(
@@ -46368,7 +46368,7 @@ module.exports = (function (e) {
             this.progress = null;
             this.complete = false;
             this.count    = 0;
-            this.on = {start: null, progress: null, load: null, error: null};
+            this.on       = {start: null, progress: null, load: null, error: null};
 
         }
 
@@ -50016,12 +50016,14 @@ THREE.TrackballControls.prototype.constructor = THREE.TrackballControls;
   Don't do bad things with this :)
   */  Easie = (function() {
     function Easie() {}
+
     Easie.backIn = function(time, begin, change, duration, overshoot) {
       if (overshoot == null) {
         overshoot = 1.70158;
       }
       return change * (time /= duration) * time * ((overshoot + 1) * time - overshoot) + begin;
     };
+
     Easie.backOut = function(time, begin, change, duration, overshoot) {
       if (overshoot == null) {
         overshoot = 1.70158;

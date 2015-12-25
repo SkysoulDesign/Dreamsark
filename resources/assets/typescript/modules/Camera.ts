@@ -17,6 +17,8 @@ module DreamsArk.Modules {
             this.instance.near = 0.1;
             this.instance.far = 10000;
 
+            this.instance.updateProjectionMatrix();
+
         }
 
         static swing(target:THREE.Vector3):void {
@@ -26,7 +28,7 @@ module DreamsArk.Modules {
                 checker = <Checker>module('Checker'),
                 camera = module('Camera');
 
-            var origin = new THREE.Vector3(0, 0, 20);
+            var origin = new THREE.Vector3(0, 0, 0);
 
             checker.add(function () {
 
@@ -42,6 +44,5 @@ module DreamsArk.Modules {
         }
 
     }
-
 
 }

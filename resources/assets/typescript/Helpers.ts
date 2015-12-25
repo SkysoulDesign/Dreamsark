@@ -172,6 +172,27 @@ module DreamsArk.Helpers {
             return (Math.random() + 1).toString(radix).substring(2, length + 2);
         }
 
+        static vector3(x:number = 0, y:number = 0, z:number = 0, distance:number = 0, stick:boolean = false):THREE.Vector3 {
+
+            // Coordinates
+            var u1 = Math.random() * 2 - 1,
+                u2 = Math.random(),
+                radius = Math.sqrt(1 - u1 * u1),
+                theta = 2 * Math.PI * u2;
+
+            // Stick to surface or disperse inside sphere
+            if (!stick)
+                distance = Math.random() * distance;
+
+            return new THREE.Vector3(
+                radius * Math.cos(theta) * distance + x,
+                radius * Math.sin(theta) * distance + y,
+                u1 * distance + z
+            );
+
+
+        }
+
     }
 
     export class where {

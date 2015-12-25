@@ -10,12 +10,14 @@
   Don't do bad things with this :)
   */  Easie = (function() {
     function Easie() {}
+
     Easie.backIn = function(time, begin, change, duration, overshoot) {
       if (overshoot == null) {
         overshoot = 1.70158;
       }
       return change * (time /= duration) * time * ((overshoot + 1) * time - overshoot) + begin;
     };
+
     Easie.backOut = function(time, begin, change, duration, overshoot) {
       if (overshoot == null) {
         overshoot = 1.70158;

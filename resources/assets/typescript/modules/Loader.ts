@@ -1,5 +1,3 @@
-///<reference path="../compositions/Loading.ts"/>
-
 module DreamsArk.Modules {
 
     import each = DreamsArk.Helpers.each;
@@ -133,19 +131,24 @@ module DreamsArk.Modules {
 
                     each(elements, function (el, name) {
 
-                        elements[name] = new el().create(maps[name], objs[name]);
-                        elements[name].name = name;
+                        var instance = new el(),
+                            userData = is.Function(instance.data) ? instance.data() : {},
+                            temp = {};
+
+                        temp[name] = instance.create(maps[name], objs[name], userData);
+                        temp[name].name = name;
+                        temp[name].userData = userData;
 
                         /**
                          * Override Global Elements Bag
                          */
-                        elementsBag[name] = elements[name];
+                        elementsBag[name] = temp[name];
 
                     });
 
                     this.complete = true;
 
-                    callback(elements)
+                    callback(elementsBag)
 
                 }
 
@@ -160,6 +163,15 @@ module DreamsArk.Modules {
 
                 if (is.Function(element.objs))
                     this.load(element.objs(), ready.bind(this, name))
+
+                /**
+                 * if there is none then just create it strait away
+                 */
+                if (!is.Function(element.maps) && !is.Function(element.objs)) {
+                    this.count++;
+                    this.complete = false;
+                    ready.call(this, name, name, element);
+                }
 
             }, this);
 
