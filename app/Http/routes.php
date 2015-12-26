@@ -224,3 +224,7 @@ Route::get('in', ['as' => 'in', 'uses' => function () {
 Route::get('temp', ['as' => 'temp', 'uses' => function () {
     return view('testing');
 }]);
+
+Route::get('old', ['as' => 'old', 'uses' => function () {
+    return view('old');
+}]);

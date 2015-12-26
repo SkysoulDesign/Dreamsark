@@ -1,24 +1,6 @@
 <!DOCTYPE html>
 
-<!--
 
-  Hey There.
-
-  I see that you are examining the source.
-
-  Before you go  on, let me remind you of a few things:
-
-  First off,
-  This code is a hodgepodge pulled together to create a pretty demo.
-  It is not example code.
-
-  If you do have questions about it, please contact
-
-  @Nashira on github , or @Cabbibo on twitter / github
-
-  k thnx ;)
-
--->
 <html lang="en">
 
 <head>
