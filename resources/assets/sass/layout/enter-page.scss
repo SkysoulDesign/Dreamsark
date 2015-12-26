@@ -13,6 +13,12 @@
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Likely future */
 
+  background-color: #829db3;
+
+  @include option(exit) {
+    animation: FadeOut 1.2s ease-in forwards;
+  }
+
   @include part(background) {
 
     position: absolute;
@@ -22,7 +28,7 @@
 
     height: 100%;
 
-    background: #829db3;
+    //background: #829db3;
 
     li {
       position: absolute;
@@ -68,13 +74,6 @@
 
   }
 
-  @keyframes LogoSpin {
-    100% {
-      transform: translate(-50%, -50%) rotateY(360deg) scale(0, 0);
-      opacity: 0
-    }
-  }
-
   @include part(controllers) {
 
     position: absolute;
@@ -108,11 +107,29 @@
 
 }
 
+.--fade-to-black {
+  background: color(black, x-dark);
+}
+
 /**
 Animation
 */
 @keyframes anim-color-up {
   100% {
     background: color(black, x-dark, 20);
+  }
+}
+
+@keyframes FadeOut {
+  100% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes LogoSpin {
+  100% {
+    transform: translate(-50%, -50%) rotateY(360deg) scale(0, 0);
+    opacity: 0
   }
 }

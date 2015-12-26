@@ -13,6 +13,7 @@ module DreamsArk.Modules {
         public y:number;
         public ratio:THREE.Vector2;
         public normalized:THREE.Vector2;
+        public screen:THREE.Vector2;
         public enabled:boolean = true;
 
         constructor() {
@@ -22,6 +23,7 @@ module DreamsArk.Modules {
             this.ratio = new THREE.Vector2(0, 0);
 
             this.normalized = new THREE.Vector2(0, 0);
+            this.screen = new THREE.Vector2(0, 0);
 
             this.enabled = true;
 
@@ -54,6 +56,11 @@ module DreamsArk.Modules {
                 this.ratio.x = event.clientX / browser.innerWidth;
                 this.ratio.y = event.clientY / browser.innerHeight;
 
+                /**
+                 * Screen
+                 */
+                this.screen.set(event.clientX - browser.innerWidth / 2, event.clientY - browser.innerHeight / 2);
+
             };
 
             /**
@@ -63,11 +70,11 @@ module DreamsArk.Modules {
 
         }
 
-        static click(element:string, callback, context:any = this, useCapture:boolean = false):void {
+        public click(element:string, callback, context:any = this, useCapture:boolean = false):void {
             Events.add(element, 'click', callback, context, useCapture)
         }
 
-        static move(element:string, callback, context:any = this, useCapture:boolean = false):void {
+        public move(element:string, callback, context:any = this, useCapture:boolean = false):void {
             Events.add(element, 'mousemove', callback, context, useCapture)
         }
 

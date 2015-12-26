@@ -8,9 +8,9 @@ module DreamsArk.Modules {
 
         public collection:any[] = [];
 
-        add(callback:Function, context = DreamsArk):void {
+        add(callback:(elapsed_time?:number, time?:number) => boolean, context:any = DreamsArk):void {
 
-            this.collection.push(callback.bind(context))
+            this.collection.push({callback: callback.bind(context), time: +new Date()})
 
         }
 
@@ -21,7 +21,7 @@ module DreamsArk.Modules {
                 var removeBag = [];
 
                 each(this.collection, function (el, index) {
-                    if (el())
+                    if (el.callback((+new Date()) - el.time, el.time))
                         removeBag.push(index);
 
                 });

@@ -10,12 +10,12 @@ module DreamsArk.Modules {
 
         configure():void {
 
-            var browser = module('Browser');
+            var browser = <Browser>module('Browser');
 
             this.instance.fov = 75;
             this.instance.aspect = browser.innerWidth / browser.innerHeight;
             this.instance.near = 0.1;
-            this.instance.far = 10000;
+            this.instance.far = 1000;
 
             this.instance.updateProjectionMatrix();
 
@@ -38,6 +38,8 @@ module DreamsArk.Modules {
                 camera.position.x += (x + camera.position.x) / 30;
                 camera.position.y += (y - camera.position.y + origin.y) / 30;
                 camera.lookAt(target);
+
+                return false;
 
             });
 

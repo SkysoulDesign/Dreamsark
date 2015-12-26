@@ -2,24 +2,27 @@ module DreamsArk.Compositions {
 
     import For = DreamsArk.Helpers.For;
     import length = DreamsArk.Helpers.length;
+    import deg2rad = DreamsArk.Helpers.deg2rad;
 
     export class Landing implements Composable {
 
         elements() {
-            return ['Particles', 'Cube'];
+            return ['Particles', 'Cube', 'Tunnel', 'Plexus'];
         }
 
         setup(scene, camera, elements) {
 
             //Camera.swing(new THREE.Vector3(0));
+            var plexus = elements.Plexus;
 
-            scene.add(elements.Particles);
+            scene.add(elements.Particles, plexus);
 
             camera.position.z = 30
 
         }
 
         update(scene, camera, elements) {
+
 
             var particles = elements.Particles,
                 positions = particles.geometry.getAttribute('position'),

@@ -133,6 +133,68 @@ module DreamsArk.Helpers {
 
     };
 
+    export var timeout = function (time:number, callback:() => void, context:any = DreamsArk) {
+        return window.setTimeout(callback.bind(context), time * 1000);
+    };
+
+    export var clone = function (obj:any, skip?:string[]) {
+
+        if (!is.Object(obj))
+            return obj;
+
+        var temp = {};
+
+        each(obj, function (el, key) {
+
+            /**
+             * Skip Properties if it has been set
+             */
+            if (!is.Null(skip) && contains(skip, key))
+                return;
+
+            temp[key] = clone(obj[key], skip);
+
+        }, this);
+
+        return temp;
+
+    };
+
+    export var map = function (obj:any, callback:(value:number) => number, context = DreamsArk):any {
+
+        var instance = {};
+
+        /**
+         * Loop on every property and set them accordingly
+         */
+        each(obj, function (el, index) {
+
+            /**
+             * if it's an object, map again
+             */
+            if (is.Object(el)) {
+
+                return instance[index] = map(el, callback, context);
+
+            } else {
+
+                /**
+                 * call Callback
+                 */
+                instance[index] = callback.call(context, el, index);
+
+            }
+
+        }, this);
+
+        return instance;
+
+    };
+
+    export var deg2rad = function (degrees) {
+        return (degrees * Math.PI / 180);
+    };
+
     /**
      * Checker if obj is X type
      */
@@ -225,6 +287,72 @@ module DreamsArk.Helpers {
 
             return length(occurrences) > 0 ? occurrences[0] : occurrences;
 
+        }
+
+    }
+
+    export class math {
+
+        private calculator = function (origin:any, obj:any, operator:string) {
+
+            var temp = {}, operators = {
+                '-': function (a, b) {
+                    return a - b;
+                },
+                '+': function (a, b) {
+                    return a + b;
+                },
+                '*': function (a, b) {
+                    return a * b;
+                },
+                '/': function (a, b) {
+                    return a / b;
+                }
+            };
+
+            if (is.Object(origin)) {
+
+                each(origin, function (el, index) {
+
+                    if (is.Object(el)) {
+                        return temp[index] = this.calculator(el, is.Object(obj) ? obj[index] : obj, operator);
+                    }
+
+                    if (is.Object(obj)) {
+
+                        if (is.Object(obj[index]))
+                            return temp[index] = this.calculator(el, obj[index], operator);
+
+                        return temp[index] = operators[operator](el, obj[index]);
+
+                    }
+
+                    temp[index] = operators[operator](el, obj)
+
+                }, this);
+
+                return temp;
+
+            }
+
+            return operators[operator](origin, obj);
+
+        };
+
+        static sub(origin:any, obj:any):any {
+            return (new math).calculator(origin, obj, '-')
+        }
+
+        static add(origin:any, obj:any):any {
+            return (new math).calculator(origin, obj, '+')
+        }
+
+        static multiply(origin:any, obj:any):any {
+            return (new math).calculator(origin, obj, '*')
+        }
+
+        static divide(origin:any, obj:any):any {
+            return (new math).calculator(origin, obj, '/')
         }
 
     }

@@ -10,6 +10,9 @@ module DreamsArk.Modules {
 
         configure():void {
 
+            this.instance.fog = new THREE.Fog(0x000000, 1, 400)
+
+
         }
 
     }

@@ -114,6 +114,7 @@
     {{--<script type="text/javascript" src="{{ asset('js/intro.js') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/parallax.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/three.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/TrackballControls.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/OBJLoader.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tsc.js') }}"></script>
 

@@ -1,5 +1,8 @@
 /// <reference path="Helpers.ts" />
 
+/// <reference path="elements/Tunnel.ts" />
+/// <reference path="elements/Skybox.ts" />
+/// <reference path="elements/Plexus.ts" />
 /// <reference path="elements/Particles.ts" />
 /// <reference path="elements/Background.ts" />
 /// <reference path="elements/Logo.ts" />
@@ -50,12 +53,14 @@ module DreamsArk {
 
         constructor() {
 
+            var mouse = <Mouse>module('Mouse');
+
             /**
              * start Loading the basic scene
              */
             load();
 
-            Mouse.click('#start', function () {
+            mouse.click('#start', function () {
 
                 start();
 
@@ -72,7 +77,8 @@ module DreamsArk {
         /**
          * Remove logo
          */
-        query('#logo').classList.add('--exit');
+        query('.container-fluid').classList.add('--fade-to-black');
+        query('.enter-page').classList.add('--exit');
 
         var composition = new Composition('Loading');
 

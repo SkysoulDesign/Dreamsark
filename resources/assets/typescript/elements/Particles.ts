@@ -7,22 +7,28 @@ module DreamsArk.Elements {
 
         public instance:any;
 
+        maps():{} {
+            return {particle: 'lib/spark.png'}
+        }
+
         data():{} {
             return {velocity: []}
         }
 
         create(maps, objs, data) {
 
-            var maxParticleCount = 200,
+            var maxParticleCount = 1000,
                 radius = 50;
 
             var PointMaterial = new THREE.PointsMaterial({
                 //color: 0x000000,
-                size: 0.5,
+                size: 2,
                 blending: THREE.AdditiveBlending,
+                map: maps.particle,
                 transparent: true,
-                alphaTest: 0.5,
-                sizeAttenuation: true
+                alphaTest: 0.01,
+                sizeAttenuation: true,
+                opacity:0.8
 
             });
 
@@ -41,7 +47,7 @@ module DreamsArk.Elements {
                 particlePositions[i * 3 + 2] = vector.z;
 
                 data.velocity.push(
-                    new THREE.Vector3(vector.x * Math.random(), vector.y * Math.random(), vector.z * Math.random())
+                    new THREE.Vector3(10 * Math.random(), 10 * Math.random(), 10 * Math.random())
                 );
 
             });

@@ -93,63 +93,85 @@ var DreamsArk;
                     collection.splice(index, 1);
             });
         };
+        Helpers.map = ;
+        var instance = {};
         /**
-         * Checker if obj is X type
+         * Loop on every property and set them accordingly
          */
-        var is = (function () {
-            function is() {
+        Helpers.each(obj, function (el, index) {
+            /**
+             * if it's an object, map again
+             */
+            if (is.Object(el)) {
+                return instance[index] = Helpers.map(el, callback, context);
             }
-            is.Array = function (item) {
-                return Array.isArray(item);
-            };
-            is.Object = function (item) {
-                return (typeof item === "object" && !Array.isArray(item) && item !== null);
-            };
-            is.Null = function (item) {
-                return (item === null || item === undefined || item === 0 || item === '0');
-            };
-            is.Function = function (item) {
-                return !!(item && item.constructor && item.call && item.apply);
-            };
-            is.Image = function (item) {
-                var ext = item.split('.').pop();
-                return (ext === 'jpg' || ext === 'png');
-            };
-            is.OBJ = function (item) {
-                var ext = item.split('.').pop();
-                return (ext === 'obj');
-            };
-            return is;
-        })();
-        Helpers.is = is;
-        var random = (function () {
-            function random() {
+            else {
+                /**
+                 * call Callback
+                 */
+                instance[index] = callback.call(context, el, index);
             }
-            random.id = function (length, radix) {
-                if (length === void 0) { length = 27; }
-                if (radix === void 0) { radix = 36; }
-                return (Math.random() + 1).toString(radix).substring(2, length + 2);
-            };
-            random.vector3 = function (x, y, z, distance, stick) {
-                var options = {
-                    x: x || 0,
-                    y: y || false,
-                    z: z || false,
-                    distance: distance || false,
-                    stick: stick || false
-                };
-                // Coordinates
-                var u1 = Math.random() * 2 - 1, u2 = Math.random(), radius = Math.sqrt(1 - u1 * u1), theta = 2 * Math.PI * u2;
-                // Stick to surface or disperse inside sphere
-                if (!options.stick)
-                    options.distance = Math.random() * options.distance;
-                return new THREE.Vector3(radius * Math.cos(theta) * options.distance + options.x, radius * Math.sin(theta) * options.distance + options.y, u1 * options.distance + options.z);
-            };
-            return random;
-        })();
-        Helpers.random = random;
+        }, this);
+        return instance;
     })(Helpers = DreamsArk.Helpers || (DreamsArk.Helpers = {}));
 })(DreamsArk || (DreamsArk = {}));
+;
+exports.deg2rad = function (degrees) {
+    return (degrees * Math.PI / 180);
+};
+/**
+ * Checker if obj is X type
+ */
+var is = (function () {
+    function is() {
+    }
+    is.Array = function (item) {
+        return Array.isArray(item);
+    };
+    is.Object = function (item) {
+        return (typeof item === "object" && !Array.isArray(item) && item !== null);
+    };
+    is.Null = function (item) {
+        return (item === null || item === undefined || item === 0 || item === '0');
+    };
+    is.Function = function (item) {
+        return !!(item && item.constructor && item.call && item.apply);
+    };
+    is.Image = function (item) {
+        var ext = item.split('.').pop();
+        return (ext === 'jpg' || ext === 'png');
+    };
+    is.OBJ = function (item) {
+        var ext = item.split('.').pop();
+        return (ext === 'obj');
+    };
+    return is;
+})();
+exports.is = is;
+var random = (function () {
+    function random() {
+    }
+    random.id = function (length, radix) {
+        if (length === void 0) { length = 27; }
+        if (radix === void 0) { radix = 36; }
+        return (Math.random() + 1).toString(radix).substring(2, length + 2);
+    };
+    random.vector3 = function (x, y, z, distance, stick) {
+        if (x === void 0) { x = 0; }
+        if (y === void 0) { y = 0; }
+        if (z === void 0) { z = 0; }
+        if (distance === void 0) { distance = 0; }
+        if (stick === void 0) { stick = false; }
+        // Coordinates
+        var u1 = Math.random() * 2 - 1, u2 = Math.random(), radius = Math.sqrt(1 - u1 * u1), theta = 2 * Math.PI * u2;
+        // Stick to surface or disperse inside sphere
+        if (!stick)
+            distance = Math.random() * distance;
+        return new THREE.Vector3(radius * Math.cos(theta) * distance + x, radius * Math.sin(theta) * distance + y, u1 * distance + z);
+    };
+    return random;
+})();
+exports.random = random;
 var where = (function () {
     function where() {
     }

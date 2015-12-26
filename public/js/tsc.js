@@ -93,6 +93,49 @@ var DreamsArk;
                     collection.splice(index, 1);
             });
         };
+        Helpers.timeout = function (time, callback, context) {
+            if (context === void 0) { context = DreamsArk; }
+            return window.setTimeout(callback.bind(context), time * 1000);
+        };
+        Helpers.clone = function (obj, skip) {
+            if (!is.Object(obj))
+                return obj;
+            var temp = {};
+            Helpers.each(obj, function (el, key) {
+                /**
+                 * Skip Properties if it has been set
+                 */
+                if (!is.Null(skip) && Helpers.contains(skip, key))
+                    return;
+                temp[key] = Helpers.clone(obj[key], skip);
+            }, this);
+            return temp;
+        };
+        Helpers.map = function (obj, callback, context) {
+            if (context === void 0) { context = DreamsArk; }
+            var instance = {};
+            /**
+             * Loop on every property and set them accordingly
+             */
+            Helpers.each(obj, function (el, index) {
+                /**
+                 * if it's an object, map again
+                 */
+                if (is.Object(el)) {
+                    return instance[index] = Helpers.map(el, callback, context);
+                }
+                else {
+                    /**
+                     * call Callback
+                     */
+                    instance[index] = callback.call(context, el, index);
+                }
+            }, this);
+            return instance;
+        };
+        Helpers.deg2rad = function (degrees) {
+            return (degrees * Math.PI / 180);
+        };
         /**
          * Checker if obj is X type
          */
@@ -168,7 +211,133 @@ var DreamsArk;
             return where;
         })();
         Helpers.where = where;
+        var math = (function () {
+            function math() {
+                this.calculator = function (origin, obj, operator) {
+                    var temp = {}, operators = {
+                        '-': function (a, b) {
+                            return a - b;
+                        },
+                        '+': function (a, b) {
+                            return a + b;
+                        },
+                        '*': function (a, b) {
+                            return a * b;
+                        },
+                        '/': function (a, b) {
+                            return a / b;
+                        }
+                    };
+                    if (is.Object(origin)) {
+                        Helpers.each(origin, function (el, index) {
+                            if (is.Object(el)) {
+                                return temp[index] = this.calculator(el, is.Object(obj) ? obj[index] : obj, operator);
+                            }
+                            if (is.Object(obj)) {
+                                if (is.Object(obj[index]))
+                                    return temp[index] = this.calculator(el, obj[index], operator);
+                                return temp[index] = operators[operator](el, obj[index]);
+                            }
+                            temp[index] = operators[operator](el, obj);
+                        }, this);
+                        return temp;
+                    }
+                    return operators[operator](origin, obj);
+                };
+            }
+            math.sub = function (origin, obj) {
+                return (new math).calculator(origin, obj, '-');
+            };
+            math.add = function (origin, obj) {
+                return (new math).calculator(origin, obj, '+');
+            };
+            math.multiply = function (origin, obj) {
+                return (new math).calculator(origin, obj, '*');
+            };
+            math.divide = function (origin, obj) {
+                return (new math).calculator(origin, obj, '/');
+            };
+            return math;
+        })();
+        Helpers.math = math;
     })(Helpers = DreamsArk.Helpers || (DreamsArk.Helpers = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Tunnel = (function () {
+            function Tunnel() {
+            }
+            Tunnel.prototype.maps = function () {
+                return {
+                    wave: 'assets/001_electric.jpg'
+                };
+            };
+            Tunnel.prototype.create = function (maps, objs, data) {
+                var texture = maps.wave;
+                texture.wrapT = texture.wrapS = THREE.RepeatWrapping;
+                texture.repeat.set(1, 2);
+                // Tunnel Mesh
+                return new THREE.Mesh(new THREE.CylinderGeometry(50, 50, 1024, 16, 32, true), new THREE.MeshBasicMaterial({
+                    color: 0x2222ff,
+                    //ambient: data.innerColor,
+                    transparent: true,
+                    alphaMap: texture,
+                    //shininess: 0,
+                    side: THREE.BackSide
+                }));
+            };
+            return Tunnel;
+        })();
+        Elements.Tunnel = Tunnel;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Skybox = (function () {
+            function Skybox() {
+            }
+            Skybox.prototype.maps = function () {
+                return {
+                    skybox: 'lib/background-sphere.jpg'
+                };
+            };
+            Skybox.prototype.create = function (maps, objs, data) {
+                var geometry = new THREE.SphereGeometry(500, 50, 50);
+                geometry.scale(-1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({ map: maps.skybox, transparent: true, opacity: 0 });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Skybox;
+        })();
+        Elements.Skybox = Skybox;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Plexus = (function () {
+            function Plexus() {
+            }
+            Plexus.prototype.maps = function () {
+                return {
+                    skybox: 'lib/background-sphere.jpg'
+                };
+            };
+            Plexus.prototype.create = function (maps, objs, data) {
+                var geometry = new THREE.SphereGeometry(500, 50, 50);
+                geometry.scale(-1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({ map: maps.skybox, transparent: true, opacity: 0 });
+                return new THREE.Mesh(geometry, material);
+            };
+            return Plexus;
+        })();
+        Elements.Plexus = Plexus;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
 })(DreamsArk || (DreamsArk = {}));
 var DreamsArk;
 (function (DreamsArk) {
@@ -179,18 +348,23 @@ var DreamsArk;
         var Particles = (function () {
             function Particles() {
             }
+            Particles.prototype.maps = function () {
+                return { particle: 'lib/spark.png' };
+            };
             Particles.prototype.data = function () {
                 return { velocity: [] };
             };
             Particles.prototype.create = function (maps, objs, data) {
-                var maxParticleCount = 200, radius = 50;
+                var maxParticleCount = 1000, radius = 50;
                 var PointMaterial = new THREE.PointsMaterial({
                     //color: 0x000000,
-                    size: 0.5,
+                    size: 2,
                     blending: THREE.AdditiveBlending,
+                    map: maps.particle,
                     transparent: true,
-                    alphaTest: 0.5,
-                    sizeAttenuation: true
+                    alphaTest: 0.01,
+                    sizeAttenuation: true,
+                    opacity: 0.8
                 });
                 var particles = new THREE.BufferGeometry();
                 var particlePositions = new Float32Array(maxParticleCount * 3);
@@ -202,7 +376,7 @@ var DreamsArk;
                     particlePositions[i * 3] = vector.x;
                     particlePositions[i * 3 + 1] = vector.y;
                     particlePositions[i * 3 + 2] = vector.z;
-                    data.velocity.push(new THREE.Vector3(vector.x * Math.random(), vector.y * Math.random(), vector.z * Math.random()));
+                    data.velocity.push(new THREE.Vector3(10 * Math.random(), 10 * Math.random(), 10 * Math.random()));
                 });
                 particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
                 return new THREE.Points(particles, PointMaterial);
@@ -246,14 +420,23 @@ var DreamsArk;
         var Logo = (function () {
             function Logo() {
             }
+            Logo.prototype.maps = function () {
+                return {
+                    logo: 'lib/texture.jpg',
+                };
+            };
             Logo.prototype.objs = function () {
                 return {
                     logo: 'models/logo.obj',
                 };
             };
             Logo.prototype.create = function (maps, objs, data) {
-                var logo = objs.logo;
-                logo.material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+                var logo = objs.logo, texture = maps.logo;
+                texture.wrapS = THREE.MirroredRepeatWrapping;
+                texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.mapping = THREE.CubeRefractionMapping;
+                logo.rotation.x = Math.PI * 2;
+                logo.material = new THREE.MeshBasicMaterial({ map: texture });
                 return logo;
             };
             return Logo;
@@ -396,13 +579,13 @@ var DreamsArk;
             }
             Checker.prototype.add = function (callback, context) {
                 if (context === void 0) { context = DreamsArk; }
-                this.collection.push(callback.bind(context));
+                this.collection.push({ callback: callback.bind(context), time: +new Date() });
             };
             Checker.prototype.update = function () {
                 if (length(this.collection) > 0) {
                     var removeBag = [];
                     each(this.collection, function (el, index) {
-                        if (el())
+                        if (el.callback((+new Date()) - el.time, el.time))
                             removeBag.push(index);
                     });
                     if (length(this.collection) > 0)
@@ -423,14 +606,476 @@ var DreamsArk;
 (function (DreamsArk) {
     var Modules;
     (function (Modules) {
+        var map = DreamsArk.Helpers.map;
+        var is = DreamsArk.Helpers.is;
+        var math = DreamsArk.Helpers.math;
+        var timeout = DreamsArk.Helpers.timeout;
+        var clone = DreamsArk.Helpers.clone;
         var Animator = (function () {
             function Animator() {
             }
-            Animator.prototype.backIn = function () {
+            Animator.prototype.backIn = function (parameters, context) {
+                new Tween('backIn', parameters, context).init();
             };
+            ;
+            Animator.prototype.backOut = function (parameters, context) {
+                new Tween('backOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.backInOut = function (parameters, context) {
+                new Tween('backInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.bounceOut = function (parameters, context) {
+                new Tween('bounceOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.bounceIn = function (parameters, context) {
+                new Tween('bounceIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.bounceInOut = function (parameters, context) {
+                new Tween('bounceInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.circIn = function (parameters, context) {
+                new Tween('circIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.circOut = function (parameters, context) {
+                new Tween('circOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.circInOut = function (parameters, context) {
+                new Tween('circInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.cubicIn = function (parameters, context) {
+                new Tween('cubicIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.cubicOut = function (parameters, context) {
+                new Tween('cubicOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.cubicInOut = function (parameters, context) {
+                new Tween('cubicInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.elasticIn = function (parameters, context) {
+                new Tween('elasticIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.elasticOut = function (parameters, context) {
+                new Tween('elasticOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.elasticInOut = function (parameters, context) {
+                new Tween('elasticInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.expoIn = function (parameters, context) {
+                new Tween('expoIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.expoOut = function (parameters, context) {
+                new Tween('expoOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.expoInOut = function (parameters, context) {
+                new Tween('expoInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.linearIn = function (parameters, context) {
+                new Tween('linearIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.linearOut = function (parameters, context) {
+                new Tween('linearOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.linearInOut = function (parameters, context) {
+                new Tween('linearInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quadIn = function (parameters, context) {
+                new Tween('quadIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quadOut = function (parameters, context) {
+                new Tween('quadOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quadInOut = function (parameters, context) {
+                new Tween('quadInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quartIn = function (parameters, context) {
+                new Tween('quartIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quartOut = function (parameters, context) {
+                new Tween('quartOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quartInOut = function (parameters, context) {
+                new Tween('quartInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quintIn = function (parameters, context) {
+                new Tween('quintIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quintOut = function (parameters, context) {
+                new Tween('quintOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.quintInOut = function (parameters, context) {
+                new Tween('quintInOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.sineIn = function (parameters, context) {
+                new Tween('sineIn', parameters, context).init();
+            };
+            ;
+            Animator.prototype.sineOut = function (parameters, context) {
+                new Tween('sineOut', parameters, context).init();
+            };
+            ;
+            Animator.prototype.sineInOut = function (parameters, context) {
+                new Tween('sineInOut', parameters, context).init();
+            };
+            ;
             return Animator;
         })();
         Modules.Animator = Animator;
+        var Tween = (function () {
+            function Tween(equation, parameters, context) {
+                if (context === void 0) { context = DreamsArk; }
+                this.equation = equation;
+                this.context = context;
+                this.bounceInOut = function (time, begin, change, duration) {
+                    if (time < duration / 2) {
+                        return this.bounceIn(time * 2, 0, change, duration) * 0.5 + begin;
+                    }
+                    else {
+                        return this.bounceOut(time * 2 - duration, 0, change, duration) * 0.5 + change * 0.5 + begin;
+                    }
+                };
+                this.circIn = function (time, begin, change, duration) {
+                    return -change * (Math.sqrt(1 - (time = time / duration) * time) - 1) + begin;
+                };
+                this.circOut = function (time, begin, change, duration) {
+                    return change * Math.sqrt(1 - (time = time / duration - 1) * time) + begin;
+                };
+                this.circInOut = function (time, begin, change, duration) {
+                    if ((time = time / (duration / 2)) < 1) {
+                        return -change / 2 * (Math.sqrt(1 - time * time) - 1) + begin;
+                    }
+                    else {
+                        return change / 2 * (Math.sqrt(1 - (time -= 2) * time) + 1) + begin;
+                    }
+                };
+                this.cubicIn = function (time, begin, change, duration) {
+                    return change * (time /= duration) * time * time + begin;
+                };
+                this.cubicOut = function (time, begin, change, duration) {
+                    return change * ((time = time / duration - 1) * time * time + 1) + begin;
+                };
+                this.cubicInOut = function (time, begin, change, duration) {
+                    if ((time = time / (duration / 2)) < 1) {
+                        return change / 2 * time * time * time + begin;
+                    }
+                    else {
+                        return change / 2 * ((time -= 2) * time * time + 2) + begin;
+                    }
+                };
+                this.elasticOut = function (time, begin, change, duration, amplitude, period) {
+                    var overshoot;
+                    if (amplitude == null) {
+                        amplitude = null;
+                    }
+                    if (period == null) {
+                        period = null;
+                    }
+                    if (time === 0) {
+                        return begin;
+                    }
+                    else if ((time = time / duration) === 1) {
+                        return begin + change;
+                    }
+                    else {
+                        if (!(period != null)) {
+                            period = duration * 0.3;
+                        }
+                        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+                            amplitude = change;
+                            overshoot = period / 4;
+                        }
+                        else {
+                            overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+                        }
+                        return (amplitude * Math.pow(2, -10 * time)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + change + begin;
+                    }
+                };
+                this.elasticIn = function (time, begin, change, duration, amplitude, period) {
+                    var overshoot;
+                    if (amplitude == null) {
+                        amplitude = null;
+                    }
+                    if (period == null) {
+                        period = null;
+                    }
+                    if (time === 0) {
+                        return begin;
+                    }
+                    else if ((time = time / duration) === 1) {
+                        return begin + change;
+                    }
+                    else {
+                        if (!(period != null)) {
+                            period = duration * 0.3;
+                        }
+                        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+                            amplitude = change;
+                            overshoot = period / 4;
+                        }
+                        else {
+                            overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+                        }
+                        time -= 1;
+                        return -(amplitude * Math.pow(2, 10 * time)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + begin;
+                    }
+                };
+                this.elasticInOut = function (time, begin, change, duration, amplitude, period) {
+                    var overshoot;
+                    if (amplitude == null) {
+                        amplitude = null;
+                    }
+                    if (period == null) {
+                        period = null;
+                    }
+                    if (time === 0) {
+                        return begin;
+                    }
+                    else if ((time = time / (duration / 2)) === 2) {
+                        return begin + change;
+                    }
+                    else {
+                        if (!(period != null)) {
+                            period = duration * (0.3 * 1.5);
+                        }
+                        if (!(amplitude != null) || amplitude < Math.abs(change)) {
+                            amplitude = change;
+                            overshoot = period / 4;
+                        }
+                        else {
+                            overshoot = period / (2 * Math.PI) * Math.asin(change / amplitude);
+                        }
+                        if (time < 1) {
+                            return -0.5 * (amplitude * Math.pow(2, 10 * (time -= 1))) * Math.sin((time * duration - overshoot) * ((2 * Math.PI) / period)) + begin;
+                        }
+                        else {
+                            return amplitude * Math.pow(2, -10 * (time -= 1)) * Math.sin((time * duration - overshoot) * (2 * Math.PI) / period) + change + begin;
+                        }
+                    }
+                };
+                this.expoIn = function (time, begin, change, duration) {
+                    if (time === 0) {
+                        return begin;
+                    }
+                    return change * Math.pow(2, 10 * (time / duration - 1)) + begin;
+                };
+                this.expoOut = function (time, begin, change, duration) {
+                    if (time === duration) {
+                        return begin + change;
+                    }
+                    return change * (-Math.pow(2, -10 * time / duration) + 1) + begin;
+                };
+                this.expoInOut = function (time, begin, change, duration) {
+                    if (time === 0) {
+                        return begin;
+                    }
+                    else if (time === duration) {
+                        return begin + change;
+                    }
+                    else if ((time = time / (duration / 2)) < 1) {
+                        return change / 2 * Math.pow(2, 10 * (time - 1)) + begin;
+                    }
+                    else {
+                        return change / 2 * (-Math.pow(2, -10 * (time - 1)) + 2) + begin;
+                    }
+                };
+                this.linearIn = function (time, begin, change, duration) {
+                    return this.linearNone(time, begin, change, duration);
+                }.bind(this);
+                this.linearOut = function (time, begin, change, duration) {
+                    return this.linearNone(time, begin, change, duration);
+                }.bind(this);
+                this.linearInOut = function (time, begin, change, duration) {
+                    return this.linearNone(time, begin, change, duration);
+                }.bind(this);
+                this.quadIn = function (time, begin, change, duration) {
+                    return change * (time = time / duration) * time + begin;
+                };
+                this.quadOut = function (time, begin, change, duration) {
+                    return -change * (time = time / duration) * (time - 2) + begin;
+                };
+                this.quadInOut = function (time, begin, change, duration) {
+                    if ((time = time / (duration / 2)) < 1) {
+                        return change / 2 * time * time + begin;
+                    }
+                    else {
+                        return -change / 2 * ((time -= 1) * (time - 2) - 1) + begin;
+                    }
+                };
+                this.quartIn = function (time, begin, change, duration) {
+                    return change * (time = time / duration) * time * time * time + begin;
+                };
+                this.quartOut = function (time, begin, change, duration) {
+                    return -change * ((time = time / duration - 1) * time * time * time - 1) + begin;
+                };
+                this.quartInOut = function (time, begin, change, duration) {
+                    if ((time = time / (duration / 2)) < 1) {
+                        return change / 2 * time * time * time * time + begin;
+                    }
+                    else {
+                        return -change / 2 * ((time -= 2) * time * time * time - 2) + begin;
+                    }
+                };
+                this.quintIn = function (time, begin, change, duration) {
+                    return change * (time = time / duration) * time * time * time * time + begin;
+                };
+                this.quintOut = function (time, begin, change, duration) {
+                    return change * ((time = time / duration - 1) * time * time * time * time + 1) + begin;
+                };
+                this.quintInOut = function (time, begin, change, duration) {
+                    if ((time = time / (duration / 2)) < 1) {
+                        return change / 2 * time * time * time * time * time + begin;
+                    }
+                    else {
+                        return change / 2 * ((time -= 2) * time * time * time * time + 2) + begin;
+                    }
+                };
+                this.sineIn = function (time, begin, change, duration) {
+                    return -change * Math.cos(time / duration * (Math.PI / 2)) + change + begin;
+                };
+                this.sineOut = function (time, begin, change, duration) {
+                    return change * Math.sin(time / duration * (Math.PI / 2)) + begin;
+                };
+                this.sineInOut = function (time, begin, change, duration) {
+                    return -change / 2 * (Math.cos(Math.PI * time / duration) - 1) + begin;
+                };
+                this.duration = parameters.duration * 1000;
+                this.destination = parameters.destination;
+                this.origin = parameters.origin;
+                this.update = parameters.update;
+                this.complete = parameters.complete;
+                this.start = parameters.start;
+                this.delay = parameters.delay;
+                this.overshoot = parameters.overshoot;
+            }
+            Tween.prototype.init = function () {
+                /**
+                 * if Delay is set, delay this function execution
+                 */
+                if (this.delay !== false) {
+                    timeout(this.delay, function () {
+                        /**
+                         * Set delay to false so it wont fall here again
+                         * @type {boolean}
+                         */
+                        this.delay = false;
+                        this.init();
+                    }, this);
+                    return;
+                }
+                var checker = DreamsArk.module('Checker'), instance = {}, equation = this[this.equation], overshoot = this.overshoot, duration = this.duration, origin = !is.Null(this.origin) ? clone(this.origin) : null, destination = is.Null(this.origin) ? clone(this.destination) : {};
+                /**
+                 * if Origin is set, subtract it from origin to re-add in the end
+                 */
+                if (!is.Null(origin))
+                    destination = math.sub(this.destination, origin);
+                if (is.Function(this.start))
+                    this.start();
+                checker.add(function (elapsed_time) {
+                    if (elapsed_time <= duration) {
+                        var progress = elapsed_time / duration;
+                        instance = map(destination, function (value) {
+                            return equation(progress, 0, value, 1, overshoot);
+                        });
+                        if (!is.Null(origin))
+                            instance = math.add(instance, origin);
+                        /**
+                         * Call the CallBack
+                         */
+                        this.update.call(this.context, instance);
+                        return false;
+                    }
+                    /**
+                     * Call on the last frame to make sure the end result is 100% and not a fraction
+                     */
+                    this.update.call(this.context, this.destination);
+                    if (is.Function(this.complete))
+                        this.complete();
+                    /**
+                     * Destroy Checker
+                     */
+                    return true;
+                }, this);
+            };
+            Tween.prototype.backIn = function (time, begin, change, duration, overshoot) {
+                if (overshoot == null) {
+                    overshoot = 1.70158;
+                }
+                return change * (time /= duration) * time * ((overshoot + 1) * time - overshoot) + begin;
+            };
+            ;
+            Tween.prototype.backOut = function (time, begin, change, duration, overshoot) {
+                if (overshoot == null) {
+                    overshoot = 1.70158;
+                }
+                return change * ((time = time / duration - 1) * time * ((overshoot + 1) * time + overshoot) + 1) + begin;
+            };
+            ;
+            Tween.prototype.backInOut = function (time, begin, change, duration, overshoot) {
+                if (overshoot == null) {
+                    overshoot = 1.70158;
+                }
+                if ((time = time / (duration / 2)) < 1) {
+                    return change / 2 * (time * time * (((overshoot *= 1.525) + 1) * time - overshoot)) + begin;
+                }
+                else {
+                    return change / 2 * ((time -= 2) * time * (((overshoot *= 1.525) + 1) * time + overshoot) + 2) + begin;
+                }
+            };
+            ;
+            Tween.prototype.bounceOut = function (time, begin, change, duration) {
+                if ((time /= duration) < 1 / 2.75) {
+                    return change * (7.5625 * time * time) + begin;
+                }
+                else if (time < 2 / 2.75) {
+                    return change * (7.5625 * (time -= 1.5 / 2.75) * time + 0.75) + begin;
+                }
+                else if (time < 2.5 / 2.75) {
+                    return change * (7.5625 * (time -= 2.25 / 2.75) * time + 0.9375) + begin;
+                }
+                else {
+                    return change * (7.5625 * (time -= 2.625 / 2.75) * time + 0.984375) + begin;
+                }
+            };
+            ;
+            Tween.prototype.bounceIn = function (time, begin, change, duration) {
+                return change - this.bounceOut(duration - time, 0, change, duration) + begin;
+            };
+            ;
+            Tween.prototype.linearNone = function (time, begin, change, duration) {
+                return change * time / duration + begin;
+            };
+            ;
+            return Tween;
+        })();
+        Modules.Tween = Tween;
     })(Modules = DreamsArk.Modules || (DreamsArk.Modules = {}));
 })(DreamsArk || (DreamsArk = {}));
 var DreamsArk;
@@ -588,6 +1233,7 @@ var DreamsArk;
                 this.y = 0;
                 this.ratio = new THREE.Vector2(0, 0);
                 this.normalized = new THREE.Vector2(0, 0);
+                this.screen = new THREE.Vector2(0, 0);
                 this.enabled = true;
             }
             Mouse.prototype.configure = function () {
@@ -608,18 +1254,22 @@ var DreamsArk;
                     this.normalized.set(x, y);
                     this.ratio.x = event.clientX / browser.innerWidth;
                     this.ratio.y = event.clientY / browser.innerHeight;
+                    /**
+                     * Screen
+                     */
+                    this.screen.set(event.clientX - browser.innerWidth / 2, event.clientY - browser.innerHeight / 2);
                 };
                 /**
                  * Manually Create Mouse Movement
                  */
                 Events.add('window', 'mousemove', callback, this, false);
             };
-            Mouse.click = function (element, callback, context, useCapture) {
+            Mouse.prototype.click = function (element, callback, context, useCapture) {
                 if (context === void 0) { context = this; }
                 if (useCapture === void 0) { useCapture = false; }
                 Events.add(element, 'click', callback, context, useCapture);
             };
-            Mouse.move = function (element, callback, context, useCapture) {
+            Mouse.prototype.move = function (element, callback, context, useCapture) {
                 if (context === void 0) { context = this; }
                 if (useCapture === void 0) { useCapture = false; }
                 Events.add(element, 'mousemove', callback, context, useCapture);
@@ -687,7 +1337,7 @@ var DreamsArk;
                 this.instance.fov = 75;
                 this.instance.aspect = browser.innerWidth / browser.innerHeight;
                 this.instance.near = 0.1;
-                this.instance.far = 10000;
+                this.instance.far = 1000;
                 this.instance.updateProjectionMatrix();
             };
             Camera.swing = function (target) {
@@ -698,6 +1348,7 @@ var DreamsArk;
                     camera.position.x += (x + camera.position.x) / 30;
                     camera.position.y += (y - camera.position.y + origin.y) / 30;
                     camera.lookAt(target);
+                    return false;
                 });
             };
             return Camera;
@@ -714,6 +1365,7 @@ var DreamsArk;
                 this.instance = new THREE.Scene();
             }
             Scene.prototype.configure = function () {
+                this.instance.fog = new THREE.Fog(0x000000, 1, 400);
             };
             return Scene;
         })();
@@ -757,11 +1409,12 @@ var DreamsArk;
             function Landing() {
             }
             Landing.prototype.elements = function () {
-                return ['Particles', 'Cube'];
+                return ['Particles', 'Cube', 'Tunnel', 'Plexus'];
             };
             Landing.prototype.setup = function (scene, camera, elements) {
                 //Camera.swing(new THREE.Vector3(0));
-                scene.add(elements.Particles);
+                var plexus = elements.Plexus;
+                scene.add(elements.Particles, plexus);
                 camera.position.z = 30;
             };
             Landing.prototype.update = function (scene, camera, elements) {
@@ -782,6 +1435,9 @@ var DreamsArk;
     })(Compositions = DreamsArk.Compositions || (DreamsArk.Compositions = {}));
 })(DreamsArk || (DreamsArk = {}));
 /// <reference path="Helpers.ts" />
+/// <reference path="elements/Tunnel.ts" />
+/// <reference path="elements/Skybox.ts" />
+/// <reference path="elements/Plexus.ts" />
 /// <reference path="elements/Particles.ts" />
 /// <reference path="elements/Background.ts" />
 /// <reference path="elements/Logo.ts" />
@@ -803,7 +1459,6 @@ var DreamsArk;
     var is = DreamsArk.Helpers.is;
     var query = DreamsArk.Helpers.query;
     var init = DreamsArk.Helpers.init;
-    var Mouse = DreamsArk.Modules.Mouse;
     var Loader = DreamsArk.Modules.Loader;
     /**
      * Debug Mode
@@ -818,11 +1473,12 @@ var DreamsArk;
     };
     var App = (function () {
         function App() {
+            var mouse = DreamsArk.module('Mouse');
             /**
              * start Loading the basic scene
              */
             DreamsArk.load();
-            Mouse.click('#start', function () {
+            mouse.click('#start', function () {
                 DreamsArk.start();
                 return true;
             });
@@ -834,7 +1490,8 @@ var DreamsArk;
         /**
          * Remove logo
          */
-        query('#logo').classList.add('--exit');
+        query('.container-fluid').classList.add('--fade-to-black');
+        query('.enter-page').classList.add('--exit');
         var composition = new Composition('Loading');
         DreamsArk.render();
     };
@@ -909,27 +1566,214 @@ var DreamsArk;
 (function (DreamsArk) {
     var Compositions;
     (function (Compositions) {
+        var For = DreamsArk.Helpers.For;
+        var deg2rad = DreamsArk.Helpers.deg2rad;
+        var timeout = DreamsArk.Helpers.timeout;
         var Loading = (function () {
             function Loading() {
             }
             Loading.prototype.elements = function () {
-                return ['Logo'];
+                return ['Logo', 'Tunnel', 'Skybox'];
             };
             Loading.prototype.setup = function (scene, camera, elements) {
-                //Camera.swing(new THREE.Vector3(0));
-                var logo = elements.Logo, animator = DreamsArk.module('Animator');
-                logo.scale.set(0);
-                //animator.linearIn(logo.scale, function () {
-                //
-                //});
-                scene.add(logo);
+                var animator = DreamsArk.module('Animator');
+                var logo = elements.Logo, tunnel = elements.Tunnel, skybox = elements.Skybox;
+                /**
+                 * set up camera
+                 */
                 camera.position.z = 30;
+                /**
+                 * Enter with the logo
+                 */
+                animator.expoOut({
+                    destination: new THREE.Vector3(0, 0, -20),
+                    origin: logo.position.set(0, 0, 100),
+                    duration: 3,
+                    delay: 1,
+                    update: function (params) {
+                        logo.position.copy(params);
+                    }
+                });
+                /**
+                 * Setup Tunnel
+                 */
+                tunnel.rotation.x = deg2rad(90);
+                tunnel.material.opacity = 0;
+                tunnel.userData = {
+                    init: function () {
+                        this.timer = new THREE.Clock();
+                        this.speed = new THREE.Vector2(1.5, 1.5);
+                    },
+                    timer: null,
+                    speed: null,
+                    update: function () {
+                        var tunnelTexture = tunnel.material.alphaMap;
+                        tunnelTexture.offset.x = -this.timer.getElapsedTime() / 6 * this.speed.x;
+                        tunnelTexture.offset.y = -this.timer.getElapsedTime() / 2 * this.speed.y;
+                        tunnel.material.color.setHSL(Math.abs(Math.cos((this.timer.getElapsedTime() / 10))), 1, 0.5);
+                    }
+                };
+                tunnel.userData.init();
+                animator.expoOut({
+                    destination: {
+                        position: new THREE.Vector3(0, 0, -350),
+                        opacity: 1
+                    },
+                    origin: {
+                        position: tunnel.position.set(0, 0, -1000),
+                        opacity: 0
+                    },
+                    duration: 3,
+                    update: function (params) {
+                        tunnel.position.copy(params.position);
+                        tunnel.material.opacity = params.opacity;
+                    }
+                });
+                /**
+                 * Animate Skybox
+                 */
+                animator.expoOut({
+                    destination: {
+                        opacity: 1
+                    },
+                    origin: {
+                        opacity: 0
+                    },
+                    duration: 3,
+                    update: function (params) {
+                        skybox.material.opacity = params.opacity;
+                    }
+                });
+                scene.add(logo, tunnel, skybox);
+                /**
+                 * Reset Particles
+                 */
+                elements.Particles.rotation.set(0, 0, 0);
+                elements.Particles.position.set(0, 0, 0);
+                /**
+                 * Fake Loaded
+                 */
+                timeout(10, function () {
+                    new DreamsArk.Composition('Universe');
+                });
             };
             Loading.prototype.update = function (scene, camera, elements) {
+                var mouse = DreamsArk.module('Mouse');
+                /**
+                 * Tunnel
+                 */
+                elements.Tunnel.userData.update();
+                /**
+                 * camera
+                 */
+                camera.position.x = mouse.screen.x * 0.03;
+                camera.position.y = -mouse.screen.y * 0.05;
+                camera.lookAt(scene.position);
+                /**
+                 * Particles
+                 */
+                var particles = elements.Particles, positions = particles.geometry.getAttribute('position'), velocities = particles.userData.velocity;
+                For(positions.count, function (i) {
+                    positions.array[i * 3 + 2] += velocities[i].z / 2;
+                    if (positions.array[i * 3 + 2] > 500) {
+                        positions.array[i * 3 + 2] = -1500;
+                    }
+                });
+                positions.needsUpdate = true;
             };
             return Loading;
         })();
         Compositions.Loading = Loading;
+    })(Compositions = DreamsArk.Compositions || (DreamsArk.Compositions = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Compositions;
+    (function (Compositions) {
+        var For = DreamsArk.Helpers.For;
+        var Universe = (function () {
+            function Universe() {
+            }
+            Universe.prototype.elements = function () {
+                return ['Cube'];
+            };
+            Universe.prototype.setup = function (scene, camera, elements) {
+                var animator = DreamsArk.module('Animator');
+                var logo = elements.Logo, tunnel = elements.Tunnel;
+                /**
+                 * Center Camera
+                 */
+                animator.circOut({
+                    destination: {
+                        position: new THREE.Vector3(0, 0, 50),
+                        rotation: new THREE.Vector3(0, 0, 0)
+                    },
+                    origin: {
+                        position: camera.position,
+                        rotation: camera.rotation.toVector3()
+                    },
+                    duration: 3,
+                    update: function (params) {
+                        camera.position.copy(params.position);
+                        camera.rotation.setFromVector3(params.rotation);
+                    }
+                });
+                /**
+                 * Speed up Logo
+                 */
+                animator.expoIn({
+                    destination: new THREE.Vector3(0, 0, -700),
+                    origin: logo.position,
+                    duration: 5,
+                    update: function (params) {
+                        logo.position.copy(params);
+                    }
+                });
+                /**
+                 * Remove Tunnel
+                 */
+                animator.expoIn({
+                    destination: new THREE.Vector3(0, 0, 800),
+                    origin: tunnel.position,
+                    duration: 5,
+                    update: function (params) {
+                        tunnel.position.copy(params);
+                    }
+                });
+                /**
+                 * Lower Fog
+                 */
+                animator.expoIn({
+                    destination: {
+                        far: 700
+                    },
+                    origin: {
+                        far: scene.fog.far
+                    },
+                    duration: 2,
+                    update: function (param) {
+                        scene.fog.far = param.far;
+                    }
+                });
+            };
+            Universe.prototype.update = function (scene, camera, elements) {
+                /**
+                 * Tunnel
+                 */
+                elements.Tunnel.userData.update();
+                /**
+                 * Particles
+                 * Park every particles at depth 500
+                 */
+                var particles = elements.Particles, positions = particles.geometry.getAttribute('position'), velocities = particles.userData.velocity;
+                For(positions.count, function (i) {
+                    positions.array[i * 3 + 2] += velocities[i].z;
+                });
+                positions.needsUpdate = true;
+            };
+            return Universe;
+        })();
+        Compositions.Universe = Universe;
     })(Compositions = DreamsArk.Compositions || (DreamsArk.Compositions = {}));
 })(DreamsArk || (DreamsArk = {}));
 var Scene = DreamsArk.Modules.Scene;
