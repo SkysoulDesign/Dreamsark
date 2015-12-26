@@ -323,16 +323,30 @@ var DreamsArk;
         var Plexus = (function () {
             function Plexus() {
             }
-            Plexus.prototype.maps = function () {
-                return {
-                    skybox: 'lib/background-sphere.jpg'
-                };
+            Plexus.prototype.data = function () {
+                return {};
             };
             Plexus.prototype.create = function (maps, objs, data) {
-                var geometry = new THREE.SphereGeometry(500, 50, 50);
-                geometry.scale(-1, 1, 1);
-                var material = new THREE.MeshBasicMaterial({ map: maps.skybox, transparent: true, opacity: 0 });
-                return new THREE.Mesh(geometry, material);
+                var maxParticleCount = 500;
+                var particles = new THREE.BufferGeometry();
+                var particlePositions = new Float32Array(maxParticleCount * 3);
+                for (var i = 0; i < maxParticleCount; i++) {
+                    var x = Math.random() * 2000 - 1000;
+                    var y = Math.random() * 2000 - 1000;
+                    var z = Math.random() * 2000 - 1000;
+                    particlePositions[i * 3] = x;
+                    particlePositions[i * 3 + 1] = y;
+                    particlePositions[i * 3 + 2] = z;
+                }
+                var PointMaterial = new THREE.PointsMaterial({
+                    //color: 0x000000,
+                    size: 2,
+                    transparent: true,
+                    alphaTest: 0.01,
+                    sizeAttenuation: true,
+                });
+                particles.addAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setDynamic(true));
+                return new THREE.Points(particles, PointMaterial);
             };
             return Plexus;
         })();
@@ -1404,7 +1418,6 @@ var DreamsArk;
 (function (DreamsArk) {
     var Compositions;
     (function (Compositions) {
-        var For = DreamsArk.Helpers.For;
         var Landing = (function () {
             function Landing() {
             }
@@ -1413,20 +1426,25 @@ var DreamsArk;
             };
             Landing.prototype.setup = function (scene, camera, elements) {
                 //Camera.swing(new THREE.Vector3(0));
-                var plexus = elements.Plexus;
+                var plexus = elements.Plexus, frustum = new THREE.Frustum();
+                plexus.userData = {
+                    controls: null,
+                    init: function () {
+                        this.controls = new THREE.TrackballControls(camera);
+                    }
+                };
+                plexus.userData.init();
                 scene.add(elements.Particles, plexus);
                 camera.position.z = 30;
             };
             Landing.prototype.update = function (scene, camera, elements) {
+                /**
+                 * Plexus
+                 */
+                elements.Plexus.userData.controls.update();
                 var particles = elements.Particles, positions = particles.geometry.getAttribute('position'), velocities = particles.userData.velocity;
-                particles.rotation.y -= 0.005;
-                particles.rotation.x += 0.005;
-                //particles.rotation.z += 0.002;
-                For(positions.count, function (i) {
-                    //positions.array[i * 3] += velocities[i].x;
-                    //positions.array[i * 3 + 1] += velocities[i].y;
-                    //positions.array[i * 3 + 2] += velocities[i].z;
-                });
+                //particles.rotation.y -= 0.005;
+                //particles.rotation.x += 0.005;
                 positions.needsUpdate = true;
             };
             return Landing;
@@ -1500,8 +1518,8 @@ var DreamsArk;
          * Parallax
          */
         var scene = document.getElementById('scene');
-        var parallax = new Parallax(scene);
-        var composition = new Composition('Landing');
+        //var parallax = new Parallax(scene);
+        new Composition('Landing');
         DreamsArk.render();
     };
     DreamsArk.render = function () {

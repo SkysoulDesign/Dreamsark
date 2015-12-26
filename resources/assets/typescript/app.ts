@@ -92,9 +92,9 @@ module DreamsArk {
          * Parallax
          */
         var scene = document.getElementById('scene');
-        var parallax = new Parallax(scene);
+        //var parallax = new Parallax(scene);
 
-        var composition = new Composition('Landing');
+        new Composition('Landing');
 
         render();
 

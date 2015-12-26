@@ -220,3 +220,7 @@ Route::post('intro', ['as' => 'intro.skip', 'uses' => 'Home\HomeController@skip'
 Route::get('in', ['as' => 'in', 'uses' => function () {
     return view('in');
 }]);
+
+Route::get('temp', ['as' => 'temp', 'uses' => function () {
+    return view('testing');
+}]);
