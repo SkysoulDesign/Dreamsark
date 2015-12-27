@@ -6,6 +6,7 @@
 /// <reference path="elements/Particles.ts" />
 /// <reference path="elements/Background.ts" />
 /// <reference path="elements/Logo.ts" />
+/// <reference path="elements/Ren.ts" />
 /// <reference path="elements/Galaxy.ts" />
 /// <reference path="elements/Overlay1.ts" />
 /// <reference path="elements/Overlay2.ts" />
@@ -77,8 +78,8 @@ module DreamsArk {
         /**
          * Remove logo
          */
-        query('.container-fluid').classList.add('--fade-to-black');
-        query('.enter-page').classList.add('--exit');
+        //query('.container-fluid').classList.add('--fade-to-black');
+        //query('.enter-page').classList.add('--exit');
 
         var composition = new Composition('Loading');
 
@@ -91,7 +92,7 @@ module DreamsArk {
         /**
          * Parallax
          */
-        var scene = document.getElementById('scene');
+        //var scene = document.getElementById('scene');
         //var parallax = new Parallax(scene);
 
         new Composition('Landing');

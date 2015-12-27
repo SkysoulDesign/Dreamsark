@@ -8,137 +8,147 @@ module DreamsArk.Modules {
 
     export class Animator implements Initializable {
 
+        private init(name:string, parameters:Tweenable, context?:any) {
+
+            var tween = new Tween(name, parameters, context);
+
+            if (parameters.autoStart === false)
+                return tween;
+
+            tween.init();
+
+        };
+
         public backIn(parameters:Tweenable, context?:any) {
-            new Tween('backIn', parameters, context).init();
+            return this.init('backIn', parameters, context);
         };
 
         public backOut(parameters:Tweenable, context?:any) {
-            new Tween('backOut', parameters, context).init();
+            return this.init('backOut', parameters, context);
         };
 
         public backInOut(parameters:Tweenable, context?:any) {
-            new Tween('backInOut', parameters, context).init();
+            return this.init('backInOut', parameters, context);
         };
 
         public bounceOut(parameters:Tweenable, context?:any) {
-            new Tween('bounceOut', parameters, context).init();
+            return this.init('bounceOut', parameters, context);
         };
 
         public bounceIn(parameters:Tweenable, context?:any) {
-            new Tween('bounceIn', parameters, context).init();
+            return this.init('bounceIn', parameters, context);
         };
 
         public bounceInOut(parameters:Tweenable, context?:any) {
-            new Tween('bounceInOut', parameters, context).init();
+            return this.init('bounceInOut', parameters, context);
         };
 
         public circIn(parameters:Tweenable, context?:any) {
-            new Tween('circIn', parameters, context).init();
+            return this.init('circIn', parameters, context);
         };
 
         public circOut(parameters:Tweenable, context?:any) {
-            new Tween('circOut', parameters, context).init();
+            return this.init('circOut', parameters, context);
         };
 
         public circInOut(parameters:Tweenable, context?:any) {
-            new Tween('circInOut', parameters, context).init();
+            return this.init('circInOut', parameters, context);
         };
 
-
         public cubicIn(parameters:Tweenable, context?:any) {
-            new Tween('cubicIn', parameters, context).init();
+            return this.init('cubicIn', parameters, context);
         };
 
         public cubicOut(parameters:Tweenable, context?:any) {
-            new Tween('cubicOut', parameters, context).init();
+            return this.init('cubicOut', parameters, context);
         };
 
         public cubicInOut(parameters:Tweenable, context?:any) {
-            new Tween('cubicInOut', parameters, context).init();
+            return this.init('cubicInOut', parameters, context);
         };
 
         public elasticIn(parameters:Tweenable, context?:any) {
-            new Tween('elasticIn', parameters, context).init();
+            return this.init('elasticIn', parameters, context);
         };
 
         public elasticOut(parameters:Tweenable, context?:any) {
-            new Tween('elasticOut', parameters, context).init();
+            return this.init('elasticOut', parameters, context);
         };
 
         public elasticInOut(parameters:Tweenable, context?:any) {
-            new Tween('elasticInOut', parameters, context).init();
+            return this.init('elasticInOut', parameters, context);
         };
 
         public expoIn(parameters:Tweenable, context?:any) {
-            new Tween('expoIn', parameters, context).init();
+            return this.init('expoIn', parameters, context);
         };
 
         public expoOut(parameters:Tweenable, context?:any) {
-            new Tween('expoOut', parameters, context).init();
+            return this.init('expoOut', parameters, context);
         };
 
         public expoInOut(parameters:Tweenable, context?:any) {
-            new Tween('expoInOut', parameters, context).init();
+            return this.init('expoInOut', parameters, context);
         };
 
         public linearIn(parameters:Tweenable, context?:any) {
-            new Tween('linearIn', parameters, context).init();
+            return this.init('linearIn', parameters, context);
         };
 
         public linearOut(parameters:Tweenable, context?:any) {
-            new Tween('linearOut', parameters, context).init();
+            return this.init('linearOut', parameters, context);
         };
 
         public linearInOut(parameters:Tweenable, context?:any) {
-            new Tween('linearInOut', parameters, context).init();
+            return this.init('linearInOut', parameters, context);
         };
 
         public quadIn(parameters:Tweenable, context?:any) {
-            new Tween('quadIn', parameters, context).init();
+            return this.init('quadIn', parameters, context);
         };
 
         public quadOut(parameters:Tweenable, context?:any) {
-            new Tween('quadOut', parameters, context).init();
+            return this.init('quadOut', parameters, context);
         };
 
         public quadInOut(parameters:Tweenable, context?:any) {
-            new Tween('quadInOut', parameters, context).init();
+            return this.init('quadInOut', parameters, context);
         };
 
         public quartIn(parameters:Tweenable, context?:any) {
-            new Tween('quartIn', parameters, context).init();
+            return this.init('quartIn', parameters, context);
         };
 
         public quartOut(parameters:Tweenable, context?:any) {
-            new Tween('quartOut', parameters, context).init();
+            return this.init('quartOut', parameters, context);
         };
 
         public quartInOut(parameters:Tweenable, context?:any) {
-            new Tween('quartInOut', parameters, context).init();
+            return this.init('quartInOut', parameters, context);
         };
 
         public quintIn(parameters:Tweenable, context?:any) {
-            new Tween('quintIn', parameters, context).init();
+            return this.init('quintIn', parameters, context);
         };
 
         public quintOut(parameters:Tweenable, context?:any) {
-            new Tween('quintOut', parameters, context).init();
+            return this.init('quintOut', parameters, context);
         };
 
         public quintInOut(parameters:Tweenable, context?:any) {
-            new Tween('quintInOut', parameters, context).init();
+            return this.init('quintInOut', parameters, context);
         };
 
         public sineIn(parameters:Tweenable, context?:any) {
-            new Tween('sineIn', parameters, context).init();
+            return this.init('sineIn', parameters, context);
         };
 
         public sineOut(parameters:Tweenable, context?:any) {
-            new Tween('sineOut', parameters, context).init();
+            return this.init('sineOut', parameters, context);
         };
 
         public sineInOut(parameters:Tweenable, context?:any) {
-            new Tween('sineInOut', parameters, context).init();
+            return this.init('sineInOut', parameters, context);
         };
 
     }
@@ -167,7 +177,7 @@ module DreamsArk.Modules {
 
         }
 
-        init() {
+        init():void {
 
             /**
              * if Delay is set, delay this function execution
@@ -195,8 +205,8 @@ module DreamsArk.Modules {
                 equation = this[this.equation],
                 overshoot = this.overshoot,
                 duration = this.duration,
-                origin = !is.Null(this.origin) ? clone(this.origin) : null,
-                destination = is.Null(this.origin) ? clone(this.destination) : {};
+                origin = !is.Null(this.origin) ? clone(is.Function(this.origin) ? this.origin() : this.origin) : null,
+                destination = is.Null(this.origin) ? clone(is.Function(this.destination) ? this.destination() : this.destination) : {};
 
             /**
              * if Origin is set, subtract it from origin to re-add in the end
@@ -284,7 +294,7 @@ module DreamsArk.Modules {
             }
         };
 
-        public bounceIn (time:number, begin:number, change:number, duration:number):number {
+        public bounceIn(time:number, begin:number, change:number, duration:number):number {
             return change - this.bounceOut(duration - time, 0, change, duration) + begin;
         };
 
@@ -437,7 +447,7 @@ module DreamsArk.Modules {
             }
         };
 
-        public linearNone (time:number, begin:number, change:number, duration:number):number {
+        public linearNone(time:number, begin:number, change:number, duration:number):number {
             return change * time / duration + begin;
         };
 

@@ -6,5 +6,6 @@ interface Tweenable {
     start?: () => void,
     update:(el:any) => void,
     complete?: () => void,
-    overshoot?:number
+    overshoot?:number,
+    autoStart?:boolean
 }

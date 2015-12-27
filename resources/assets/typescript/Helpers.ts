@@ -19,7 +19,7 @@ module DreamsArk.Helpers {
 
     };
 
-    export var query = function (element:string):Element {
+    export var query = function (element:string):Element|HTMLElement|any {
         return document.querySelector(element);
     };
 

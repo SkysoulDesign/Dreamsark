@@ -6,25 +6,12 @@
 
     <section class="enter-page">
 
-        <ul id="scene" class="enter-page__background">
+        <div class="enter-page__background">
 
-            <li class="layer enter-page__background__planet" data-depth="0.20">
-                <img src="{{ asset('assets/planet-assets/bg.png') }}">
-            </li>
-            <li class="layer enter-page__background__stars" data-depth="0.60">
-                <img src="{{ asset('assets/planet-assets/stars.png') }}">
-            </li>
-            <li class="layer enter-page__background__rock" data-depth="1">
-                <img src="{{ asset('assets/planet-assets/rock.png') }}">
-            </li>
-            <li class="layer enter-page__background__flare" data-depth="1.5">
-                <img src="{{ asset('assets/planet-assets/flare.png') }}">
-            </li>
-
-        </ul>
+        </div>
 
         <div id="logo" class="enter-page__logo">
-            <img src="{{ asset('enter-page-assets/logo.png') }}" alt="Logo">
+            <img src="{{ asset('assets/new-assets/logo.png') }}" alt="Logo">
         </div>
 
         <ul class="enter-page__controllers">

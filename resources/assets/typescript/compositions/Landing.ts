@@ -3,14 +3,27 @@ module DreamsArk.Compositions {
     import For = DreamsArk.Helpers.For;
     import length = DreamsArk.Helpers.length;
     import deg2rad = DreamsArk.Helpers.deg2rad;
+    import Mouse = DreamsArk.Modules.Mouse;
 
     export class Landing implements Composable {
 
         elements() {
-            return ['Particles', 'Cube', 'Tunnel', 'Plexus'];
+            return ['Logo', 'Ren', 'Tunnel', 'Plexus'];
         }
 
         setup(scene, camera, elements) {
+
+            var logo = <THREE.Object3D>elements.Logo,
+                ren = <THREE.Object3D>elements.Ren;
+
+            logo.scale.subScalar(0.97);
+            logo.position.setY(7);
+
+            ren.scale.subScalar(0.97);
+            ren.position.setY(7);
+            ren.position.setZ(0.2);
+
+            scene.add(logo, ren);
 
             //Camera.swing(new THREE.Vector3(0));
             var plexus = elements.Plexus,
@@ -23,9 +36,9 @@ module DreamsArk.Compositions {
                 }
             };
 
-            plexus.userData.init();
+            //plexus.userData.init();
 
-            scene.add(elements.Particles, plexus);
+            scene.add(plexus);
 
             camera.position.z = 30
 
@@ -33,20 +46,19 @@ module DreamsArk.Compositions {
 
         update(scene, camera, elements) {
 
+            var mouse = <Mouse>module('Mouse');
 
             /**
              * Plexus
              */
-            elements.Plexus.userData.controls.update();
+            //elements.Plexus.userData.controls.update();
 
-            var particles = elements.Particles,
-                positions = particles.geometry.getAttribute('position'),
-                velocities = particles.userData.velocity;
-
-            //particles.rotation.y -= 0.005;
-            //particles.rotation.x += 0.005;
-
-            positions.needsUpdate = true;
+            /**
+             * camera
+             */
+            camera.position.x = -mouse.screen.x * 0.02;
+            camera.position.y = mouse.screen.y * 0.02;
+            camera.lookAt(scene.position);
 
         }
 

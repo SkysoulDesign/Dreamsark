@@ -8,11 +8,11 @@ module DreamsArk.Elements {
         public instance:any;
 
         maps():{} {
-            return {particle: 'lib/spark.png'}
+            return {particle: 'lib/spark.png', particleFront: 'lib/particle-front.png'}
         }
 
         data():{} {
-            return {velocity: []}
+            return {velocity: [], start: false, particleFrontMaterial: null}
         }
 
         create(maps, objs, data) {
@@ -28,8 +28,22 @@ module DreamsArk.Elements {
                 transparent: true,
                 alphaTest: 0.01,
                 sizeAttenuation: true,
-                opacity:0.8
+                opacity: 0
 
+            });
+
+            /**
+             * Save a Second version along
+             * @type {PointsMaterial}
+             */
+            data.particleFrontMaterial = new THREE.PointsMaterial({
+                size: 1.5,
+                blending: THREE.AdditiveBlending,
+                map: maps.particleFront,
+                transparent: true,
+                alphaTest: 0.01,
+                sizeAttenuation: true,
+                opacity: 0.3
             });
 
             var particles = new THREE.BufferGeometry();

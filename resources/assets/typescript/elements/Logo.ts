@@ -6,7 +6,7 @@ module DreamsArk.Elements {
 
         maps():{} {
             return {
-                logo: 'lib/texture.jpg',
+                logo: 'assets/new-assets/logo-tex.jpg',
             }
         }
 
@@ -14,6 +14,10 @@ module DreamsArk.Elements {
             return {
                 logo: 'models/logo.obj',
             }
+        }
+
+        data() {
+            return {mouse: {speed: new THREE.Vector3(0.02, 0.02, 0.02), enabled: false, inverse: false}}
         }
 
         create(maps, objs, data) {

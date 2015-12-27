@@ -28,7 +28,8 @@ module DreamsArk.Elements {
                     transparent: true,
                     alphaMap: texture,
                     //shininess: 0,
-                    side: THREE.BackSide
+                    side: THREE.BackSide,
+                    opacity: 0
 
                 })
             );

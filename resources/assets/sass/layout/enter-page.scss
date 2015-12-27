@@ -6,14 +6,17 @@
   overflow: hidden;
   text-align: center;
   user-select: none;
-  //background: url('../assets/planet-assets/bg.jpg') center;
+  background: url('../assets/new-assets/bg.jpg') center no-repeat;
+  background-position-y: 100%;
 
   -webkit-user-select: none; /* Chrome all / Safari all */
   -moz-user-select: none; /* Firefox all */
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Likely future */
 
-  background-color: #829db3;
+  background-color: color(black, x-dark);
+
+  transition: all 1s;
 
   @include option(exit) {
     animation: FadeOut 1.2s ease-in forwards;
@@ -30,47 +33,19 @@
 
     //background: #829db3;
 
-    li {
-      position: absolute;
-    }
-
-    @include part(rock) {
-      z-index: 10 !important;
-      margin-top: 25%;
-      margin-left: -10%;
-      width: 130%;
-      height: 100%;
-    }
-
-    @include part(planet) {
-      z-index: 2;
-      width: 130%;
-      margin-left: -10%;
-      margin-top: -5%;
-    }
-
-    @include part(flare) {
-      z-index: 10;
-      mix-blend-mode: screen;
-    }
-
-    @include part(stars) {
-      z-index: 10;
-    }
-
   }
 
   @include part(logo) {
+
     position: absolute;
+    width: 100%;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%) rotateY(0deg) scale(1, 1);
     z-index: 10;
     opacity: 1;
 
-    @include option(exit) {
-      animation: LogoSpin 1s ease-in forwards;
-    }
+    transition: all 1s;
 
   }
 

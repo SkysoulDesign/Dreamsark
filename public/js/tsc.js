@@ -285,7 +285,8 @@ var DreamsArk;
                     transparent: true,
                     alphaMap: texture,
                     //shininess: 0,
-                    side: THREE.BackSide
+                    side: THREE.BackSide,
+                    opacity: 0
                 }));
             };
             return Tunnel;
@@ -363,10 +364,10 @@ var DreamsArk;
             function Particles() {
             }
             Particles.prototype.maps = function () {
-                return { particle: 'lib/spark.png' };
+                return { particle: 'lib/spark.png', particleFront: 'lib/particle-front.png' };
             };
             Particles.prototype.data = function () {
-                return { velocity: [] };
+                return { velocity: [], start: false, particleFrontMaterial: null };
             };
             Particles.prototype.create = function (maps, objs, data) {
                 var maxParticleCount = 1000, radius = 50;
@@ -378,7 +379,20 @@ var DreamsArk;
                     transparent: true,
                     alphaTest: 0.01,
                     sizeAttenuation: true,
-                    opacity: 0.8
+                    opacity: 0
+                });
+                /**
+                 * Save a Second version along
+                 * @type {PointsMaterial}
+                 */
+                data.particleFrontMaterial = new THREE.PointsMaterial({
+                    size: 1.5,
+                    blending: THREE.AdditiveBlending,
+                    map: maps.particleFront,
+                    transparent: true,
+                    alphaTest: 0.01,
+                    sizeAttenuation: true,
+                    opacity: 0.3
                 });
                 var particles = new THREE.BufferGeometry();
                 var particlePositions = new Float32Array(maxParticleCount * 3);
@@ -436,13 +450,16 @@ var DreamsArk;
             }
             Logo.prototype.maps = function () {
                 return {
-                    logo: 'lib/texture.jpg',
+                    logo: 'assets/new-assets/logo-tex.jpg',
                 };
             };
             Logo.prototype.objs = function () {
                 return {
                     logo: 'models/logo.obj',
                 };
+            };
+            Logo.prototype.data = function () {
+                return { mouse: { speed: new THREE.Vector3(0.02, 0.02, 0.02), enabled: false, inverse: false } };
             };
             Logo.prototype.create = function (maps, objs, data) {
                 var logo = objs.logo, texture = maps.logo;
@@ -456,6 +473,34 @@ var DreamsArk;
             return Logo;
         })();
         Elements.Logo = Logo;
+    })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
+})(DreamsArk || (DreamsArk = {}));
+var DreamsArk;
+(function (DreamsArk) {
+    var Elements;
+    (function (Elements) {
+        var Ren = (function () {
+            function Ren() {
+            }
+            Ren.prototype.maps = function () {
+                return {
+                    logo: 'assets/new-assets/ren-tex.jpg',
+                };
+            };
+            Ren.prototype.objs = function () {
+                return {
+                    logo: 'models/ren.obj',
+                };
+            };
+            Ren.prototype.create = function (maps, objs, data) {
+                var logo = objs.logo, texture = maps.logo;
+                logo.rotation.x = Math.PI * 2;
+                logo.material = new THREE.MeshBasicMaterial({ map: texture });
+                return logo;
+            };
+            return Ren;
+        })();
+        Elements.Ren = Ren;
     })(Elements = DreamsArk.Elements || (DreamsArk.Elements = {}));
 })(DreamsArk || (DreamsArk = {}));
 var DreamsArk;
@@ -628,136 +673,143 @@ var DreamsArk;
         var Animator = (function () {
             function Animator() {
             }
+            Animator.prototype.init = function (name, parameters, context) {
+                var tween = new Tween(name, parameters, context);
+                if (parameters.autoStart === false)
+                    return tween;
+                tween.init();
+            };
+            ;
             Animator.prototype.backIn = function (parameters, context) {
-                new Tween('backIn', parameters, context).init();
+                return this.init('backIn', parameters, context);
             };
             ;
             Animator.prototype.backOut = function (parameters, context) {
-                new Tween('backOut', parameters, context).init();
+                return this.init('backOut', parameters, context);
             };
             ;
             Animator.prototype.backInOut = function (parameters, context) {
-                new Tween('backInOut', parameters, context).init();
+                return this.init('backInOut', parameters, context);
             };
             ;
             Animator.prototype.bounceOut = function (parameters, context) {
-                new Tween('bounceOut', parameters, context).init();
+                return this.init('bounceOut', parameters, context);
             };
             ;
             Animator.prototype.bounceIn = function (parameters, context) {
-                new Tween('bounceIn', parameters, context).init();
+                return this.init('bounceIn', parameters, context);
             };
             ;
             Animator.prototype.bounceInOut = function (parameters, context) {
-                new Tween('bounceInOut', parameters, context).init();
+                return this.init('bounceInOut', parameters, context);
             };
             ;
             Animator.prototype.circIn = function (parameters, context) {
-                new Tween('circIn', parameters, context).init();
+                return this.init('circIn', parameters, context);
             };
             ;
             Animator.prototype.circOut = function (parameters, context) {
-                new Tween('circOut', parameters, context).init();
+                return this.init('circOut', parameters, context);
             };
             ;
             Animator.prototype.circInOut = function (parameters, context) {
-                new Tween('circInOut', parameters, context).init();
+                return this.init('circInOut', parameters, context);
             };
             ;
             Animator.prototype.cubicIn = function (parameters, context) {
-                new Tween('cubicIn', parameters, context).init();
+                return this.init('cubicIn', parameters, context);
             };
             ;
             Animator.prototype.cubicOut = function (parameters, context) {
-                new Tween('cubicOut', parameters, context).init();
+                return this.init('cubicOut', parameters, context);
             };
             ;
             Animator.prototype.cubicInOut = function (parameters, context) {
-                new Tween('cubicInOut', parameters, context).init();
+                return this.init('cubicInOut', parameters, context);
             };
             ;
             Animator.prototype.elasticIn = function (parameters, context) {
-                new Tween('elasticIn', parameters, context).init();
+                return this.init('elasticIn', parameters, context);
             };
             ;
             Animator.prototype.elasticOut = function (parameters, context) {
-                new Tween('elasticOut', parameters, context).init();
+                return this.init('elasticOut', parameters, context);
             };
             ;
             Animator.prototype.elasticInOut = function (parameters, context) {
-                new Tween('elasticInOut', parameters, context).init();
+                return this.init('elasticInOut', parameters, context);
             };
             ;
             Animator.prototype.expoIn = function (parameters, context) {
-                new Tween('expoIn', parameters, context).init();
+                return this.init('expoIn', parameters, context);
             };
             ;
             Animator.prototype.expoOut = function (parameters, context) {
-                new Tween('expoOut', parameters, context).init();
+                return this.init('expoOut', parameters, context);
             };
             ;
             Animator.prototype.expoInOut = function (parameters, context) {
-                new Tween('expoInOut', parameters, context).init();
+                return this.init('expoInOut', parameters, context);
             };
             ;
             Animator.prototype.linearIn = function (parameters, context) {
-                new Tween('linearIn', parameters, context).init();
+                return this.init('linearIn', parameters, context);
             };
             ;
             Animator.prototype.linearOut = function (parameters, context) {
-                new Tween('linearOut', parameters, context).init();
+                return this.init('linearOut', parameters, context);
             };
             ;
             Animator.prototype.linearInOut = function (parameters, context) {
-                new Tween('linearInOut', parameters, context).init();
+                return this.init('linearInOut', parameters, context);
             };
             ;
             Animator.prototype.quadIn = function (parameters, context) {
-                new Tween('quadIn', parameters, context).init();
+                return this.init('quadIn', parameters, context);
             };
             ;
             Animator.prototype.quadOut = function (parameters, context) {
-                new Tween('quadOut', parameters, context).init();
+                return this.init('quadOut', parameters, context);
             };
             ;
             Animator.prototype.quadInOut = function (parameters, context) {
-                new Tween('quadInOut', parameters, context).init();
+                return this.init('quadInOut', parameters, context);
             };
             ;
             Animator.prototype.quartIn = function (parameters, context) {
-                new Tween('quartIn', parameters, context).init();
+                return this.init('quartIn', parameters, context);
             };
             ;
             Animator.prototype.quartOut = function (parameters, context) {
-                new Tween('quartOut', parameters, context).init();
+                return this.init('quartOut', parameters, context);
             };
             ;
             Animator.prototype.quartInOut = function (parameters, context) {
-                new Tween('quartInOut', parameters, context).init();
+                return this.init('quartInOut', parameters, context);
             };
             ;
             Animator.prototype.quintIn = function (parameters, context) {
-                new Tween('quintIn', parameters, context).init();
+                return this.init('quintIn', parameters, context);
             };
             ;
             Animator.prototype.quintOut = function (parameters, context) {
-                new Tween('quintOut', parameters, context).init();
+                return this.init('quintOut', parameters, context);
             };
             ;
             Animator.prototype.quintInOut = function (parameters, context) {
-                new Tween('quintInOut', parameters, context).init();
+                return this.init('quintInOut', parameters, context);
             };
             ;
             Animator.prototype.sineIn = function (parameters, context) {
-                new Tween('sineIn', parameters, context).init();
+                return this.init('sineIn', parameters, context);
             };
             ;
             Animator.prototype.sineOut = function (parameters, context) {
-                new Tween('sineOut', parameters, context).init();
+                return this.init('sineOut', parameters, context);
             };
             ;
             Animator.prototype.sineInOut = function (parameters, context) {
-                new Tween('sineInOut', parameters, context).init();
+                return this.init('sineInOut', parameters, context);
             };
             ;
             return Animator;
@@ -1004,7 +1056,7 @@ var DreamsArk;
                     }, this);
                     return;
                 }
-                var checker = DreamsArk.module('Checker'), instance = {}, equation = this[this.equation], overshoot = this.overshoot, duration = this.duration, origin = !is.Null(this.origin) ? clone(this.origin) : null, destination = is.Null(this.origin) ? clone(this.destination) : {};
+                var checker = DreamsArk.module('Checker'), instance = {}, equation = this[this.equation], overshoot = this.overshoot, duration = this.duration, origin = !is.Null(this.origin) ? clone(is.Function(this.origin) ? this.origin() : this.origin) : null, destination = is.Null(this.origin) ? clone(is.Function(this.destination) ? this.destination() : this.destination) : {};
                 /**
                  * if Origin is set, subtract it from origin to re-add in the end
                  */
@@ -1422,9 +1474,16 @@ var DreamsArk;
             function Landing() {
             }
             Landing.prototype.elements = function () {
-                return ['Particles', 'Cube', 'Tunnel', 'Plexus'];
+                return ['Logo', 'Ren', 'Tunnel', 'Plexus'];
             };
             Landing.prototype.setup = function (scene, camera, elements) {
+                var logo = elements.Logo, ren = elements.Ren;
+                logo.scale.subScalar(0.97);
+                logo.position.setY(7);
+                ren.scale.subScalar(0.97);
+                ren.position.setY(7);
+                ren.position.setZ(0.2);
+                scene.add(logo, ren);
                 //Camera.swing(new THREE.Vector3(0));
                 var plexus = elements.Plexus, frustum = new THREE.Frustum();
                 plexus.userData = {
@@ -1433,19 +1492,22 @@ var DreamsArk;
                         this.controls = new THREE.TrackballControls(camera);
                     }
                 };
-                plexus.userData.init();
-                scene.add(elements.Particles, plexus);
+                //plexus.userData.init();
+                scene.add(plexus);
                 camera.position.z = 30;
             };
             Landing.prototype.update = function (scene, camera, elements) {
+                var mouse = DreamsArk.module('Mouse');
                 /**
                  * Plexus
                  */
-                elements.Plexus.userData.controls.update();
-                var particles = elements.Particles, positions = particles.geometry.getAttribute('position'), velocities = particles.userData.velocity;
-                //particles.rotation.y -= 0.005;
-                //particles.rotation.x += 0.005;
-                positions.needsUpdate = true;
+                //elements.Plexus.userData.controls.update();
+                /**
+                 * camera
+                 */
+                camera.position.x = -mouse.screen.x * 0.02;
+                camera.position.y = mouse.screen.y * 0.02;
+                camera.lookAt(scene.position);
             };
             return Landing;
         })();
@@ -1459,6 +1521,7 @@ var DreamsArk;
 /// <reference path="elements/Particles.ts" />
 /// <reference path="elements/Background.ts" />
 /// <reference path="elements/Logo.ts" />
+/// <reference path="elements/Ren.ts" />
 /// <reference path="elements/Galaxy.ts" />
 /// <reference path="elements/Overlay1.ts" />
 /// <reference path="elements/Overlay2.ts" />
@@ -1475,7 +1538,6 @@ var DreamsArk;
 var DreamsArk;
 (function (DreamsArk) {
     var is = DreamsArk.Helpers.is;
-    var query = DreamsArk.Helpers.query;
     var init = DreamsArk.Helpers.init;
     var Loader = DreamsArk.Modules.Loader;
     /**
@@ -1508,8 +1570,8 @@ var DreamsArk;
         /**
          * Remove logo
          */
-        query('.container-fluid').classList.add('--fade-to-black');
-        query('.enter-page').classList.add('--exit');
+        //query('.container-fluid').classList.add('--fade-to-black');
+        //query('.enter-page').classList.add('--exit');
         var composition = new Composition('Loading');
         DreamsArk.render();
     };
@@ -1517,7 +1579,7 @@ var DreamsArk;
         /**
          * Parallax
          */
-        var scene = document.getElementById('scene');
+        //var scene = document.getElementById('scene');
         //var parallax = new Parallax(scene);
         new Composition('Landing');
         DreamsArk.render();
@@ -1587,40 +1649,24 @@ var DreamsArk;
         var For = DreamsArk.Helpers.For;
         var deg2rad = DreamsArk.Helpers.deg2rad;
         var timeout = DreamsArk.Helpers.timeout;
+        var query = DreamsArk.Helpers.query;
         var Loading = (function () {
             function Loading() {
             }
             Loading.prototype.elements = function () {
-                return ['Logo', 'Tunnel', 'Skybox'];
+                return ['Particles', 'Tunnel', 'Skybox'];
             };
             Loading.prototype.setup = function (scene, camera, elements) {
-                var animator = DreamsArk.module('Animator');
-                var logo = elements.Logo, tunnel = elements.Tunnel, skybox = elements.Skybox;
+                var animator = DreamsArk.module('Animator'), mouse = DreamsArk.module('Mouse');
+                var logo = elements.Logo, ren = elements.Ren, particles = elements.Particles, tunnel = elements.Tunnel, skybox = elements.Skybox, background = query('.enter-page'), domLogo = query('#logo');
                 /**
-                 * set up camera
+                 * Setups
+                 * @type {{init: (function(): void), timer: null, speed: null, update: (function(): void)}}
                  */
-                camera.position.z = 30;
-                /**
-                 * Enter with the logo
-                 */
-                animator.expoOut({
-                    destination: new THREE.Vector3(0, 0, -20),
-                    origin: logo.position.set(0, 0, 100),
-                    duration: 3,
-                    delay: 1,
-                    update: function (params) {
-                        logo.position.copy(params);
-                    }
-                });
-                /**
-                 * Setup Tunnel
-                 */
-                tunnel.rotation.x = deg2rad(90);
-                tunnel.material.opacity = 0;
                 tunnel.userData = {
                     init: function () {
                         this.timer = new THREE.Clock();
-                        this.speed = new THREE.Vector2(1.5, 1.5);
+                        this.speed = new THREE.Vector2(0, -4);
                     },
                     timer: null,
                     speed: null,
@@ -1631,22 +1677,177 @@ var DreamsArk;
                         tunnel.material.color.setHSL(Math.abs(Math.cos((this.timer.getElapsedTime() / 10))), 1, 0.5);
                     }
                 };
-                tunnel.userData.init();
+                /**
+                 * Return Camera to Default
+                 */
                 animator.expoOut({
                     destination: {
-                        position: new THREE.Vector3(0, 0, -350),
-                        opacity: 1
+                        position: new THREE.Vector3(0, 0, 30),
+                        rotation: new THREE.Vector3(0, 0, 0)
                     },
                     origin: {
-                        position: tunnel.position.set(0, 0, -1000),
-                        opacity: 0
+                        position: camera.position,
+                        rotation: camera.rotation.toVector3(),
                     },
-                    duration: 3,
+                    duration: 1,
                     update: function (params) {
-                        tunnel.position.copy(params.position);
-                        tunnel.material.opacity = params.opacity;
+                        camera.position.copy(params.position);
+                        camera.rotation.setFromVector3(params.rotation);
                     }
                 });
+                /**
+                 * Lift Ren
+                 */
+                animator.expoOut({
+                    destination: new THREE.Vector3(0, 7, 3),
+                    origin: ren.position,
+                    duration: 1,
+                    update: function (params) {
+                        ren.position.copy(params);
+                    }
+                });
+                /**
+                 * Zoom In Camera
+                 */
+                var animCameraZoomIn = animator.expoIn({
+                    destination: {
+                        zoom: 0.2,
+                    },
+                    origin: {
+                        zoom: camera.zoom
+                    },
+                    duration: 2,
+                    autoStart: false,
+                    update: function (param) {
+                        camera.zoom = param.zoom;
+                        camera.updateProjectionMatrix();
+                    }
+                });
+                /**
+                 * Enter Tunnel
+                 */
+                var animEnterTunnel = animator.expoIn({
+                    destination: {
+                        opacity: 0.8,
+                        rotation: new THREE.Vector3(deg2rad(90), 0, 0),
+                        position: new THREE.Vector3(0, 0, 0),
+                        logo: new THREE.Vector3(0, 10, -2),
+                    },
+                    origin: ({
+                        opacity: tunnel.material.opacity,
+                        rotation: tunnel.rotation.toVector3(),
+                        position: camera.position,
+                        logo: logo.position,
+                    }),
+                    duration: 5,
+                    autoStart: false,
+                    start: function () {
+                        tunnel.userData.init();
+                        logo.userData.mouse.inverse = true;
+                        particles.material = particles.userData.particleFrontMaterial;
+                    },
+                    update: function (params) {
+                        tunnel.material.opacity = params.opacity * 3;
+                        camera.rotation.setFromVector3(params.rotation);
+                        camera.position.copy(params.position);
+                        logo.position.copy(params.logo);
+                        ren.position.copy(params.logo);
+                        /**
+                         * Enable movement on the way up
+                         */
+                        if (logo.userData.mouse.enabled === true) {
+                            logo.position.z = params.logo.z + -mouse.screen.y * logo.userData.mouse.speed.z;
+                            ren.position.z = params.logo.z + -mouse.screen.y * logo.userData.mouse.speed.z;
+                        }
+                    },
+                    complete: function () {
+                        animCameraZoomIn.init();
+                    }
+                });
+                /**
+                 * throw logo up
+                 */
+                var animFadeParticles = animator.expoOut({
+                    destination: { opacity: 0.5 },
+                    duration: 2,
+                    autoStart: false,
+                    update: function (param) {
+                        particles.material.opacity = param.opacity;
+                    }
+                });
+                var animThrowLogoUp = animator.expoOut({
+                    destination: {
+                        logo: { y: 10 },
+                        ren: { y: 10 },
+                        camera: { y: 10 },
+                    },
+                    origin: ({
+                        logo: logo.position,
+                        ren: ren.position,
+                        camera: camera.position,
+                    }),
+                    duration: 5,
+                    autoStart: false,
+                    start: function () {
+                        animFadeParticles.init();
+                        particles.userData.start = true;
+                        /**
+                         * Enable Mouse Movement
+                         */
+                        logo.userData.mouse.enabled = true;
+                        /**
+                         * Slide doom elements down
+                         */
+                        domLogo.style.top = '110%';
+                        background.style.backgroundPositionY = '-110%';
+                    },
+                    update: function (params) {
+                        /**
+                         * Enable movement on the way up
+                         */
+                        if (logo.userData.mouse.enabled === true) {
+                            logo.position.y = params.logo.y + -mouse.screen.y * logo.userData.mouse.speed.y;
+                            ren.position.y = params.ren.y + -mouse.screen.y * logo.userData.mouse.speed.y;
+                        }
+                        camera.position.setY(params.camera.y);
+                    },
+                    complete: function () {
+                        animEnterTunnel.init();
+                    }
+                });
+                var animRenBackIn = animator.backOut({
+                    destination: new THREE.Vector3(0, 7, 0),
+                    origin: ren.position,
+                    duration: 0.2,
+                    autoStart: false,
+                    update: function (params) {
+                        ren.position.copy(params);
+                    },
+                    complete: function () {
+                        animThrowLogoUp.init();
+                    }
+                });
+                /**
+                 * Rotate logo
+                 */
+                animator.sineInOut({
+                    destination: {
+                        rotation: deg2rad(360) * 4
+                    },
+                    origin: {
+                        rotation: logo.rotation.y
+                    },
+                    duration: 2,
+                    delay: 0.5,
+                    update: function (params) {
+                        logo.rotation.y = params.rotation;
+                    },
+                    complete: function () {
+                        animRenBackIn.init();
+                    }
+                });
+                scene.add(particles, tunnel);
+                return;
                 /**
                  * Animate Skybox
                  */
@@ -1676,6 +1877,32 @@ var DreamsArk;
                 });
             };
             Loading.prototype.update = function (scene, camera, elements) {
+                var mouse = DreamsArk.module('Mouse');
+                var particles = elements.Particles, particlesPositions = particles.geometry.attributes.position, particlesVelocities = particles.userData.velocity;
+                particles.position.y = camera.position.y;
+                if (particles.userData.start === true)
+                    For(particlesPositions.count, function (i) {
+                        if (particlesPositions.array[i * 3 + 1] < -80)
+                            particlesPositions.array[i * 3 + 1] = 80;
+                        particlesPositions.array[i * 3 + 1] -= particlesVelocities[i].y / 2;
+                    });
+                particlesPositions.needsUpdate = true;
+                var logo = elements.Logo, ren = elements.Ren;
+                if (logo.userData.mouse.enabled === true && logo.userData.mouse.inverse === false) {
+                    logo.position.x = ren.position.x = mouse.screen.x * logo.userData.mouse.speed.x;
+                    logo.position.y = ren.position.y = -mouse.screen.y * logo.userData.mouse.speed.y + camera.position.y;
+                }
+                if (logo.userData.mouse.enabled === true && logo.userData.mouse.inverse === true) {
+                    logo.position.x = ren.position.x = mouse.screen.x * logo.userData.mouse.speed.x;
+                    logo.position.z = ren.position.z = -mouse.screen.y * logo.userData.mouse.speed.z;
+                }
+                /**
+                 * Tunnel
+                 */
+                var tunnel = elements.Tunnel;
+                if (tunnel.userData.timer !== null)
+                    tunnel.userData.update();
+                return;
                 var mouse = DreamsArk.module('Mouse');
                 /**
                  * Tunnel
