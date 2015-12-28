@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a id="skip" href="#">
                     <img src="{{ asset('enter-page-assets/skip.png') }}" alt="Skip">
                 </a>
             </li>

@@ -1556,6 +1556,7 @@ var DreamsArk;
 var DreamsArk;
 (function (DreamsArk) {
     var is = DreamsArk.Helpers.is;
+    var query = DreamsArk.Helpers.query;
     var init = DreamsArk.Helpers.init;
     var Loader = DreamsArk.Modules.Loader;
     /**
@@ -1578,6 +1579,10 @@ var DreamsArk;
             DreamsArk.load();
             mouse.click('#start', function () {
                 DreamsArk.start();
+                return true;
+            });
+            mouse.click('#skip', function () {
+                query('#skip').submit();
                 return true;
             });
         }
