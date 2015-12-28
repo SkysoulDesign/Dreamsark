@@ -1755,7 +1755,7 @@ var DreamsArk;
                     },
                     complete: function () {
                         skybox.userData.controls = new THREE.TrackballControls(camera);
-                        skybox.userData.controls.target.addVectors(skybox.rotation.toVector3());
+                        skybox.userData.controls.target.copy(skybox.rotation.toVector3());
                         scene.remove(tunnel, particles, logo, ren);
                     }
                 });
