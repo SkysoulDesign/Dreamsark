@@ -69,6 +69,14 @@ module DreamsArk {
 
             });
 
+            mouse.click('#skip', function () {
+
+                query('form').submit();
+
+                return true;
+
+            });
+
         }
 
     }
@@ -92,8 +100,8 @@ module DreamsArk {
         /**
          * Parallax
          */
-        //var scene = document.getElementById('scene');
-        //var parallax = new Parallax(scene);
+            //var scene = document.getElementById('scene');
+            //var parallax = new Parallax(scene);
 
         new Composition('Landing');
 

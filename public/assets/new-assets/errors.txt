@@ -1,0 +1,1 @@
+[Mon Dec 28 2015 13:33:40 GMT+0800 (China Standard Time)] layer "logo.png": Duplicate path: logo.png

@@ -1582,7 +1582,7 @@ var DreamsArk;
                 return true;
             });
             mouse.click('#skip', function () {
-                query('#skip').submit();
+                query('form').submit();
                 return true;
             });
         }
