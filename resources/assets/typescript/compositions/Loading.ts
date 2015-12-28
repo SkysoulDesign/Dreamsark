@@ -8,6 +8,7 @@ module DreamsArk.Compositions {
     import Mouse = DreamsArk.Modules.Mouse;
     import query = DreamsArk.Helpers.query;
     import Browser = DreamsArk.Modules.Browser;
+    import Renderer = DreamsArk.Modules.Renderer;
 
     export class Loading implements Composable {
 
@@ -40,12 +41,14 @@ module DreamsArk.Compositions {
                 timer: null,
                 speed: null,
                 update: function () {
+
                     var tunnelTexture = tunnel.material.alphaMap;
 
                     tunnelTexture.offset.x = -this.timer.getElapsedTime() / 6 * this.speed.x;
                     tunnelTexture.offset.y = -this.timer.getElapsedTime() / 2 * this.speed.y;
 
                     tunnel.material.color.setHSL(Math.abs(Math.cos((this.timer.getElapsedTime() / 10))), 1, 0.5);
+
                 }
             };
 
@@ -83,20 +86,20 @@ module DreamsArk.Compositions {
             /**
              * Enters Skybox
              */
-            var animEnterSkybox = animator.sineInOut({
+            var animEnterSkybox = animator.expoIn({
                 destination: {
                     opacity: 1,
                     zoom: 1,
-                    rotation: deg2rad(90),
-                    position: new THREE.Vector3(0, 0, 20)
+                    fog: 1500,
+                    //rotation: new THREE.Vector3(deg2rad(90), 0, 0),
                 },
                 origin: {
                     opacity: 0,
                     zoom: 0.02 /** camera zoom */,
-                    rotation: skybox.rotation.x,
-                    position: skybox.position
+                    fog: scene.fog.far
+                    //rotation: skybox.rotation.toVector3(),
                 },
-                duration: 1,
+                duration: 3,
                 autoStart: false,
                 update: function (params) {
 
@@ -104,10 +107,20 @@ module DreamsArk.Compositions {
                     camera.zoom = params.zoom;
                     camera.updateProjectionMatrix();
 
-                    skybox.position.copy(params.position);
-                    skybox.rotation.x = params.rotation;
+                    scene.fog.far = params.fog;
 
+                    //skybox.position.copy(params.position);
+                    //skybox.rotation.setFromVector3(params.rotation);
+
+                },
+                complete(){
+
+                    skybox.userData.controls = new THREE.TrackballControls(camera);
+                    skybox.userData.controls.target.addVectors(skybox.rotation.toVector3());
+
+                    scene.remove(tunnel, particles, logo, ren);
                 }
+
             });
 
             /**
@@ -125,14 +138,16 @@ module DreamsArk.Compositions {
                 duration: 3,
                 delay: 5,
                 autoStart: false,
-                update(params, progress, on){
+                update(params){
 
                     tunnel.position.copy(params.tunnel);
                     logo.position.copy(params.logo);
                     ren.position.copy(params.logo);
 
-                    on(20, animEnterSkybox);
+                },
 
+                complete(){
+                    animEnterSkybox.init()
                 }
 
             });
@@ -300,26 +315,6 @@ module DreamsArk.Compositions {
 
             scene.add(particles, tunnel, skybox);
 
-            return;
-
-
-            scene.add(logo, tunnel, skybox);
-
-            /**
-             * Reset Particles
-             */
-            elements.Particles.rotation.set(0, 0, 0);
-            elements.Particles.position.set(0, 0, 0);
-
-            /**
-             * Fake Loaded
-             */
-            timeout(10, function () {
-
-                new Composition('Universe')
-
-            })
-
         }
 
         update(scene, camera, elements) {
@@ -369,40 +364,13 @@ module DreamsArk.Compositions {
             if (tunnel.userData.timer !== null)
                 tunnel.userData.update();
 
-            return;
-
-            var mouse = <Mouse>module('Mouse');
-
             /**
-             * Tunnel
+             * Controls
              */
-            elements.Tunnel.userData.update();
+            var skybox = elements.Skybox;
 
-            /**
-             * camera
-             */
-            camera.position.x = mouse.screen.x * 0.03;
-            camera.position.y = -mouse.screen.y * 0.05;
-            camera.lookAt(scene.position);
-
-            /**
-             * Particles
-             */
-            var particles = elements.Particles,
-                positions = particles.geometry.getAttribute('position'),
-                velocities = particles.userData.velocity;
-
-            For(positions.count, function (i) {
-
-                positions.array[i * 3 + 2] += velocities[i].z / 2;
-
-                if (positions.array[i * 3 + 2] > 500) {
-                    positions.array[i * 3 + 2] = -1500
-                }
-
-            });
-
-            positions.needsUpdate = true;
+            if (skybox.userData.controls)
+                skybox.userData.controls.update();
 
         }
 

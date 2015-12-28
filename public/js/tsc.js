@@ -303,11 +303,11 @@ var DreamsArk;
             }
             Skybox.prototype.maps = function () {
                 return {
-                    skybox: 'lib/background-sphere.jpg'
+                    skybox: 'lib/background-sphere-temp.jpg'
                 };
             };
             Skybox.prototype.create = function (maps, objs, data) {
-                var geometry = new THREE.SphereGeometry(100, 50, 50);
+                var geometry = new THREE.SphereGeometry(500, 50, 50);
                 geometry.scale(-1, 1, 1);
                 var material = new THREE.MeshBasicMaterial({ map: maps.skybox, transparent: true, opacity: 0 });
                 return new THREE.Mesh(geometry, material);
@@ -1061,16 +1061,17 @@ var DreamsArk;
                     return;
                 }
                 var checker = DreamsArk.module('Checker'), instance = {}, equation = this[this.equation], overshoot = this.overshoot, duration = this.duration, onPlayed = false, on = function (currentProgress) {
-                    //if (onPlayed) return function () {
-                    //};
+                    if (onPlayed)
+                        return function () {
+                        };
                     return function (progress, callback) {
-                        console.log((currentProgress * progress) >= progress);
-                        //return;
-                        //if ((currentProgress * progress) >= progress) {
-                        //    console.log('ayeahhh')
-                        //    callback.init();
-                        //    onPlayed = true;
-                        //}
+                        if (currentProgress >= progress / 1000) {
+                            if (callback instanceof Tween)
+                                callback.init();
+                            else
+                                callback();
+                            onPlayed = true;
+                        }
                     };
                 }, origin = !is.Null(this.origin) ? clone(is.Function(this.origin) ? this.origin() : this.origin) : null, destination = is.Null(this.origin) ? clone(is.Function(this.destination) ? this.destination() : this.destination) : {};
                 /**
@@ -1671,7 +1672,6 @@ var DreamsArk;
     (function (Compositions) {
         var For = DreamsArk.Helpers.For;
         var deg2rad = DreamsArk.Helpers.deg2rad;
-        var timeout = DreamsArk.Helpers.timeout;
         var query = DreamsArk.Helpers.query;
         var Loading = (function () {
             function Loading() {
@@ -1732,27 +1732,31 @@ var DreamsArk;
                 /**
                  * Enters Skybox
                  */
-                var animEnterSkybox = animator.sineInOut({
+                var animEnterSkybox = animator.expoIn({
                     destination: {
                         opacity: 1,
                         zoom: 1,
-                        rotation: deg2rad(90),
-                        position: new THREE.Vector3(0, 0, 20)
+                        fog: 1500,
                     },
                     origin: {
                         opacity: 0,
                         zoom: 0.02 /** camera zoom */,
-                        rotation: skybox.rotation.x,
-                        position: skybox.position
+                        fog: scene.fog.far
                     },
-                    duration: 1,
+                    duration: 3,
                     autoStart: false,
                     update: function (params) {
                         skybox.material.opacity = params.opacity;
                         camera.zoom = params.zoom;
                         camera.updateProjectionMatrix();
-                        skybox.position.copy(params.position);
-                        skybox.rotation.x = params.rotation;
+                        scene.fog.far = params.fog;
+                        //skybox.position.copy(params.position);
+                        //skybox.rotation.setFromVector3(params.rotation);
+                    },
+                    complete: function () {
+                        skybox.userData.controls = new THREE.TrackballControls(camera);
+                        skybox.userData.controls.target.addVectors(skybox.rotation.toVector3());
+                        scene.remove(tunnel, particles, logo, ren);
                     }
                 });
                 /**
@@ -1770,11 +1774,13 @@ var DreamsArk;
                     duration: 3,
                     delay: 5,
                     autoStart: false,
-                    update: function (params, progress, on) {
+                    update: function (params) {
                         tunnel.position.copy(params.tunnel);
                         logo.position.copy(params.logo);
                         ren.position.copy(params.logo);
-                        on(20, animEnterSkybox);
+                    },
+                    complete: function () {
+                        animEnterSkybox.init();
                     }
                 });
                 /**
@@ -1921,19 +1927,6 @@ var DreamsArk;
                     }
                 });
                 scene.add(particles, tunnel, skybox);
-                return;
-                scene.add(logo, tunnel, skybox);
-                /**
-                 * Reset Particles
-                 */
-                elements.Particles.rotation.set(0, 0, 0);
-                elements.Particles.position.set(0, 0, 0);
-                /**
-                 * Fake Loaded
-                 */
-                timeout(10, function () {
-                    new DreamsArk.Composition('Universe');
-                });
             };
             Loading.prototype.update = function (scene, camera, elements) {
                 var mouse = DreamsArk.module('Mouse');
@@ -1961,29 +1954,12 @@ var DreamsArk;
                 var tunnel = elements.Tunnel;
                 if (tunnel.userData.timer !== null)
                     tunnel.userData.update();
-                return;
-                var mouse = DreamsArk.module('Mouse');
                 /**
-                 * Tunnel
+                 * Controls
                  */
-                elements.Tunnel.userData.update();
-                /**
-                 * camera
-                 */
-                camera.position.x = mouse.screen.x * 0.03;
-                camera.position.y = -mouse.screen.y * 0.05;
-                camera.lookAt(scene.position);
-                /**
-                 * Particles
-                 */
-                var particles = elements.Particles, positions = particles.geometry.getAttribute('position'), velocities = particles.userData.velocity;
-                For(positions.count, function (i) {
-                    positions.array[i * 3 + 2] += velocities[i].z / 2;
-                    if (positions.array[i * 3 + 2] > 500) {
-                        positions.array[i * 3 + 2] = -1500;
-                    }
-                });
-                positions.needsUpdate = true;
+                var skybox = elements.Skybox;
+                if (skybox.userData.controls)
+                    skybox.userData.controls.update();
             };
             return Loading;
         })();

@@ -209,19 +209,21 @@ module DreamsArk.Modules {
                 onPlayed = false,
                 on = function (currentProgress:number):Function {
 
-                    //if (onPlayed) return function () {
-                    //};
+                    if (onPlayed) return function () {
+                    };
 
-                    return function (progress:number, callback:Function):void {
+                    return function (progress:number, callback:any):void {
 
-                        console.log((currentProgress * progress) >= progress);
+                        if (currentProgress >= progress / 1000) {
 
-                        //return;
-                        //if ((currentProgress * progress) >= progress) {
-                        //    console.log('ayeahhh')
-                        //    callback.init();
-                        //    onPlayed = true;
-                        //}
+                            if (callback instanceof Tween)
+                                callback.init();
+                            else
+                                callback();
+
+                            onPlayed = true;
+
+                        }
 
                     };
 
@@ -248,7 +250,6 @@ module DreamsArk.Modules {
                     instance = map(destination, function (value) {
                         return equation(progress, 0, value, 1, overshoot);
                     });
-
 
                     if (!is.Null(origin))
                         instance = math.add(instance, origin);

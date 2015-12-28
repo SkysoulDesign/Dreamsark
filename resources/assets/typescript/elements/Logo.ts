@@ -27,9 +27,9 @@ module DreamsArk.Elements {
 
             texture.wrapS = THREE.MirroredRepeatWrapping;
             texture.wrapT = THREE.MirroredRepeatWrapping;
-            texture.mapping = THREE.CubeRefractionMapping
+            texture.mapping = THREE.CubeRefractionMapping;
 
-            logo.rotation.x = Math.PI * 2
+            logo.rotation.x = Math.PI * 2;
             logo.material = new THREE.MeshBasicMaterial({map: texture});
 
             return logo;
