@@ -7,28 +7,33 @@ var DreamsArk;
             /**
              * Init All items in a row
              */
-            exports.each(items, function (item) {
+            Helpers.each(items, function (item) {
                 var component = new item, instance = component.instance;
                 if (is.Function(component.configure))
                     component.configure();
                 item.instance = instance ? instance : component;
             });
         };
-        Helpers.query = ;
-        return document.querySelector(element);
+        Helpers.query = function (element) {
+            return document.querySelector(element);
+        };
+        Helpers.each = function (items, callback, context) {
+            if (items === void 0) { items = []; }
+            if (context === void 0) { context = DreamsArk; }
+            if (is.Array(items))
+                items.forEach(callback.bind(context));
+            if (is.Object(items))
+                Object.keys(items).forEach(function (name) {
+                    callback.call(context, items[name], name);
+                });
+        };
+        Helpers.func = function (obj) {
+            return ;
+            return obj;
+        };
     })(Helpers = DreamsArk.Helpers || (DreamsArk.Helpers = {}));
 })(DreamsArk || (DreamsArk = {}));
 ;
-exports.each = function (items, callback, context) {
-    if (items === void 0) { items = []; }
-    if (context === void 0) { context = DreamsArk; }
-    if (is.Array(items))
-        items.forEach(callback.bind(context));
-    if (is.Object(items))
-        Object.keys(items).forEach(function (name) {
-            callback.call(context, items[name], name);
-        });
-};
 exports.For = function (max, callback, context, reverse) {
     if (context === void 0) { context = DreamsArk; }
     if (reverse === void 0) { reverse = false; }
@@ -57,7 +62,7 @@ exports.length = function (item) {
         return item.length;
     if (is.Object(item)) {
         var length = 0;
-        exports.each(item, function () {
+        each(item, function () {
             length++;
         });
         return length;
@@ -77,7 +82,7 @@ exports.reverse = function (items) {
 };
 exports.filter = function (obj, list) {
     var result = {};
-    exports.each(obj, function (el, key) {
+    each(obj, function (el, key) {
         if (exports.contains(list, key))
             result[key] = obj[key];
     });
@@ -103,7 +108,7 @@ exports.clone = function (obj, skip) {
     if (!is.Object(obj))
         return obj;
     var temp = {};
-    exports.each(obj, function (el, key) {
+    each(obj, function (el, key) {
         /**
          * Skip Properties if it has been set
          */
@@ -119,7 +124,7 @@ exports.map = function (obj, callback, context) {
     /**
      * Loop on every property and set them accordingly
      */
-    exports.each(obj, function (el, index) {
+    each(obj, function (el, index) {
         /**
          * if it's an object, map again
          */
@@ -196,7 +201,7 @@ var where = (function () {
     }
     where.id = function (collection, id) {
         var occurrence = [];
-        exports.each(collection, function (element) {
+        each(collection, function (element) {
             if (element.id === id)
                 occurrence = element;
         });
@@ -204,7 +209,7 @@ var where = (function () {
     };
     where.name = function (collection, id) {
         var occurrences = [];
-        exports.each(collection, function (element) {
+        each(collection, function (element) {
             if (element.id === id)
                 occurrences.push(element);
         });
@@ -231,7 +236,7 @@ var math = (function () {
                 }
             };
             if (is.Object(origin)) {
-                exports.each(origin, function (el, index) {
+                each(origin, function (el, index) {
                     if (is.Object(el)) {
                         return temp[index] = this.calculator(el, is.Object(obj) ? obj[index] : obj, operator);
                     }

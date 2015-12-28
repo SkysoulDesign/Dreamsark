@@ -56,9 +56,9 @@ module DreamsArk.Compositions {
             /**
              * camera
              */
-            camera.position.x = -mouse.screen.x * 0.02;
-            camera.position.y = mouse.screen.y * 0.02;
-            camera.lookAt(scene.position);
+            //camera.position.x = -mouse.screen.x * 0.02;
+            //camera.position.y = mouse.screen.y * 0.02;
+            //camera.lookAt(scene.position);
 
         }
 

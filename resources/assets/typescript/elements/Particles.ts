@@ -12,7 +12,11 @@ module DreamsArk.Elements {
         }
 
         data():{} {
-            return {velocity: [], start: false, particleFrontMaterial: null}
+            return {
+                velocity: [],
+                start: false,
+                particleFrontMaterial: null
+            }
         }
 
         create(maps, objs, data) {

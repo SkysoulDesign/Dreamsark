@@ -4,7 +4,7 @@ interface Tweenable {
     origin?:any,
     delay?:number|boolean,
     start?: () => void,
-    update:(el:any) => void,
+    update:(el:any, progress?:number, on?:{}) => void,
     complete?: () => void,
     overshoot?:number,
     autoStart?:boolean

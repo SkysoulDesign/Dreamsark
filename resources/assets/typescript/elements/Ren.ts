@@ -2,11 +2,11 @@ module DreamsArk.Elements {
 
     export class Ren implements Loadable {
 
-        public instance:any;
+        public instance:THREE.Object3D;
 
         maps():{} {
             return {
-                logo: 'assets/new-assets/ren-tex.jpg',
+                logo: 'assets/new-assets/ren-tex.jpg'
             }
         }
 

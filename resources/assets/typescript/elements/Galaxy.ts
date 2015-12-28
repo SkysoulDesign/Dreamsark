@@ -2,7 +2,7 @@ module DreamsArk.Elements {
 
     export class Galaxy implements Loadable {
 
-        public instance:any;
+        public instance:THREE.Object3D;
 
         maps():{} {
             return {

@@ -1,5 +1,5 @@
 interface Loadable {
-    instance:any;
+    instance:THREE.Object3D;
     maps?: {};
     objs?: {};
     data?: {};

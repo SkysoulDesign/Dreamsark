@@ -4,7 +4,7 @@ module DreamsArk.Elements {
 
     export class Tunnel implements Loadable {
 
-        public instance:any;
+        public instance:THREE.Object3D;
 
         maps():{} {
             return {

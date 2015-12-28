@@ -205,6 +205,28 @@ module DreamsArk.Modules {
                 equation = this[this.equation],
                 overshoot = this.overshoot,
                 duration = this.duration,
+
+                onPlayed = false,
+                on = function (currentProgress:number):Function {
+
+                    //if (onPlayed) return function () {
+                    //};
+
+                    return function (progress:number, callback:Function):void {
+
+                        console.log((currentProgress * progress) >= progress);
+
+                        //return;
+                        //if ((currentProgress * progress) >= progress) {
+                        //    console.log('ayeahhh')
+                        //    callback.init();
+                        //    onPlayed = true;
+                        //}
+
+                    };
+
+                },
+
                 origin = !is.Null(this.origin) ? clone(is.Function(this.origin) ? this.origin() : this.origin) : null,
                 destination = is.Null(this.origin) ? clone(is.Function(this.destination) ? this.destination() : this.destination) : {};
 
@@ -233,8 +255,9 @@ module DreamsArk.Modules {
 
                     /**
                      * Call the CallBack
+
                      */
-                    this.update.call(this.context, instance);
+                    this.update.call(this.context, instance, progress, on(progress));
 
                     return false;
 
@@ -242,8 +265,9 @@ module DreamsArk.Modules {
 
                 /**
                  * Call on the last frame to make sure the end result is 100% and not a fraction
+                 * on 1 = 100%
                  */
-                this.update.call(this.context, this.destination);
+                this.update.call(this.context, this.destination, progress, on(1));
 
                 if (is.Function(this.complete))
                     this.complete();

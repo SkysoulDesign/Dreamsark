@@ -81,6 +81,63 @@ module DreamsArk.Compositions {
             });
 
             /**
+             * Enters Skybox
+             */
+            var animEnterSkybox = animator.sineInOut({
+                destination: {
+                    opacity: 1,
+                    zoom: 1,
+                    rotation: deg2rad(90),
+                    position: new THREE.Vector3(0, 0, 20)
+                },
+                origin: {
+                    opacity: 0,
+                    zoom: 0.02 /** camera zoom */,
+                    rotation: skybox.rotation.x,
+                    position: skybox.position
+                },
+                duration: 1,
+                autoStart: false,
+                update: function (params) {
+
+                    skybox.material.opacity = params.opacity;
+                    camera.zoom = params.zoom;
+                    camera.updateProjectionMatrix();
+
+                    skybox.position.copy(params.position);
+                    skybox.rotation.x = params.rotation;
+
+                }
+            });
+
+            /**
+             * Leave Tunnel
+             */
+            var animLeaveTunnel = animator.expoIn({
+                destination: {
+                    tunnel: new THREE.Vector3(0, -600, 0),
+                    logo: new THREE.Vector3(0, 200, 0)
+                },
+                origin: {
+                    tunnel: tunnel.position,
+                    logo: logo.position
+                },
+                duration: 3,
+                delay: 5,
+                autoStart: false,
+                update(params, progress, on){
+
+                    tunnel.position.copy(params.tunnel);
+                    logo.position.copy(params.logo);
+                    ren.position.copy(params.logo);
+
+                    on(20, animEnterSkybox);
+
+                }
+
+            });
+
+            /**
              * Zoom In Camera
              */
             var animCameraZoomIn = animator.expoIn({
@@ -95,6 +152,9 @@ module DreamsArk.Compositions {
                 update(param){
                     camera.zoom = param.zoom;
                     camera.updateProjectionMatrix();
+                },
+                complete(){
+                    animLeaveTunnel.init();
                 }
             });
 
@@ -108,22 +168,20 @@ module DreamsArk.Compositions {
                     position: new THREE.Vector3(0, 0, 0),
                     logo: new THREE.Vector3(0, 10, -2),
                 },
-                origin: ({
+                origin: {
                     opacity: tunnel.material.opacity,
                     rotation: tunnel.rotation.toVector3(),
                     position: camera.position,
                     logo: logo.position,
-                }),
+                },
                 duration: 5,
                 autoStart: false,
                 start(){
                     tunnel.userData.init();
-
                     logo.userData.mouse.inverse = true;
-                    particles.material = particles.userData.particleFrontMaterial
-
                 },
                 update(params){
+
                     tunnel.material.opacity = params.opacity * 3;
                     camera.rotation.setFromVector3(params.rotation);
                     camera.position.copy(params.position);
@@ -142,6 +200,7 @@ module DreamsArk.Compositions {
                 },
                 complete(){
                     animCameraZoomIn.init();
+                    particles.material = particles.userData.particleFrontMaterial
                 }
 
             });
@@ -164,11 +223,11 @@ module DreamsArk.Compositions {
                     ren: {y: 10},
                     camera: {y: 10},
                 },
-                origin: ({
+                origin: {
                     logo: logo.position,
                     ren: ren.position,
                     camera: camera.position,
-                }),
+                },
                 duration: 5,
                 autoStart: false,
                 start(){
@@ -185,7 +244,7 @@ module DreamsArk.Compositions {
                      * Slide doom elements down
                      */
                     domLogo.style.top = '110%';
-                    background.style.backgroundPositionY = '-110%';
+                    background.style.backgroundPositionY = '-150%';
 
                 },
                 update(params){
@@ -199,6 +258,7 @@ module DreamsArk.Compositions {
                     }
 
                     camera.position.setY(params.camera.y);
+
                 },
                 complete(){
                     animEnterTunnel.init()
@@ -238,25 +298,10 @@ module DreamsArk.Compositions {
                 }
             });
 
-            scene.add(particles, tunnel);
+            scene.add(particles, tunnel, skybox);
 
             return;
 
-            /**
-             * Animate Skybox
-             */
-            animator.expoOut({
-                destination: {
-                    opacity: 1
-                },
-                origin: {
-                    opacity: 0
-                },
-                duration: 3,
-                update: function (params) {
-                    skybox.material.opacity = params.opacity;
-                }
-            });
 
             scene.add(logo, tunnel, skybox);
 

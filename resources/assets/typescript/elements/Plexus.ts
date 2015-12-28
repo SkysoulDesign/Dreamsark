@@ -2,7 +2,7 @@ module DreamsArk.Elements {
 
     export class Plexus implements Loadable {
 
-        public instance:any;
+        public instance:THREE.Object3D;
 
         data(){
             return {}
